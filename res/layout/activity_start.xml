@@ -1,21 +1,35 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/Button01"
         android:layout_width="25dp"
-        android:layout_height="fill_parent"
-        android:text="Button"
-        android:onClick="activitySwitchOne" />
+        android:layout_height="144dp"
+        android:layout_y="291dp"
+        android:onClick="activitySwitchOne"
+        android:text="Button" />
+
+     <ImageView
+         android:id="@+id/imageView1"
+         android:layout_width="194dp"
+         android:layout_height="290dp"
+         android:layout_x="66dp"
+         android:layout_y="154dp"
+         android:adjustViewBounds="true"
+         android:cropToPadding="false"
+         android:scaleType="fitEnd"
+         android:src="@drawable/graf" />
+
+     <Button
+         android:id="@+id/button1"
+         android:layout_width="25dp"
+         android:layout_height="158dp"
+         android:layout_x="297dp"
+         android:layout_y="288dp"
+         android:onClick="activitySwitchOne"
+         android:text="Button" />
     
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
-    
-	
-    
-</LinearLayout>
+</AbsoluteLayout>
 
