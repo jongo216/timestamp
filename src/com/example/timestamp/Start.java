@@ -1,8 +1,9 @@
 package com.example.timestamp;
 
-import android.os.Bundle;
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
 
 public class Start extends Activity {
 
@@ -19,4 +20,10 @@ public class Start extends Activity {
 		return true;
 	}
 
+	public void activitySwitchOne(View v){
+		setContentView(R.layout.activity_two);
+	}
+	public void activitySwitchTwo(View v){
+		setContentView(R.layout.activity_start);
+	}
 }
