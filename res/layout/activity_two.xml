@@ -23,10 +23,10 @@
 
      <ImageView
          android:id="@+id/imageView1"
-         android:layout_width="194dp"
-         android:layout_height="290dp"
-         android:layout_x="65dp"
-         android:layout_y="119dp"
+         android:layout_width="wrap_content"
+         android:layout_height="362dp"
+         android:layout_x="-7dp"
+         android:layout_y="-69dp"
          android:adjustViewBounds="true"
          android:cropToPadding="false"
          android:scaleType="fitEnd"
