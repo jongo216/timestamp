@@ -3,18 +3,14 @@
     android:id="@+id/AbsoluteLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".Start" >
 
     <Button
         android:layout_width="25dp"
-        android:layout_height="fill_parent"
-        android:text="Button"
-        android:onClick="activitySwitchOne" />
-    
+        android:layout_height="172dp"
+        android:layout_y="287dp"
+        android:onClick="activitySwitchOne"
+        android:text="Button" />
 
     <TextView
         android:id="@+id/Overview"
@@ -40,5 +36,26 @@
         android:layout_height="wrap_content"
         android:layout_x="108dp"
         android:layout_y="33dp" />
+    
+    
+     <ImageView
+         android:id="@+id/imageView1"
+         android:layout_width="194dp"
+         android:layout_height="290dp"
+         android:layout_x="66dp"
+         android:layout_y="154dp"
+         android:adjustViewBounds="true"
+         android:cropToPadding="false"
+         android:scaleType="fitEnd"
+         android:src="@drawable/graf" />
+
+     <Button
+         android:id="@+id/button3"
+         android:layout_width="25dp"
+         android:layout_height="158dp"
+         android:layout_x="292dp"
+         android:layout_y="288dp"
+         android:onClick="activitySwitchOne"
+         android:text="Button" />
 
 </AbsoluteLayout>
