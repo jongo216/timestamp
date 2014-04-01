@@ -2,9 +2,10 @@ timestamp
 =========
 
 Projekt i kursen TNM082 Agil
-Funkar fÃ¶r Simon
-Funkar fÃ¶r Jonas
-Funkar fÃ¶r Simon ett och tvÃ¥....
-Funkar fÃ¶r Peter..
+Funkar för Simon
+Funkar för Jonas
+Funkar för Simon ett och två....
+Funkar för Peter..
 
-HEJ OCH HÃ…
+TJOHO från verbo
+HEJ OCH HÅ
