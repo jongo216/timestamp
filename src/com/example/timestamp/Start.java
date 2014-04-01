@@ -21,9 +21,10 @@ public class Start extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_start);
+		//setContentView(R.layout.activity_start);
+		setContentView(R.layout.activity_two);
 		
-		activityInitMain();
+		activityInitTwo();
 		
 	}
 
@@ -40,7 +41,7 @@ public class Start extends Activity {
 	}
 	public void activitySwitchToMain(View v){
 		setContentView(R.layout.activity_start);	
-		activityInitMain();
+		//activityInitMain();
 	}
 	
 	private void activityInitMain(){
