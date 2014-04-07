@@ -39,8 +39,8 @@ public class Start extends Activity {
 		activityInitTwo();
 	}
 	public void activitySwitchToMain(View v){
-		setContentView(R.layout.activity_start);	
-		activityInitMain();
+		//setContentView(R.layout.activity_start);	
+		//activityInitMain();
 	}
 	
 	private void activityInitMain(){
@@ -48,10 +48,10 @@ public class Start extends Activity {
 		//Letar efter en spinner i activity_main.xml med ett specifict id
 		Spinner spinner = (Spinner) findViewById(R.id.projects_menu_spinner);
 		
-		//H�mtar namn fr�n string array med menu item.
+		//H���mtar namn fr���n string array med menu item.
 		ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, projectsMenuString);
 		
-		//Spinnern anv�nder items fr�n en valt adapter.
+		//Spinnern anv���nder items fr���n en valt adapter.
 		spinner.setAdapter(adapter);
 
 		//Hur spinnern ska se ut
@@ -69,7 +69,7 @@ public class Start extends Activity {
 	
 				AlertDialog.Builder builder = new AlertDialog.Builder(context);
 				
-				builder.setTitle("Är du säkert på att du vill skicka in rapporten?");
+				builder.setTitle("��r du s��kert p�� att du vill skicka in rapporten?");
 				
 				// 2. Chain together various setter methods to set the dialog characteristics
 				builder.setPositiveButton("Skicka", new DialogInterface.OnClickListener() {
@@ -101,7 +101,7 @@ public class Start extends Activity {
  
 			// set dialog message
 		alertDialogBuilder
-			.setMessage("Du har nu stämplat in")
+			.setMessage("Du har nu st��mplat in")
 			.setCancelable(false)
 			.setPositiveButton("Avsluta",new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog,int id) {
@@ -136,7 +136,7 @@ public void onClick(View arg0){
 
 	AlertDialog.Builder builder = new AlertDialog.Builder(context);
 	
-	builder.setTitle("Är du säkert på att du vill skicka in rapporten?");
+	builder.setTitle("��r du s��kert p�� att du vill skicka in rapporten?");
 	
 	// 2. Chain together various setter methods to set the dialog characteristics
 	builder.setPositiveButton("Skicka", new DialogInterface.OnClickListener() {
