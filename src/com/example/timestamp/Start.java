@@ -1,6 +1,7 @@
 package com.example.timestamp;
 
 
+import com.example.timestamp.model.TimePost;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -37,6 +38,7 @@ public class Start extends Activity {
 		
 		setContentView(R.layout.activity_start);
 		
+		Toast.makeText(getApplicationContext(), new TimePost().printStartTime() , Toast.LENGTH_LONG).show();
 		
 		activityInitMain(); //  <<<<--- RENAME TO "activityInitSpinner" 
 		//activityInitConfirmReport();
