@@ -9,6 +9,7 @@
     <string name="textHeader">Timestamp</string>
     <string name="textForSpinner">Project</string>
     <string name="graf">exempel</string>
-    <string name="spinnerOverView" >OverViewSpinner</string>
-   
+    <string name="spinnerOverView">OverViewSpinner</string>
+    <string name="title_activity_test_services">TestServicesActivity</string>
+
 </resources>
