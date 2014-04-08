@@ -10,45 +10,35 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="32dp"
         android:padding="40dp"
-        android:text="Skicka tidsrapport"
-        android:textSize="20sp" />
-
-    <Button
-        android:id="@+id/buttonBack"
-        android:layout_width="25dp"
-        android:layout_height="158dp"
-        android:layout_above="@+id/sendReportButton"
-        android:layout_alignParentLeft="true"
-        android:layout_marginBottom="28dp"
-        android:onClick="activitySwitchMain"
-        android:text="Button" />
-
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="362dp"
-        android:layout_above="@+id/sendReportButton"
-        android:layout_alignLeft="@+id/sendReportButton"
-        android:adjustViewBounds="true"
-        android:cropToPadding="false"
-        android:scaleType="fitEnd"
-        android:src="@drawable/edit" />
-
-    <Button
-        android:id="@+id/editReportButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/sendReportButton"
-        android:layout_below="@+id/projects_menu_spinner2"
-        android:onClick="activitiySwitchToMain"
-        android:text="Redigera" />
-
+        android:text="Skicka tidsrapport" />
+    
+    
     <Spinner
         android:id="@+id/projects_menu_spinner2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="38dp" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="47dp" />
+
+    <ImageView
+        android:id="@+id/timetable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/timetable" />
+
+    <Button
+        android:id="@+id/editReportButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/timetable"
+        android:layout_marginTop="26dp"
+        android:layout_toRightOf="@+id/sendReportButton"
+        android:text="Redigera"
+        android:onClick="activitySwitchToMain" />
 
 </RelativeLayout>
