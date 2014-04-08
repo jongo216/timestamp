@@ -4,22 +4,22 @@ package com.example.timestamp.model;
 public class DB {
 	
 	/*
-	public void set(time: TimePost){
+	public void set(TimePost time){
 		
 		//Put time into DB
 	}
 	
-	public void set(times: ArrayList<TimePost>){
+	public void set(ArrayList<TimePost> times){
 		
 		//Put time into DB
 	}
 	
-	public void set(project: Project){
+	public void set(Project project){
 		
 		//Put project into DB
 	}
 	
-	public void set(project: Project){
+	public void set(Project project){
 		
 		//Put project into DB
 	}
@@ -30,13 +30,13 @@ public class DB {
 		return new TimePost();
 	}
 	
-	public ArrayList<TimePost> getTimes(fromDate:Date, toDate:Date, projectId:int){
+	public ArrayList<TimePost> getTimes(Date fromDate, Date toDate, int projectId){
 		
 		//Get several TimePost objects
 		return new ArrayList<TimePost>();
 	}
 	
-	public ArrayList<TimePost> getTimes(fromDate:Date, toDate:Date){
+	public ArrayList<TimePost> getTimes(Date fromDate, Date toDate){
 		
 		//Get several TimePost objects
 		return new ArrayList<TimePost>();
@@ -54,7 +54,7 @@ public class DB {
 		return new Project();
 	}
 	
-	public ArrayList<Project> getProjects(onlyPrivate:Boolean, onlyShared:Boolean, activeSinceDate:Date){
+	public ArrayList<Project> getProjects(Boolean onlyPrivate, Boolean onlyShared, Date activeSinceDate){
 	
 		//return project by stuff
 		return new ArrayList<Project>();

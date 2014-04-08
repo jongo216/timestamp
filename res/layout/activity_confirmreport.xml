@@ -6,18 +6,17 @@
 
     <Button
         android:id="@+id/sendReportButton"
-        android:layout_width="wrap_content"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="32dp"
-        android:padding="40dp"
+        android:padding="10dp"
         android:text="Skicka tidsrapport" />
-    
     
     <Spinner
         android:id="@+id/projects_menu_spinner2"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -36,9 +35,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/timetable"
-        android:layout_marginTop="26dp"
-        android:layout_toRightOf="@+id/sendReportButton"
+        android:layout_marginTop="1dp"
+        android:layout_above="@+id/sendReportButton"
         android:text="Redigera"
         android:onClick="activitySwitchToMain" />
 
 </RelativeLayout>
+  

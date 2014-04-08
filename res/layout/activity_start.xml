@@ -77,16 +77,6 @@
 	    android:gravity="center_vertical"
 	    android:singleLine="true" />-->
 
-    <Spinner
-        android:id="@+id/spinnerOverView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/spinnerProjectView"
-        android:layout_marginLeft="20dp" 
-        android:layout_marginRight="20dp" 
-        android:layout_marginTop="10dp" />
-
     <Button
         android:id="@+id/button1"
         android:layout_width="wrap_content"
@@ -102,9 +92,9 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/spinnerProjectView"
         android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:baselineAlignBottom="true"
-        android:layout_marginLeft="20dp" 
-        android:layout_marginRight="20dp" 
         android:src="@drawable/graf" />
 
 </RelativeLayout>
