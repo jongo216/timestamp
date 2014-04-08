@@ -35,7 +35,6 @@ public class Start extends Activity {
 		
 		setContentView(R.layout.activity_confirmreport);
 		
-		Toast.makeText(getApplicationContext(), new TimePost().printStartTime() , Toast.LENGTH_LONG).show();
 		
 		//activityInitMain(); //  <<<<--- RENAME TO "activityInitSpinner" 
 		activityInitConfirmReport();
@@ -127,6 +126,8 @@ public class Start extends Activity {
 			@Override
 			public void onClick(View arg0){
 	
+				Toast.makeText(getApplicationContext(), "Tidrapport inskickad\n"+new TimePost().printStartTime() , Toast.LENGTH_LONG).show();
+				
 				AlertDialog.Builder builder = new AlertDialog.Builder(context);
 				
 				builder.setTitle("Är du säker på att du vill skicka in rapporten?");
