@@ -1,61 +1,95 @@
-<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/AbsoluteLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Start" >
 
-    <Button
-        android:layout_width="25dp"
-        android:layout_height="172dp"
-        android:layout_y="287dp"
-        android:onClick="activitySwitchOne"
-        android:text="Button" />
-
     <TextView
         android:id="@+id/Overview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="97dp"
-        android:layout_y="148dp"
-        android:text="@string/view_option"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <Button
-        android:id="@+id/button1"
+    
+    <!-- 
+    <Spinner
+        android:id="@+id/projects_menu_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></Spinner>
+       
+
+     
+     <Button
+         android:id="@+id/button1"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_x="107dp"
+         android:layout_y="377dp"
+         android:onClick="startTime"
+         android:text="@string/button_timestart" />
+
+    
+
+    
+     <Button
+         android:id="@+id/button3"
+         android:layout_width="25dp"
+         android:layout_height="158dp"
+         android:layout_x="298dp"
+         android:layout_y="212dp"
+         android:onClick="activitySwitchOne"
+         android:text="Button" />
+
+     <Button
+         android:layout_width="25dp"
+         android:layout_height="150dp"
+         android:layout_x="1dp"
+         android:layout_y="214dp"
+         android:onClick="activitySwitchOne"
+         android:text="Button" />
+         -->
+
+    <TextView
+        android:id="@+id/textHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="106dp"
-        android:layout_y="339dp"
-        android:onClick="startTime"
-        android:text="@string/button_timestart" />
+        android:layout_alignBaseline="@+id/Overview"
+        android:layout_alignBottom="@+id/Overview"
+        android:layout_centerHorizontal="true"
+        android:text="@string/textHeader"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <Spinner
         android:id="@+id/projects_menu_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="108dp"
-        android:layout_y="33dp" />
-    
-    
-     <ImageView
-         android:id="@+id/imageView1"
-         android:layout_width="194dp"
-         android:layout_height="290dp"
-         android:layout_x="66dp"
-         android:layout_y="154dp"
-         android:adjustViewBounds="true"
-         android:cropToPadding="false"
-         android:scaleType="fitEnd"
-         android:src="@drawable/graf" />
+        android:layout_marginTop="38dp" />
+    <!--  -
+    <TextView 
+	    android:id="@android:id/textForSpinner"
+	    style="?android:attr/spinnerItemStyle"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:ellipsize="marquee"
+	    android:gravity="center_vertical"
+	    android:singleLine="true" />-->
 
-     <Button
-         android:id="@+id/button3"
-         android:layout_width="25dp"
-         android:layout_height="158dp"
-         android:layout_x="292dp"
-         android:layout_y="288dp"
-         android:onClick="activitySwitchOne"
-         android:text="Button" />
+    <Spinner
+        android:id="@+id/spinner1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/projects_menu_spinner"
+        android:layout_marginTop="10dp" />
 
-</AbsoluteLayout>
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spinner1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/graf" />
+
+</RelativeLayout>

@@ -6,5 +6,7 @@
     <string name="hello_world">Hello world SIMONJARRE!</string>
     <string name="view_option">Översikt</string>
     <string name="button_timestart">Stämpla in</string>
-
+    <string name="textHeader">Timestamp</string>
+    <string name="textForSpinner">Project</string>
+   
 </resources>
