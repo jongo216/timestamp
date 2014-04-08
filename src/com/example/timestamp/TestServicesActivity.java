@@ -60,7 +60,7 @@ public class TestServicesActivity extends Activity {
 		Bundle b = intent.getBundleExtra("TIME_POST");
 		if (b != null)
 		{
-			TextView t = (TextView)findViewById(R.id.button1);
+			TextView t = (TextView)findViewById(R.id.test_button1);
 			t.setText("Service Done");
 		}
 	}
