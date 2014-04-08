@@ -1,6 +1,5 @@
 package com.example.timestamp.model;
 
-import java.util.ArrayList;
 
 public class DB {
 	
@@ -67,18 +66,6 @@ public class DB {
 	}
 	
 	
-	
-	
-	
 	*/
-
-	/*
-	 * 
-	 * set(time: TimePost); void
-	 * set(times: ArrayList<TimePost>); void
-	 * set(project : Project); void
-	 * 
-	 * 
-	 */
 	
 }
