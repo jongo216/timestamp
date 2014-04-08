@@ -1,6 +1,7 @@
 package com.example.timestamp;
 
 
+import com.example.timestamp.model.TimePost;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -8,15 +9,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Start extends Activity {
 	
@@ -36,6 +35,7 @@ public class Start extends Activity {
 		
 		setContentView(R.layout.activity_confirmreport);
 		
+		Toast.makeText(getApplicationContext(), new TimePost().printStartTime() , Toast.LENGTH_LONG).show();
 		
 		//activityInitMain(); //  <<<<--- RENAME TO "activityInitSpinner" 
 		activityInitConfirmReport();
