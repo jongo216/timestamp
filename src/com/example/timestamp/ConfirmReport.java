@@ -68,7 +68,7 @@ public class ConfirmReport extends Activity {
 				        View v = super.getView(position, convertView, parent);
 
 				        ((TextView) v).setGravity(Gravity.CENTER);
-				        ((TextView) v).setTextSize(36);
+				        ((TextView) v).setTextSize(25);
 
 				        return v;
 
@@ -79,7 +79,7 @@ public class ConfirmReport extends Activity {
 				        View v = super.getDropDownView(position, convertView,parent);
 
 				        ((TextView) v).setGravity(Gravity.CENTER);
-				        ((TextView) v).setTextSize(20);
+				        ((TextView) v).setTextSize(18);
 
 				        return v;
 				    }	

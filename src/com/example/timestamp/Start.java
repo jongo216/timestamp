@@ -38,9 +38,6 @@ public class Start extends Activity {
 
 	private ImageButton imgButton;
 
-
-
-	
 	// Skapar aktivitet...
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +50,8 @@ public class Start extends Activity {
 		actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#11ffffff")));
 		
 		// Byter till ConfirmReportview 
-		activitySwitchToConfirmReportView();
-		//activityInitStart();
+		//activitySwitchToConfirmReportView();
+		activityInitStart();
 	}
 	
 	// Skapar menyn i actionbar
@@ -88,13 +85,33 @@ public class Start extends Activity {
 		Spinner spinnerProjectView = (Spinner) findViewById(R.id.projects_menu_spinner2);
 		//Spinner spinnerOverView = (Spinner) findViewById(R.id.spinnerOverView);
 		
-		//Hämtar namn från string array med menu item.
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, projectsMenuString);
 		
-
 		//För att välja vilken typ av graf man vill se. 
-		//ArrayAdapter<String> adapterView = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, overviewMenuString);
+		//Hämtar namn från string array med menu item.
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, projectsMenuString){
+				
+			// Style för Spinnern.. Sätter textstorlek samt centrerar..
+			public View getView(int position, View convertView,ViewGroup parent) {
 
+		        View v = super.getView(position, convertView, parent);
+
+		        ((TextView) v).setGravity(Gravity.CENTER);
+		        ((TextView) v).setTextSize(25);
+
+		        return v;
+
+		    }
+			//Style för dropdownmenyn under spinnern..
+			public View getDropDownView(int position, View convertView,ViewGroup parent) {
+
+		        View v = super.getDropDownView(position, convertView,parent);
+
+		        ((TextView) v).setGravity(Gravity.CENTER);
+		        ((TextView) v).setTextSize(18);
+
+		        return v;
+		    }	
+		};
 		
 		//Spinnern använder items från en valt adapter.
 		spinnerProjectView.setAdapter(adapter);
