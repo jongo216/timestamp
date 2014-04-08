@@ -15,6 +15,8 @@
 
     <string name="graf">exempel</string>
     <string name="spinnerOverView" >OverViewSpinner</string>
+    
+    <color name ="myColorG">#C0C0C0</color>
    
 
 </resources>

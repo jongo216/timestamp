@@ -8,23 +8,24 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Start extends Activity {
 	
 
 	final Context context = this;
 	String[] projectsMenuString = {"Projekt 1", "Projekt 2", "Nytt projekt"};
-	String[] overviewMenuString = {"Graf", "Bar", "Summering"};
+	
 	private Button button;
+	private ImageButton imgButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +35,11 @@ public class Start extends Activity {
 		//getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
 	    getActionBar().hide();
 		
-		setContentView(R.layout.activity_confirmreport);
+		setContentView(R.layout.activity_start);
 		
 		
-		//activityInitMain(); //  <<<<--- RENAME TO "activityInitSpinner" 
-		activityInitConfirmReport();
+		activityInitMain(); //  <<<<--- RENAME TO "activityInitSpinner" 
+		//activityInitConfirmReport();
 	}
 	// Ta bort ... vi ska väl inte ha någon meny?
 	/*@Override
@@ -61,7 +62,7 @@ public class Start extends Activity {
 	private void activityInitMain(){
 
 		//Letar efter en spinner i activity_main.xml med ett specifict id
-		Spinner spinnerProjectView = (Spinner) findViewById(R.id.spinnerProjectView);
+		Spinner spinnerProjectView = (Spinner) findViewById(R.id.projects_menu_spinner2);
 		//Spinner spinnerOverView = (Spinner) findViewById(R.id.spinnerOverView);
 		
 		//Hämtar namn från string array med menu item.
@@ -80,7 +81,31 @@ public class Start extends Activity {
 		//Hur spinnern ska se ut
 		//adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		
+		imageButtonListener();
+		
 	}
+	
+    public void imageButtonListener(){
+		
+		//Call timepost function..?
+		imgButton = (ImageButton) findViewById(R.id.btnCheckIn);
+		
+		imgButton.setOnClickListener(new OnClickListener(){
+			
+			public void onClick(View arg0){
+				
+				TextView tv = (TextView) findViewById(R.id.textView2);
+				tv.setVisibility(View.VISIBLE);
+				tv.setText("Tid: 1.4 timmar");
+				Toast.makeText(Start.this, "Du har stämplat in!", Toast.LENGTH_SHORT).show();
+				
+			}
+		
+			
+		});
+			
+	}
+	
 	
 	private void activityInitConfirmReport(){
 		//Letar efter en spinner i activity_main.xml med ett specifict id
