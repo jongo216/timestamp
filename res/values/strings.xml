@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+	<!--  Body -->
     <string name="app_name">Timestamp</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world SIMONJARRE!</string>
     <string name="view_option">Översikt</string>
-    <string name="button_timestart">Stämpla in</string>
-    <string name="action_search">Action Search</string>
+    <string name="button_timestart">Stämpla in </string>
+    <string name="textHeader">Timestamp</string>
+    <string name="textForSpinner">Project</string>
+    
+    <!--  Action Bar -->
+	 <string name="action_search">Search</string>	   
 
 </resources>

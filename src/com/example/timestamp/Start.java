@@ -9,8 +9,10 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -26,19 +28,25 @@ public class Start extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_start);
-		//setContentView(R.layout.activity_confirmreport);
+		//setContentView(R.layout.activity_start);
 		
-		activityInitMain(); //  <<<<--- RENAME TO "activityInitSpinner" 
+		//getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+	    getActionBar().hide();
 		
+		setContentView(R.layout.activity_confirmreport);
+		
+		
+		//activityInitMain(); //  <<<<--- RENAME TO "activityInitSpinner" 
+		activityInitConfirmReport();
 	}
-
-	@Override
+	// Ta bort ... vi ska väl inte ha någon meny?
+	/*@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.start, menu);
-		return true;
-	}
+		MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.menu_activity_actions, menu);
+	    return super.onCreateOptionsMenu(menu);
+	}*/
 
 	public void activitySwitchOne(View v){
 		setContentView(R.layout.activity_confirmreport);
@@ -110,7 +118,7 @@ public class Start extends Activity {
 	
 				AlertDialog.Builder builder = new AlertDialog.Builder(context);
 				
-				builder.setTitle("��r du s��kert p�� att du vill skicka in rapporten?");
+				builder.setTitle("Är du säker på att du vill skicka in rapporten?");
 				
 				// 2. Chain together various setter methods to set the dialog characteristics
 				builder.setPositiveButton("Skicka", new DialogInterface.OnClickListener() {
