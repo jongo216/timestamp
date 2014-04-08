@@ -49,18 +49,18 @@ public class Start extends Activity {
 
 		//Letar efter en spinner i activity_main.xml med ett specifict id
 		Spinner spinnerProjectView = (Spinner) findViewById(R.id.spinnerProjectView);
-		Spinner spinnerOverView = (Spinner) findViewById(R.id.spinnerOverView);
+		//Spinner spinnerOverView = (Spinner) findViewById(R.id.spinnerOverView);
 		
 		//Hï¿½mtar namn frï¿½n string array med menu item.
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, projectsMenuString);
 		
 		//Fšr att vŠlja vilken typ av graf man vill se. 
-		ArrayAdapter<String> adapterView = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, overviewMenuString);
+		//ArrayAdapter<String> adapterView = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, overviewMenuString);
 		
 		//Spinnern anvï¿½nder items frï¿½n en valt adapter.
 		spinnerProjectView.setAdapter(adapter);
 		//Fšr overview
-		spinnerOverView.setAdapter(adapterView);
+		//spinnerOverView.setAdapter(adapterView);
 
 		//Hur spinnern ska se ut
 		//adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
