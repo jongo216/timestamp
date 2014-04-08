@@ -1,6 +1,8 @@
 package com.example.timestamp.model;
 
 public class TimePost {
+	
+	//public Date startTime
 
 	/*
 	 * 
