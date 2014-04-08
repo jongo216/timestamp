@@ -14,7 +14,7 @@
 
 
     <string name="graf">exempel</string>
-    <string name="spinnerOverView" >OverViewSpinner</string>
-   
+    <string name="spinnerOverView">OverViewSpinner</string>
+    <string name="title_activity_test_services">TestServicesActivity</string>
 
 </resources>
