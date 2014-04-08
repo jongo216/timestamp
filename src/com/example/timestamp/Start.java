@@ -2,17 +2,19 @@ package com.example.timestamp;
 
 
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -32,7 +34,12 @@ public class Start extends Activity {
 		//setContentView(R.layout.activity_start);
 		
 		//getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
-	    getActionBar().hide();
+	    //getActionBar().hide();
+		ActionBar actionBar = getActionBar(); 
+		
+		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
+		actionBar.setCustomView(R.layout.actionbar);
+		actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#11ffffff")));
 		
 		setContentView(R.layout.activity_confirmreport);
 		
@@ -41,13 +48,13 @@ public class Start extends Activity {
 		activityInitConfirmReport();
 	}
 	// Ta bort ... vi ska väl inte ha någon meny?
-	/*@Override
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.menu_activity_actions, menu);
+	    inflater.inflate(R.menu.main_activitybar, menu);
 	    return super.onCreateOptionsMenu(menu);
-	}*/
+	}
 
 	public void activitySwitchOne(View v){
 		setContentView(R.layout.activity_confirmreport);
@@ -68,12 +75,12 @@ public class Start extends Activity {
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, projectsMenuString);
 		
 
-		//F�r att v�lja vilken typ av graf man vill se. 
+		//För att välja vilken typ av graf man vill se. 
 		//ArrayAdapter<String> adapterView = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, overviewMenuString);
 		
-		//Spinnern anv�nder items fr�n en valt adapter.
+		//Spinnern använder items från en valt adapter.
 		spinnerProjectView.setAdapter(adapter);
-		//F�r overview
+		//För overview
 		//spinnerOverView.setAdapter(adapterView);
 
 
@@ -110,9 +117,7 @@ public class Start extends Activity {
 				        ((TextView) v).setTextSize(20);
 
 				        return v;
-				    }
-					
-					
+				    }	
 				};
 				//Spinnern använder items från en valt adapter.
 				spinner.setAdapter(adapter);
@@ -144,7 +149,6 @@ public class Start extends Activity {
 				AlertDialog alertDialog = builder.create();
 				
 				alertDialog.show();
-				
 			}
 		
 		});
@@ -194,7 +198,7 @@ public void onClick(View arg0){
 
 	AlertDialog.Builder builder = new AlertDialog.Builder(context);
 	
-	builder.setTitle("��r du s��kert p�� att du vill skicka in rapporten?");
+	builder.setTitle("Är du säker på att du vill skicka in rapporten?");
 	
 	// 2. Chain together various setter methods to set the dialog characteristics
 	builder.setPositiveButton("Skicka", new DialogInterface.OnClickListener() {

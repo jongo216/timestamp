@@ -15,30 +15,41 @@
         android:text="Skicka tidsrapport" />
     
     <Spinner
+
         android:id="@+id/projects_menu_spinner2"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="47dp" />
+        android:layout_marginTop="87dp" />
 
-    <ImageView
-        android:id="@+id/timetable"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:src="@drawable/timetable" />
+	<RelativeLayout
+	    android:layout_width="400dp"
+	    android:layout_marginTop="36dp"
+	    android:layout_below="@+id/projects_menu_spinner2"
+	    android:layout_height="wrap_content" 
+	    android:layout_centerHorizontal="true"
+	    android:layout_centerVertical="true"
+	    >
 
-    <Button
-        android:id="@+id/editReportButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/timetable"
-        android:layout_marginTop="1dp"
-        android:layout_above="@+id/sendReportButton"
-        android:text="Redigera"
-        android:onClick="activitySwitchToMain" />
+	    <ImageView
+	        android:id="@+id/timetable"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:src="@drawable/timetable" 
+	        />
+	
+	     <Button
+	        android:id="@+id/editReportButton"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/timetable"
+	        android:layout_alignParentRight="true"
+	        android:layout_marginRight="0dp"
+	        android:layout_marginTop="2dp"
+	        android:text="Redigera"
+	        android:onClick="activitySwitchToMain" />      
+     </RelativeLayout>
 
 </RelativeLayout>
   

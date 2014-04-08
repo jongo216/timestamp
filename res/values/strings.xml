@@ -9,10 +9,12 @@
     <string name="textHeader">Timestamp</string>
     <string name="textForSpinner">Project</string>
 
-    <!--  Action Bar -->
-	 <string name="action_search">Search</string>	   
+    <!--  Action Bar -->	   
 
-
+    <string name="action_menu">Action Menu</string>
+    
+    
+    <!--  Other -->
     <string name="graf">exempel</string>
     <string name="spinnerOverView" >OverViewSpinner</string>
    
