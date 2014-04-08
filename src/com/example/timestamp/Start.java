@@ -70,10 +70,12 @@ public class Start extends Activity {
 
 		//F�r att v�lja vilken typ av graf man vill se. 
 		//ArrayAdapter<String> adapterView = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, overviewMenuString);
+
 		
 		//Spinnern anv�nder items fr�n en valt adapter.
 		spinnerProjectView.setAdapter(adapter);
 		//F�r overview
+
 		//spinnerOverView.setAdapter(adapterView);
 
 
