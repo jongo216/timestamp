@@ -8,8 +8,13 @@
     <string name="button_timestart">Stämpla in </string>
     <string name="textHeader">Timestamp</string>
     <string name="textForSpinner">Project</string>
-    
+
     <!--  Action Bar -->
 	 <string name="action_search">Search</string>	   
+
+
+    <string name="graf">exempel</string>
+    <string name="spinnerOverView" >OverViewSpinner</string>
+   
 
 </resources>

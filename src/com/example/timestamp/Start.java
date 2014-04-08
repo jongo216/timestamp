@@ -23,6 +23,7 @@ public class Start extends Activity {
 
 	final Context context = this;
 	String[] projectsMenuString = {"Projekt 1", "Projekt 2", "Nytt projekt"};
+	String[] overviewMenuString = {"Graf", "Bar", "Summering"};
 	private Button button;
 
 	@Override
@@ -60,13 +61,21 @@ public class Start extends Activity {
 	private void activityInitMain(){
 
 		//Letar efter en spinner i activity_main.xml med ett specifict id
-		Spinner spinner = (Spinner) findViewById(R.id.projects_menu_spinner);
+		Spinner spinnerProjectView = (Spinner) findViewById(R.id.spinnerProjectView);
+		//Spinner spinnerOverView = (Spinner) findViewById(R.id.spinnerOverView);
 		
 		//Hämtar namn från string array med menu item.
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, projectsMenuString);
 		
-		//Spinnern använder items från en valt adapter.
-		spinner.setAdapter(adapter);
+
+		//F�r att v�lja vilken typ av graf man vill se. 
+		//ArrayAdapter<String> adapterView = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, overviewMenuString);
+		
+		//Spinnern anv�nder items fr�n en valt adapter.
+		spinnerProjectView.setAdapter(adapter);
+		//F�r overview
+		//spinnerOverView.setAdapter(adapterView);
+
 
 		//Hur spinnern ska se ut
 		//adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
