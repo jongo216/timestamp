@@ -1,19 +1,24 @@
 package com.example.timestamp;
 
 
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 public class Start extends Activity {
 	
+
 	final Context context = this;
 	String[] projectsMenuString = {"Projekt 1", "Projekt 2", "Nytt projekt"};
 	private Button button;
@@ -22,7 +27,7 @@ public class Start extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_start);
-		//setContentView(R.layout.activity_two);
+		//setContentView(R.layout.activity_confirmreport);
 		
 		activityInitMain(); //  <<<<--- RENAME TO "activityInitSpinner" 
 		
@@ -36,8 +41,8 @@ public class Start extends Activity {
 	}
 
 	public void activitySwitchOne(View v){
-		setContentView(R.layout.activity_two);
-		activityInitTwo();
+		setContentView(R.layout.activity_confirmreport);
+		activityInitConfirmReport();
 	}
 	public void activitySwitchToMain(View v){
 		setContentView(R.layout.activity_start);
@@ -49,10 +54,10 @@ public class Start extends Activity {
 		//Letar efter en spinner i activity_main.xml med ett specifict id
 		Spinner spinner = (Spinner) findViewById(R.id.projects_menu_spinner);
 		
-		//H�mtar namn fr�n string array med menu item.
+		//Hämtar namn från string array med menu item.
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, projectsMenuString);
 		
-		//Spinnern anv�nder items fr�n en valt adapter.
+		//Spinnern använder items från en valt adapter.
 		spinner.setAdapter(adapter);
 
 		//Hur spinnern ska se ut
@@ -60,15 +65,41 @@ public class Start extends Activity {
 		
 	}
 	
-	private void activityInitTwo(){
+	private void activityInitConfirmReport(){
 		//Letar efter en spinner i activity_main.xml med ett specifict id
 				Spinner spinner = (Spinner) findViewById(R.id.projects_menu_spinner2);
 				
-				//H�mtar namn fr�n string array med menu item.
-				ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, projectsMenuString);
-				
-				//Spinnern anv�nder items fr�n en valt adapter.
+				//Hämtar namn från string array med menu item.
+				ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, projectsMenuString){
+					
+					
+					// Style för Spinnern.. Sätter textstorlek samt centrerar..
+					public View getView(int position, View convertView,ViewGroup parent) {
+
+				        View v = super.getView(position, convertView, parent);
+
+				        ((TextView) v).setGravity(Gravity.CENTER);
+				        ((TextView) v).setTextSize(36);
+
+				        return v;
+
+				    }
+					//Style för dropdownmenyn under spinnern..
+					public View getDropDownView(int position, View convertView,ViewGroup parent) {
+
+				        View v = super.getDropDownView(position, convertView,parent);
+
+				        ((TextView) v).setGravity(Gravity.CENTER);
+				        ((TextView) v).setTextSize(20);
+
+				        return v;
+				    }
+					
+					
+				};
+				//Spinnern använder items från en valt adapter.
 				spinner.setAdapter(adapter);
+				
 		
 		button = (Button) findViewById(R.id.sendReportButton);
 
@@ -79,7 +110,7 @@ public class Start extends Activity {
 	
 				AlertDialog.Builder builder = new AlertDialog.Builder(context);
 				
-				builder.setTitle("Är du säkert på att du vill skicka in rapporten?");
+				builder.setTitle("��r du s��kert p�� att du vill skicka in rapporten?");
 				
 				// 2. Chain together various setter methods to set the dialog characteristics
 				builder.setPositiveButton("Skicka", new DialogInterface.OnClickListener() {
@@ -146,7 +177,7 @@ public void onClick(View arg0){
 
 	AlertDialog.Builder builder = new AlertDialog.Builder(context);
 	
-	builder.setTitle("Är du säkert på att du vill skicka in rapporten?");
+	builder.setTitle("��r du s��kert p�� att du vill skicka in rapporten?");
 	
 	// 2. Chain together various setter methods to set the dialog characteristics
 	builder.setPositiveButton("Skicka", new DialogInterface.OnClickListener() {

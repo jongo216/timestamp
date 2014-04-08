@@ -14,10 +14,9 @@
         android:padding="40dp"
         android:text="Skicka tidsrapport" />
     
-    
     <Spinner
         android:id="@+id/projects_menu_spinner2"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -42,3 +41,4 @@
         android:onClick="activitySwitchToMain" />
 
 </RelativeLayout>
+  

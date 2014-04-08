@@ -6,5 +6,6 @@
     <string name="hello_world">Hello world SIMONJARRE!</string>
     <string name="view_option">Översikt</string>
     <string name="button_timestart">Stämpla in</string>
+    <string name="action_search">Action Search</string>
 
 </resources>
