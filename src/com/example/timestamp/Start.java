@@ -3,6 +3,7 @@ package com.example.timestamp;
 
 //Imports
 import android.app.ActionBar;
+import com.example.timestamp.model.TimePost;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -16,6 +17,17 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.view.Gravity;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
 
 public class Start extends Activity {
 	
@@ -23,6 +35,10 @@ public class Start extends Activity {
 	final Context context = this;
 	public String[] projectsMenuString = {"Projekt 1", "Projekt 2", "Nytt projekt"};
 	String[] overviewMenuString = {"Graf", "Bar", "Summering"};
+
+	private ImageButton imgButton;
+
+
 
 	
 	// Skapar aktivitet...
@@ -37,8 +53,8 @@ public class Start extends Activity {
 		actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#11ffffff")));
 		
 		// Byter till ConfirmReportview 
-		//activitySwitchToConfirmReportView();
-		activityInitStart();
+		activitySwitchToConfirmReportView();
+		//activityInitStart();
 	}
 	
 	// Skapar menyn i actionbar
@@ -69,7 +85,7 @@ public class Start extends Activity {
 	private void activityInitStart(){
 		setContentView(R.layout.activity_start);
 		//Letar efter en spinner i activity_main.xml med ett specifict id
-		Spinner spinnerProjectView = (Spinner) findViewById(R.id.spinnerProjectView);
+		Spinner spinnerProjectView = (Spinner) findViewById(R.id.projects_menu_spinner2);
 		//Spinner spinnerOverView = (Spinner) findViewById(R.id.spinnerOverView);
 		
 		//Hämtar namn från string array med menu item.
@@ -78,18 +94,44 @@ public class Start extends Activity {
 
 		//För att välja vilken typ av graf man vill se. 
 		//ArrayAdapter<String> adapterView = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, overviewMenuString);
+
 		
 		//Spinnern använder items från en valt adapter.
 		spinnerProjectView.setAdapter(adapter);
 		//För overview
+
 		//spinnerOverView.setAdapter(adapterView);
 
 
 		//Hur spinnern ska se ut
 		//adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		
+		imageButtonListener();
+		
 	}
 	
+    public void imageButtonListener(){
+		
+		//Call timepost function..?
+		imgButton = (ImageButton) findViewById(R.id.btnCheckIn);
+		
+		imgButton.setOnClickListener(new OnClickListener(){
+			
+			public void onClick(View arg0){
+				
+				TextView tv = (TextView) findViewById(R.id.textView2);
+				tv.setVisibility(View.VISIBLE);
+				tv.setText("Tid: 1.4 timmar");
+				Toast.makeText(Start.this, "Du har stämplat in!", Toast.LENGTH_SHORT).show();
+				
+			}
+		
+			
+		});
+			
+	}
+	
+
 	public void startTime(View view){
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
  

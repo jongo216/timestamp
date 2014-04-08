@@ -3,7 +3,16 @@
     android:id="@+id/AbsoluteLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_light"
+    android:tileMode="repeat"
     tools:context=".Start" >
+    
+    
+    <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pager"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    </android.support.v4.view.ViewPager>
 
     <TextView
         android:id="@+id/Overview"
@@ -58,15 +67,16 @@
         android:layout_alignBottom="@+id/Overview"
         android:layout_centerHorizontal="true"
         android:text="@string/textHeader"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="@dimen/big" />
 
     <Spinner
-        android:id="@+id/spinnerProjectView"
-        android:layout_width="wrap_content"
+        android:id="@+id/projects_menu_spinner2"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp" 
-        android:layout_marginRight="20dp" 
-        android:layout_marginTop="38dp" />
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="47dp"/>
     <!--  -
     <TextView 
 	    android:id="@android:id/textForSpinner"
@@ -77,24 +87,49 @@
 	    android:gravity="center_vertical"
 	    android:singleLine="true" />-->
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
+    <ImageButton
+        android:id="@+id/btnCheckIn"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_alignBottom="@+id/graf"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
-        android:text="@string/button_timestart"  />
+        android:background ="@android:color/white"
+        android:src="@drawable/clock"
+        
+        android:text="@string/button_timestart" />
 
     <ImageView
         android:id="@+id/graf"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/spinnerProjectView"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:baselineAlignBottom="true"
-        android:src="@drawable/graf" />
+        android:src="@drawable/graf"/>
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/projects_menu_spinner2"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/myColorG"
+        android:text="V.42"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:layout_marginLeft="20dp"
+        android:layout_above="@+id/btnCheckIn"
+        android:layout_toRightOf="@+id/Overview"
+        android:text="TextView" />
 
 </RelativeLayout>
