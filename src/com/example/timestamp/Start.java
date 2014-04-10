@@ -1,127 +1,129 @@
 package com.example.timestamp;
 
 
-import android.app.Activity;
+
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class Start extends Activity {
+
+public class Start extends Fragment{
 	
-	final Context context = this;
-	String[] projectsMenuString = {"Projekt 1", "Projekt 2", "Nytt projekt"};
+	// Instansvariabler
+	//final Context context = this;
+	public String[] projectsMenuString = {"Projekt 1", "Projekt 2", "Nytt projekt"};
+	private ImageButton imgButton;
 	private Button button;
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_start);
-		//setContentView(R.layout.activity_two);
-		
-		activityInitMain(); //  <<<<--- RENAME TO "activityInitSpinner" 
-		
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.start, menu);
-		return true;
-	}
-
-	public void activitySwitchOne(View v){
-		setContentView(R.layout.activity_two);
-		activityInitTwo();
-	}
-	public void activitySwitchToMain(View v){
-
-		setContentView(R.layout.activity_start);
-		activityInitMain();
-
-	}
+	private View rootView;
 	
-	private void activityInitMain(){
+	@Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+ 
+        rootView = inflater.inflate(R.layout.activity_start, container, false);
+        activityInitStart();
+       
+        return rootView;
+    }
+
+	
+
+	// Initierar startvyn..
+	private void activityInitStart(){
 
 		//Letar efter en spinner i activity_main.xml med ett specifict id
-		Spinner spinner = (Spinner) findViewById(R.id.projects_menu_spinner);
+		Spinner spinnerProjectView = (Spinner) rootView.findViewById(R.id.projects_menu_spinner2);
+		
+		//För att välja vilken typ av graf man vill se. 
+		//Hämtar namn från string array med menu item.
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, projectsMenuString){
+				
+			// Style för Spinnern.. Sätter textstorlek samt centrerar..
+			public View getView(int position, View convertView,ViewGroup parent) {
+
+		        View v = super.getView(position, convertView, parent);
+
+		        ((TextView) v).setGravity(Gravity.CENTER);
+		        ((TextView) v).setTextSize(25);
+
+		        return v;
+
+		    }
+			//Style för dropdownmenyn under spinnern..
+			public View getDropDownView(int position, View convertView,ViewGroup parent) {
+
+		        View v = super.getDropDownView(position, convertView,parent);
+
+		        ((TextView) v).setGravity(Gravity.CENTER);
+		        ((TextView) v).setTextSize(18);
+
+		        return v;
+		    }	
+		};
+		
+		//Spinnern använder items från en valt adapter.
+		spinnerProjectView.setAdapter(adapter);
 		
 
-		//H�mtar namn fr�n string array med menu item.
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, projectsMenuString);
-
-		
-		//Spinnern anv���nder items fr���n en valt adapter.
-		spinner.setAdapter(adapter);
-
+		//spinnerOverView.setAdapter(adapterView);
 		//Hur spinnern ska se ut
 		//adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		
+		imageButtonListener();
+		
 	}
 	
-	private void activityInitTwo(){
-		//Letar efter en spinner i activity_main.xml med ett specifict id
-				Spinner spinner = (Spinner) findViewById(R.id.projects_menu_spinner2);
-				
-				//H�mtar namn fr�n string array med menu item.
-				ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, projectsMenuString);
-				
-				//Spinnern anv�nder items fr�n en valt adapter.
-				spinner.setAdapter(adapter);
+    public void imageButtonListener(){
 		
-		button = (Button) findViewById(R.id.sendReportButton);
-
-		button.setOnClickListener(new View.OnClickListener(){
+		//Call timepost function..?
+		imgButton = (ImageButton) rootView.findViewById(R.id.btnCheckIn);
+		
+		imgButton.setOnClickListener(new OnClickListener(){
 			
-			@Override
 			public void onClick(View arg0){
-	
-				AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
 				
-				builder.setTitle("��r du s��kert p�� att du vill skicka in rapporten?");
-				
-				// 2. Chain together various setter methods to set the dialog characteristics
-				builder.setPositiveButton("Skicka", new DialogInterface.OnClickListener() {
-			           public void onClick(DialogInterface dialog, int id) {
-			               // User clicked OK button
-			           }
-			    });
-					builder.setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
-			           public void onClick(DialogInterface dialog, int id) {
-			               // User cancelled the dialog
-			           }
-			    });
-					
-				AlertDialog alertDialog = builder.create();
-				
-				alertDialog.show();
+				TextView tv = (TextView) rootView.findViewById(R.id.textView2);
+				tv.setVisibility(View.VISIBLE);
+				tv.setText("Tid: 1.4 timmar");
+				Toast.makeText(getActivity(), "Du har stämplat in!", Toast.LENGTH_SHORT).show();
 				
 			}
 		
+			
 		});
-		
+			
 	}
 	
+
 	public void startTime(View view){
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
  
 		// set title
 		alertDialogBuilder.setTitle("Timestamp");
  
 			// set dialog message
 		alertDialogBuilder
-			.setMessage("Du har nu st��mplat in")
+			.setMessage("Du har nu stämplat in")
 			.setCancelable(false)
 			.setPositiveButton("Avsluta",new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog,int id) {
 					// if this button is clicked, close
 					// current activity
-					Start.this.finish();
+					getActivity().finish();
 				}
 			  })
 			.setNegativeButton("Okej",new DialogInterface.OnClickListener() {
@@ -138,39 +140,8 @@ public class Start extends Activity {
 				// show it
 			alertDialog.show();
 		}
+
+
 }
 
-/*
-button = (Button) findViewById(R.id.sendReportButton);
-
-button.setOnClickListener(new OnClickListener(){
-	
-@Override
-public void onClick(View arg0){
-
-	AlertDialog.Builder builder = new AlertDialog.Builder(context);
-	
-	builder.setTitle("��r du s��kert p�� att du vill skicka in rapporten?");
-	
-	// 2. Chain together various setter methods to set the dialog characteristics
-	builder.setPositiveButton("Skicka", new DialogInterface.OnClickListener() {
-           public void onClick(DialogInterface dialog, int id) {
-               // User clicked OK button
-           }
-    });
-		builder.setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
-           public void onClick(DialogInterface dialog, int id) {
-               // User cancelled the dialog
-           }
-    });
-		
-	AlertDialog alertDialog = builder.create();
-	
-	alertDialog.show();
-	
-}
-
-
-
-});*/
 

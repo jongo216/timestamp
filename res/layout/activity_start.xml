@@ -1,61 +1,136 @@
-<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/AbsoluteLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_light"
+    android:tileMode="repeat"
     tools:context=".Start" >
-
-    <Button
-        android:layout_width="25dp"
-        android:layout_height="172dp"
-        android:layout_y="287dp"
-        android:onClick="activitySwitchOne"
-        android:text="Button" />
+    
+    
+    <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pager"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    </android.support.v4.view.ViewPager>
 
     <TextView
         android:id="@+id/Overview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="97dp"
-        android:layout_y="148dp"
-        android:text="@string/view_option"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="106dp"
-        android:layout_y="339dp"
-        android:onClick="startTime"
-        android:text="@string/button_timestart" />
-
+    
+    <!-- 
     <Spinner
         android:id="@+id/projects_menu_spinner"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="108dp"
-        android:layout_y="33dp" />
-    
-    
-     <ImageView
-         android:id="@+id/imageView1"
-         android:layout_width="194dp"
-         android:layout_height="290dp"
-         android:layout_x="66dp"
-         android:layout_y="154dp"
-         android:adjustViewBounds="true"
-         android:cropToPadding="false"
-         android:scaleType="fitEnd"
-         android:src="@drawable/graf" />
+        android:layout_height="wrap_content"></Spinner>
+       
 
+     
+     <Button
+         android:id="@+id/button1"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_x="107dp"
+         android:layout_y="377dp"
+         android:onClick="startTime"
+         android:text="@string/button_timestart" />
+
+    
+
+    
      <Button
          android:id="@+id/button3"
          android:layout_width="25dp"
          android:layout_height="158dp"
-         android:layout_x="292dp"
-         android:layout_y="288dp"
+         android:layout_x="298dp"
+         android:layout_y="212dp"
          android:onClick="activitySwitchOne"
          android:text="Button" />
 
-</AbsoluteLayout>
+     <Button
+         android:layout_width="25dp"
+         android:layout_height="150dp"
+         android:layout_x="1dp"
+         android:layout_y="214dp"
+         android:onClick="activitySwitchOne"
+         android:text="Button" />
+         
+
+    <TextView
+        android:id="@+id/textHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/Overview"
+        android:layout_alignBottom="@+id/Overview"
+        android:layout_centerHorizontal="true"
+        android:text="@string/textHeader"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="@dimen/big" />
+-->
+    <Spinner
+        android:id="@+id/projects_menu_spinner2"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="47dp"
+        />
+    <!--  -
+    <TextView 
+	    android:id="@android:id/textForSpinner"
+	    style="?android:attr/spinnerItemStyle"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:ellipsize="marquee"
+	    android:gravity="center_vertical"
+	    android:singleLine="true" />-->
+
+    <ImageButton
+        android:id="@+id/btnCheckIn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_alignBottom="@+id/graf"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:background ="@android:color/white"
+        android:src="@drawable/clock"
+        
+        android:text="@string/button_timestart" />
+
+    <ImageView
+        android:id="@+id/graf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spinnerProjectView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:baselineAlignBottom="true"
+        android:src="@drawable/graf"/>
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/projects_menu_spinner2"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/myColorG"
+        android:text="V.42"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:layout_marginLeft="20dp"
+        android:layout_above="@+id/btnCheckIn"
+        android:layout_toRightOf="@+id/Overview"
+        android:text="TextView" />
+
+</RelativeLayout>
