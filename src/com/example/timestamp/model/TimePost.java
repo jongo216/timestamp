@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import android.widget.Toast;
+import android.util.Log;
 
 public class TimePost {
 	
@@ -13,14 +13,13 @@ public class TimePost {
 	public int id;
 	public Boolean isSigned;
 	public String comment;
-	public int projectId;
+	public int projectId; //GET FROM R.LAYOUT.PROJECT ID ELLER LIKNANDE.......
 	public Boolean commentIsShared;
 	
 	
 	public TimePost(){
 		
 		setStartTimeNow();
-		endTime = new GregorianCalendar();
 		id = -1;
 		isSigned = false;
 		comment = "";
@@ -31,7 +30,6 @@ public class TimePost {
 	
 	TimePost(int year, int month, int day, int hour, int min){
 		startTime = new GregorianCalendar(year, month-1, day, hour, min);
-		endTime = new GregorianCalendar();
 		id = -1;
 		isSigned = false;
 		comment = "";
@@ -66,8 +64,11 @@ public class TimePost {
 		endTime = new GregorianCalendar(year, month-1, day, hour, min);
 	}
 	
-	public double getWorkedHours(int year, int month, int day){
-		return 6.30;
+	public double getWorkedHours(){
+		int hourS = startTime.get(Calendar.HOUR_OF_DAY);
+		int hourE = endTime.get(Calendar.HOUR_OF_DAY);
+		
+		return (double)(hourE-hourS);
 	}
 	
 	public void startYear(int year){startTime.set(Calendar.YEAR, year);}
@@ -88,6 +89,16 @@ public class TimePost {
 	
 	public void setEndTimeNow(){
 		endTime = Calendar.getInstance();
+	}
+	
+	public void setEndTimeRandom(){
+		endTime = Calendar.getInstance();
+		
+		int i = (int)(Math.random()*3)+3;
+		//Log.d("MESSAGE", "rand"+i);
+		Log.d("MESSAGE",Integer.toString(endTime.get(Calendar.HOUR_OF_DAY)+i));
+		endHour(endTime.get(Calendar.HOUR_OF_DAY)+i);
+		
 	}
 	
 	

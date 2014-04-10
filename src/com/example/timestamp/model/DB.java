@@ -16,6 +16,7 @@ public class DB {
 		for(int i = 0; i < 5; ++i){
 			TimePost post = new TimePost(2014, 4, 7+i, 8, 15);
 			post.setEndTime		(2014, 4, 7+i, 17, 00);
+			post.isSigned=true;
 			timeList.add(post);
 		}
 	}
