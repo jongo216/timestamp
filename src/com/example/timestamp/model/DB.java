@@ -1,6 +1,9 @@
 package com.example.timestamp.model;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
+
+enum ProjectType {PRIVATE, PUBLIC, ALL}
 
 public class DB {
 	private ArrayList<TimePost> timeList;		//mock-up
@@ -18,6 +21,20 @@ public class DB {
 			post.setEndTime		(2014, 4, 7+i, 17, 00);
 			timeList.add(post);
 		}
+		//to projects to report to
+		projectList.add(new Project(1 						/* id */,
+									"Project 1"				/* name */,
+									false					/* isPrivate */,
+									"First mock-up project" /* Description */,
+									"Jonas" 				/* owner */,
+									"Joakim" 				/* customer */));
+		
+		projectList.add(new Project(2 						/* id */,
+									"Project 2"				/* name */,
+									true					/* isPrivate */,
+									"Second mock-up project"/* Description */,
+									"Backend" 				/* owner */,
+									"Frontend" 				/* customer */));
 	}
 	
 	public void set(TimePost time){
@@ -58,13 +75,13 @@ public class DB {
 		return ret;
 	}
 	/*
-	public ArrayList<TimePost> getTimes(Calendar fromDate, Calendar toDate, int projectId){
+	public ArrayList<TimePost> getTimes(GregorianCalendar fromDate, GregorianCalendar toDate, int projectId){
 		
 		//Get several TimePost objects
 		return new ArrayList<TimePost>();
 	}
 	
-	public ArrayList<TimePost> getTimes(Calendar fromDate, Calendar toDate){
+	public ArrayList<TimePost> getTimes(GregorianCalendar fromDate, GregorianCalendar toDate){
 		
 		//Get several TimePost objects
 		return new ArrayList<TimePost>();
@@ -76,24 +93,45 @@ public class DB {
 		return new ArrayList<TimePost>();
 	}
 	*/
+	public ArrayList<Project> getAllProjects(){
+		return projectList;
+	}
+	
 	public Project getProject(int projectId){
 	
 		//Get project by id
-		return new Project();
+		for(int i = 0; i < projectList.size(); ++i){
+			if(projectList.get(i).id == projectId)
+				return projectList.get(i);
+		}
+		return null;
 	}
-	/*
-	public ArrayList<Project> getProjects(Boolean onlyPrivate, Boolean onlyShared, Date activeSinceDate){
 	
+	/*public ArrayList<Project> getProjects
+			(ProjectType type, GregorianCalendar activeSinceDate)
+	{
+		ArrayList<Project> ret = new ArrayList<Project>();
 		//return project by stuff
-		return new ArrayList<Project>();
-	}
-	
+		for(int i = 0; i < projectList.size(); ++i){
+			switch(type){
+				case PRIVATE:{
+					
+				}
+				case PUBLIC:{
+					
+				}
+				case ALL:{
+					
+				}
+			}
+		}
+		return ret;
+	}*/
+	/*
 	public void sync(){
 	
 		//Sync remote and local data
 	}
-	
-	
 	*/
 	
 }

@@ -126,8 +126,10 @@ public class Start extends Fragment{
 				tv.setVisibility(View.VISIBLE);
 				tv.setText("Tid: 1.4 timmar");
 				//Toast.makeText(getActivity(), "Du har stämplat in!", Toast.LENGTH_SHORT).show();
+				
+				//database testing!
 				ArrayList<TimePost> times = db.getTime(-1);
-				String text = "\n";
+				String text = "";
 				for(int i = 0; i < times.size(); ++i){
 					text = text + times.get(i).printStartTime() + " - " + times.get(i).printEndTime() + "\n";
 				}

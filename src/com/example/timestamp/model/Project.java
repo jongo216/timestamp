@@ -8,6 +8,7 @@ public class Project {
 	  public String description;
 	  public String owner;
 	  public String customer;
+	  public Boolean isPrivate;
 	  
 	  //Default constructor
 	  public Project()
@@ -17,10 +18,11 @@ public class Project {
 		  description = "";
 		  owner = "Localhost";
 		  customer = null;
+		  isPrivate = true;
 	  }
 	  
 	  //Constructor
-	  public Project(int ID, String Name, String Description, 
+	  public Project(int ID, String Name, Boolean IsPrivate, String Description, 
 			  String Owner, String Customer)
 	  {
 		id = ID;
@@ -28,6 +30,7 @@ public class Project {
 		description = Description;
 		owner = Owner;
 		customer = Customer;
+		isPrivate = IsPrivate;
 	  }
 	
 }
