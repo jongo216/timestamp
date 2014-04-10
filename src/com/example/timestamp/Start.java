@@ -2,29 +2,29 @@ package com.example.timestamp;
 
 
 
-import java.util.ArrayList;
 
-import com.example.timestamp.model.DB;
-import com.example.timestamp.model.TimePost;
+
+import java.util.ArrayList;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.timestamp.model.DB;
+import com.example.timestamp.model.TimePost;
 
 
 public class Start extends Fragment{
@@ -33,9 +33,10 @@ public class Start extends Fragment{
 	//final Context context = this;
 	public String[] projectsMenuString = {"Projekt 1", "Projekt 2", "Nytt projekt"};
 	private ImageButton imgButton;
-	private Button button;
 	private View rootView;
+
 	private DB db;
+
 	
 	@Override		//mother of all inits!
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -91,6 +92,7 @@ public class Start extends Fragment{
 		//adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		
 		imageButtonListener();
+		db = new DB();
 		
 	}
 	
@@ -102,8 +104,24 @@ public class Start extends Fragment{
 		imgButton.setOnClickListener(new OnClickListener(){
 			
 			public void onClick(View arg0){
-
 				
+				if(db.getLatest().isSigned){
+					db.set(new TimePost());
+					imgButton.setBackgroundColor(Color.BLACK);
+					String text = "Starting timelog at: " + db.getLatest().printStartTime();
+					
+					Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
+				}else{
+					
+					db.set(new TimePost());
+					String text = "Starting timelog at: " + db.getLatest().printStartTime();
+					
+					Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
+					imgButton.setBackgroundColor(Color.WHITE);
+				}
+				Log.d("MESSAGE",db.getLatest().printStartTime());
+				Log.d("MESSAGE",Integer.toString(db.dbSize()));
+
 				TextView tv = (TextView) rootView.findViewById(R.id.textView2);
 				tv.setVisibility(View.VISIBLE);
 				tv.setText("Tid: 1.4 timmar");

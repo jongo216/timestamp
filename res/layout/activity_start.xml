@@ -97,7 +97,7 @@
         android:layout_alignBottom="@+id/graf"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
-        android:background ="@android:color/white"
+        android:background ="@android:color/black"
         android:src="@drawable/clock"
         
         android:text="@string/button_timestart" />
