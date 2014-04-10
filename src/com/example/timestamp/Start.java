@@ -2,7 +2,9 @@ package com.example.timestamp;
 
 
 
-import com.example.timestamp.model.DB;
+
+
+import java.util.ArrayList;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -10,17 +12,17 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.timestamp.model.DB;
+import com.example.timestamp.model.TimePost;
 
 
 public class Start extends Fragment{
@@ -30,12 +32,15 @@ public class Start extends Fragment{
 	public String[] projectsMenuString = {"Projekt 1", "Projekt 2", "Nytt projekt"};
 	private ImageButton imgButton;
 	private View rootView;
-	private DB database;
+
+	private DB db;
+
 	
-	@Override
+	@Override		//mother of all inits!
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
  
         rootView = inflater.inflate(R.layout.activity_start, container, false);
+        db = new DB();
         activityInitStart();
        
         return rootView;
@@ -85,7 +90,7 @@ public class Start extends Fragment{
 		//adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		
 		imageButtonListener();
-		database = new DB();
+		db = new DB();
 		
 	}
 	
@@ -105,8 +110,14 @@ public class Start extends Fragment{
 				TextView tv = (TextView) rootView.findViewById(R.id.textView2);
 				tv.setVisibility(View.VISIBLE);
 				tv.setText("Tid: 1.4 timmar");
-				Toast.makeText(getActivity(), "Du har stämplat in!", Toast.LENGTH_SHORT).show();
-				
+				//Toast.makeText(getActivity(), "Du har stämplat in!", Toast.LENGTH_SHORT).show();
+				ArrayList<TimePost> times = db.getTime(-1);
+				//String text = "dbstuff";
+				String text = times.get(0).printStartTime();
+				/*while(!times.isEmpty()){
+					times.
+				}*/
+				Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
 			}
 		
 			
