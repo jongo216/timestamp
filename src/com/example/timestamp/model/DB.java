@@ -37,6 +37,10 @@ public class DB {
 		timeList.add(time);
 	}
 	
+	public TimePost getLatest(){
+		return timeList.get(timeList.size()-1);
+	}
+	
 	public void set(ArrayList<TimePost> times){
 		
 		//Put times into DB

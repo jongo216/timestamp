@@ -2,6 +2,8 @@ package com.example.timestamp;
 
 
 
+import com.example.timestamp.model.DB;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -27,8 +29,8 @@ public class Start extends Fragment{
 	//final Context context = this;
 	public String[] projectsMenuString = {"Projekt 1", "Projekt 2", "Nytt projekt"};
 	private ImageButton imgButton;
-	private Button button;
 	private View rootView;
+	private DB database;
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -83,6 +85,7 @@ public class Start extends Fragment{
 		//adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		
 		imageButtonListener();
+		database = new DB();
 		
 	}
 	
@@ -94,8 +97,11 @@ public class Start extends Fragment{
 		imgButton.setOnClickListener(new OnClickListener(){
 			
 			public void onClick(View arg0){
-
 				
+				/*if(database.getLatest().isSigned){
+					
+				}*/
+
 				TextView tv = (TextView) rootView.findViewById(R.id.textView2);
 				tv.setVisibility(View.VISIBLE);
 				tv.setText("Tid: 1.4 timmar");
