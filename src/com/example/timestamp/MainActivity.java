@@ -102,6 +102,8 @@ ActionBar.TabListener {
 		switch (item.getItemId()) {
 		
 		case R.id.action_settings:
+			Intent intent2 = new Intent(this, SettingsActivity.class);
+			startActivity(intent2);
 			return true;
 		case R.id.action_yoursettings:
 			Intent intent = new Intent(this, SettingsActivity.class);
