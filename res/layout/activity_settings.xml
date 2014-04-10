@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+
+	<LinearLayout
+	    android:id="@+id/LinearLayout1"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="bottom"
+	    android:orientation="vertical"
+	    android:paddingLeft="20dp"
+	    tools:context=".MainActivity" >
+
+	    <TextView
+	        android:id="@+id/text"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/textOverview" />
+
+	    <RadioGroup
+	        android:id="@+id/radio_viewOpt"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:orientation="vertical" >
+
+	        <RadioButton
+	            android:id="@+id/radio_viewOptWeek"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:onClick="onRadioButtonClicked"
+	            android:text="@string/viewOptWeek" />
+
+	        <RadioButton
+	            android:id="@+id/radio_viewOptDay"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:onClick="onRadioButtonClicked"
+	            android:text="@string/viewOptDay" />
+
+	        <RadioButton
+	            android:id="@+id/radio_viewOptMonth"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:onClick="onRadioButtonClicked"
+	            android:text="@string/viewOptMonth" />
+	    </RadioGroup>
+
+	    <TextView
+	        android:id="@+id/TextView01"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:paddingTop="20dp"
+	        android:text="@string/textNotifixations" />
+
+	    <CheckBox
+	        android:id="@+id/checkBoxNotification"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:checked="true"
+	        android:text="@string/checkBoxNotification" />
+
+	    <CheckBox
+	        android:id="@+id/checkBoxReminder"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/checkBoxReminder" />
+
+	    <TextView
+	        android:id="@+id/TextLocation"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:paddingTop="20dp"
+	        android:text="@string/textLocation" />
+
+	    <CheckBox
+	        android:id="@+id/checkBoxWifi"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:checked="true"
+	        android:text="@string/checkBoxWifi" />
+
+	    <CheckBox
+	        android:id="@+id/checkBoxGeo"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/checkBoxGeo" />
+
+	    <TextView
+	        android:id="@+id/TextExport"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:paddingTop="20dp"
+	        android:text="@string/textExport" />
+
+	    <CheckBox
+	        android:id="@+id/checkBoxExportPdf"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:checked="true"
+	        android:text="@string/checkBoxExportPdf" />
+
+	    <CheckBox
+	        android:id="@+id/checkBoxExportXls"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:checked="false"
+	        android:text="@string/checkBoxExportXls" />
+
+	    <Button
+	        android:id="@+id/exportButton"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/buttonExport" />
+
+	    <TextView
+	        android:id="@+id/TextSync"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:paddingTop="20dp"
+	        android:text="@string/textSync" />
+	    
+	    <RadioGroup
+	        android:id="@+id/radio_sync"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:orientation="vertical" >
+
+	        <RadioButton
+	            android:id="@+id/radio_sync1"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:checked="true"
+	            android:onClick="onRadioButtonClicked"
+	            android:text="@string/sync1" />
+
+	        <RadioButton
+	            android:id="@+id/radio_sync2"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:onClick="onRadioButtonClicked"
+	            android:text="@string/sync2" />
+	    </RadioGroup>
+	    
+	    <TextView
+	        android:id="@+id/TextLayout"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:paddingTop="20dp"
+	        android:text="@string/textLayout" />
+	    
+	    <RadioGroup
+	        android:id="@+id/radio_layout"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:orientation="vertical" >
+
+	        <RadioButton
+	            android:id="@+id/radio_layoutStandard"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:checked="true"
+	            android:onClick="onRadioButtonClicked"
+	            android:text="@string/layoutStandard" />
+
+	        <RadioButton
+	            android:id="@+id/radio_layoutBackground"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:onClick="onRadioButtonClicked"
+	            android:text="@string/layoutBackground" />
+	    </RadioGroup>
+
+	    <Button
+	        android:id="@+id/saveButton"
+	        android:layout_width="280dp"
+	        android:layout_height="wrap_content"
+	        android:layout_marginBottom="32dp"
+	        android:text="@string/buttonSave" />
+	</LinearLayout>
+
+</ScrollView>

@@ -13,15 +13,17 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-         <activity
-            android:name="com.example.timestamp.EditReport"
-            android:label="@string/title_activity_edit_report" >
+
+
+        <activity
+            android:name="com.example.timestamp.MainActivity"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        	</activity>
+        </activity>
         <activity
             android:name="com.example.timestamp.Start"
             android:label="@string/app_name" >
@@ -40,7 +42,19 @@
         <activity
             android:name="com.example.timestamp.ConfirmReport"
             android:label="@string/title_activity_confirm_report" >
+
         </activity>
+        <activity
+            android:name="com.example.timestamp.SettingsActivity"
+            android:label="@string/title_activity_settingss" >
+        </activity>
+        
+                 <activity
+            android:name="com.example.timestamp.EditReport"
+            android:label="@string/title_activity_edit_report" >
+            
+                    </activity>
+        
     </application>
 
 </manifest>

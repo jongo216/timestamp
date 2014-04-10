@@ -4,6 +4,8 @@
     <!-- Body -->
     <string name="app_name">Timestamp</string>
     <string name="action_settings">Settings</string>
+    <string name="action_edit">edit</string>
+    <string name="action_yoursettings">inställningar</string>
     <string name="hello_world">Hello world SIMONJARRE!</string>
     <string name="view_option">Översikt</string>
     <string name="button_timestart">Stämpla in </string>
@@ -14,6 +16,30 @@
 
     <string name="action_menu">Action Menu</string>
 
+
+    <!-- For settings view -->
+    <string name="buttonSave">Spara</string>
+    <string name="textOverview">Översikt</string>
+    <string name="textNotifixations">Notifikationer</string>
+    <string name="viewOptDay">Dagsvy</string>
+    <string name="viewOptWeek">Veckovy</string>
+    <string name="viewOptMonth">Månadsvy</string>
+    <string name="checkBoxNotification">1 h innan deadline</string>
+    <string name="checkBoxReminder">Påminnelse efter 8 h</string>
+    <string name="textLocation">Platsinställningar</string>
+    <string name="checkBoxWifi">Wi-Fi</string>
+    <string name="checkBoxGeo">GEO</string>
+    <string name="textExport">Exportera som</string>
+    <string name="checkBoxExportPdf">PDF</string>
+    <string name="checkBoxExportXls">Excel</string>
+    <string name="buttonExport">Exportera</string>
+    <string name="textSync">Synka</string>
+    <string name="sync1">Var 15:e minut</string>
+    <string name="sync2">Varje timme</string>
+    <string name="textLayout">Layout</string>
+    <string name="layoutStandard">Standard</string>
+    <string name="layoutBackground">Ändra bakgrundsfärg</string>
+
     <!-- Other -->
     <string name="graf">exempel</string>
     <string name="spinnerOverView">OverViewSpinner</string>
@@ -21,6 +47,10 @@
     <color name="myColorG">#C0C0C0</color>
 
     <string name="title_activity_test_services">TestServicesActivity</string>
+
     <string name="title_activity_edit_report">EditReport</string>
+
+    <string name="title_activity_settingss">MainActivity</string>
+
 
 </resources>

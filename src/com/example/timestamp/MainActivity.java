@@ -5,6 +5,7 @@ package com.example.timestamp;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -97,10 +98,20 @@ ActionBar.TabListener {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// toggle nav drawer on selecting action bar app icon/title
 		// Handle action bar actions click
+		Intent intent;
 		Log.d("felLog", "onOptionItemsSelected");
 		switch (item.getItemId()) {
 		
 		case R.id.action_settings:
+			return true;
+
+		case R.id.action_yoursettings:
+			 intent = new Intent(this, SettingsActivity.class);
+			startActivity(intent);
+			return true;
+		case R.id.action_edit:
+			intent = new Intent(this, EditReport.class);
+			startActivity(intent);
 			return true;
 		
 		default:
