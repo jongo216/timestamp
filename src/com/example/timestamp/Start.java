@@ -104,36 +104,45 @@ public class Start extends Fragment{
 		imgButton.setOnClickListener(new OnClickListener(){
 			
 			public void onClick(View arg0){
+	
 				
 				if(db.getLatest().isSigned){
-					db.set(new TimePost());
-					imgButton.setBackgroundColor(Color.BLACK);
-					String text = "Starting timelog at: " + db.getLatest().printStartTime();
 					
+					db.set(new TimePost());
+					imgButton.setBackgroundColor(Color.GREEN);
+					String text = "Starting timelog at: " + db.getLatest().printStartTime();
 					Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
 				}else{
-					
-					db.set(new TimePost());
-					String text = "Starting timelog at: " + db.getLatest().printStartTime();
+					db.getLatest().setEndTimeRandom();
+					db.getLatest().isSigned = true;
+					String text = "Stopped at: " + db.getLatest().printEndTime();
 					
 					Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
 					imgButton.setBackgroundColor(Color.WHITE);
 				}
-				Log.d("MESSAGE",db.getLatest().printStartTime());
-				Log.d("MESSAGE",Integer.toString(db.dbSize()));
-
+				
+				//Log.d("MESSAGE",db.getLatest().printStartTime()+" - "+db.getLatest().printEndTime());
+				//Log.d("MESSAGE",Integer.toString(db.dbSize()));
+				
 				TextView tv = (TextView) rootView.findViewById(R.id.textView2);
 				tv.setVisibility(View.VISIBLE);
 				tv.setText("Tid: 1.4 timmar");
+				
+				
 				//Toast.makeText(getActivity(), "Du har stämplat in!", Toast.LENGTH_SHORT).show();
+			
+				if(db.getLatest().isSigned){
+					tv.setText("Worked ours" + Double.toString(db.getLatest().getWorkedHours()));
+				}
 				
 				//database testing!
 				ArrayList<TimePost> times = db.getTime(-1);
 				String text = "";
 				for(int i = 0; i < times.size(); ++i){
-					text = text + times.get(i).printStartTime() + " - " + times.get(i).printEndTime() + "\n";
+					//buggs with printStart/EndTime
+					//text = text + times.get(i).printStartTime() + " - " + times.get(i).printEndTime() + "\n";
 				}
-				Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
+				//Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
 			}
 		
 			
