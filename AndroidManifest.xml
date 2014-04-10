@@ -44,7 +44,11 @@
             android:label="@string/title_activity_confirm_report" >
             
         </activity>
-
+        <activity
+            android:name="com.example.timestamp.editReport"
+            android:label="@string/title_activity_edit_report" >
+            
+        </activity>
     </application>
 
 </manifest>
