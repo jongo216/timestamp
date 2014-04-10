@@ -16,6 +16,7 @@
 
     <string name="action_menu">Action Menu</string>
 
+
     <!-- For settings view -->
     <string name="buttonSave">Spara</string>
     <string name="textOverview">Översikt</string>
@@ -48,7 +49,15 @@
     <color name="myColorG">#C0C0C0</color>
 
     <string name="title_activity_test_services">TestServicesActivity</string>
+
     <string name="title_activity_settings">Inställningar</string>
     <string name="title_activity_project_settings">Projekt</string>
+
+
+    <string name="title_activity_edit_report">EditReport</string>
+
+    <string name="title_activity_settingss">MainActivity</string>
+
+
 
 </resources>
