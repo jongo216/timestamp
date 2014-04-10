@@ -57,7 +57,7 @@
          android:layout_y="214dp"
          android:onClick="activitySwitchOne"
          android:text="Button" />
-         -->
+         
 
     <TextView
         android:id="@+id/textHeader"
@@ -69,14 +69,15 @@
         android:text="@string/textHeader"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="@dimen/big" />
-
+-->
     <Spinner
         android:id="@+id/projects_menu_spinner2"
-        android:layout_width="200dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="47dp"/>
+        android:layout_marginTop="47dp"
+        />
     <!--  -
     <TextView 
 	    android:id="@android:id/textForSpinner"

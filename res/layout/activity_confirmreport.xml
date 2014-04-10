@@ -2,6 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_light"
+    android:tileMode="repeat"
     tools:context=".MainActivity" >
 
     <Button
@@ -17,7 +19,7 @@
     <Spinner
 
         android:id="@+id/projects_menu_spinner2"
-        android:layout_width="200dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
