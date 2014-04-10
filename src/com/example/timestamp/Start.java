@@ -22,8 +22,9 @@ public class Start extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_start);
+		//setContentView(R.layout.activity_two);
 		
-		activityInitMain();
+		activityInitMain(); //  <<<<--- RENAME TO "activityInitSpinner" 
 		
 	}
 
@@ -39,8 +40,10 @@ public class Start extends Activity {
 		activityInitTwo();
 	}
 	public void activitySwitchToMain(View v){
-		//setContentView(R.layout.activity_start);	
-		//activityInitMain();
+
+		setContentView(R.layout.activity_start);
+		activityInitMain();
+
 	}
 	
 	private void activityInitMain(){
@@ -48,8 +51,10 @@ public class Start extends Activity {
 		//Letar efter en spinner i activity_main.xml med ett specifict id
 		Spinner spinner = (Spinner) findViewById(R.id.projects_menu_spinner);
 		
-		//H���mtar namn fr���n string array med menu item.
-		ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, projectsMenuString);
+
+		//H�mtar namn fr�n string array med menu item.
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, projectsMenuString);
+
 		
 		//Spinnern anv���nder items fr���n en valt adapter.
 		spinner.setAdapter(adapter);
@@ -60,6 +65,15 @@ public class Start extends Activity {
 	}
 	
 	private void activityInitTwo(){
+		//Letar efter en spinner i activity_main.xml med ett specifict id
+				Spinner spinner = (Spinner) findViewById(R.id.projects_menu_spinner2);
+				
+				//H�mtar namn fr�n string array med menu item.
+				ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, projectsMenuString);
+				
+				//Spinnern anv�nder items fr�n en valt adapter.
+				spinner.setAdapter(adapter);
+		
 		button = (Button) findViewById(R.id.sendReportButton);
 
 		button.setOnClickListener(new View.OnClickListener(){
