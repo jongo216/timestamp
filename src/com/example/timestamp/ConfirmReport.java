@@ -3,8 +3,10 @@ package com.example.timestamp;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +31,8 @@ public class ConfirmReport extends Fragment {
        
         return rootView;
     }
+	
+	
 
 	public void activityInitConfirmReport(){
 	
@@ -94,6 +98,8 @@ public class ConfirmReport extends Fragment {
 			}
 		
 		});
+		
+		
 		
 	}
 	

@@ -1,42 +1,33 @@
 package com.example.timestamp;
 
-
-
 import android.app.ActionBar;
-import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
+import android.app.ActionBar.Tab;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.ListView;
 
-
-
-public class MainActivity extends FragmentActivity implements
+public class MainSettingsActivity extends FragmentActivity implements
 ActionBar.TabListener {
 
 	private ViewPager viewPager;
-	private TabsPagerAdapter mAdapter;
+	private TabsPagerAdapterMenu mAdapter;
 	private ActionBar actionBar;
-	
-	
 
-    
 	// Tab titles
-	private String[] tabs = { "Översikt", "Rapport", "Redigera" };
+	private String[] tabs = { "Edit", "Create", "Remove" };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.activity_main_projectsettings);
 		
 		//Stylear actionbar
 		ActionBar actionBarTop = getActionBar(); 
@@ -48,9 +39,9 @@ ActionBar.TabListener {
 		
 
 		// Initilization
-		viewPager = (ViewPager) findViewById(R.id.pager);
+		viewPager = (ViewPager) findViewById(R.id.pager2);
 		actionBar = getActionBar();
-		mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
+		mAdapter = new TabsPagerAdapterMenu(getSupportFragmentManager());
 
 		viewPager.setAdapter(mAdapter);
 		actionBar.setHomeButtonEnabled(false);
@@ -102,6 +93,7 @@ ActionBar.TabListener {
 		switch (item.getItemId()) {
 		
 		case R.id.action_settings:
+
 			return true;
 		case R.id.action_yoursettings:
 			Intent intent = new Intent(this, SettingsActivity.class);
@@ -111,7 +103,7 @@ ActionBar.TabListener {
 			Intent intent2 = new Intent(this, MainSettingsActivity.class);
 			startActivity(intent2);
 			return true;
-			
+		
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -132,5 +124,4 @@ ActionBar.TabListener {
 	@Override
 	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
 	}
-
 }
