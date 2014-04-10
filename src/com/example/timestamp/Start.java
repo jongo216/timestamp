@@ -2,6 +2,11 @@ package com.example.timestamp;
 
 
 
+import java.util.ArrayList;
+
+import com.example.timestamp.model.DB;
+import com.example.timestamp.model.TimePost;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -29,11 +34,13 @@ public class Start extends Fragment{
 	private ImageButton imgButton;
 	private Button button;
 	private View rootView;
+	private DB db;
 	
-	@Override
+	@Override		//mother of all inits!
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
  
         rootView = inflater.inflate(R.layout.activity_start, container, false);
+        db = new DB();
         activityInitStart();
        
         return rootView;
@@ -99,8 +106,14 @@ public class Start extends Fragment{
 				TextView tv = (TextView) rootView.findViewById(R.id.textView2);
 				tv.setVisibility(View.VISIBLE);
 				tv.setText("Tid: 1.4 timmar");
-				Toast.makeText(getActivity(), "Du har stämplat in!", Toast.LENGTH_SHORT).show();
-				
+				//Toast.makeText(getActivity(), "Du har stämplat in!", Toast.LENGTH_SHORT).show();
+				ArrayList<TimePost> times = db.getTime(-1);
+				//String text = "dbstuff";
+				String text = times.get(0).printStartTime();
+				/*while(!times.isEmpty()){
+					times.
+				}*/
+				Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
 			}
 		
 			
