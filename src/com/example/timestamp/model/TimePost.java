@@ -20,6 +20,7 @@ public class TimePost {
 	public TimePost(){
 		
 		setStartTimeNow();
+		endTime = new GregorianCalendar();
 		id = -1;
 		isSigned = false;
 		comment = "";
@@ -30,6 +31,12 @@ public class TimePost {
 	
 	TimePost(int year, int month, int day, int hour, int min){
 		startTime = new GregorianCalendar(year, month-1, day, hour, min);
+		endTime = new GregorianCalendar();
+		id = -1;
+		isSigned = false;
+		comment = "";
+		projectId = -1;
+		commentIsShared = false;
 	}
 	
 	public String printStartTime(){

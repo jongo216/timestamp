@@ -11,24 +11,13 @@ public class DB {
 		System.out.println("Connecting to remote DB...");
 		//mock-up data
 		timeList = new ArrayList<TimePost>(20);
-		//projectList = new ArrayList<Project>(20);
-		TimePost post = new TimePost();
+		projectList = new ArrayList<Project>(20);
 		//one week mock-up data
-		post.setStartTime(2014, 4, 7, 8, 15);
-		post.setEndTime(2014, 4, 7, 17, 00);
-		timeList.add(post);						//day 1
-		post.setStartTime(2014, 4, 8, 8, 15);
-		post.setEndTime(2014, 4, 8, 17, 00);
-		timeList.add(post);						//day 2
-		post.setStartTime(2014, 4, 9, 8, 15);
-		post.setEndTime(2014, 4, 9, 17, 00);
-		timeList.add(post);						//day 3
-		post.setStartTime(2014, 4, 10, 8, 15);
-		post.setEndTime(2014, 4, 10, 17, 00);
-		timeList.add(post);						//day 4
-		post.setStartTime(2014, 4, 11, 8, 15);
-		post.setEndTime(2014, 4, 12, 17, 00);
-		timeList.add(post);						//day 5 
+		for(int i = 0; i < 5; ++i){
+			TimePost post = new TimePost(2014, 4, 7+i, 8, 15);
+			post.setEndTime		(2014, 4, 7+i, 17, 00);
+			timeList.add(post);
+		}
 	}
 	
 	public void set(TimePost time){

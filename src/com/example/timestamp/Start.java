@@ -11,6 +11,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -108,11 +109,10 @@ public class Start extends Fragment{
 				tv.setText("Tid: 1.4 timmar");
 				//Toast.makeText(getActivity(), "Du har stämplat in!", Toast.LENGTH_SHORT).show();
 				ArrayList<TimePost> times = db.getTime(-1);
-				//String text = "dbstuff";
-				String text = times.get(0).printStartTime();
-				/*while(!times.isEmpty()){
-					times.
-				}*/
+				String text = "\n";
+				for(int i = 0; i < times.size(); ++i){
+					text = text + times.get(i).printStartTime() + " - " + times.get(i).printEndTime() + "\n";
+				}
 				Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
 			}
 		
