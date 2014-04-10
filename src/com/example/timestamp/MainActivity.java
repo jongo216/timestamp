@@ -1,6 +1,6 @@
 package com.example.timestamp;
 
-import com.example.timestamp.TabsPagerAdapter;
+
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -10,9 +10,12 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
-
+import android.view.MenuItem;
+import android.widget.ListView;
 
 
 
@@ -22,6 +25,10 @@ ActionBar.TabListener {
 	private ViewPager viewPager;
 	private TabsPagerAdapter mAdapter;
 	private ActionBar actionBar;
+	
+	
+
+    
 	// Tab titles
 	private String[] tabs = { "Översikt", "Rapport", "Redigera" };
 
@@ -35,6 +42,9 @@ ActionBar.TabListener {
 		actionBarTop.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
 		actionBarTop.setCustomView(R.layout.actionbar);
 		actionBarTop.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#11ffffff")));
+		
+		//draw actionbar
+		
 
 		// Initilization
 		viewPager = (ViewPager) findViewById(R.id.pager);
@@ -74,11 +84,28 @@ ActionBar.TabListener {
 		
 	}
 	
+	
+	
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.menu.main_activitybar, menu);
 	    return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// toggle nav drawer on selecting action bar app icon/title
+		// Handle action bar actions click
+		Log.d("felLog", "onOptionItemsSelected");
+		switch (item.getItemId()) {
+		
+		case R.id.action_settings:
+			return true;
+		
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 	
 
