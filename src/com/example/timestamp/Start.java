@@ -4,12 +4,12 @@ package com.example.timestamp;
 
 
 
-import java.util.ArrayList;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -103,21 +103,34 @@ public class Start extends Fragment{
 			
 			public void onClick(View arg0){
 				
-				/*if(database.getLatest().isSigned){
+				if(db.getLatest().isSigned){
+					db.set(new TimePost());
+					imgButton.setBackgroundColor(Color.BLACK);
+					String text = "Starting timelog at: " + db.getLatest().printStartTime();
 					
-				}*/
+					Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
+				}else{
+					
+					db.set(new TimePost());
+					String text = "Starting timelog at: " + db.getLatest().printStartTime();
+					
+					Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
+					imgButton.setBackgroundColor(Color.WHITE);
+				}
+				Log.d("MESSAGE",db.getLatest().printStartTime());
+				Log.d("MESSAGE",Integer.toString(db.dbSize()));
 
 				TextView tv = (TextView) rootView.findViewById(R.id.textView2);
 				tv.setVisibility(View.VISIBLE);
 				tv.setText("Tid: 1.4 timmar");
 				//Toast.makeText(getActivity(), "Du har stämplat in!", Toast.LENGTH_SHORT).show();
-				ArrayList<TimePost> times = db.getTime(-1);
+				//ArrayList<TimePost> times = db.getTime(-1);
 				//String text = "dbstuff";
-				String text = times.get(0).printStartTime();
+				//String text = times.get(0).printStartTime();
 				/*while(!times.isEmpty()){
 					times.
 				}*/
-				Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
+				
 			}
 		
 			
