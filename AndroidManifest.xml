@@ -44,17 +44,28 @@
             android:label="@string/title_activity_confirm_report" >
 
         </activity>
-        <activity
+        <!-- <activity
+            android:name="com.example.timestamp.editReport"
+            android:label="@string/title_activity_edit_report"
+            >
+         </activity>-->
+         <activity
             android:name="com.example.timestamp.SettingsActivity"
-            android:label="@string/title_activity_settingss" >
+            android:label="@string/title_activity_settings" >
+        </activity>
+        <activity
+            android:name="com.example.timestamp.MainSettingsActivity"
+            android:label="@string/title_activity_project_settings" >
+        </activity>
+
+        
+        <activity
+          android:name="com.example.timestamp.EditReport"
+          android:label="@string/title_activity_edit_report" >
+            
         </activity>
         
-                 <activity
-            android:name="com.example.timestamp.EditReport"
-            android:label="@string/title_activity_edit_report" >
-            
-                    </activity>
-        
+
     </application>
 
 </manifest>

@@ -39,6 +39,8 @@
     <string name="textLayout">Layout</string>
     <string name="layoutStandard">Standard</string>
     <string name="layoutBackground">Ändra bakgrundsfärg</string>
+    <!-- test här -->
+    <string name="title_main_activity_settings">Inställningar</string>
 
     <!-- Other -->
     <string name="graf">exempel</string>
@@ -48,9 +50,14 @@
 
     <string name="title_activity_test_services">TestServicesActivity</string>
 
+    <string name="title_activity_settings">Inställningar</string>
+    <string name="title_activity_project_settings">Projekt</string>
+
+
     <string name="title_activity_edit_report">EditReport</string>
 
     <string name="title_activity_settingss">MainActivity</string>
+
 
 
 </resources>
