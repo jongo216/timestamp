@@ -18,12 +18,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.timestamp.model.DB;
+import com.example.timestamp.model.Project;
 import com.example.timestamp.model.TimePost;
 
 
@@ -92,7 +94,7 @@ public class Start extends Fragment{
 		//adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		
 		imageButtonListener();
-		db = new DB();
+		dbButtonListener();
 		
 	}
 	
@@ -135,20 +137,42 @@ public class Start extends Fragment{
 					tv.setText("Worked ours" + Double.toString(db.getLatest().getWorkedHours()));
 				}
 				
-				//database testing!
-				ArrayList<TimePost> times = db.getTime(-1);
-				String text = "";
-				for(int i = 0; i < times.size(); ++i){
-					//buggs with printStart/EndTime
-					//text = text + times.get(i).printStartTime() + " - " + times.get(i).printEndTime() + "\n";
-				}
-				//Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
-			}
-		
-			
+			}	
 		});
 			
 	}
+    
+    //database testing!
+    public void dbButtonListener(){
+    	//times
+    	Button timesBtn = (Button) rootView.findViewById(R.id.Times);
+    	timesBtn.setOnClickListener(new OnClickListener(){
+    		public void onClick(View arg0){
+    			ArrayList<TimePost> times = db.getTime(-1);
+    			String text = "";
+    			for(int i = 0; i < times.size(); ++i){
+    				//buggs with printStart/EndTime
+    				text = text + times.get(i).printStartTime() + " - " + times.get(i).printEndTime() + "\n";
+    			}
+    			Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
+    		}
+    	});
+    	//projects
+    	Button projectsBtn = (Button) rootView.findViewById(R.id.Projects);
+    	projectsBtn.setOnClickListener(new OnClickListener(){
+    		public void onClick(View arg0){
+    			ArrayList<Project> projects = db.getAllProjects();
+    			String text = "";
+    			for(int i = 0; i < projects.size(); ++i){
+    				//buggs with printStart/EndTime
+    				text = text + 	"Project name: " + projects.get(i).name + 
+    								" \tOwner: " 	 + projects.get(i).owner + 
+    								" \tCustomer: "  + projects.get(i).customer + "\n";
+    			}
+    			Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
+    		}
+    	});
+    }
 	
 
 	public void startTime(View view){

@@ -133,4 +133,22 @@
         android:layout_toRightOf="@+id/Overview"
         android:text="TextView" />
 
+    <Button
+        android:id="@+id/Projects"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textView1"
+        android:layout_alignRight="@+id/projects_menu_spinner2"
+        android:text="Projects" />
+
+    <Button
+        android:id="@+id/Times"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/Projects"
+        android:layout_alignLeft="@+id/Projects"
+        android:text="Times" />
+
 </RelativeLayout>
