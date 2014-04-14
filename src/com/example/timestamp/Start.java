@@ -2,14 +2,18 @@ package com.example.timestamp;
 
 
 
+
+
+import java.util.ArrayList;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -20,6 +24,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.timestamp.model.DB;
+import com.example.timestamp.model.Project;
+import com.example.timestamp.model.TimePost;
+
 
 public class Start extends Fragment{
 	
@@ -27,13 +35,16 @@ public class Start extends Fragment{
 	//final Context context = this;
 	public String[] projectsMenuString = {"Projekt 1", "Projekt 2", "Nytt projekt"};
 	private ImageButton imgButton;
-	private Button button;
 	private View rootView;
+
+	private DB db;
+
 	
-	@Override
+	@Override		//mother of all inits!
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
  
         rootView = inflater.inflate(R.layout.activity_start, container, false);
+        db = new DB();
         activityInitStart();
        
         return rootView;
@@ -83,6 +94,7 @@ public class Start extends Fragment{
 		//adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		
 		imageButtonListener();
+		dbButtonListener();
 		
 	}
 	
@@ -94,19 +106,73 @@ public class Start extends Fragment{
 		imgButton.setOnClickListener(new OnClickListener(){
 			
 			public void onClick(View arg0){
-
+	
+				
+				if(db.getLatest().isSigned){
+					
+					db.set(new TimePost());
+					imgButton.setBackgroundColor(Color.GREEN);
+					String text = "Starting timelog at: " + db.getLatest().printStartTime();
+					Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
+				}else{
+					db.getLatest().setEndTimeRandom();
+					db.getLatest().isSigned = true;
+					String text = "Stopped at: " + db.getLatest().printEndTime();
+					
+					Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
+					imgButton.setBackgroundColor(Color.WHITE);
+				}
+				
+				//Log.d("MESSAGE",db.getLatest().printStartTime()+" - "+db.getLatest().printEndTime());
+				//Log.d("MESSAGE",Integer.toString(db.dbSize()));
 				
 				TextView tv = (TextView) rootView.findViewById(R.id.textView2);
 				tv.setVisibility(View.VISIBLE);
 				tv.setText("Tid: 1.4 timmar");
-				Toast.makeText(getActivity(), "Du har stämplat in!", Toast.LENGTH_SHORT).show();
 				
-			}
-		
+				
+				//Toast.makeText(getActivity(), "Du har stämplat in!", Toast.LENGTH_SHORT).show();
 			
+				if(db.getLatest().isSigned){
+					tv.setText("Worked ours" + Double.toString(db.getLatest().getWorkedHours()));
+				}
+				
+			}	
 		});
 			
 	}
+    
+    //database testing!
+    public void dbButtonListener(){
+    	//times
+    	Button timesBtn = (Button) rootView.findViewById(R.id.Times);
+    	timesBtn.setOnClickListener(new OnClickListener(){
+    		public void onClick(View arg0){
+    			ArrayList<TimePost> times = db.getTime(-1);
+    			String text = "";
+    			for(int i = 0; i < times.size(); ++i){
+    				//buggs with printStart/EndTime
+    				text = text + times.get(i).printStartTime() + " - " + times.get(i).printEndTime() + "\n";
+    			}
+    			Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
+    		}
+    	});
+    	//projects
+    	Button projectsBtn = (Button) rootView.findViewById(R.id.Projects);
+    	projectsBtn.setOnClickListener(new OnClickListener(){
+    		public void onClick(View arg0){
+    			ArrayList<Project> projects = db.getAllProjects();
+    			String text = "";
+    			for(int i = 0; i < projects.size(); ++i){
+    				//buggs with printStart/EndTime
+    				text = text + 	"Project name: " + projects.get(i).name + 
+    								" \tOwner: " 	 + projects.get(i).owner + 
+    								" \tCustomer: "  + projects.get(i).customer + "\n";
+    			}
+    			Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
+    		}
+    	});
+    }
 	
 
 	public void startTime(View view){
