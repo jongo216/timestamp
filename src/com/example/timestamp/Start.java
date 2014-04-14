@@ -5,9 +5,11 @@ package com.example.timestamp;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -33,7 +35,8 @@ public class Start extends Fragment{
 	
 	// Instansvariabler
 	//final Context context = this;
-	public String[] projectsMenuString = {"Projekt 1", "Projekt 2", "Nytt projekt"};
+	public String[] projectsMenuString; // = {"Projekt 1", "Projekt 2", "Nytt projekt"};
+	private ArrayList<Project> projects;
 	private ImageButton imgButton;
 	private View rootView;
 
@@ -54,13 +57,19 @@ public class Start extends Fragment{
 
 	// Initierar startvyn..
 	private void activityInitStart(){
-
+		
+		projects = db.getAllProjects();
+		projectsMenuString = new String[projects.size()];
+		for (int n = 0; n < projects.size(); n++)
+			projectsMenuString[n] = projects.get(n).name;
+		
 		//Letar efter en spinner i activity_main.xml med ett specifict id
 		Spinner spinnerProjectView = (Spinner) rootView.findViewById(R.id.projects_menu_spinner2);
 		
 		//För att välja vilken typ av graf man vill se. 
 		//Hämtar namn från string array med menu item.
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, projectsMenuString){
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), 
+				android.R.layout.simple_spinner_dropdown_item, projectsMenuString){
 				
 			// Style för Spinnern.. Sätter textstorlek samt centrerar..
 			public View getView(int position, View convertView,ViewGroup parent) {
@@ -106,9 +115,32 @@ public class Start extends Fragment{
 		imgButton.setOnClickListener(new OnClickListener(){
 			
 			public void onClick(View arg0){
-	
 				
-				if(db.getLatest().isSigned){
+				SharedPreferences settings = getActivity().getSharedPreferences(Constants.TIMESTAMP_SETTINGS, 0);
+				SharedPreferences.Editor editor = settings.edit();
+				
+				boolean timerRunning = settings.getBoolean("timerRunning", false);
+				Log.d("debug-timestamp", "clicked");
+				if(timerRunning){
+					imgButton.setBackgroundColor(Color.WHITE);
+					Log.d("TSD","timer started at: " + settings.getString("startTime","starttime"));
+					
+					editor.putBoolean("timerRunning", false);
+					editor.commit();
+					
+				}else{
+					imgButton.setBackgroundColor(Color.GREEN);
+					
+					editor.putBoolean("timerRunning", true);
+					
+					Log.d("TSD", settings.getAll().toString());
+					Date d= new Date();
+					// 2014-10-28 13:32
+					editor.putString("startTime", d.toString());
+					editor.commit();
+				}
+				
+				/*if(db.getLatest().isSigned){
 					
 					db.set(new TimePost());
 					imgButton.setBackgroundColor(Color.GREEN);
@@ -136,7 +168,7 @@ public class Start extends Fragment{
 				if(db.getLatest().isSigned){
 					tv.setText("Worked ours" + Double.toString(db.getLatest().getWorkedHours()));
 				}
-				
+				*/
 			}	
 		});
 			
