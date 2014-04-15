@@ -1,16 +1,21 @@
 package com.example.timestamp.model;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 
-enum ProjectType {PRIVATE, PUBLIC, ALL}
+//enum ProjectType {PRIVATE, PUBLIC, ALL}
+
 
 public class DB {
+	
+	DatabaseHelper dbHelper;
+	
 	private ArrayList<TimePost> timeList;		//mock-up
 	private ArrayList<Project> projectList;		//mock-up
 	
 	//Constructor
 	public DB(){
+		
+		
 		System.out.println("Connecting to remote DB...");
 		//mock-up data
 		timeList = new ArrayList<TimePost>(20);
