@@ -7,8 +7,8 @@
     <string name="action_edit">edit</string>
     <string name="action_yoursettings">inställningar</string>
     <string name="hello_world">Hello world SIMONJARRE!</string>
-    <string name="view_option">Översikt</string>
-    <string name="button_timestart">Stämpla in </string>
+    <string name="view_option">Overview</string>
+    <string name="button_timestart">Check in </string>
     <string name="textHeader">Timestamp</string>
     <string name="textForSpinner">Project</string>
 
@@ -16,42 +16,44 @@
 
     <string name="action_menu">Action Menu</string>
 
-    <!-- simon testar ifall han är på db -->
+
     <!-- For settings view -->
-    <string name="buttonSave">Spara</string>
-    <string name="textOverview">Översikt</string>
-    <string name="textNotifixations">Notifikationer</string>
-    <string name="viewOptDay">Dagsvy</string>
-    <string name="viewOptWeek">Veckovy</string>
-    <string name="viewOptMonth">Månadsvy</string>
-    <string name="checkBoxNotification">1 h innan deadline</string>
-    <string name="checkBoxReminder">Påminnelse efter 8 h</string>
-    <string name="textLocation">Platsinställningar</string>
+    
+    <string name="buttonSave">Save</string>
+    <string name="textOverview">Overview</string>
+    <string name="textNotifixations">Notifications</string>
+    <string name="viewOptDay">Day view</string>
+    <string name="viewOptWeek">Week view</string>
+    <string name="viewOptMonth">Month view</string>
+    <string name="checkBoxNotification">1 hour before deadline</string>
+    <string name="checkBoxReminder">Reminder after 8 work hours</string>
+    <string name="textLocation">Location settings</string>
     <string name="checkBoxWifi">Wi-Fi</string>
     <string name="checkBoxGeo">GEO</string>
-    <string name="textExport">Exportera som</string>
+    <string name="textExport">Export as</string>
     <string name="checkBoxExportPdf">PDF</string>
     <string name="checkBoxExportXls">Excel</string>
-    <string name="buttonExport">Exportera</string>
-    <string name="textSync">Synka</string>
-    <string name="sync1">Var 15:e minut</string>
-    <string name="sync2">Varje timme</string>
+    <string name="checkBoxExportCsv">Csv</string>
+    <string name="buttonExport">Export</string>
+    <string name="textSync">Syncronization</string>
+    <string name="sync1">Sync every 15 minutes</string>
+    <string name="sync2">Sync every hour</string>
     <string name="textLayout">Layout</string>
     <string name="layoutStandard">Standard</string>
-    <string name="layoutBackground">Ändra bakgrundsfärg</string>
+    <string name="layoutBackground">Change background color</string>
     <!-- test här -->
-    <string name="title_main_activity_settings">Inställningar</string>
+    <string name="title_main_activity_settings">Settings</string>
 
     <!-- Other -->
-    <string name="graf">exempel</string>
+    <string name="graf">example</string>
     <string name="spinnerOverView">OverViewSpinner</string>
 
     <color name="myColorG">#C0C0C0</color>
 
     <string name="title_activity_test_services">TestServicesActivity</string>
 
-    <string name="title_activity_settings">Inställningar</string>
-    <string name="title_activity_project_settings">Projekt</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_project_settings">Project</string>
 
 
     <string name="title_activity_edit_report">EditReport</string>
