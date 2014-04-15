@@ -19,8 +19,8 @@
 
     <!-- For settings view -->
     
-    <string name="buttonSave">Save</string>
-    <string name="textOverview">Overview</string>
+    <string name="buttonSaveSettings">Save</string>
+    <string name="textOverviewSettings">Overview</string>
     <string name="textNotifixations">Notifications</string>
     <string name="viewOptDay">Day view</string>
     <string name="viewOptWeek">Week view</string>
@@ -71,6 +71,16 @@
 	<color name="textColorBlack">#000000</color>
 	<color name="textColorGray">#333333</color>
 	
+	
+	<!-- For edit report view -->
+	<string name="textEditStartTime">Start time</string>
+	<string name="textEditEndTime">End time</string>
+	<string name="textEditComment">Comment</string>
+	<string name="editTextCommentHint">Meeting</string>
+	<string name="addNewPost">Add new time post</string>
+	<string name="endTime">08:00</string>	
+	<string name="startTime">17:00</string>	
+	<string name="buttonSaveEdit">Save</string>
 	
 
 </resources>
