@@ -2,6 +2,8 @@ package com.example.timestamp.model;
 
 import java.util.ArrayList;
 
+import android.content.Context;
+
 //enum ProjectType {PRIVATE, PUBLIC, ALL}
 
 
@@ -13,34 +15,40 @@ public class DB {
 	private ArrayList<Project> projectList;		//mock-up
 	
 	//Constructor
-	public DB(){
+	public DB(Context c){
 		
+		dbHelper = new DatabaseHelper(c);
 		
 		System.out.println("Connecting to remote DB...");
 		//mock-up data
-		timeList = new ArrayList<TimePost>(20);
-		projectList = new ArrayList<Project>(20);
-		//one week mock-up data
-		for(int i = 0; i < 5; ++i){
-			TimePost post = new TimePost(2014, 4, 7+i, 8, 15);
-			post.setEndTime		(2014, 4, 7+i, 17, 00);
-			post.isSigned=true;
-			timeList.add(post);
-		}
-		//to projects to report to
-		projectList.add(new Project(1 						/* id */,
-									"Project 1"				/* name */,
-									false					/* isPrivate */,
-									"First mock-up project" /* Description */,
-									"Jonas" 				/* owner */,
-									"Joakim" 				/* customer */));
+//		timeList = new ArrayList<TimePost>(20);
+//		projectList = new ArrayList<Project>(20);
+//		//one week mock-up data
+//		for(int i = 0; i < 5; ++i){
+//			TimePost post = new TimePost(2014, 4, 7+i, 8, 15);
+//			post.setEndTime		(2014, 4, 7+i, 17, 00);
+//			post.isSigned=true;
+//			timeList.add(post);
+//		}
+//		//to projects to report to
+//		projectList.add(new Project(1 						/* id */,
+//									"Project 1"				/* name */,
+//									false					/* isPrivate */,
+//									"First mock-up project" /* Description */,
+//									"Jonas" 				/* owner */,
+//									"Joakim" 				/* customer */));
+//		
+//		projectList.add(new Project(2 						/* id */,
+//									"Project 2"				/* name */,
+//									true					/* isPrivate */,
+//									"Second mock-up project"/* Description */,
+//									"Backend" 				/* owner */,
+//									"Frontend" 				/* customer */));
 		
-		projectList.add(new Project(2 						/* id */,
-									"Project 2"				/* name */,
-									true					/* isPrivate */,
-									"Second mock-up project"/* Description */,
-									"Backend" 				/* owner */,
-									"Frontend" 				/* customer */));
+	}
+	
+	public void terminateDatabaseHelper(){
+		dbHelper.closeDB();
 	}
 	
 	public void set(TimePost time){

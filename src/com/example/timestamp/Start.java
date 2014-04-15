@@ -44,8 +44,10 @@ public class Start extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
  
         rootView = inflater.inflate(R.layout.activity_start, container, false);
-        db = new DB();
+        db = new DB(getActivity().getApplicationContext());
         activityInitStart();
+        
+        db.terminateDatabaseHelper();
        
         return rootView;
     }
