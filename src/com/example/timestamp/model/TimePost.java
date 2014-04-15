@@ -20,6 +20,7 @@ public class TimePost {
 	public TimePost(){
 		
 		setStartTimeNow();
+		setEndTimeNow();
 		id = -1;
 		isSigned = false;
 		comment = "";
@@ -28,7 +29,7 @@ public class TimePost {
 		
 	}
 	
-	TimePost(int year, int month, int day, int hour, int min){
+	public TimePost(int year, int month, int day, int hour, int min){
 		startTime = new GregorianCalendar(year, month-1, day, hour, min);
 		id = -1;
 		isSigned = false;
