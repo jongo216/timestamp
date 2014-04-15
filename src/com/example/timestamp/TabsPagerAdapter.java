@@ -1,6 +1,5 @@
 package com.example.timestamp;
 
-import com.example.timestamp.ConfirmReport;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -25,9 +24,7 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 		case 1:
 			// Change to ConfirmReport fragment activity
 			return new ConfirmReport();//new GamesFragment();
-		case 2:
-			// Change to ConfirmReport fragment activity
-			return new ConfirmReport();//new MoviesFragment();
+
 		}
 
 		return null;
@@ -36,7 +33,7 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 	@Override
 	public int getCount() {
 		// get item count - equal to number of tabs
-		return 3;
+		return 2;
 	}
 
 }

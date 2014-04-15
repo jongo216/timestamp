@@ -1,6 +1,7 @@
 package com.example.timestamp.model;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 import android.content.Context;
 
@@ -21,12 +22,14 @@ public class DB {
 		
 		System.out.println("Connecting to remote DB...");
 		//mock-up data
+
 //		timeList = new ArrayList<TimePost>(20);
 //		projectList = new ArrayList<Project>(20);
 //		//one week mock-up data
 //		for(int i = 0; i < 5; ++i){
-//			TimePost post = new TimePost(2014, 4, 7+i, 8, 15);
-//			post.setEndTime		(2014, 4, 7+i, 17, 00);
+//			TimePost post = new TimePost(
+//					new GregorianCalendar(2014, 4-1, 7+i, 8, 15),
+//					new GregorianCalendar(2014, 4-1, 7+i, 17, 00), 1);
 //			post.isSigned=true;
 //			timeList.add(post);
 //		}
@@ -37,13 +40,7 @@ public class DB {
 //									"First mock-up project" /* Description */,
 //									"Jonas" 				/* owner */,
 //									"Joakim" 				/* customer */));
-//		
-//		projectList.add(new Project(2 						/* id */,
-//									"Project 2"				/* name */,
-//									true					/* isPrivate */,
-//									"Second mock-up project"/* Description */,
-//									"Backend" 				/* owner */,
-//									"Frontend" 				/* customer */));
+
 		
 	}
 	

@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -187,7 +188,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         			Date date;
 					try {
 						date = (Date) formatter.parse(st);
-						temp.setStartTime(date.getYear(), date.getMonth(), date.getDay(), date.getHours(), date.getMinutes());
+						temp.setStartTime(new GregorianCalendar(date.getYear(), date.getMonth(), date.getDay(), date.getHours(), date.getMinutes()));
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -197,7 +198,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         			formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         			try {
 						date = (Date) formatter.parse(st);
-						temp.setEndTime(date.getYear(), date.getMonth(), date.getDay(), date.getHours(), date.getMinutes());
+						temp.setEndTime(new GregorianCalendar(date.getYear(), date.getMonth(), date.getDay(), date.getHours(), date.getMinutes()));
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

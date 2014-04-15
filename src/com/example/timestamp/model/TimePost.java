@@ -19,77 +19,89 @@ public class TimePost {
 	public TimePost(){
 		
 		setStartTimeNow();
-		id = -1;
+		setEndTimeNow();
+		id = 0;
 		isSigned = false;
 		comment = "";
-		projectId = -1;
+		projectId = 0;
 		commentShared = false;
 		
 	}
 	
 	public TimePost(int year, int month, int day, int hour, int min){
 		startTime = new GregorianCalendar(year, month-1, day, hour, min);
-		endTime = new GregorianCalendar(2018, month-1, day, hour, min);
 		id = 0;
+		setEndTimeNow();
 		isSigned = false;
 		comment = "DEFAULT COMMENT";
 		projectId = 0;
 		commentShared = false;
 	}
 	
+	public TimePost(GregorianCalendar start, GregorianCalendar end, int project){
+		startTime = start;
+		endTime = end;
+		projectId = project;
+		
+		id = 0;
+		isSigned = false;
+		comment = "";
+		commentShared = false;
+	}
+	
+	//for printing nice output
 	public String printStartTime(){
 		//System.out.println(new SimpleDateFormat("yyyy MMM dd HH:mm:ss").format(startTime.getTime()));
-		return new SimpleDateFormat("yyyy MMM dd HH:mm:ss").format(startTime.getTime());
+		if(startTime != null)
+			return new SimpleDateFormat("yyyy MMM dd HH:mm:ss").format(startTime.getTime());
+		return "";
 	}
+	//for printing nice output
 	public String printEndTime(){
 		//System.out.println(new SimpleDateFormat("yyyy MMM dd HH:mm:ss").format(endTime.getTime()));
-		return new SimpleDateFormat("yyyy MMM dd HH:mm:ss").format(endTime.getTime());
+		if(endTime != null)
+			return new SimpleDateFormat("yyyy MMM dd HH:mm:ss").format(endTime.getTime());
+		return "";
 	}
 	
+	
+	//for SQL use do not change!
 	public String getStartTime(){
-		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(startTime.getTime());
+		if(startTime != null)
+			return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(startTime.getTime());
+		return "";
 	}
-	
+	//for SQL use do not change!
 	public String getEndTime(){
-		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(endTime.getTime());
+		if(endTime != null)
+			return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(endTime.getTime());
+		return "";
 	}
 	
-	public void setStartTime(int year, int month, int day, int hour, int min){
-		/*startTime.set(Calendar.YEAR, year);
-		startTime.set(Calendar.MONTH, month);
-		startTime.set(Calendar.DAY_OF_MONTH, day);
-		startTime.set(Calendar.HOUR_OF_DAY, hour);
-		startTime.set(Calendar.MINUTE, min);*/
-		startTime = new GregorianCalendar(year, month-1, day, hour, min);
-		
-	}
-	public void setEndTime(int year, int month, int day, int hour, int min){
-		/*endTime.set(Calendar.YEAR, year);
-		endTime.set(Calendar.MONTH, month);
-		endTime.set(Calendar.DAY_OF_MONTH, day);
-		endTime.set(Calendar.HOUR_OF_DAY, hour);
-		endTime.set(Calendar.MINUTE, min);*/
-		endTime = new GregorianCalendar(year, month-1, day, hour, min);
-	}
+	public void setStartTime(GregorianCalendar time){ startTime = time; }
+	
+	public void setEndTime(GregorianCalendar time)	{ endTime = time; }	
+	
+	public void setProjectId(int id){ projectId = id; }
 	
 	public double getWorkedHours(){
-		int hourS = startTime.get(Calendar.HOUR_OF_DAY);
-		int hourE = endTime.get(Calendar.HOUR_OF_DAY);
+		long start = startTime.getTimeInMillis();
+		long end = endTime.getTimeInMillis();
 		
-		return (double)(hourE-hourS);
+		return (double)(end-start)/(1000*60*60); //from ms -> s -> min -> h
 	}
 	
-	public void startYear(int year){startTime.set(Calendar.YEAR, year);}
-	public void startMonth(int month){startTime.set(Calendar.MONTH, month);}
-	public void startDay(int day){startTime.set(Calendar.DAY_OF_MONTH, day);}
-	public void startHour(int hour){startTime.set(Calendar.HOUR_OF_DAY, hour);}
-	public void startMinute(int minute){startTime.set(Calendar.MINUTE, minute);}
+	public void setStartYear(int year){startTime.set(Calendar.YEAR, year);}
+	public void setStartMonth(int month){startTime.set(Calendar.MONTH, month);}
+	public void setStartDay(int day){startTime.set(Calendar.DAY_OF_MONTH, day);}
+	public void setStartHour(int hour){startTime.set(Calendar.HOUR_OF_DAY, hour);}
+	public void setStartMinute(int minute){startTime.set(Calendar.MINUTE, minute);}
 	
-	public void endYear(int year){endTime.set(Calendar.YEAR, year);}
-	public void endMonth(int month){endTime.set(Calendar.MONTH, month);}
-	public void endDay(int day){endTime.set(Calendar.DAY_OF_MONTH, day);}
-	public void endHour(int hour){endTime.set(Calendar.HOUR_OF_DAY, hour);}
-	public void endMinute(int minute){endTime.set(Calendar.MINUTE, minute);}
+	public void setEndYear(int year){endTime.set(Calendar.YEAR, year);}
+	public void setEndMonth(int month){endTime.set(Calendar.MONTH, month);}
+	public void setEndDay(int day){endTime.set(Calendar.DAY_OF_MONTH, day);}
+	public void setEndHour(int hour){endTime.set(Calendar.HOUR_OF_DAY, hour);}
+	public void setEndMinute(int minute){endTime.set(Calendar.MINUTE, minute);}
 	
 	public void setStartTimeNow(){
 		startTime = Calendar.getInstance();
@@ -105,7 +117,7 @@ public class TimePost {
 		int i = (int)(Math.random()*3)+3;
 		//Log.d("MESSAGE", "rand"+i);
 		Log.d("MESSAGE",Integer.toString(endTime.get(Calendar.HOUR_OF_DAY)+i));
-		endHour(endTime.get(Calendar.HOUR_OF_DAY)+i);
+		setEndHour(endTime.get(Calendar.HOUR_OF_DAY)+i);
 		
 	}
 	

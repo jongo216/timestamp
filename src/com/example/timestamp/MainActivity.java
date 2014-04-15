@@ -15,8 +15,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
-import com.example.timestamp.model.DB;
 
 
 
@@ -29,38 +29,52 @@ ActionBar.TabListener {
 	
     
 	// Tab titles
-	private String[] tabs = { "Översikt", "Rapport", "Redigera" };
+	private String[] tabs = { "Översikt", "Rapport"};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
-		//Stylear actionbar
-		ActionBar actionBarTop = getActionBar(); 
-		actionBarTop.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
-		actionBarTop.setCustomView(R.layout.actionbar);
-		actionBarTop.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#11ffffff")));
-		
 	
-		//draw actionbar
 		
-
 		// Initilization
 		viewPager = (ViewPager) findViewById(R.id.pager);
-		actionBar = getActionBar();
+		
 		mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
 
 		viewPager.setAdapter(mAdapter);
+		
+		
+		//Stylear actionbar
+		ActionBar actionBarTop = getActionBar(); //Action bar med rubrik + settingsknapp
+		actionBarTop.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
+		actionBarTop.setCustomView(R.layout.actionbar);
+		actionBarTop.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#11ffffff")));
+		actionBarTop.setDisplayShowHomeEnabled(true); //Nödvändig(??) för att visa action bars i rätt ordning
+		
+		//Fix som döljer ikonen i övre vänstra hörnet
+		View homeIcon = findViewById(android.R.id.home);
+		((View) homeIcon.getParent()).setVisibility(View.GONE);
+	
+		
+		
+		//Create tabs action bar
+		actionBar = getActionBar();
 		actionBar.setHomeButtonEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);		
-
+		//actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
+		//actionBar.setCustomView(R.layout.actionbar_tabs);
+		
 		// Adding Tabs
 		for (String tab_name : tabs) {
 			actionBar.addTab(actionBar.newTab().setText(tab_name)
 					.setTabListener(this));
 		}
 
+		
+		
+		
+		
 		
 		 // on swiping the viewpager make respective tab selected
 		 

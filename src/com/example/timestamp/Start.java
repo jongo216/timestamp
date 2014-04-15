@@ -5,9 +5,11 @@ package com.example.timestamp;
 
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -16,6 +18,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -25,6 +29,7 @@ import android.widget.Toast;
 
 import com.example.timestamp.model.DB;
 import com.example.timestamp.model.Project;
+import com.example.timestamp.model.SettingsManager;
 import com.example.timestamp.model.TimePost;
 
 
@@ -32,8 +37,11 @@ public class Start extends Fragment{
 	
 	// Instansvariabler
 	//final Context context = this;
-	public String[] projectsMenuString = {"Projekt 1", "Projekt 2", "Nytt projekt"};
+	public String[] projectsMenuString; // = {"Projekt 1", "Projekt 2", "Nytt projekt"};
+	public int[] projectMenuIds;
+	private ArrayList<Project> projects;
 	private ImageButton imgButton;
+	private Spinner spinnerProjectView;
 	private View rootView;
 
 	private DB db;
@@ -63,13 +71,39 @@ public class Start extends Fragment{
 
 	// Initierar startvyn..
 	private void activityInitStart(){
-
+	
+		boolean timerRunning = SettingsManager.getIsTimerRunning(getActivity());
+		
+		imgButton = (ImageButton) rootView.findViewById(R.id.btnCheckIn);
+		
+		int currentProject = SettingsManager.getCurrentProjectId(getActivity());
+		
+		if (timerRunning) imgButton.setBackgroundColor(Color.GREEN);
+		else imgButton.setBackgroundColor(Color.WHITE);
+		
+		
+		
+		projects = db.getAllProjects();
+		projectsMenuString = new String[projects.size() + 1];
+		projectMenuIds = new int[projects.size()+1];
+		int selectedRow = 0;
+		for (int n = 0; n < projects.size(); n++)
+		{
+			projectsMenuString[n] = projects.get(n).getName();
+			projectMenuIds[n] = projects.get(n).getId();
+			if (currentProject == projectMenuIds[n])
+				selectedRow = n;
+		}
+		projectsMenuString[projects.size()]= getString(R.string.add_project);
+		projectMenuIds[projects.size()] = -1;
+		
 		//Letar efter en spinner i activity_main.xml med ett specifict id
-		Spinner spinnerProjectView = (Spinner) rootView.findViewById(R.id.projects_menu_spinner2);
+		spinnerProjectView = (Spinner) rootView.findViewById(R.id.projects_menu_spinner2);
 		
 		//För att välja vilken typ av graf man vill se. 
 		//Hämtar namn från string array med menu item.
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, projectsMenuString){
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), 
+				android.R.layout.simple_spinner_dropdown_item, projectsMenuString){
 				
 			// Style för Spinnern.. Sätter textstorlek samt centrerar..
 			public View getView(int position, View convertView,ViewGroup parent) {
@@ -97,40 +131,84 @@ public class Start extends Fragment{
 		//Spinnern använder items från en valt adapter.
 		spinnerProjectView.setAdapter(adapter);
 		
+		spinnerProjectView.setSelection(selectedRow);
 
 		//spinnerOverView.setAdapter(adapterView);
 		//Hur spinnern ska se ut
 		//adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		
 		imageButtonListener();
+		spinnerListener();
 		dbButtonListener();
 		
+		
 	}
+	
+	public void spinnerListener() {
+		spinnerProjectView.setOnItemSelectedListener(new OnItemSelectedListener(){
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int pos, long id) {
+				
+				// TODO Auto-generated method stub
+				if(projectMenuIds[pos] != -1){
+					SettingsManager.setCurrentProjectId(projectMenuIds[pos], getActivity());
+					
+				}else{
+					//Skapa nytt projekt
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		
+	}
+	
 	
     public void imageButtonListener(){
 		
 		//Call timepost function..?
-		imgButton = (ImageButton) rootView.findViewById(R.id.btnCheckIn);
 		
 		imgButton.setOnClickListener(new OnClickListener(){
 			
 			public void onClick(View arg0){
-	
+
+				boolean timerRunning = SettingsManager.getIsTimerRunning(getActivity());
 				
-				/*if(db.getLatest().isSigned){
-					
-					db.set(new TimePost());
-					imgButton.setBackgroundColor(Color.GREEN);
-					String text = "Starting timelog at: " + db.getLatest().printStartTime();
-					Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
-				}else{
-					db.getLatest().setEndTimeRandom();
-					db.getLatest().isSigned = true;
-					String text = "Stopped at: " + db.getLatest().printEndTime();
-					
-					Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
+							
+				if(timerRunning){
 					imgButton.setBackgroundColor(Color.WHITE);
-				}*/
+					
+					SettingsManager.setIsTimerRunning(false, getActivity());
+					
+					TimePost p= new TimePost();
+					
+					
+					p.setProjectId(SettingsManager.getCurrentProjectId(getActivity()));
+					p.setStartTime(SettingsManager.getStartTime(getActivity()));
+					p.setEndTime(new GregorianCalendar());
+					
+					db.set(p);
+					
+					
+
+					
+				}else{
+					imgButton.setBackgroundColor(Color.GREEN);
+					
+					SettingsManager.setIsTimerRunning(true, getActivity());
+					SettingsManager.setStartTime(new GregorianCalendar(), getActivity());
+					
+
+					//Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
+					//imgButton.setBackgroundColor(Color.WHITE);
+				}
 				
 				TextView tv = (TextView) rootView.findViewById(R.id.textView2);
 				tv.setVisibility(View.VISIBLE);
@@ -140,8 +218,12 @@ public class Start extends Fragment{
 				/*if(db.getLatest().isSigned){
 					tv.setText("Worked ours" + Double.toString(db.getLatest().getWorkedHours()));
 				}*/
+
+				}
 				
-			}	
+
+				
+				
 		});
 			
 	}
@@ -152,7 +234,7 @@ public class Start extends Fragment{
     	Button timesBtn = (Button) rootView.findViewById(R.id.Times);
     	timesBtn.setOnClickListener(new OnClickListener(){
     		public void onClick(View arg0){
-    			ArrayList<TimePost> times = db.getTime(-1);
+    			ArrayList<TimePost> times = db.getTime(1);
     			String text = "";
     			for(int i = 0; i < times.size(); ++i){
     				//buggs with printStart/EndTime
