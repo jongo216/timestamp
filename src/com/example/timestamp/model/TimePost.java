@@ -3,6 +3,7 @@ package com.example.timestamp.model;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import android.util.Log;
 
@@ -116,27 +117,26 @@ public class TimePost {
 		endTime = new GregorianCalendar(year, month-1, day, hour, min);
 	}
 	
-	public void setProjectId(int id)
-	{ projectId = id; }
+	public void setProjectId(int id){ projectId = id; }
 	
 	public double getWorkedHours(){
-		int hourS = startTime.get(Calendar.HOUR_OF_DAY);
-		int hourE = endTime.get(Calendar.HOUR_OF_DAY);
+		long start = startTime.getTimeInMillis();
+		long end = endTime.getTimeInMillis();
 		
-		return (double)(hourE-hourS);
+		return (double)(end-start)/(1000*60*60); //from ms -> s -> min -> h
 	}
 	
-	public void startYear(int year){startTime.set(Calendar.YEAR, year);}
-	public void startMonth(int month){startTime.set(Calendar.MONTH, month);}
-	public void startDay(int day){startTime.set(Calendar.DAY_OF_MONTH, day);}
-	public void startHour(int hour){startTime.set(Calendar.HOUR_OF_DAY, hour);}
-	public void startMinute(int minute){startTime.set(Calendar.MINUTE, minute);}
+	public void setStartYear(int year){startTime.set(Calendar.YEAR, year);}
+	public void setStartMonth(int month){startTime.set(Calendar.MONTH, month);}
+	public void setStartDay(int day){startTime.set(Calendar.DAY_OF_MONTH, day);}
+	public void setStartHour(int hour){startTime.set(Calendar.HOUR_OF_DAY, hour);}
+	public void setStartMinute(int minute){startTime.set(Calendar.MINUTE, minute);}
 	
-	public void endYear(int year){endTime.set(Calendar.YEAR, year);}
-	public void endMonth(int month){endTime.set(Calendar.MONTH, month);}
-	public void endDay(int day){endTime.set(Calendar.DAY_OF_MONTH, day);}
-	public void endHour(int hour){endTime.set(Calendar.HOUR_OF_DAY, hour);}
-	public void endMinute(int minute){endTime.set(Calendar.MINUTE, minute);}
+	public void setEndYear(int year){endTime.set(Calendar.YEAR, year);}
+	public void setEndMonth(int month){endTime.set(Calendar.MONTH, month);}
+	public void setEndDay(int day){endTime.set(Calendar.DAY_OF_MONTH, day);}
+	public void setEndHour(int hour){endTime.set(Calendar.HOUR_OF_DAY, hour);}
+	public void setEndMinute(int minute){endTime.set(Calendar.MINUTE, minute);}
 	
 	public void setStartTimeNow(){
 		startTime = Calendar.getInstance();
@@ -152,7 +152,7 @@ public class TimePost {
 		int i = (int)(Math.random()*3)+3;
 		//Log.d("MESSAGE", "rand"+i);
 		Log.d("MESSAGE",Integer.toString(endTime.get(Calendar.HOUR_OF_DAY)+i));
-		endHour(endTime.get(Calendar.HOUR_OF_DAY)+i);
+		setEndHour(endTime.get(Calendar.HOUR_OF_DAY)+i);
 		
 	}
 	
