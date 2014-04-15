@@ -81,8 +81,8 @@ public class Start extends Fragment{
 		int selectedRow = 0;
 		for (int n = 0; n < projects.size(); n++)
 		{
-			projectsMenuString[n] = projects.get(n).name;
-			projectMenuIds[n] = projects.get(n).id;
+			projectsMenuString[n] = projects.get(n).getName();
+			projectMenuIds[n] = projects.get(n).getId();
 			if (currentProject == projectMenuIds[n])
 				selectedRow = n;
 		}
