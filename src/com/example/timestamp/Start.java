@@ -117,6 +117,7 @@ public class Start extends Fragment{
 		        View v = super.getView(position, convertView, parent);
 
 		        ((TextView) v).setGravity(Gravity.CENTER);
+		        ((TextView) v).setTextColor(Color.WHITE);
 		        ((TextView) v).setTextSize(25);
 
 		        return v;
@@ -128,6 +129,8 @@ public class Start extends Fragment{
 		        View v = super.getDropDownView(position, convertView,parent);
 
 		        ((TextView) v).setGravity(Gravity.CENTER);
+		        ((TextView) v).setTextColor(Color.WHITE);
+		        ((TextView) v).setBackgroundColor(Color.BLACK);
 		        ((TextView) v).setTextSize(18);
 
 		        return v;
@@ -260,16 +263,16 @@ public class Start extends Fragment{
  
 			// set dialog message
 		alertDialogBuilder
-			.setMessage("Du har nu stämplat in")
+			.setMessage("You have now checked in!")
 			.setCancelable(false)
-			.setPositiveButton("Avsluta",new DialogInterface.OnClickListener() {
+			.setPositiveButton("Cancel",new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog,int id) {
 					// if this button is clicked, close
 					// current activity
 					getActivity().finish();
 				}
 			  })
-			.setNegativeButton("Okej",new DialogInterface.OnClickListener() {
+			.setNegativeButton("Okay",new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog,int id) {
 					// if this button is clicked, just close
 					// the dialog box and do nothing

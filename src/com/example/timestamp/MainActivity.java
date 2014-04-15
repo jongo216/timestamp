@@ -29,11 +29,12 @@ ActionBar.TabListener {
 	private TabsPagerAdapter mAdapter;
 	private ActionBar actionBar;
 	
-	
+	//private String tab1 = getString(R.string.tabOverview);
+	//String tab2 = getString(R.string.tabReport);
 
     
 	// Tab titles
-	private String[] tabs = { "Översikt", "Rapport"};
+	private String[] tabs = { "General", "Report"};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
