@@ -100,8 +100,10 @@
         android:background ="@android:color/white"
         android:src="@drawable/clock"
         
-        android:text="@string/button_timestart" />
-
+        
+        android:text="@string/button_timestart"
+        />
+    
     <ImageView
         android:id="@+id/graf"
         android:layout_width="wrap_content"
@@ -150,5 +152,15 @@
         android:layout_above="@+id/Projects"
         android:layout_alignLeft="@+id/Projects"
         android:text="Times" />
+    
+    <Chronometer
+        android:id="@+id/chronometer"
+        android:format="%s"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="40sp"/>
+    
 
 </RelativeLayout>

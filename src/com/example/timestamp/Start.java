@@ -13,7 +13,9 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -24,6 +26,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -45,7 +48,8 @@ public class Start extends Fragment{
 	private ImageButton imgButton;
 	private Spinner spinnerProjectView;
 	private View rootView;
-
+	private Chronometer chronometer;
+	private FragmentActivity parentActivity;
 	private DB db;
 
 	
@@ -63,14 +67,24 @@ public class Start extends Fragment{
 
 	// Initierar startvyn..
 	private void activityInitStart(){
-	
-		boolean timerRunning = SettingsManager.getIsTimerRunning(getActivity());
+		
+		parentActivity = getActivity();
+		
+		boolean timerRunning = SettingsManager.getIsTimerRunning(parentActivity);
+		chronometer = (Chronometer)rootView.findViewById(R.id.chronometer);
 		
 		imgButton = (ImageButton) rootView.findViewById(R.id.btnCheckIn);
 		
-		int currentProject = SettingsManager.getCurrentProjectId(getActivity());
+		int currentProject = SettingsManager.getCurrentProjectId(parentActivity);
 		
-		if (timerRunning) imgButton.setBackgroundColor(Color.GREEN);
+		if (timerRunning)
+		{
+			GregorianCalendar startTime = SettingsManager.getStartTime(parentActivity);
+			GregorianCalendar currentTime = new GregorianCalendar();
+			imgButton.setBackgroundColor(Color.GREEN);
+			chronometer.setBase(SystemClock.elapsedRealtime() - currentTime.getTimeInMillis() + startTime.getTimeInMillis());
+			chronometer.start();
+		}
 		else imgButton.setBackgroundColor(Color.WHITE);
 		
 		
@@ -178,7 +192,7 @@ public class Start extends Fragment{
 					imgButton.setBackgroundColor(Color.WHITE);
 					
 					SettingsManager.setIsTimerRunning(false, getActivity());
-					
+					chronometer.stop();
 					TimePost p= new TimePost();
 					
 					
@@ -192,7 +206,8 @@ public class Start extends Fragment{
 					
 				}else{
 					imgButton.setBackgroundColor(Color.GREEN);
-					
+					chronometer.setBase(SystemClock.elapsedRealtime());
+					chronometer.start();
 					SettingsManager.setIsTimerRunning(true, getActivity());
 					SettingsManager.setStartTime(new GregorianCalendar(), getActivity());
 					
