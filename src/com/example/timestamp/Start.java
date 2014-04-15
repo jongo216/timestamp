@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import com.example.timestamp.model.DB;
 import com.example.timestamp.model.Project;
+import com.example.timestamp.model.SettingsManager;
 import com.example.timestamp.model.TimePost;
 
 
@@ -62,10 +63,12 @@ public class Start extends Fragment{
 
 	// Initierar startvyn..
 	private void activityInitStart(){
-		SharedPreferences settings = getActivity().getSharedPreferences(Constants.TIMESTAMP_SETTINGS, 0);
-		boolean timerRunning = settings.getBoolean("timerRunning", false);
+	
+		boolean timerRunning = SettingsManager.getIsTimerRunning(getActivity());
+		
 		imgButton = (ImageButton) rootView.findViewById(R.id.btnCheckIn);
-		int currentProject = settings.getInt("currentProject", -1);
+		
+		int currentProject = SettingsManager.getCurrentProjectId(getActivity());
 		
 		if (timerRunning) imgButton.setBackgroundColor(Color.GREEN);
 		else imgButton.setBackgroundColor(Color.WHITE);
@@ -142,10 +145,8 @@ public class Start extends Fragment{
 				
 				// TODO Auto-generated method stub
 				if(projectMenuIds[pos] != -1){
-					SharedPreferences settings = getActivity().getSharedPreferences(Constants.TIMESTAMP_SETTINGS, 0);
-					SharedPreferences.Editor editor = settings.edit();
-					editor.putInt("currentProject", projectMenuIds[pos]);
-					editor.commit();
+					SettingsManager.setCurrentProjectId(projectMenuIds[pos], getActivity());
+					
 				}else{
 					//Skapa nytt projekt
 				}
@@ -170,23 +171,19 @@ public class Start extends Fragment{
 			
 			public void onClick(View arg0){
 				
-				SharedPreferences settings = getActivity().getSharedPreferences(Constants.TIMESTAMP_SETTINGS, 0);
-				SharedPreferences.Editor editor = settings.edit();
+				boolean timerRunning = SettingsManager.getIsTimerRunning(getActivity());
 				
-				boolean timerRunning = settings.getBoolean("timerRunning", false);
-				Log.d("debug-timestamp", "clicked");
-				
-				
+							
 				if(timerRunning){
 					imgButton.setBackgroundColor(Color.WHITE);
 					
-					editor.putBoolean("timerRunning", false);
-					editor.commit();
+					SettingsManager.setIsTimerRunning(false, getActivity());
+					
 					TimePost p= new TimePost();
-					GregorianCalendar d = new GregorianCalendar();
-					d.setTimeInMillis(settings.getLong("startTime", 0));
-					p.setProjectId(settings.getInt("currentProject", 0));
-					p.setStartTime(d);
+					
+					
+					p.setProjectId(SettingsManager.getCurrentProjectId(getActivity()));
+					p.setStartTime(SettingsManager.getStartTime(getActivity()));
 					p.setEndTime(new GregorianCalendar());
 					
 					db.set(p);
@@ -196,44 +193,12 @@ public class Start extends Fragment{
 				}else{
 					imgButton.setBackgroundColor(Color.GREEN);
 					
-					editor.putBoolean("timerRunning", true);
+					SettingsManager.setIsTimerRunning(true, getActivity());
+					SettingsManager.setStartTime(new GregorianCalendar(), getActivity());
 					
-					Log.d("TSD","timer started at: " + new GregorianCalendar().toString());
-					GregorianCalendar d= new GregorianCalendar();
-					// 2014-10-28 13:32
-					editor.putLong("startTime", d.getTimeInMillis());
-					editor.commit();
 				}
 				
-				/*if(db.getLatest().isSigned){
-					
-					db.set(new TimePost());
-					imgButton.setBackgroundColor(Color.GREEN);
-					String text = "Starting timelog at: " + db.getLatest().printStartTime();
-					Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
-				}else{
-					db.getLatest().setEndTimeRandom();
-					db.getLatest().isSigned = true;
-					String text = "Stopped at: " + db.getLatest().printEndTime();
-					
-					Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
-					imgButton.setBackgroundColor(Color.WHITE);
-				}
 				
-				//Log.d("MESSAGE",db.getLatest().printStartTime()+" - "+db.getLatest().printEndTime());
-				//Log.d("MESSAGE",Integer.toString(db.dbSize()));
-				
-				TextView tv = (TextView) rootView.findViewById(R.id.textView2);
-				tv.setVisibility(View.VISIBLE);
-				tv.setText("Tid: 1.4 timmar");
-				
-				
-				//Toast.makeText(getActivity(), "Du har stämplat in!", Toast.LENGTH_SHORT).show();
-			
-				if(db.getLatest().isSigned){
-					tv.setText("Worked ours" + Double.toString(db.getLatest().getWorkedHours()));
-				}
-				*/
 			}	
 		});
 			
