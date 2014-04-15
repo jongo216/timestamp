@@ -19,7 +19,7 @@ import android.widget.TextView;
 
 public class ConfirmReport extends Fragment {
 	
-	String[] projectsMenuString = {"Projekt 1", "Projekt 2", "Nytt projekt"};
+	String[] projectsMenuString = {"Project 1", "Project 2", "+ Create Project"};
 	private Button button;
 	private View rootView;
 
@@ -82,14 +82,14 @@ public class ConfirmReport extends Fragment {
 	
 				AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 				
-				builder.setTitle("Är du säker på att du vill skicka in rapporten?");
+				builder.setTitle("Are you sure you want to send in the report?");
 				
-				builder.setPositiveButton("Skicka", new DialogInterface.OnClickListener() {
+				builder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
 			           public void onClick(DialogInterface dialog, int id) {
 			               // Skicka in rapport (tas till redigera vyn?)
 			           }
 			    });
-					builder.setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
+					builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 			           public void onClick(DialogInterface dialog, int id) {
 			               // Cancel
 			           }

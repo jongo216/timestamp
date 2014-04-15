@@ -249,16 +249,16 @@ public class Start extends Fragment{
  
 			// set dialog message
 		alertDialogBuilder
-			.setMessage("Du har nu stämplat in")
+			.setMessage("You have now checked in!")
 			.setCancelable(false)
-			.setPositiveButton("Avsluta",new DialogInterface.OnClickListener() {
+			.setPositiveButton("Cancel",new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog,int id) {
 					// if this button is clicked, close
 					// current activity
 					getActivity().finish();
 				}
 			  })
-			.setNegativeButton("Okej",new DialogInterface.OnClickListener() {
+			.setNegativeButton("Okay",new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog,int id) {
 					// if this button is clicked, just close
 					// the dialog box and do nothing
