@@ -80,6 +80,10 @@ public class DB {
 	
 	public ArrayList<TimePost> getTime(int projectId){
 		
+		return dbHelper.getAllTimePost(projectId);
+		
+		
+		/*
 		//get all TimePostObjects associated with projectId
 		ArrayList<TimePost> ret = new ArrayList<TimePost>(10);
 		for(int i = 0; i < timeList.size(); ++i){
@@ -87,7 +91,7 @@ public class DB {
 				ret.add(timeList.get(i));
 			}
 		}
-		return ret;
+		return ret;*/
 	}
 	/*
 	public ArrayList<TimePost> getTimes(GregorianCalendar fromDate, GregorianCalendar toDate, int projectId){
