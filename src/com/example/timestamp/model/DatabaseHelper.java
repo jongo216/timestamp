@@ -22,28 +22,42 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Database Version
     private static final int DATABASE_VERSION = 1;
  
+ // Database Version
+ 
     // Database Name
-    private static final String DATABASE_NAME = "contactsManager";
+    private static final String DATABASE_NAME = "TimeStamp";
  
     // Table Names
-    private static final String TABLE_TODO = "todos";
-    private static final String TABLE_TAG = "tags";
-    private static final String TABLE_TODO_TAG = "todo_tags";
- 
+    private static final String TABLE_TIMEPOST = "TimePost";
+    private static final String TABLE_PROJECTS = "Projects";
+    private static final String TABLE_USERS = "Users";
+    private static final String TABLE_PROJECT_USERS = "Project_Users";
+    
     // Common column names
-    private static final String KEY_ID = "id";
-    private static final String KEY_CREATED_AT = "created_at";
+    private static final String KEY_PID = "pID";
+    private static final String KEY_MAIL_ADRESS = "mailAdress";
  
-    // NOTES Table - column nmaes
-    private static final String KEY_TODO = "todo";
-    private static final String KEY_STATUS = "status";
- 
-    // TAGS Table - column names
-    private static final String KEY_TAG_NAME = "tag_name";
- 
-    // NOTE_TAGS Table - column names
-    private static final String KEY_TODO_ID = "todo_id";
-    private static final String KEY_TAG_ID = "tag_id";
+    // TimePost Table - column names
+    private static final String KEY_TID = "tID";
+    private static final String KEY_START_TIME = "startTime";
+    private static final String KEY_END_TIME = "endTime";
+    private static final String KEY_COMMENT = "comment";
+    private static final String KEY_IS_SIGNED = "isSigned";
+    private static final String KEY_COMMENT_SHARED = "commentShared";
+    // Projects table - column names
+    private static final String KEY_PROJECT_NAME = "projectName";
+    private static final String KEY_PROJECT_OWNER = "projectOwner";
+    private static final String KEY_DESCRIPTION = "description";
+    private static final String KEY_CUSTOMER = "customer";
+    // USER Table - column names
+    private static final String KEY_USER_NAME = "userName";
+    private static final String KEY_USER_PASSWORD = "userPassword";
+    
+    // ProjectUser Table - column names
+    /*
+    private static final String KEY_PID = "pID";
+    private static final String KEY_MAIL_ADRESS = "mailAdress";
+    */
  
     // Table Create Statements
     // Todo table create statement
