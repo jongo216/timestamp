@@ -16,7 +16,7 @@
 
     <string name="action_menu">Action Menu</string>
 
-
+    <!-- simon testar ifall han är på db -->
     <!-- For settings view -->
     <string name="buttonSave">Spara</string>
     <string name="textOverview">Översikt</string>
