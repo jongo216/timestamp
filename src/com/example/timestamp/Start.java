@@ -6,6 +6,7 @@ package com.example.timestamp;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -19,6 +20,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -36,8 +39,10 @@ public class Start extends Fragment{
 	// Instansvariabler
 	//final Context context = this;
 	public String[] projectsMenuString; // = {"Projekt 1", "Projekt 2", "Nytt projekt"};
+	public int[] projectMenuIds;
 	private ArrayList<Project> projects;
 	private ImageButton imgButton;
+	private Spinner spinnerProjectView;
 	private View rootView;
 
 	private DB db;
@@ -57,14 +62,29 @@ public class Start extends Fragment{
 
 	// Initierar startvyn..
 	private void activityInitStart(){
+		SharedPreferences settings = getActivity().getSharedPreferences(Constants.TIMESTAMP_SETTINGS, 0);
+		boolean timerRunning = settings.getBoolean("timerRunning", false);
+		imgButton = (ImageButton) rootView.findViewById(R.id.btnCheckIn);
+		int currentProject = settings.getInt("currentProject", -1);
+		
+		if (timerRunning) imgButton.setBackgroundColor(Color.GREEN);
+		else imgButton.setBackgroundColor(Color.WHITE);
+		
+		
 		
 		projects = db.getAllProjects();
 		projectsMenuString = new String[projects.size()];
+		projectMenuIds = new int[projects.size()];
+		int selectedRow = 0;
 		for (int n = 0; n < projects.size(); n++)
+		{
 			projectsMenuString[n] = projects.get(n).name;
-		
+			projectMenuIds[n] = projects.get(n).id;
+			if (currentProject == projectMenuIds[n])
+				selectedRow = n;
+		}
 		//Letar efter en spinner i activity_main.xml med ett specifict id
-		Spinner spinnerProjectView = (Spinner) rootView.findViewById(R.id.projects_menu_spinner2);
+		spinnerProjectView = (Spinner) rootView.findViewById(R.id.projects_menu_spinner2);
 		
 		//För att välja vilken typ av graf man vill se. 
 		//Hämtar namn från string array med menu item.
@@ -97,20 +117,47 @@ public class Start extends Fragment{
 		//Spinnern använder items från en valt adapter.
 		spinnerProjectView.setAdapter(adapter);
 		
+		spinnerProjectView.setSelection(selectedRow);
 
 		//spinnerOverView.setAdapter(adapterView);
 		//Hur spinnern ska se ut
 		//adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		
 		imageButtonListener();
+		spinnerListener();
 		dbButtonListener();
 		
+		
 	}
+	
+	public void spinnerListener() {
+		spinnerProjectView.setOnItemSelectedListener(new OnItemSelectedListener(){
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int pos, long id) {
+				
+				// TODO Auto-generated method stub
+				SharedPreferences settings = getActivity().getSharedPreferences(Constants.TIMESTAMP_SETTINGS, 0);
+				SharedPreferences.Editor editor = settings.edit();
+				editor.putInt("currentProject", projectMenuIds[pos]);
+				editor.commit();
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		
+	}
+	
 	
     public void imageButtonListener(){
 		
 		//Call timepost function..?
-		imgButton = (ImageButton) rootView.findViewById(R.id.btnCheckIn);
 		
 		imgButton.setOnClickListener(new OnClickListener(){
 			
@@ -121,22 +168,32 @@ public class Start extends Fragment{
 				
 				boolean timerRunning = settings.getBoolean("timerRunning", false);
 				Log.d("debug-timestamp", "clicked");
+				
 				if(timerRunning){
 					imgButton.setBackgroundColor(Color.WHITE);
-					Log.d("TSD","timer started at: " + settings.getString("startTime","starttime"));
 					
 					editor.putBoolean("timerRunning", false);
 					editor.commit();
+					TimePost p= new TimePost();
+					GregorianCalendar d = new GregorianCalendar();
+					d.setTimeInMillis(settings.getLong("startTime", 0));
+					p.setProjectId(settings.getInt("currentProject", 0));
+					p.setStartTime(d);
+					p.setEndTime(new GregorianCalendar());
+					
+					db.set(p);
+					
+					
 					
 				}else{
 					imgButton.setBackgroundColor(Color.GREEN);
 					
 					editor.putBoolean("timerRunning", true);
 					
-					Log.d("TSD", settings.getAll().toString());
-					Date d= new Date();
+					Log.d("TSD","timer started at: " + new GregorianCalendar().toString());
+					GregorianCalendar d= new GregorianCalendar();
 					// 2014-10-28 13:32
-					editor.putString("startTime", d.toString());
+					editor.putLong("startTime", d.getTimeInMillis());
 					editor.commit();
 				}
 				

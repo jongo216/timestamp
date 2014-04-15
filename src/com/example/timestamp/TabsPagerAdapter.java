@@ -1,6 +1,5 @@
 package com.example.timestamp;
 
-import com.example.timestamp.ConfirmReport;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
