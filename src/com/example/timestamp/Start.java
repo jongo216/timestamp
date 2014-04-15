@@ -210,7 +210,7 @@ public class Start extends Fragment{
     	Button timesBtn = (Button) rootView.findViewById(R.id.Times);
     	timesBtn.setOnClickListener(new OnClickListener(){
     		public void onClick(View arg0){
-    			ArrayList<TimePost> times = db.getTime(-1);
+    			ArrayList<TimePost> times = db.getTime(1);
     			String text = "";
     			for(int i = 0; i < times.size(); ++i){
     				//buggs with printStart/EndTime

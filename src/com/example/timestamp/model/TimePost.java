@@ -79,43 +79,14 @@ public class TimePost {
 		return "";
 	}
 	
-	public void setStartTime(int year, int month, int day, int hour, int min){
-		/*startTime.set(Calendar.YEAR, year);
-		startTime.set(Calendar.MONTH, month);
-		startTime.set(Calendar.DAY_OF_MONTH, day);
-		startTime.set(Calendar.HOUR_OF_DAY, hour);
-		startTime.set(Calendar.MINUTE, min);*/
-		startTime = new GregorianCalendar(year, month-1, day, hour, min);
-		
-	}
-	
 	public void setStartTime(GregorianCalendar time){
-		/*startTime.set(Calendar.YEAR, year);
-		startTime.set(Calendar.MONTH, month);
-		startTime.set(Calendar.DAY_OF_MONTH, day);
-		startTime.set(Calendar.HOUR_OF_DAY, hour);
-		startTime.set(Calendar.MINUTE, min);*/
 		startTime = time;
 		
 	}
 	
 	public void setEndTime(GregorianCalendar time){
-		/*startTime.set(Calendar.YEAR, year);
-		startTime.set(Calendar.MONTH, month);
-		startTime.set(Calendar.DAY_OF_MONTH, day);
-		startTime.set(Calendar.HOUR_OF_DAY, hour);
-		startTime.set(Calendar.MINUTE, min);*/
 		endTime = time;
 	}	
-		
-	public void setEndTime(int year, int month, int day, int hour, int min){
-		/*endTime.set(Calendar.YEAR, year);
-		endTime.set(Calendar.MONTH, month);
-		endTime.set(Calendar.DAY_OF_MONTH, day);
-		endTime.set(Calendar.HOUR_OF_DAY, hour);
-		endTime.set(Calendar.MINUTE, min);*/
-		endTime = new GregorianCalendar(year, month-1, day, hour, min);
-	}
 	
 	public void setProjectId(int id){ projectId = id; }
 	

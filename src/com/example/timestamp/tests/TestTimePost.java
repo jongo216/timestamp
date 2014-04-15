@@ -144,7 +144,7 @@ public class TestTimePost{
 	}
 
 	@Test
-	public void testgetEndTimeNull(){
+	public void testGetEndTimeNull(){
 		//System.out.println("testGetEndTimeNull()...");
 		time.endTime = null;
 		String expected = "";
@@ -156,7 +156,14 @@ public class TestTimePost{
 	@Test
 	public void testGetWorkedHours(){
 		time.setStartMinute(15);
-		System.out.println(time.getWorkedHours());
+		//System.out.println(time.getWorkedHours());
 		assertEquals(time.getWorkedHours(), 3.75, 0.005);
+	}
+	
+	@Test
+	public void testSetProjectId(){
+		int id = time.projectId;
+		time.setProjectId(id+1);
+		assertNotEquals(time.projectId,id);
 	}
 }
