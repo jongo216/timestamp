@@ -165,9 +165,9 @@ public class Start extends Fragment{
     			String text = "";
     			for(int i = 0; i < projects.size(); ++i){
     				//buggs with printStart/EndTime
-    				text = text + 	"Project name: " + projects.get(i).name + 
-    								" \tOwner: " 	 + projects.get(i).owner + 
-    								" \tCustomer: "  + projects.get(i).customer + "\n";
+    				text = text + 	"Project name: " + projects.get(i).getName() + 
+    								" \tOwner: " 	 + projects.get(i).getOwner() + 
+    								" \tCustomer: "  + projects.get(i).getCustomer() + "\n";
     			}
     			Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
     		}

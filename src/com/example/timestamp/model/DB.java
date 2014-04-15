@@ -102,7 +102,7 @@ public class DB {
 	
 		//Get project by id
 		for(int i = 0; i < projectList.size(); ++i){
-			if(projectList.get(i).id == projectId)
+			if(projectList.get(i).getId() == projectId)
 				return projectList.get(i);
 		}
 		return null;
