@@ -3,7 +3,7 @@
     android:id="@+id/AbsoluteLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundColor"
+    android:background="@drawable/background_gradient"
     android:tileMode="repeat"
     tools:context=".Start" >
     
@@ -20,56 +20,6 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    
-    <!-- 
-    <Spinner
-        android:id="@+id/projects_menu_spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></Spinner>
-       
-
-     
-     <Button
-         android:id="@+id/button1"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_x="107dp"
-         android:layout_y="377dp"
-         android:onClick="startTime"
-         android:text="@string/button_timestart" />
-
-    
-
-    
-     <Button
-         android:id="@+id/button3"
-         android:layout_width="25dp"
-         android:layout_height="158dp"
-         android:layout_x="298dp"
-         android:layout_y="212dp"
-         android:onClick="activitySwitchOne"
-         android:text="Button" />
-
-     <Button
-         android:layout_width="25dp"
-         android:layout_height="150dp"
-         android:layout_x="1dp"
-         android:layout_y="214dp"
-         android:onClick="activitySwitchOne"
-         android:text="Button" />
-         
-
-    <TextView
-        android:id="@+id/textHeader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/Overview"
-        android:layout_alignBottom="@+id/Overview"
-        android:layout_centerHorizontal="true"
-        android:text="@string/textHeader"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="@dimen/big" />
--->
     <Spinner
         android:id="@+id/projects_menu_spinner2"
         style="@style/CustomStyleButtonDark"
@@ -79,15 +29,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="47dp"
         />
-    <!--  -
-    <TextView 
-	    android:id="@android:id/textForSpinner"
-	    style="?android:attr/spinnerItemStyle"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:ellipsize="marquee"
-	    android:gravity="center_vertical"
-	    android:singleLine="true" />-->
 
     <ImageButton
         android:id="@+id/btnCheckIn"
@@ -115,33 +56,22 @@
         android:src="@drawable/graf"/>
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/textWeek"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/projects_menu_spinner2"
         android:layout_centerHorizontal="true"
         android:textColor="@color/myColorG"
-        android:text="V.42"
+        android:text="@string/textWeek"
         android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        android:layout_marginLeft="20dp"
-        android:layout_above="@+id/btnCheckIn"
-        android:layout_toRightOf="@+id/Overview"
-        android:text="TextView" />
 
     <Button
         android:id="@+id/Times"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/graf"
         android:layout_below="@+id/btnCheckIn"
-        android:layout_marginRight="22dp"
-        android:layout_toLeftOf="@+id/textView1"
         android:text="Times" />
 
     <Button
@@ -149,8 +79,8 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/graf"
         android:layout_below="@+id/btnCheckIn"
-        android:layout_toRightOf="@+id/textView1"
         android:text="Projects" />
        
 </RelativeLayout>

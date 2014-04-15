@@ -15,7 +15,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="32dp"
         android:padding="10dp"
-        android:text="Skicka tidsrapport" />
+        android:text="@string/textSendTimeReport" />
     
     <Spinner
 
@@ -44,19 +44,6 @@
 	        android:src="@drawable/timetable" 
 	        />
 	
-	     <Button
-	        android:id="@+id/editReportButton"
-	        style="@style/CustomStyleButtonDark"
-	        android:layout_width="wrap_content"
-	        android:paddingLeft="20dp"
-	        android:paddingRight="20dp"
-	        android:layout_height="wrap_content"
-	        android:layout_below="@+id/timetable"
-	        android:layout_alignParentRight="true"
-	        android:layout_marginRight="0dp"
-	        android:layout_marginTop="2dp"
-	        android:text="Redigera"
-	         />      
      </RelativeLayout>
 
 </RelativeLayout>
