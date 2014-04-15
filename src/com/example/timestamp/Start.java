@@ -44,6 +44,7 @@ public class Start extends Fragment{
 	private ImageButton imgButton;
 	private Spinner spinnerProjectView;
 	private View rootView;
+	
 
 	private DB db;
 
@@ -100,6 +101,7 @@ public class Start extends Fragment{
 		        View v = super.getView(position, convertView, parent);
 
 		        ((TextView) v).setGravity(Gravity.CENTER);
+		        ((TextView) v).setTextColor(Color.WHITE);
 		        ((TextView) v).setTextSize(25);
 
 		        return v;
@@ -111,6 +113,8 @@ public class Start extends Fragment{
 		        View v = super.getDropDownView(position, convertView,parent);
 
 		        ((TextView) v).setGravity(Gravity.CENTER);
+		        ((TextView) v).setTextColor(Color.WHITE);
+		        ((TextView) v).setBackgroundColor(Color.BLACK);
 		        ((TextView) v).setTextSize(18);
 
 		        return v;
