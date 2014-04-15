@@ -73,8 +73,8 @@ public class Start extends Fragment{
 		
 		
 		projects = db.getAllProjects();
-		projectsMenuString = new String[projects.size()];
-		projectMenuIds = new int[projects.size()];
+		projectsMenuString = new String[projects.size() + 1];
+		projectMenuIds = new int[projects.size()+1];
 		int selectedRow = 0;
 		for (int n = 0; n < projects.size(); n++)
 		{
@@ -83,6 +83,9 @@ public class Start extends Fragment{
 			if (currentProject == projectMenuIds[n])
 				selectedRow = n;
 		}
+		projectsMenuString[projects.size()]= getString(R.string.add_project);
+		projectMenuIds[projects.size()] = -1;
+		
 		//Letar efter en spinner i activity_main.xml med ett specifict id
 		spinnerProjectView = (Spinner) rootView.findViewById(R.id.projects_menu_spinner2);
 		
@@ -138,10 +141,14 @@ public class Start extends Fragment{
 					int pos, long id) {
 				
 				// TODO Auto-generated method stub
-				SharedPreferences settings = getActivity().getSharedPreferences(Constants.TIMESTAMP_SETTINGS, 0);
-				SharedPreferences.Editor editor = settings.edit();
-				editor.putInt("currentProject", projectMenuIds[pos]);
-				editor.commit();
+				if(projectMenuIds[pos] != -1){
+					SharedPreferences settings = getActivity().getSharedPreferences(Constants.TIMESTAMP_SETTINGS, 0);
+					SharedPreferences.Editor editor = settings.edit();
+					editor.putInt("currentProject", projectMenuIds[pos]);
+					editor.commit();
+				}else{
+					//Skapa nytt projekt
+				}
 			}
 
 			@Override
@@ -168,6 +175,7 @@ public class Start extends Fragment{
 				
 				boolean timerRunning = settings.getBoolean("timerRunning", false);
 				Log.d("debug-timestamp", "clicked");
+				
 				
 				if(timerRunning){
 					imgButton.setBackgroundColor(Color.WHITE);
