@@ -1,6 +1,9 @@
 package com.example.timestamp.tests;
 
+import java.util.GregorianCalendar;
+
 import com.example.timestamp.model.TimePost;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -34,7 +37,7 @@ public class TestTimePost{
 		assertNotEquals(time.isSigned, null);
 		assertNotEquals(time.comment, null);
 		assertNotEquals(time.projectId, null);
-		assertNotEquals(time.commentIsShared, null);
+		assertNotEquals(time.commentShared, null);
 	}
 	
 	@Test
@@ -48,15 +51,21 @@ public class TestTimePost{
 		assertNotEquals(time.isSigned, null);
 		assertNotEquals(time.comment, null);
 		assertNotEquals(time.projectId, null);
-		assertNotEquals(time.commentIsShared, null);
+		assertNotEquals(time.commentShared, null);
 	}
 	
 	@Test
-	public void testAdd(){
-		System.out.println("testAdd()...");
-		
-		String str = "Junit is working fine";
-		assertEquals("Junit is working fine", str);
+	public void testStartStopConstructor(){
+		time = null;
+		time = new TimePost(new GregorianCalendar(), new GregorianCalendar(), 1);
+		System.out.println("testStartStopConstructor()...");
+		assertNotEquals(time.startTime, null);
+		assertNotEquals(time.endTime, null);
+		assertNotEquals(time.id, null);
+		assertNotEquals(time.isSigned, null);
+		assertNotEquals(time.comment, null);
+		assertNotEquals(time.projectId, null);
+		assertNotEquals(time.commentShared, null);
 	}
 	
 	@Test

@@ -30,10 +30,22 @@ public class TimePost {
 	
 	public TimePost(int year, int month, int day, int hour, int min){
 		startTime = new GregorianCalendar(year, month-1, day, hour, min);
+		setEndTimeNow();
 		id = -1;
 		isSigned = false;
 		comment = "";
 		projectId = -1;
+		commentShared = false;
+	}
+	
+	public TimePost(GregorianCalendar start, GregorianCalendar end, int project){
+		startTime = start;
+		endTime = end;
+		projectId = project;
+		
+		id = -1;
+		isSigned = false;
+		comment = "";
 		commentShared = false;
 	}
 	
