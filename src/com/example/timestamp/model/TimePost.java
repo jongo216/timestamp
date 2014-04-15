@@ -49,21 +49,33 @@ public class TimePost {
 		commentShared = false;
 	}
 	
+	//for printing nice output
 	public String printStartTime(){
 		//System.out.println(new SimpleDateFormat("yyyy MMM dd HH:mm:ss").format(startTime.getTime()));
-		return new SimpleDateFormat("yyyy MMM dd HH:mm:ss").format(startTime.getTime());
+		if(startTime != null)
+			return new SimpleDateFormat("yyyy MMM dd HH:mm:ss").format(startTime.getTime());
+		return "";
 	}
+	//for printing nice output
 	public String printEndTime(){
 		//System.out.println(new SimpleDateFormat("yyyy MMM dd HH:mm:ss").format(endTime.getTime()));
-		return new SimpleDateFormat("yyyy MMM dd HH:mm:ss").format(endTime.getTime());
+		if(endTime != null)
+			return new SimpleDateFormat("yyyy MMM dd HH:mm:ss").format(endTime.getTime());
+		return "";
 	}
 	
+	
+	//for SQL use do not change!
 	public String getStartTime(){
-		return new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss").format(startTime.getTime());
+		if(startTime != null)
+			return new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss").format(startTime.getTime());
+		return "";
 	}
-	
+	//for SQL use do not change!
 	public String getEndTime(){
-		return new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss").format(endTime.getTime());
+		if(endTime != null)
+			return new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss").format(endTime.getTime());
+		return "";
 	}
 	
 	public void setStartTime(int year, int month, int day, int hour, int min){

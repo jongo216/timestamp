@@ -15,17 +15,20 @@ public class TestTimePost{
 	
 	private TimePost time;
 	
+	/*
 	@BeforeClass
 	public static void setupBeforeClass(){
 		System.out.println("setupBeforeClass...");		
-	}
+	}*/
 	
 	@Before
 	public void setupBefore(){
 		System.out.println("\nsetupBefore()...");
-		time = new TimePost();
+		time = new TimePost(new GregorianCalendar(2014, 3, 15, 13, 00), 
+							new GregorianCalendar(2014, 3, 15, 17, 00), 1);
 	}
 	
+	/**************** CONSTRUCTOR TIME TESTING ****************/
 	@Test
 	public void testDefaultConstructor(){
 		time = null;
@@ -67,12 +70,77 @@ public class TestTimePost{
 		assertNotEquals(time.projectId, null);
 		assertNotEquals(time.commentShared, null);
 	}
+	/**********************************************************/
+	
+	/******************* START TIME TESTING *******************/
+	@Test
+	public void testPrintStartTime(){
+		System.out.println("testPrintStartTime()...");
+		String expected = "2014 Apr 15 13:00:00";
+		//System.out.println(time.printStartTime());
+		assertEquals(time.printStartTime(), expected);
+	}
 	
 	@Test
-	public void testGetTime(){
-		System.out.println("testGetTime()...");
-		//String expected = "hejehej";
-		//assertEquals(time.id, -1);
+	public void testGetStartTime(){
+		System.out.println("testGetStartTime()...");
+		String expected = "2014-Apr-15 13:00:00";
+		//System.out.println(time.getStartTime());
+		assertEquals(time.getStartTime(), expected);
+	}
+	
+	@Test
+	public void testPrintStartTimeNull(){
+		System.out.println("testPrintEndTimeNull()...");
+		time.startTime = null;
+		String expected = "";
+		//System.out.println(time.getEndTime());
+		assertEquals(time.printStartTime(), expected);
+	}
+	
+	@Test
+	public void testGetStartTimeNull(){
+		System.out.println("testGetEndTimeNull()...");
+		time.startTime = null;
+		String expected = "";
+		//System.out.println(time.getEndTime());
+		assertEquals(time.getStartTime(), expected);
+	}
+	/**********************************************************/
+	
+	/******************** END TIME TESTING ********************/
+	@Test
+	public void testPrintEndTime(){
+		System.out.println("testPrintStartTime()...");
+		String expected = "2014 Apr 15 17:00:00";
+		//System.out.println(time.printEndTime());
+		assertEquals(time.printEndTime(), expected);
+	}
+	
+	@Test
+	public void testGetEndTime(){
+		System.out.println("testGetEndTime()...");
+		String expected = "2014-Apr-15 17:00:00";
+		//System.out.println(time.getEndTime());
+		assertEquals(time.getEndTime(), expected);
+	}
+	
+	@Test
+	public void testPrintEndTimeNull(){
+		System.out.println("testPrintEndTimeNull()...");
+		time.endTime = null;
+		String expected = "";
+		//System.out.println(time.printEndTime());
+		assertEquals(time.printEndTime(), expected);
 	}
 
+	@Test
+	public void testgetEndTimeNull(){
+		System.out.println("testGetEndTimeNull()...");
+		time.endTime = null;
+		String expected = "";
+		//System.out.println(time.getEndTime());
+		assertEquals(time.getEndTime(), expected);
+	}
+	/**********************************************************/
 }
