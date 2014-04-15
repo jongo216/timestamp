@@ -14,8 +14,7 @@ public class TimePost {
 	public Boolean isSigned;
 	public String comment;
 	public int projectId; //GET FROM R.LAYOUT.PROJECT ID ELLER LIKNANDE.......
-	public Boolean commentIsShared;
-	
+	public Boolean commentShared;
 	
 	public TimePost(){
 		
@@ -24,7 +23,7 @@ public class TimePost {
 		isSigned = false;
 		comment = "";
 		projectId = -1;
-		commentIsShared = false;
+		commentShared = false;
 		
 	}
 	
@@ -34,7 +33,7 @@ public class TimePost {
 		isSigned = false;
 		comment = "";
 		projectId = -1;
-		commentIsShared = false;
+		commentShared = false;
 	}
 	
 	public String printStartTime(){
@@ -44,6 +43,14 @@ public class TimePost {
 	public String printEndTime(){
 		//System.out.println(new SimpleDateFormat("yyyy MMM dd HH:mm:ss").format(endTime.getTime()));
 		return new SimpleDateFormat("yyyy MMM dd HH:mm:ss").format(endTime.getTime());
+	}
+	
+	public String getStartTime(){
+		return new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss").format(startTime.getTime());
+	}
+	
+	public String getEndTime(){
+		return new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss").format(endTime.getTime());
 	}
 	
 	public void setStartTime(int year, int month, int day, int hour, int min){
