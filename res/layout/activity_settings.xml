@@ -17,6 +17,7 @@
 
 	    <TextView
 	        android:id="@+id/text"
+	        android:fontFamily="sans-serif-light"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:text="@string/textOverview"
@@ -30,6 +31,7 @@
 
 	        <RadioButton
 	            android:id="@+id/radio_viewOptWeek"
+	           	android:fontFamily="sans-serif-light"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:onClick="onRadioButtonClicked"
@@ -38,6 +40,7 @@
 
 	        <RadioButton
 	            android:id="@+id/radio_viewOptDay"
+	            android:fontFamily="sans-serif-light"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:onClick="onRadioButtonClicked"
@@ -46,6 +49,7 @@
 
 	        <RadioButton
 	            android:id="@+id/radio_viewOptMonth"
+	            android:fontFamily="sans-serif-light"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:onClick="onRadioButtonClicked"
@@ -55,6 +59,7 @@
 
 	    <TextView
 	        android:id="@+id/TextView01"
+	        android:fontFamily="sans-serif-light"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:paddingTop="20dp"
@@ -63,6 +68,7 @@
 
 	    <CheckBox
 	        android:id="@+id/checkBoxNotification"
+	        android:fontFamily="sans-serif-light"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:checked="true"
@@ -71,6 +77,7 @@
 
 	    <CheckBox
 	        android:id="@+id/checkBoxReminder"
+	        android:fontFamily="sans-serif-light"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:text="@string/checkBoxReminder" 
@@ -78,6 +85,7 @@
 
 	    <TextView
 	        android:id="@+id/TextLocation"
+	        android:fontFamily="sans-serif-light"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:paddingTop="20dp"
@@ -86,6 +94,7 @@
 
 	    <CheckBox
 	        android:id="@+id/checkBoxWifi"
+	        android:fontFamily="sans-serif-light"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:checked="true"
@@ -94,6 +103,7 @@
 
 	    <CheckBox
 	        android:id="@+id/checkBoxGeo"
+	        android:fontFamily="sans-serif-light"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:text="@string/checkBoxGeo"
@@ -101,6 +111,7 @@
 
 	    <TextView
 	        android:id="@+id/TextExport"
+	        android:fontFamily="sans-serif-light"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:paddingTop="20dp"
@@ -109,6 +120,7 @@
 
 	    <CheckBox
 	        android:id="@+id/checkBoxExportPdf"
+	        android:fontFamily="sans-serif-light"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:checked="true"
@@ -117,6 +129,7 @@
 
 	    <CheckBox
 	        android:id="@+id/checkBoxExportXls"
+	        android:fontFamily="sans-serif-light"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:checked="false"
@@ -125,19 +138,19 @@
 
 	    <Button
 	        android:id="@+id/exportButton"
+	        style="@style/CustomStyleButtonDark"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:text="@string/buttonExport" 
-	        style="@style/CustomStyleButtonDark" />
+
+	        android:minWidth="100dp"
+	        android:layout_marginBottom="5dp"
+	        android:text="@string/buttonExport" />
 
 	    <TextView
 	        android:id="@+id/TextSync"
+	        android:fontFamily="sans-serif-light"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:paddingTop="20dp"
-	        android:text="@string/textSync"
-	        android:textColor="@color/textColorGray" />
-	    
 	    <RadioGroup
 	        android:id="@+id/radio_sync"
 	        android:layout_width="wrap_content"
@@ -146,6 +159,7 @@
 
 	        <RadioButton
 	            android:id="@+id/radio_sync1"
+	            android:fontFamily="sans-serif-light"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:checked="true"
@@ -155,6 +169,7 @@
 
 	        <RadioButton
 	            android:id="@+id/radio_sync2"
+	            android:fontFamily="sans-serif-light"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:onClick="onRadioButtonClicked"
@@ -164,6 +179,7 @@
 	    
 	    <TextView
 	        android:id="@+id/TextLayout"
+	        android:fontFamily="sans-serif-light"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:paddingTop="20dp"
@@ -178,6 +194,7 @@
 
 	        <RadioButton
 	            android:id="@+id/radio_layoutStandard"
+	            android:fontFamily="sans-serif-light"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:checked="true"
@@ -187,6 +204,7 @@
 
 	        <RadioButton
 	            android:id="@+id/radio_layoutBackground"
+	            android:fontFamily="sans-serif-light"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:onClick="onRadioButtonClicked"
@@ -196,8 +214,13 @@
 
 	    <Button
 	        android:id="@+id/saveButton"
-	        android:layout_width="280dp"
+	        style="@style/CustomStyleButtonDark"
+	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
+	        android:paddingLeft="120dp"
+	        android:paddingRight="120dp"
+	        android:layout_marginTop="30dp"
+	        android:layout_gravity="center"
 	        android:layout_marginBottom="32dp"
 	        android:text="@string/buttonSave"
 	        style="@style/CustomStyleButtonDark" />
