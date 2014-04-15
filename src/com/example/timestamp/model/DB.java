@@ -3,22 +3,29 @@ package com.example.timestamp.model;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
-enum ProjectType {PRIVATE, PUBLIC, ALL}
+//enum ProjectType {PRIVATE, PUBLIC, ALL}
+
 
 public class DB {
+	
+	DatabaseHelper dbHelper;
+	
 	private ArrayList<TimePost> timeList;		//mock-up
 	private ArrayList<Project> projectList;		//mock-up
 	
 	//Constructor
 	public DB(){
+		
+		
 		System.out.println("Connecting to remote DB...");
 		//mock-up data
 		timeList = new ArrayList<TimePost>(20);
 		projectList = new ArrayList<Project>(20);
 		//one week mock-up data
 		for(int i = 0; i < 5; ++i){
-			TimePost post = new TimePost(2014, 4, 7+i, 8, 15);
-			post.setEndTime		(2014, 4, 7+i, 17, 00);
+			TimePost post = new TimePost(
+					new GregorianCalendar(2014, 4-1, 7+i, 8, 15),
+					new GregorianCalendar(2014, 4-1, 7+i, 17, 00), 1);
 			post.isSigned=true;
 			timeList.add(post);
 		}
@@ -102,7 +109,7 @@ public class DB {
 	
 		//Get project by id
 		for(int i = 0; i < projectList.size(); ++i){
-			if(projectList.get(i).id == projectId)
+			if(projectList.get(i).getId() == projectId)
 				return projectList.get(i);
 		}
 		return null;

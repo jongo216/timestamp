@@ -81,8 +81,8 @@ public class Start extends Fragment{
 		int selectedRow = 0;
 		for (int n = 0; n < projects.size(); n++)
 		{
-			projectsMenuString[n] = projects.get(n).name;
-			projectMenuIds[n] = projects.get(n).id;
+			projectsMenuString[n] = projects.get(n).getName();
+			projectMenuIds[n] = projects.get(n).getId();
 			if (currentProject == projectMenuIds[n])
 				selectedRow = n;
 		}
@@ -210,7 +210,7 @@ public class Start extends Fragment{
     	Button timesBtn = (Button) rootView.findViewById(R.id.Times);
     	timesBtn.setOnClickListener(new OnClickListener(){
     		public void onClick(View arg0){
-    			ArrayList<TimePost> times = db.getTime(-1);
+    			ArrayList<TimePost> times = db.getTime(1);
     			String text = "";
     			for(int i = 0; i < times.size(); ++i){
     				//buggs with printStart/EndTime
@@ -227,9 +227,9 @@ public class Start extends Fragment{
     			String text = "";
     			for(int i = 0; i < projects.size(); ++i){
     				//buggs with printStart/EndTime
-    				text = text + 	"Project name: " + projects.get(i).name + 
-    								" \tOwner: " 	 + projects.get(i).owner + 
-    								" \tCustomer: "  + projects.get(i).customer + "\n";
+    				text = text + 	"Project name: " + projects.get(i).getName() + 
+    								" \tOwner: " 	 + projects.get(i).getOwner() + 
+    								" \tCustomer: "  + projects.get(i).getCustomer() + "\n";
     			}
     			Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
     		}
