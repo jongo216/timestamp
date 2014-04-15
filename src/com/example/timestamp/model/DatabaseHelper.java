@@ -125,8 +125,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
     
-    
- 
     // ------------------------ "todos" table methods ----------------//
  
      /**
