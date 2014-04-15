@@ -80,15 +80,14 @@ public class ConfirmReport extends Fragment {
 				
 				builder.setTitle("Är du säker på att du vill skicka in rapporten?");
 				
-				// 2. Chain together various setter methods to set the dialog characteristics
 				builder.setPositiveButton("Skicka", new DialogInterface.OnClickListener() {
 			           public void onClick(DialogInterface dialog, int id) {
-			               // User clicked OK button
+			               // Skicka in rapport (tas till redigera vyn?)
 			           }
 			    });
 					builder.setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
 			           public void onClick(DialogInterface dialog, int id) {
-			               // User cancelled the dialog
+			               // Cancel
 			           }
 			    });
 					

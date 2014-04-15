@@ -27,7 +27,7 @@ public class SettingsManager {
 	public static void setCurrentProjectId(int projectId, Activity activity) {
 		//SharedPreferences settings = activity.getSharedPreferences(Constants.TIMESTAMP_SETTINGS, 0);
 	    SharedPreferences.Editor editor = activity.getSharedPreferences(Constants.SETTINGS_TIMESTAMP, 0).edit();
-	    editor.putLong(Constants.SETTING_CURRENT_PROJECT, projectId);
+	    editor.putInt(Constants.SETTING_CURRENT_PROJECT, projectId);
 	    editor.commit();
 	}
 	
