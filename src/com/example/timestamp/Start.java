@@ -47,7 +47,7 @@ public class Start extends Fragment{
         db = new DB(getActivity().getApplicationContext());
         activityInitStart();
         
-        db.terminateDatabaseHelper();
+        //db.terminateDatabaseHelper();
        
         return rootView;
     }
