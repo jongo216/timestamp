@@ -65,6 +65,9 @@
 	
 	<!-- Style Guide implementation -->
 	<color name="backgroundColor">#cccccc</color>
+	<color name="textColorWhite">#ffffff</color>
+	<color name="textColorBlack">#000000</color>
+	<color name="textColorGray">#333333</color>
 	
 	
 
