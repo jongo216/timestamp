@@ -7,7 +7,7 @@
 	android:background="@drawable/background_gradient" >
 
 	<LinearLayout
-	    android:id="@+id/LinearLayout1"
+	    android:id="@+id/LinearLayoutSettings"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:gravity="bottom"
@@ -16,12 +16,13 @@
 	    tools:context=".MainActivity" >
 
 	    <TextView
-	        android:id="@+id/text"
+	        android:id="@+id/textOverview"
 	        android:fontFamily="sans-serif-light"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:text="@string/textOverview"
-	        android:textColor="@color/textColorGray"/>
+	        android:textColor="@color/textColorGray"
+	        android:layout_marginTop="10dp" />
 
 	    <RadioGroup
 	        android:id="@+id/radio_viewOpt"
@@ -31,12 +32,13 @@
 
 	        <RadioButton
 	            android:id="@+id/radio_viewOptWeek"
-	           	android:fontFamily="sans-serif-light"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
+	            android:checked="true"
+	            android:fontFamily="sans-serif-light"
 	            android:onClick="onRadioButtonClicked"
 	            android:text="@string/viewOptWeek"
-	        	android:textColor="@color/textColorBlack" />
+	            android:textColor="@color/textColorBlack" />
 
 	        <RadioButton
 	            android:id="@+id/radio_viewOptDay"
@@ -58,7 +60,7 @@
 	    </RadioGroup>
 
 	    <TextView
-	        android:id="@+id/TextView01"
+	        android:id="@+id/textNotifications"
 	        android:fontFamily="sans-serif-light"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
@@ -84,7 +86,7 @@
 	        android:textColor="@color/textColorBlack"/>
 
 	    <TextView
-	        android:id="@+id/TextLocation"
+	        android:id="@+id/textLocation"
 	        android:fontFamily="sans-serif-light"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
@@ -135,6 +137,15 @@
 	        android:checked="false"
 	        android:text="@string/checkBoxExportXls"
 	        android:textColor="@color/textColorBlack" />
+	    
+	    <CheckBox
+	        android:id="@+id/checkBoxExportCsv"
+	        android:fontFamily="sans-serif-light"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:checked="false"
+	        android:text="@string/checkBoxExportCsv"
+	        android:textColor="@color/textColorBlack" />
 
 	    <Button
 	        android:id="@+id/exportButton"
@@ -150,7 +161,10 @@
 	        android:id="@+id/TextSync"
 	        android:fontFamily="sans-serif-light"
 	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content" />
+	        android:layout_height="wrap_content" 
+	        android:text="@string/textSync" 
+	        android:paddingTop="20dp"
+	        android:textColor="@color/textColorGray" />
 	        
 	    <RadioGroup
 	        android:id="@+id/radio_sync"
@@ -214,7 +228,7 @@
 	    </RadioGroup>
 
 	    <Button
-	        android:id="@+id/saveButton"
+	        android:id="@+id/saveButtonSettings"
 	        style="@style/CustomStyleButtonDark"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
