@@ -61,5 +61,11 @@
 	<!-- Start.java -->
 	<string name="add_project">+ Create Project</string>
 	<!-- END Start.java -->
+	
+	
+	<!-- Style Guide implementation -->
+	<color name="backgroundColor">#cccccc</color>
+	
+	
 
 </resources>
