@@ -2,12 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_light"
+    android:background="@color/backgroundColor"
     android:tileMode="repeat"
     tools:context=".MainActivity" >
 
     <Button
         android:id="@+id/sendReportButton"
+        style="@style/CustomStyleButtonDark"
         android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -23,7 +24,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="87dp" />
+        android:layout_marginTop="47dp" 
+        style="@style/CustomStyleButtonDark"
+        />
 
 	<RelativeLayout
 	    android:layout_width="400dp"
@@ -43,7 +46,10 @@
 	
 	     <Button
 	        android:id="@+id/editReportButton"
+	        style="@style/CustomStyleButtonDark"
 	        android:layout_width="wrap_content"
+	        android:paddingLeft="20dp"
+	        android:paddingRight="20dp"
 	        android:layout_height="wrap_content"
 	        android:layout_below="@+id/timetable"
 	        android:layout_alignParentRight="true"
