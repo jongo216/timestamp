@@ -5,7 +5,6 @@ import java.util.GregorianCalendar;
 import com.example.timestamp.model.TimePost;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -14,12 +13,6 @@ import static org.junit.Assert.assertNotEquals;
 public class TestTimePost{
 	
 	private TimePost time;
-	
-	/*
-	@BeforeClass
-	public static void setupBeforeClass(){
-		System.out.println("setupBeforeClass...");		
-	}*/
 	
 	@Before
 	public void setupBefore(){
@@ -151,6 +144,14 @@ public class TestTimePost{
 		//System.out.println(time.getEndTime());
 		assertEquals(time.getEndTime(), expected);
 	}
+	
+	@Test
+	public void testSetEndTime(){
+		time.endTime = null;
+		assertEquals(time.endTime, null);
+		time.setEndTime(new GregorianCalendar());
+		assertNotEquals(time.endTime,null);
+	}
 	/**********************************************************/
 	
 	@Test
@@ -166,4 +167,71 @@ public class TestTimePost{
 		time.setProjectId(id+1);
 		assertNotEquals(time.projectId,id);
 	}
+	
+	/********************* SET FUNCTIONS **********************/
+	@Test
+	public void testSetStart(){
+		time.setStartYear(2015);
+		time.setStartMonth(0);
+		time.setStartDay(1);
+		time.setStartHour(0);
+		time.setStartMinute(59);
+		
+		String startTime = time.getStartTime();
+		
+		String year = startTime.substring(0, 4);
+		String month = startTime.substring(5, 8);
+		String day = startTime.substring(9,11);
+		String hour  = startTime.substring(12,14);
+		String minute  = startTime.substring(15,17);
+		
+		assertEquals(year, "2015");
+		assertEquals(month, "Jan");
+		assertEquals(day, "01");
+		assertEquals(hour, "00");
+		assertEquals(minute, "59");
+	}
+	
+	@Test
+	public void testSetEnd(){
+		time.setEndYear(2015);
+		time.setEndMonth(0);
+		time.setEndDay(1);
+		time.setEndHour(0);
+		time.setEndMinute(59);
+		
+		String endTime = time.getEndTime();
+		
+		String year = endTime.substring(0, 4);
+		String month = endTime.substring(5, 8);
+		String day = endTime.substring(9,11);
+		String hour  = endTime.substring(12,14);
+		String minute  = endTime.substring(15,17);
+		
+		assertEquals(year, "2015");
+		assertEquals(month, "Jan");
+		assertEquals(day, "01");
+		assertEquals(hour, "00");
+		assertEquals(minute, "59");
+	}
+	
+	@Test
+	public void testSetStartTimeNow() throws InterruptedException{
+		time.setStartTimeNow();
+		String startTime = time.getStartTime();
+		Thread.sleep(2000);
+		time.setStartTimeNow();
+		assertNotEquals(startTime,time.getStartTime());
+	}
+
+	
+	@Test
+	public void testSetEndTimeNow() throws InterruptedException{
+		time.setEndTimeNow();
+		String endTime = time.getEndTime();
+		Thread.sleep(2000);
+		time.setEndTimeNow();
+		assertNotEquals(endTime,time.getEndTime());
+	}
+	/**********************************************************/
 }

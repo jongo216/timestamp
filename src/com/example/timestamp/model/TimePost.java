@@ -3,7 +3,6 @@ package com.example.timestamp.model;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Locale;
 
 import android.util.Log;
 
@@ -79,14 +78,9 @@ public class TimePost {
 		return "";
 	}
 	
-	public void setStartTime(GregorianCalendar time){
-		startTime = time;
-		
-	}
+	public void setStartTime(GregorianCalendar time){ startTime = time; }
 	
-	public void setEndTime(GregorianCalendar time){
-		endTime = time;
-	}	
+	public void setEndTime(GregorianCalendar time)	{ endTime = time; }	
 	
 	public void setProjectId(int id){ projectId = id; }
 	
