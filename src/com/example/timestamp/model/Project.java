@@ -10,6 +10,9 @@ public class Project {
 	  public String customer;
 	  public Boolean isPrivate;
 	  
+	  
+	
+	  
 	  //Default constructor
 	  public Project()
 	  {
