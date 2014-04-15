@@ -11,12 +11,12 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.ListView;
+
+import com.example.timestamp.model.DB;
 
 
 
@@ -27,8 +27,6 @@ ActionBar.TabListener {
 	private TabsPagerAdapter mAdapter;
 	private ActionBar actionBar;
 	
-	
-
     
 	// Tab titles
 	private String[] tabs = { "Översikt", "Rapport", "Redigera" };
@@ -44,6 +42,7 @@ ActionBar.TabListener {
 		actionBarTop.setCustomView(R.layout.actionbar);
 		actionBarTop.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#11ffffff")));
 		
+	
 		//draw actionbar
 		
 

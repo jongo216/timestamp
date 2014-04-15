@@ -2,7 +2,9 @@ package com.example.timestamp.model;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
@@ -12,7 +14,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String LOG = DatabaseHelper.class.getName();
  
     // Database Version
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 4;
  
     // Database Name
     private static final String DATABASE_NAME = "TimeStamp";
@@ -60,8 +62,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_TIME_STAMP = "CREATE TABLE " + TABLE_TIMEPOST
             + " (" + KEY_TID + " INT UNSIGNED AUTO_INCREMENT NOT NULL, " 
     		+ KEY_PID + " INT, "
-            + KEY_START_TIME + " DATETIME, "
-    		+ KEY_END_TIME +" DATETIME, "
+            + KEY_START_TIME + " VARCHAR, "
+    		+ KEY_END_TIME +" VARCHAR, "
     		+ KEY_COMMENT +" VARCHAR, " 
     		+ KEY_IS_SIGNED +" TINYINT, " 
     		+ KEY_COMMENT_SHARED +" TINYINT, "
@@ -116,6 +118,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.d("DatabaseHelper","Done" );
     }
  
+    
+    //Called if versionnumber is changed
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // on upgrade drop older tables
@@ -135,23 +139,41 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
  
     public void createTimePost(TimePost timePost) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
- 
+        Log.d("DatabaseHelper", "CREATING TIMEPOST.");
+    	SQLiteDatabase db = this.getWritableDatabase();
+    	
         ContentValues values = new ContentValues();
-        values.put(KEY_TID, timePost.id);
-        values.put(KEY_PID, timePost.projectId);
+        //values.put(KEY_TID, timePost.id);
+        //values.put(KEY_PID, timePost.projectId);
         values.put(KEY_START_TIME, timePost.getStartTime());
         values.put(KEY_END_TIME, timePost.getEndTime());
         values.put(KEY_COMMENT, timePost.comment);
-        values.put(KEY_IS_SIGNED, timePost.isSigned);
-        values.put(KEY_COMMENT_SHARED, timePost.commentShared);
+        //values.put(KEY_IS_SIGNED, timePost.isSigned);
+        //values.put(KEY_COMMENT_SHARED, timePost.commentShared);
  
         // insert row
+        Log.d("DatabaseHelper", "INTERTING");
         db.insert(TABLE_TIMEPOST, null, values);
-        
+        db.close();
         //Return auto-ink ID?
+        
     }
+    
+    public void showTables(){
+    	String selectQuery = "SELECT * FROM "+TABLE_TIMEPOST;
+    	Log.d("DatabaseHelper", selectQuery);
+    	
+    	try{
+    		SQLiteDatabase db = this.getReadableDatabase();
+    		Cursor c = db.rawQuery(selectQuery, null);
+    		
+        	Log.d("DatabaseHelper", "DATA: " + c.getCount());
+    	}catch(SQLiteException e){
+    		Log.d("DatabaseHelper", e.toString());
+    	}
+    }
+   
+    
 // 
 //    /**
 //     * get single todo

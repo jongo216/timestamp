@@ -27,12 +27,13 @@ public class TimePost {
 		
 	}
 	
-	TimePost(int year, int month, int day, int hour, int min){
+	public TimePost(int year, int month, int day, int hour, int min){
 		startTime = new GregorianCalendar(year, month-1, day, hour, min);
-		id = -1;
+		endTime = new GregorianCalendar(2018, month-1, day, hour, min);
+		id = 0;
 		isSigned = false;
-		comment = "";
-		projectId = -1;
+		comment = "DEFAULT COMMENT";
+		projectId = 0;
 		commentShared = false;
 	}
 	
@@ -46,11 +47,11 @@ public class TimePost {
 	}
 	
 	public String getStartTime(){
-		return new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss").format(startTime.getTime());
+		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(startTime.getTime());
 	}
 	
 	public String getEndTime(){
-		return new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss").format(endTime.getTime());
+		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(endTime.getTime());
 	}
 	
 	public void setStartTime(int year, int month, int day, int hour, int min){

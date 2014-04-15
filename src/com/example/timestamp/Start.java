@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -38,13 +37,22 @@ public class Start extends Fragment{
 	private View rootView;
 
 	private DB db;
-
+	
 	
 	@Override		//mother of all inits!
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
  
         rootView = inflater.inflate(R.layout.activity_start, container, false);
+        
         db = new DB(getActivity().getApplicationContext());
+        Log.d("DatabaseHelper","New DB");
+        
+        //db.dbHelper.showTables();
+        db.set(new TimePost(1942,10,23,13,37));
+        db.set(new TimePost(1942,10,24,13,37));
+        db.set(new TimePost(1942,10,25,13,37));
+        db.dbHelper.showTables();
+        
         activityInitStart();
         
         //db.terminateDatabaseHelper();
@@ -52,7 +60,6 @@ public class Start extends Fragment{
         return rootView;
     }
 
-	
 
 	// Initierar startvyn..
 	private void activityInitStart(){
@@ -110,7 +117,7 @@ public class Start extends Fragment{
 			public void onClick(View arg0){
 	
 				
-				if(db.getLatest().isSigned){
+				/*if(db.getLatest().isSigned){
 					
 					db.set(new TimePost());
 					imgButton.setBackgroundColor(Color.GREEN);
@@ -123,21 +130,16 @@ public class Start extends Fragment{
 					
 					Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
 					imgButton.setBackgroundColor(Color.WHITE);
-				}
-				
-				//Log.d("MESSAGE",db.getLatest().printStartTime()+" - "+db.getLatest().printEndTime());
-				//Log.d("MESSAGE",Integer.toString(db.dbSize()));
+				}*/
 				
 				TextView tv = (TextView) rootView.findViewById(R.id.textView2);
 				tv.setVisibility(View.VISIBLE);
 				tv.setText("Tid: 1.4 timmar");
 				
-				
-				//Toast.makeText(getActivity(), "Du har stämplat in!", Toast.LENGTH_SHORT).show();
 			
-				if(db.getLatest().isSigned){
+				/*if(db.getLatest().isSigned){
 					tv.setText("Worked ours" + Double.toString(db.getLatest().getWorkedHours()));
-				}
+				}*/
 				
 			}	
 		});

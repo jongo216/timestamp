@@ -9,7 +9,7 @@ import android.content.Context;
 
 public class DB {
 	
-	DatabaseHelper dbHelper;
+	public DatabaseHelper dbHelper;
 	
 	private ArrayList<TimePost> timeList;		//mock-up
 	private ArrayList<Project> projectList;		//mock-up
@@ -54,7 +54,8 @@ public class DB {
 	public void set(TimePost time){
 		
 		//Put time into DB
-		timeList.add(time);
+		//timeList.add(time);
+		dbHelper.createTimePost(time);
 	}
 	
 	public TimePost getLatest(){
