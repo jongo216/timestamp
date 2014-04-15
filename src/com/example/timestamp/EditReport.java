@@ -31,7 +31,7 @@ public class EditReport extends Activity {
 			public void onClick(View v) {
 				AlertDialog.Builder ad = new AlertDialog.Builder(message);
 				
-				ad.setTitle("Bekr‰ftelse");
+				ad.setTitle("Bekr√§ftelse");
 				 
 				// set dialog message
 				ad

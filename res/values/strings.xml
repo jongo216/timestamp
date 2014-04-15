@@ -58,6 +58,8 @@
 
     <string name="title_activity_settingss">MainActivity</string>
 
-
+	<!-- Start.java -->
+	<string name="add_project">+ Create Project</string>
+	<!-- END Start.java -->
 
 </resources>
