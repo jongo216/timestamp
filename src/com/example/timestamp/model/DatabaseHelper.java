@@ -1,17 +1,9 @@
 package com.example.timestamp.model;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.nfc.Tag;
 import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -52,12 +44,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // USER Table - column names
     private static final String KEY_USER_NAME = "userName";
     private static final String KEY_USER_PASSWORD = "userPassword";
+ 
     
-    // ProjectUser Table - column names
-    /*
-    private static final String KEY_PID = "pID";
-    private static final String KEY_MAIL_ADRESS = "mailAdress";
-    */
     // Table Create Statements
     
     // TimePost table create statement
@@ -125,36 +113,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
     
-    
  
-    // ------------------------ "todos" table methods ----------------//
+    public void createTimePost(TimePost timePost) {
+        SQLiteDatabase db = this.getWritableDatabase();
  
-     /**
-     * Creating a todo
-     */
-//    public long createTimePost(TimePost timePost, long[] tag_ids) {
-//        SQLiteDatabase db = this.getWritableDatabase();
-// 
-//        ContentValues values = new ContentValues();
-//        values.put(KEY_TID, timePost.getNote());
-//        values.put(KEY_PID, timePost.getStatus());
-//        values.put(KEY_START_TIME, getDateTime());
-//        values.put(KEY_END_TIME, getDateTime());
-//        
-//        values.put(KEY_COMMENT, getComment());
-//        values.put(KEY_IS_SIGNED, getIsSigned());
-//        values.put(KEY_COMMENT_SHARED, getCommentShared());
-// 
-//        // insert row
-//        long timePost_id = db.insert(TABLE_TIMEPOST, null, values);
-// 
-//        // insert tag_ids
-//        for (long tag_id : tag_ids) {
-//            createTodoTag(timePost_id, tag_id);
-//        }
-// 
-//        return timePost_id;
-//    }
+        ContentValues values = new ContentValues();
+        values.put(KEY_TID, timePost.id);
+        values.put(KEY_PID, timePost.projectId);
+        values.put(KEY_START_TIME, timePost.getStartTime());
+        values.put(KEY_END_TIME, timePost.getEndTime());
+        values.put(KEY_COMMENT, timePost.comment);
+        values.put(KEY_IS_SIGNED, timePost.isSigned);
+        values.put(KEY_COMMENT_SHARED, timePost.commentShared);
+ 
+        // insert row
+        db.insert(TABLE_TIMEPOST, null, values);
+        
+        //Return auto-ink ID?
+    }
 // 
 //    /**
 //     * get single todo
