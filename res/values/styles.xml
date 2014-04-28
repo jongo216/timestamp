@@ -30,6 +30,9 @@
        <item name="android:padding">10dip</item>
    </style>
     
+    <style name="CornerRadius">
+        <item name="android:background">@drawable/corner_radius</item>
+    </style>
     
     <style name="CustomStyleButtonDark" parent="@android:style/Widget.Button">
        <item name="android:textSize">15sp</item>
