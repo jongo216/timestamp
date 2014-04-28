@@ -29,7 +29,7 @@ ActionBar.TabListener {
 	
     
 	// Tab titles
-	private String[] tabs = { "Översikt", "Rapport"};
+	private String[] tabs = { "General", "Report"};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
