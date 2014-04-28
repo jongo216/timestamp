@@ -20,21 +20,21 @@ public class TimePost {
 		
 		setStartTimeNow();
 		setEndTimeNow();
-		id = -1;
+		id = 0;
 		isSigned = false;
 		comment = "";
-		projectId = -1;
+		projectId = 0;
 		commentShared = false;
 		
 	}
 	
 	public TimePost(int year, int month, int day, int hour, int min){
 		startTime = new GregorianCalendar(year, month-1, day, hour, min);
+		id = 0;
 		setEndTimeNow();
-		id = -1;
 		isSigned = false;
-		comment = "";
-		projectId = -1;
+		comment = "DEFAULT COMMENT";
+		projectId = 0;
 		commentShared = false;
 	}
 	
@@ -43,7 +43,7 @@ public class TimePost {
 		endTime = end;
 		projectId = project;
 		
-		id = -1;
+		id = 0;
 		isSigned = false;
 		comment = "";
 		commentShared = false;
@@ -68,13 +68,13 @@ public class TimePost {
 	//for SQL use do not change!
 	public String getStartTime(){
 		if(startTime != null)
-			return new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss").format(startTime.getTime());
+			return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(startTime.getTime());
 		return "";
 	}
 	//for SQL use do not change!
 	public String getEndTime(){
 		if(endTime != null)
-			return new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss").format(endTime.getTime());
+			return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(endTime.getTime());
 		return "";
 	}
 	

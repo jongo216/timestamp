@@ -1,11 +1,10 @@
-timestamp
+Timestamp
 =========
 
 Projekt i kursen TNM082 Agil
-Funkar för Simon
-Funkar för Jonas
-Funkar för Simon ett och två....
-Funkar för Peter..
 
-TJOHO från verbo
-HEJ OCH HÅ
+
+License
+=================================
+Timestamp Ã¤r licenserad under [BSD License](https://github.com/jongo216/timestamp/blob/master/LICENSE.txt).
+

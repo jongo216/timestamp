@@ -8,17 +8,15 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
+
 
 
 
@@ -29,9 +27,6 @@ ActionBar.TabListener {
 	private TabsPagerAdapter mAdapter;
 	private ActionBar actionBar;
 	
-	//private String tab1 = getString(R.string.tabOverview);
-	//String tab2 = getString(R.string.tabReport);
-
     
 	// Tab titles
 	private String[] tabs = { "General", "Report"};
@@ -40,10 +35,7 @@ ActionBar.TabListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
-		
-		
-
+	
 		
 		// Initilization
 		viewPager = (ViewPager) findViewById(R.id.pager);
@@ -51,7 +43,6 @@ ActionBar.TabListener {
 		mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
 
 		viewPager.setAdapter(mAdapter);
-		
 		
 		
 		//Stylear actionbar
