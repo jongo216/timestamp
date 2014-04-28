@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,19 +50,30 @@ public class Start extends Fragment{
 	private Chronometer chronometer;
 	private FragmentActivity parentActivity;
 	private DB db;
-
+	
 	
 	@Override		//mother of all inits!
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
  
         rootView = inflater.inflate(R.layout.activity_start, container, false);
-        db = new DB();
+        
+        db = new DB(getActivity().getApplicationContext());
+        Log.d("DatabaseHelper","New DB");
+        
+        //db.dbHelper.showTables();
+        //db.set(new TimePost(1942,10,23,13,37));
+        //db.set(new TimePost(1942,10,24,13,37));
+        //db.set(new TimePost(1942,10,25,13,37));
+        Log.d("DatabaseHelper","Done inserting...");
+        //db.dbHelper.showTables();
+        
         activityInitStart();
+        
+        //db.terminateDatabaseHelper();
        
         return rootView;
     }
 
-	
 
 	// Initierar startvyn..
 	private void activityInitStart(){
@@ -71,10 +83,11 @@ public class Start extends Fragment{
 		boolean timerRunning = SettingsManager.getIsTimerRunning(parentActivity);
 		chronometer = (Chronometer)rootView.findViewById(R.id.chronometer);
 		
+
 		imgButton = (LinearLayout) rootView.findViewById(R.id.btnCheckIn);
 		
 		
-		
+	
 		int currentProject = SettingsManager.getCurrentProjectId(parentActivity);
 		
 		if (timerRunning)
@@ -88,8 +101,8 @@ public class Start extends Fragment{
 		else imgButton.setBackgroundColor(Color.WHITE);
 		
 		
-		
 		projects = db.getAllProjects();
+		Log.d("DatabaseHelper","Projsize: "+projects.size());
 		projectsMenuString = new String[projects.size() + 1];
 		projectMenuIds = new int[projects.size()+1];
 		int selectedRow = 0;
@@ -182,44 +195,32 @@ public class Start extends Fragment{
 	
     public void imageButtonListener(){
 		
-		//Call timepost function..?
-		
 		imgButton.setOnClickListener(new OnClickListener(){
 			
 			public void onClick(View arg0){
-				
 				boolean timerRunning = SettingsManager.getIsTimerRunning(getActivity());
-				
 							
 				if(timerRunning){
 					imgButton.setBackgroundColor(Color.WHITE);
 					
 					SettingsManager.setIsTimerRunning(false, getActivity());
 					chronometer.stop();
-					TimePost p= new TimePost();
-					
-					
+					TimePost p = new TimePost();
+					//jdtkjgdkj
 					p.setProjectId(SettingsManager.getCurrentProjectId(getActivity()));
 					p.setStartTime(SettingsManager.getStartTime(getActivity()));
 					p.setEndTime(new GregorianCalendar());
-					
 					db.set(p);
-					
-					
-					
-				}else{
+				}
+				else{
 					imgButton.setBackgroundColor(Color.GREEN);
 					chronometer.setBase(SystemClock.elapsedRealtime());
 					chronometer.start();
 					SettingsManager.setIsTimerRunning(true, getActivity());
 					SettingsManager.setStartTime(new GregorianCalendar(), getActivity());
-					
 				}
-				
-				
 			}	
 		});
-			
 	}
     
     //database testing!
@@ -228,13 +229,18 @@ public class Start extends Fragment{
     	Button timesBtn = (Button) rootView.findViewById(R.id.Times);
     	timesBtn.setOnClickListener(new OnClickListener(){
     		public void onClick(View arg0){
-    			ArrayList<TimePost> times = db.getTime(1);
-    			String text = "";
-    			for(int i = 0; i < times.size(); ++i){
-    				//buggs with printStart/EndTime
-    				text = text + times.get(i).printStartTime() + " - " + times.get(i).printEndTime() + "\n";
+    			if(!db.empty(1)){
+    				ArrayList<TimePost> times = db.getTime(1); // PROJECT ID fix....
+        			String text = "";
+        			for(int i = 0; i < times.size(); ++i){
+        				//buggs with printStart/EndTime
+        				text = text + times.get(i).printStartTime() + " - " + times.get(i).printEndTime() + "\n";
+        			}
+        			Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
     			}
-    			Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
+    			else{
+    				Toast.makeText(getActivity(), "The database is currently empty!", Toast.LENGTH_LONG).show();
+    			}
     		}
     	});
     	//projects

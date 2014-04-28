@@ -1,8 +1,17 @@
 package com.example.timestamp.model;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
@@ -12,9 +21,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String LOG = DatabaseHelper.class.getName();
  
     // Database Version
-    private static final int DATABASE_VERSION = 1;
- 
- // Database Version
+    private static final int DATABASE_VERSION = 17;
  
     // Database Name
     private static final String DATABASE_NAME = "TimeStamp";
@@ -49,44 +56,58 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Table Create Statements
     
     // TimePost table create statement
-    private static final String CREATE_TABLE_TIME_STAMP = "CREATE TABLE " + TABLE_TIMEPOST
-            + "(" + KEY_TID + " INTEGER PRIMARY KEY," 
-    		+ KEY_PID + " INTEGER(5) NOT NULL AUTO_INCREMENT,"
+    /*private static final String CREATE_TABLE_TIME_STAMP = "CREATE TABLE " + TABLE_TIMEPOST
+            + " (" + KEY_TID + " INT(5) PRIMARY KEY NOT NULL AUTO_INCREMENT," 
+    		+ KEY_PID + " INT(5) NOT NULL,"
             + KEY_START_TIME + " DATETIME,"
     		+ KEY_END_TIME +" DATETIME,"
     		+ KEY_COMMENT +" VARCHAR(50)," 
     		+ KEY_IS_SIGNED +" TINYINT(1)," 
     		+ KEY_COMMENT_SHARED +" TINYINT(1),"
-            +")";
+            +")";*/
  
+    private static final String CREATE_TABLE_TIME_STAMP = "CREATE TABLE " + TABLE_TIMEPOST
+            + " (" + KEY_TID + " INTEGER PRIMARY KEY, " 
+    		+ KEY_PID + " INTEGER, "
+            + KEY_START_TIME + " DATETIME, "
+    		+ KEY_END_TIME +" DATETIME, "
+    		+ KEY_COMMENT +" VARCHAR, " 
+    		+ KEY_IS_SIGNED +" TINYINT, " 
+    		+ KEY_COMMENT_SHARED +" TINYINT, " 
+    		+ "FOREIGN KEY ("+KEY_PID+") REFERENCES "+TABLE_PROJECTS+"("+KEY_PID+") ON DELETE CASCADE)";
  
    
     // Projects table create statement
-    private static final String CREATE_TABLE_TABLE_PROJECTS = "CREATE TABLE " + TABLE_PROJECTS
-            + "(" + KEY_PID + "INTEGER PRIMARY KEY INTEGER(5) AUTO_INCREMENT,"
-            + KEY_PROJECT_NAME + " VARCHAR(50),"
-            + KEY_PROJECT_OWNER + " VARCHAR(50),"
-    		+ KEY_DESCRIPTION +" VARCHAR(50)," 
-    		+ KEY_CUSTOMER +" VARCHAR(50)," 
-    		+ KEY_COMMENT_SHARED +" TINYINT(1),"
-            +")";
+    private static final String CREATE_TABLE_PROJECTS = "CREATE TABLE " + TABLE_PROJECTS
+            + " (" + KEY_PID + " INTEGER PRIMARY KEY, "
+            + KEY_PROJECT_NAME + " VARCHAR, "
+            + KEY_PROJECT_OWNER + " VARCHAR, "
+    		+ KEY_DESCRIPTION +" VARCHAR, " 
+    		+ KEY_CUSTOMER +" VARCHAR, " 
+    		+ KEY_COMMENT_SHARED +" TINYINT)";
     
     
  // Users  table
-    private static final String CREATE_TABLE_USERS= "CREATE TABLE "
-            + TABLE_USERS + "(" + KEY_MAIL_ADRESS + " VARCHAR(50) PRIMARY KEY,"
-    		+ KEY_USER_NAME + " VARCHAR(50)," 
-            + KEY_USER_PASSWORD + " VARCHAR(50),"+ ")";
+    private static final String CREATE_TABLE_USERS = "CREATE TABLE "
+            + TABLE_USERS + " (" + KEY_MAIL_ADRESS + " VARCHAR PRIMARY KEY, "
+    		+ KEY_USER_NAME + " VARCHAR, " 
+            + KEY_USER_PASSWORD + " VARCHAR)";
     
  // Users projects table
     private static final String CREATE_TABLE_PROJECT_USER = "CREATE TABLE "
-            + TABLE_PROJECT_USERS + "(" + KEY_PID + " INTEGER(5) PRIMARY KEY,"
-    		+ KEY_MAIL_ADRESS + " VARCHAR(50) PRIMARY KEY ,"
-            + ")";
+            + TABLE_PROJECT_USERS + " (" + KEY_PID + " INTEGER, "
+    		+ KEY_MAIL_ADRESS + " VARCHAR, PRIMARY KEY("+KEY_MAIL_ADRESS+","+KEY_PID+"))";
  
    
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+    
+    // closing database
+    public void closeDB() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        if (db != null && db.isOpen())
+            db.close();
     }
  
     @Override
@@ -94,46 +115,188 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     	Log.d("DatabaseHelper", "Creating database..." );
         // creating required tables
         db.execSQL(CREATE_TABLE_TIME_STAMP);
-        db.execSQL(CREATE_TABLE_TABLE_PROJECTS);
+        Log.d("DatabaseHelper", "STAMPED");
+        db.execSQL(CREATE_TABLE_PROJECTS);
+        Log.d("DatabaseHelper", "PROJED");
         db.execSQL(CREATE_TABLE_USERS);
+        Log.d("DatabaseHelper", "USEEREREDED");
         db.execSQL(CREATE_TABLE_PROJECT_USER);
         Log.d("DatabaseHelper","Done" );
     }
  
+    
+    //Called if versionnumber is changed
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // on upgrade drop older tables
+    	Log.d("DatabaseHelper", "Update req, removing database..." );
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TIMEPOST);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROJECTS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROJECT_USERS);
         
-        //Log.d("query", selectQuery);
+        Log.d("DatabaseHelper","Done" );
+        
         // create new tables
         onCreate(db);
     }
-    
 
 
  
     public void createTimePost(TimePost timePost) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
- 
+        Log.d("DatabaseHelper", "CREATING TIMEPOST.");
+    	SQLiteDatabase db = this.getWritableDatabase();
+    	
         ContentValues values = new ContentValues();
-        values.put(KEY_TID, timePost.id);
-        values.put(KEY_PID, timePost.projectId);
+        //values.put(KEY_TID, timePost.id);
+        //values.put(KEY_PID, timePost.projectId);
         values.put(KEY_START_TIME, timePost.getStartTime());
         values.put(KEY_END_TIME, timePost.getEndTime());
-        values.put(KEY_COMMENT, timePost.comment);
-        values.put(KEY_IS_SIGNED, timePost.isSigned);
-        values.put(KEY_COMMENT_SHARED, timePost.commentShared);
+        //values.put(KEY_COMMENT, timePost.comment);
+        //values.put(KEY_IS_SIGNED, timePost.isSigned);
+        //values.put(KEY_COMMENT_SHARED, timePost.commentShared);
  
         // insert row
+        Log.d("DatabaseHelper", "Final insert...");
         db.insert(TABLE_TIMEPOST, null, values);
-        
+        db.close();
         //Return auto-ink ID?
+        
     }
+    
+    public ArrayList<TimePost> getAllTimePost(int pid){
+    	ArrayList<TimePost> ret = new ArrayList<TimePost>();
+    	String selectQuery = "SELECT * FROM "+TABLE_TIMEPOST; //+"WHERE " + KEY_PID + " = " + pid;
+    	//Log.d("DatabaseHelper", selectQuery);
+    	
+    	try{
+    		SQLiteDatabase db = this.getReadableDatabase();
+    		Cursor c = db.rawQuery(selectQuery, null);
+    		
+        	//Log.d("DatabaseHelper", "DATA: " + c.getCount());
+        	
+        	if (c != null){
+        		c.moveToFirst();
+        		//int s = c.getInt(c.getColumnIndex(KEY_TID));
+        		//Log.d("DatabaseHelper",Integer.toString(s));
+        		
+        		do {
+        			TimePost temp = new TimePost();
+        			String st = c.getString(c.getColumnIndex(KEY_START_TIME));
+        			DateFormat formatter;
+        			formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        			Date date;
+					try {
+						date = (Date) formatter.parse(st);
+						temp.setStartTime(new GregorianCalendar(date.getYear(), date.getMonth(), date.getDay(), date.getHours(), date.getMinutes()));
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+        			st = c.getString(c.getColumnIndex(KEY_END_TIME));
+        			formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        			try {
+						date = (Date) formatter.parse(st);
+						temp.setEndTime(new GregorianCalendar(date.getYear(), date.getMonth(), date.getDay(), date.getHours(), date.getMinutes()));
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+        			
+        			ret.add(temp);
+        			//int s = c.getInt(c.getColumnIndex(KEY_TID));
+                    //String p = c.getString(c.getColumnIndex(KEY_PID));
+                    
+                    
+                    //Log.d("DatabaseHelper",Integer.toString(s)+ " "+ p + " "+ d);
+     
+                    
+                } while (c.moveToNext());
+        	}
+        	else{
+        		Log.d("DatabaseHelper", "NOPE");
+        	}
+                
+        	
+        	
+    	}catch(SQLiteException e){
+    		Log.d("DatabaseHelper", e.toString());
+    	}
+    	
+    	return ret;
+    }
+    
+    public void showTables(){
+    	String selectQuery = "SELECT * FROM "+TABLE_TIMEPOST;
+    	Log.d("DatabaseHelper", selectQuery);
+    	
+    	try{
+    		SQLiteDatabase db = this.getReadableDatabase();
+    		Cursor c = db.rawQuery(selectQuery, null);
+    		
+        	Log.d("DatabaseHelper", "DATA: " + c.getCount());
+        	
+        	if (c != null){
+        		c.moveToFirst();
+        		//int s = c.getInt(c.getColumnIndex(KEY_TID));
+        		//Log.d("DatabaseHelper",Integer.toString(s));
+        		
+        		do {
+        			
+        			int s = c.getInt(c.getColumnIndex(KEY_TID));
+                    String p = c.getString(c.getColumnIndex(KEY_PID));
+                    String d = c.getString(c.getColumnIndex(KEY_END_TIME));
+                    
+                    Log.d("DatabaseHelper",Integer.toString(s)+ " "+ p + " "+ d);
+     
+                    
+                } while (c.moveToNext());
+        	}
+        	else{
+        		Log.d("DatabaseHelper", "NOPE");
+        	}
+                
+        	
+        	
+    	}catch(SQLiteException e){
+    		Log.d("DatabaseHelper", e.toString());
+    	}
+    	
+    	
+    }
+
+	public Boolean empty(int pid) {
+		String selectQuery = "SELECT count(*) AS NUMBERS FROM "+TABLE_TIMEPOST; //WHERE pid = pid
+    	
+    	try{
+    		SQLiteDatabase db = this.getReadableDatabase();
+    		Cursor c = db.rawQuery(selectQuery, null);
+    		
+        	if (c != null){
+        		c.moveToFirst();
+        		
+        		int result = c.getInt(c.getColumnIndex("NUMBERS"));
+        		if(result == 0){
+        			return true;
+        		}
+        		else{
+        			return false;
+        		}
+        	}
+        	else{
+        		Log.d("DatabaseHelper", "NOPE");
+        	}
+        	
+    	}
+    	catch(SQLiteException e){
+    		Log.d("DatabaseHelper", e.toString());
+    	}
+		return false;
+		
+	}
+   
+    
 // 
 //    /**
 //     * get single todo

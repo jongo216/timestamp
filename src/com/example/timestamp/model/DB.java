@@ -3,52 +3,56 @@ package com.example.timestamp.model;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
+import android.content.Context;
+
 //enum ProjectType {PRIVATE, PUBLIC, ALL}
 
 
 public class DB {
 	
-	DatabaseHelper dbHelper;
+	public DatabaseHelper dbHelper;
 	
 	private ArrayList<TimePost> timeList;		//mock-up
 	private ArrayList<Project> projectList;		//mock-up
 	
 	//Constructor
-	public DB(){
+	public DB(Context c){
 		
+		dbHelper = new DatabaseHelper(c);
 		
 		System.out.println("Connecting to remote DB...");
 		//mock-up data
-		timeList = new ArrayList<TimePost>(20);
+
+//		timeList = new ArrayList<TimePost>(20);
 		projectList = new ArrayList<Project>(20);
-		//one week mock-up data
-		for(int i = 0; i < 5; ++i){
-			TimePost post = new TimePost(
-					new GregorianCalendar(2014, 4-1, 7+i, 8, 15),
-					new GregorianCalendar(2014, 4-1, 7+i, 17, 00), 1);
-			post.isSigned=true;
-			timeList.add(post);
-		}
-		//to projects to report to
+//		//one week mock-up data
+//		for(int i = 0; i < 5; ++i){
+//			TimePost post = new TimePost(
+//					new GregorianCalendar(2014, 4-1, 7+i, 8, 15),
+//					new GregorianCalendar(2014, 4-1, 7+i, 17, 00), 1);
+//			post.isSigned=true;
+//			timeList.add(post);
+//		}
+//		//to projects to report to
 		projectList.add(new Project(1 						/* id */,
 									"Project 1"				/* name */,
 									false					/* isPrivate */,
 									"First mock-up project" /* Description */,
 									"Jonas" 				/* owner */,
 									"Joakim" 				/* customer */));
+
 		
-		projectList.add(new Project(2 						/* id */,
-									"Project 2"				/* name */,
-									true					/* isPrivate */,
-									"Second mock-up project"/* Description */,
-									"Backend" 				/* owner */,
-									"Frontend" 				/* customer */));
+	}
+	
+	public void terminateDatabaseHelper(){
+		dbHelper.closeDB();
 	}
 	
 	public void set(TimePost time){
 		
 		//Put time into DB
-		timeList.add(time);
+		//timeList.add(time);
+		dbHelper.createTimePost(time);
 	}
 	
 	public TimePost getLatest(){
@@ -73,6 +77,10 @@ public class DB {
 	
 	public ArrayList<TimePost> getTime(int projectId){
 		
+		return dbHelper.getAllTimePost(projectId);
+		
+		
+		/*
 		//get all TimePostObjects associated with projectId
 		ArrayList<TimePost> ret = new ArrayList<TimePost>(10);
 		for(int i = 0; i < timeList.size(); ++i){
@@ -80,7 +88,7 @@ public class DB {
 				ret.add(timeList.get(i));
 			}
 		}
-		return ret;
+		return ret;*/
 	}
 	/*
 	public ArrayList<TimePost> getTimes(GregorianCalendar fromDate, GregorianCalendar toDate, int projectId){
@@ -113,6 +121,11 @@ public class DB {
 				return projectList.get(i);
 		}
 		return null;
+	}
+
+	public boolean empty(int pid) {
+		// TODO Auto-generated method stub
+		return dbHelper.empty(pid);
 	}
 	
 	/*public ArrayList<Project> getProjects
