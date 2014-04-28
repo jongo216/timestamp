@@ -122,6 +122,11 @@ public class DB {
 		}
 		return null;
 	}
+
+	public boolean empty(int pid) {
+		// TODO Auto-generated method stub
+		return dbHelper.empty(pid);
+	}
 	
 	/*public ArrayList<Project> getProjects
 			(ProjectType type, GregorianCalendar activeSinceDate)

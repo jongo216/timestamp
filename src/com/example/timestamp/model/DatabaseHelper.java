@@ -166,8 +166,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     
     public ArrayList<TimePost> getAllTimePost(int pid){
     	ArrayList<TimePost> ret = new ArrayList<TimePost>();
-    	String selectQuery = "SELECT * FROM "+TABLE_TIMEPOST;
-    	Log.d("DatabaseHelper", selectQuery);
+    	String selectQuery = "SELECT * FROM "+TABLE_TIMEPOST; //+"WHERE " + KEY_PID + " = " + pid;
+    	//Log.d("DatabaseHelper", selectQuery);
     	
     	try{
     		SQLiteDatabase db = this.getReadableDatabase();
@@ -265,6 +265,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     	
     	
     }
+
+	public Boolean empty(int pid) {
+		String selectQuery = "SELECT count(*) AS NUMBERS FROM "+TABLE_TIMEPOST; //WHERE pid = pid
+    	
+    	try{
+    		SQLiteDatabase db = this.getReadableDatabase();
+    		Cursor c = db.rawQuery(selectQuery, null);
+    		
+        	if (c != null){
+        		c.moveToFirst();
+        		
+        		int result = c.getInt(c.getColumnIndex("NUMBERS"));
+        		if(result == 0){
+        			return true;
+        		}
+        		else{
+        			return false;
+        		}
+        	}
+        	else{
+        		Log.d("DatabaseHelper", "NOPE");
+        	}
+        	
+    	}
+    	catch(SQLiteException e){
+    		Log.d("DatabaseHelper", e.toString());
+    	}
+		return false;
+		
+	}
    
     
 // 

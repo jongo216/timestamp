@@ -201,14 +201,13 @@ public class Start extends Fragment{
 					SettingsManager.setIsTimerRunning(false, getActivity());
 					chronometer.stop();
 					TimePost p = new TimePost();
-					
+					//jdtkjgdkj
 					p.setProjectId(SettingsManager.getCurrentProjectId(getActivity()));
 					p.setStartTime(SettingsManager.getStartTime(getActivity()));
 					p.setEndTime(new GregorianCalendar());
 					db.set(p);
 				}
 				else{
-					Log.d("DatabaseHelper","ACT 3");
 					imgButton.setBackgroundColor(Color.GREEN);
 					chronometer.setBase(SystemClock.elapsedRealtime());
 					chronometer.start();
@@ -225,13 +224,18 @@ public class Start extends Fragment{
     	Button timesBtn = (Button) rootView.findViewById(R.id.Times);
     	timesBtn.setOnClickListener(new OnClickListener(){
     		public void onClick(View arg0){
-    			ArrayList<TimePost> times = db.getTime(1);
-    			String text = "";
-    			for(int i = 0; i < times.size(); ++i){
-    				//buggs with printStart/EndTime
-    				text = text + times.get(i).printStartTime() + " - " + times.get(i).printEndTime() + "\n";
+    			if(!db.empty(1)){
+    				ArrayList<TimePost> times = db.getTime(1); // PROJECT ID fix....
+        			String text = "";
+        			for(int i = 0; i < times.size(); ++i){
+        				//buggs with printStart/EndTime
+        				text = text + times.get(i).printStartTime() + " - " + times.get(i).printEndTime() + "\n";
+        			}
+        			Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
     			}
-    			Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
+    			else{
+    				Toast.makeText(getActivity(), "The database is currently empty!", Toast.LENGTH_LONG).show();
+    			}
     		}
     	});
     	//projects
