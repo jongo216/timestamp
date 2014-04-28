@@ -60,10 +60,11 @@ public class Start extends Fragment{
         Log.d("DatabaseHelper","New DB");
         
         //db.dbHelper.showTables();
-        db.set(new TimePost(1942,10,23,13,37));
-        db.set(new TimePost(1942,10,24,13,37));
-        db.set(new TimePost(1942,10,25,13,37));
-        db.dbHelper.showTables();
+        //db.set(new TimePost(1942,10,23,13,37));
+        //db.set(new TimePost(1942,10,24,13,37));
+        //db.set(new TimePost(1942,10,25,13,37));
+        Log.d("DatabaseHelper","Done inserting...");
+        //db.dbHelper.showTables();
         
         activityInitStart();
         
@@ -82,7 +83,6 @@ public class Start extends Fragment{
 		chronometer = (Chronometer)rootView.findViewById(R.id.chronometer);
 		
 		imgButton = (ImageButton) rootView.findViewById(R.id.btnCheckIn);
-		
 		int currentProject = SettingsManager.getCurrentProjectId(parentActivity);
 		
 		if (timerRunning)
@@ -96,8 +96,8 @@ public class Start extends Fragment{
 		else imgButton.setBackgroundColor(Color.WHITE);
 		
 		
-		
 		projects = db.getAllProjects();
+		Log.d("DatabaseHelper","Projsize: "+projects.size());
 		projectsMenuString = new String[projects.size() + 1];
 		projectMenuIds = new int[projects.size()+1];
 		int selectedRow = 0;
@@ -190,60 +190,33 @@ public class Start extends Fragment{
 	
     public void imageButtonListener(){
 		
-		//Call timepost function..?
-		
 		imgButton.setOnClickListener(new OnClickListener(){
 			
 			public void onClick(View arg0){
-
 				boolean timerRunning = SettingsManager.getIsTimerRunning(getActivity());
-				
 							
 				if(timerRunning){
 					imgButton.setBackgroundColor(Color.WHITE);
 					
 					SettingsManager.setIsTimerRunning(false, getActivity());
 					chronometer.stop();
-					TimePost p= new TimePost();
-					
+					TimePost p = new TimePost();
 					
 					p.setProjectId(SettingsManager.getCurrentProjectId(getActivity()));
 					p.setStartTime(SettingsManager.getStartTime(getActivity()));
 					p.setEndTime(new GregorianCalendar());
-					
 					db.set(p);
-					
-					
-
-					
-				}else{
+				}
+				else{
+					Log.d("DatabaseHelper","ACT 3");
 					imgButton.setBackgroundColor(Color.GREEN);
 					chronometer.setBase(SystemClock.elapsedRealtime());
 					chronometer.start();
 					SettingsManager.setIsTimerRunning(true, getActivity());
 					SettingsManager.setStartTime(new GregorianCalendar(), getActivity());
-					
-
-					//Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
-					//imgButton.setBackgroundColor(Color.WHITE);
 				}
-				
-				TextView tv = (TextView) rootView.findViewById(R.id.textView2);
-				tv.setVisibility(View.VISIBLE);
-				tv.setText("Tid: 1.4 timmar");
-				
-			
-				/*if(db.getLatest().isSigned){
-					tv.setText("Worked ours" + Double.toString(db.getLatest().getWorkedHours()));
-				}*/
-
-				}
-				
-
-				
-				
+			}	
 		});
-			
 	}
     
     //database testing!

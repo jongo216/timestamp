@@ -21,7 +21,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String LOG = DatabaseHelper.class.getName();
  
     // Database Version
-    private static final int DATABASE_VERSION = 14;
+    private static final int DATABASE_VERSION = 17;
  
     // Database Name
     private static final String DATABASE_NAME = "TimeStamp";
@@ -157,7 +157,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //values.put(KEY_COMMENT_SHARED, timePost.commentShared);
  
         // insert row
-        Log.d("DatabaseHelper", "INTERTING");
+        Log.d("DatabaseHelper", "Final insert...");
         db.insert(TABLE_TIMEPOST, null, values);
         db.close();
         //Return auto-ink ID?

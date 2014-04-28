@@ -24,7 +24,7 @@ public class DB {
 		//mock-up data
 
 //		timeList = new ArrayList<TimePost>(20);
-//		projectList = new ArrayList<Project>(20);
+		projectList = new ArrayList<Project>(20);
 //		//one week mock-up data
 //		for(int i = 0; i < 5; ++i){
 //			TimePost post = new TimePost(
@@ -34,12 +34,12 @@ public class DB {
 //			timeList.add(post);
 //		}
 //		//to projects to report to
-//		projectList.add(new Project(1 						/* id */,
-//									"Project 1"				/* name */,
-//									false					/* isPrivate */,
-//									"First mock-up project" /* Description */,
-//									"Jonas" 				/* owner */,
-//									"Joakim" 				/* customer */));
+		projectList.add(new Project(1 						/* id */,
+									"Project 1"				/* name */,
+									false					/* isPrivate */,
+									"First mock-up project" /* Description */,
+									"Jonas" 				/* owner */,
+									"Joakim" 				/* customer */));
 
 		
 	}
