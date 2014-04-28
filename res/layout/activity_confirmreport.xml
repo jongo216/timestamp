@@ -16,35 +16,137 @@
         android:layout_marginBottom="32dp"
         android:padding="10dp"
         android:text="@string/textSendTimeReport" />
-    
-    <Spinner
 
+    <Spinner
         android:id="@+id/projects_menu_spinner2"
+        style="@style/CustomStyleButtonDark"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="47dp" 
-        style="@style/CustomStyleButtonDark"
-        />
+        android:layout_marginTop="47dp" />
 
-	<RelativeLayout
-	    android:layout_width="400dp"
-	    android:layout_marginTop="36dp"
-	    android:layout_below="@+id/projects_menu_spinner2"
-	    android:layout_height="wrap_content" 
-	    android:layout_centerHorizontal="true"
-	    android:layout_centerVertical="true"
-	    >
+    <TableLayout
+        android:id="@+id/tableRow1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/projects_menu_spinner2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"
+        android:gravity="center" >
 
-	    <ImageView
-	        android:id="@+id/timetable"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:src="@drawable/timetable" 
-	        />
+	    <TableRow
+	       android:background="#063A70"
+	       
+	       >
+
+	        <TextView
+	            android:layout_width="50dp"
+	            android:gravity="center"
+	            android:padding="3dp"
+	            android:text="Dag"
+	            android:textColor="#FFFFFF"
+	            />
+
+	        <TextView
+	            android:gravity="center"
+	            android:padding="3dp"
+	            android:text="Tidsintervall" 
+	             android:textColor="#FFFFFF"/>
+
+	        <TextView
+	            android:gravity="center"
+	            android:padding="3dp"
+	            android:text="Total tid" 
+	            android:textColor="#FFFFFF"/>
+
+	        <TextView
+	            android:layout_width="100dp"
+	            android:gravity="center"
+	            android:padding="3dp"
+	            android:text="Kommentar"
+	            android:textColor="#FFFFFF" />
 	
-     </RelativeLayout>
+	    </TableRow>
+	    <TableRow
+	        >
 
+	        <TextView
+	            android:layout_width="50dp"
+	            android:gravity="center"
+	            
+	            android:text="Mån" />
+
+	        <TextView
+	            android:gravity="center"
+	            android:padding="3dp"
+	            android:text="08:00-10:00" />
+
+	        <TextView
+	            android:gravity="center"
+	            android:padding="3dp"
+	            android:text="2h" />
+
+	        <TextView
+	            android:layout_width="100dp"
+	            android:gravity="center"
+	            android:padding="3dp"
+	            android:text="Möte på Saab" />
+	
+	    </TableRow>
+	    <TableRow
+	       android:background="#CCCCCC" >
+
+	        <TextView
+	            android:layout_width="50dp"
+	            android:gravity="center"
+	            android:padding="3dp"
+	            android:text="Tis" />
+
+	        <TextView
+	            android:gravity="center"
+	            android:padding="3dp"
+	            android:text="08:00-14:00" />
+
+	        <TextView
+	            android:gravity="center"
+	            android:padding="3dp"
+	            android:text="6h" />
+
+	        <TextView
+	            android:layout_width="100dp"
+	            android:gravity="center"
+	            android:padding="3dp"
+	            android:text="Möte på LiU" />
+	
+	    </TableRow>
+	    <TableRow
+	      
+	        >
+
+	        <TextView
+	            android:layout_width="50dp"
+	            android:gravity="center"
+	            android:padding="3dp"
+	            android:text="Ons" />
+
+	        <TextView
+	            android:gravity="center"
+	            android:padding="3dp"
+	            android:text="09:00-14:00" />
+
+	        <TextView
+	            android:gravity="center"
+	            android:padding="3dp"
+	            android:text="5h" />
+
+	        <TextView
+	            android:layout_width="100dp"
+	            android:gravity="center"
+	            android:padding="3dp"
+	            android:text="Skidor med fami.." />
+	
+	    </TableRow>
+   </TableLayout>
 </RelativeLayout>
-  
