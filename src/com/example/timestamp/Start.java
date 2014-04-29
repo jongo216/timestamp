@@ -40,26 +40,12 @@ import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.view.*;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.*;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.Chronometer;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.timestamp.model.DB;
-import com.example.timestamp.model.Project;
-import com.example.timestamp.model.SettingsManager;
-import com.example.timestamp.model.TimePost;
+import com.example.timestamp.model.*;
 
 
 public class Start extends Fragment{
@@ -251,10 +237,9 @@ public class Start extends Fragment{
 					SettingsManager.setIsTimerRunning(false, getActivity());
 					chronometer.stop();
 					TimePost p = new TimePost();
-					//jdtkjgdkj
 					p.setProjectId(SettingsManager.getCurrentProjectId(getActivity()));
 					p.setStartTime(SettingsManager.getStartTime(getActivity()));
-					p.setEndTime(new GregorianCalendar());
+					p.setEndTimeNow();
 					db.set(p);
 				}
 				else{
@@ -274,11 +259,15 @@ public class Start extends Fragment{
     	Button timesBtn = (Button) rootView.findViewById(R.id.Times);
     	timesBtn.setOnClickListener(new OnClickListener(){
     		public void onClick(View arg0){
-    			if(!db.empty(1)){
-    				ArrayList<TimePost> times = db.getTime(1); // PROJECT ID fix....
+    			//int timePostID = 3;
+    			//db.updateStartTimePost(timePostID, "2014-06-07 17:00:00");
+    			int currentProjectSelected = SettingsManager.getCurrentProjectId(getActivity());
+    			if(!db.empty(currentProjectSelected)){
+    				ArrayList<TimePost> times = db.getTime(currentProjectSelected); 
         			String text = "";
         			for(int i = 0; i < times.size(); ++i){
-        				text = text + times.get(i).printStartTime() + " - " + times.get(i).printEndTime() + "\n";
+
+        				text = text +times.get(i).id + times.get(i).printStartTime() + " - " + times.get(i).printEndTime() + "\n";
         			}
         			Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
     			}

@@ -29,6 +29,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/confirmReportFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_gradient"
@@ -74,27 +75,27 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	            android:layout_width="50dp"
 	            android:gravity="center"
 	            android:padding="3dp"
-	            android:text="Dag"
+	            android:text="Day"
 	            android:textColor="#FFFFFF"
 	            />
 
 	        <TextView
 	            android:gravity="center"
 	            android:padding="3dp"
-	            android:text="Tidsintervall" 
+	            android:text="Time interval" 
 	             android:textColor="#FFFFFF"/>
 
 	        <TextView
 	            android:gravity="center"
 	            android:padding="3dp"
-	            android:text="Total tid" 
+	            android:text="Total hours" 
 	            android:textColor="#FFFFFF"/>
 
 	        <TextView
 	            android:layout_width="100dp"
 	            android:gravity="center"
 	            android:padding="3dp"
-	            android:text="Kommentar"
+	            android:text="Comment"
 	            android:textColor="#FFFFFF" />
 	
 	    </TableRow>
