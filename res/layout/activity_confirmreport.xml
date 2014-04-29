@@ -58,7 +58,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     <TableLayout
         android:id="@+id/time_table"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/projects_menu_spinner2"
         android:layout_centerHorizontal="true"
@@ -72,7 +72,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	       >
 
 	        <TextView
-	            android:layout_width="50dp"
+	            android:layout_weight="1"
 	            android:gravity="center"
 	            android:padding="3dp"
 	            android:text="Day"
@@ -80,19 +80,22 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	            />
 
 	        <TextView
+	            android:layout_weight="4"
 	            android:gravity="center"
 	            android:padding="3dp"
 	            android:text="Time interval" 
 	             android:textColor="#FFFFFF"/>
 
 	        <TextView
+	            android:layout_weight="3"
 	            android:gravity="center"
 	            android:padding="3dp"
 	            android:text="Total hours" 
 	            android:textColor="#FFFFFF"/>
 
 	        <TextView
-	            android:layout_width="100dp"
+	            
+	            android:layout_weight="6"
 	            android:gravity="center"
 	            android:padding="3dp"
 	            android:text="Comment"
