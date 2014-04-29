@@ -1,3 +1,32 @@
+<!-- Copyright (c) 2014, Group D in course TNM082
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+* Neither the name of the {organization} nor the names of its
+  contributors may be used to endorse or promote products derived from
+  this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/AbsoluteLayout1"
@@ -30,23 +59,59 @@
         android:layout_marginTop="47dp"
         />
 
-    <ImageButton
+
+    
+    
+     <LinearLayout
+     
+        android:orientation="horizontal"
         android:id="@+id/btnCheckIn"
+        android:layout_alignParentBottom="true"
+      
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_alignBottom="@+id/graf"
+        android:layout_marginBottom="30dp"
+      	
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
+ 		
+ 		android:radius="10dip"
+        android:layout_marginTop="54dp"
         android:background ="@android:color/white"
-        android:src="@drawable/clock"
-        
-        
-        android:text="@string/button_timestart"
+        android:padding="20dp"
+        android:paddingLeft="100dp"
+     
+        > 
+
+
+       <Chronometer
+	        android:id="@+id/chronometer"
+	        android:format="%s"
+	       
+	        android:layout_gravity="center_vertical"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	      
+	       	android:layout_marginLeft="150dp"
+	       	
+	        android:textSize="40sp"
+       /> 
+       
+       
+       <ImageView
+	        android:id="@+id/clock"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:layout_marginLeft="50dp"
+	        android:src="@drawable/clock"
         />
-    
-    <ImageView
+
+        </LinearLayout>
+
+   
+  <!--    <ImageView
         android:id="@+id/graf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -56,8 +121,8 @@
         android:layout_marginRight="20dp"
         android:baselineAlignBottom="true"
         android:src="@drawable/graf"/>
-
-    <TextView
+   -->
+   <!--  <TextView
         android:id="@+id/textWeek"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -65,7 +130,7 @@
         android:layout_centerHorizontal="true"
         android:textColor="@color/myColorG"
         android:text="@string/textWeek"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium" /> -->
 
     <Button
         android:id="@+id/Times"
@@ -73,7 +138,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/graf"
-        android:layout_below="@+id/btnCheckIn"
+        android:layout_above="@+id/btnCheckIn"
         android:text="Times" />
 
     <Button
@@ -83,17 +148,8 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/Projects"
         android:layout_alignLeft="@+id/Projects"
-        android:text="Times" />
-    	android:layout_alignRight="@+id/graf"
-        android:layout_below="@+id/btnCheckIn"
         android:text="Projects" />
-    <Chronometer
-        android:id="@+id/chronometer"
-        android:format="%s"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="40sp"/>
-    
+
+
+       
 </RelativeLayout>
