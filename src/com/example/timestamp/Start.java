@@ -73,17 +73,8 @@ public class Start extends Fragment{
         db = new DB(getActivity().getApplicationContext());
         Log.d("DatabaseHelper","New DB");
         
-        //db.dbHelper.showTables();
-        //db.set(new TimePost(1942,10,23,13,37));
-        //db.set(new TimePost(1942,10,24,13,37));
-        //db.set(new TimePost(1942,10,25,13,37));
-        Log.d("DatabaseHelper","Done inserting...");
-        //db.dbHelper.showTables();
-        
         activityInitStart();
         
-        //db.terminateDatabaseHelper();
-       
         return rootView;
     }
 
@@ -93,15 +84,11 @@ public class Start extends Fragment{
 		
 		parentActivity = getActivity();
 		
-		
 		chronometer = (Chronometer)rootView.findViewById(R.id.chronometer);
-		
 
 		imgButton = (LinearLayout) rootView.findViewById(R.id.btnCheckIn);
 		
-		
 		initTimer();
-		
 		
 		int selectedRow = 0;
 		
@@ -142,11 +129,6 @@ public class Start extends Fragment{
 		projectsMenuString[projects.size()]= getString(R.string.add_project);
 		projectMenuIds[projects.size()] = -1;
 		
-
-		
-		
-	
-		
 		//Letar efter en spinner i activity_main.xml med ett specifict id
 		spinnerProjectView = (Spinner) rootView.findViewById(R.id.projects_menu_spinner2);
 		
@@ -165,7 +147,6 @@ public class Start extends Fragment{
 		        ((TextView) v).setTextSize(25);
 
 		        return v;
-
 		    }
 			//Style för dropdownmenyn under spinnern..
 			public View getDropDownView(int position, View convertView,ViewGroup parent) {
@@ -194,10 +175,7 @@ public class Start extends Fragment{
 		imageButtonListener();
 		spinnerListener();
 		dbButtonListener();
-		
-		
 	}
-	
 	
 	public void initTimer(){
 		boolean timerRunning;
@@ -343,8 +321,4 @@ public class Start extends Fragment{
 				// show it
 			alertDialog.show();
 		}
-
-
 }
-
-

@@ -148,22 +148,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     
     /* ----------- TIMEPOST FUNCTIONS -------------- */
-    public void createTimePost(TimePost timePost) {
+    public void setTimePost(TimePost timePost) {
        
-    	SQLiteDatabase db = this.getWritableDatabase();
+    	if(timePost.id == 0){
+    		SQLiteDatabase db = this.getWritableDatabase();
     	 
-        ContentValues values = new ContentValues();
-        
-        values.put(KEY_PID, timePost.projectId);
-        values.put(KEY_START_TIME, timePost.getStartTime());
-        values.put(KEY_END_TIME, timePost.getEndTime());
-        values.put(KEY_COMMENT, timePost.comment);
-        values.put(KEY_IS_SIGNED, timePost.isSigned);
-        values.put(KEY_COMMENT_SHARED, timePost.commentShared);
- 
-        // insert row
-        db.insert(TABLE_TIMEPOST, null, values);
-        db.close();
+	        ContentValues values = new ContentValues();
+	        
+	        values.put(KEY_PID, timePost.projectId);
+	        values.put(KEY_START_TIME, timePost.getStartTime());
+	        values.put(KEY_END_TIME, timePost.getEndTime());
+	        values.put(KEY_COMMENT, timePost.comment);
+	        values.put(KEY_IS_SIGNED, timePost.isSigned);
+	        values.put(KEY_COMMENT_SHARED, timePost.commentShared);
+	 
+	        // insert row
+	        db.insert(TABLE_TIMEPOST, null, values);
+	        db.close();
+    	}
+    	else{
+    		String myQuery = 
+    		"UPDATE "+TABLE_TIMEPOST+" SET "+
+    		KEY_START_TIME+"='"+timePost.getStartTime()+"', "+
+    		KEY_END_TIME+"='"+timePost.getEndTime()+"', "+
+    		KEY_COMMENT+"='"+timePost.comment+"', "+
+    		KEY_IS_SIGNED+"="+timePost.isSigned+", "+
+    		KEY_COMMENT_SHARED+"="+timePost.commentShared+
+    		" WHERE "+KEY_TID+"="+timePost.id;
+    		
+	    	try {
+	    		SQLiteDatabase db = this.getWritableDatabase();
+	    		db.execSQL(myQuery);
+	    		db.close();
+			} 
+	    	catch (SQLException e) {
+				Log.d(LOG,e.toString());
+			}
+    	}
+    	
     }
     
     public TimePost getTimePost(int tid){
@@ -175,7 +197,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     		SQLiteDatabase db = this.getReadableDatabase();
     		Cursor c = db.rawQuery(selectQuery, null);
     		
-        	if (c != null){
+        	if (c.getCount() != 0){
         		c.moveToFirst();
         			
         		String st = c.getString(c.getColumnIndex(KEY_START_TIME));
@@ -213,7 +235,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     		SQLiteDatabase db = this.getReadableDatabase();
     		Cursor c = db.rawQuery(selectQuery, null);
         	
-        	if (c != null){
+        	if (c.getCount() != 0){
         		c.moveToFirst();
         		
         		do {
@@ -258,7 +280,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     		SQLiteDatabase db = this.getReadableDatabase();
     		Cursor c = db.rawQuery(selectQuery, null);
         	
-        	if (c != null){
+        	if (c.getCount() != 0){
         		c.moveToFirst();
         		
         		do {
@@ -302,7 +324,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     		SQLiteDatabase db = this.getReadableDatabase();
     		Cursor c = db.rawQuery(selectQuery, null);
     		
-        	if (c != null){
+        	if (c.getCount() != 0){
         		c.moveToFirst();
         		
         		int result = c.getInt(c.getColumnIndex("NUMBERS"));
@@ -325,79 +347,61 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		
 	}
 
-	public void updateStartTimePost(int timePostID, String dateString) {
-		
-		String myQuery = "UPDATE "+TABLE_TIMEPOST+" SET "+KEY_START_TIME+"='"+dateString+"' WHERE "+KEY_TID+"="+timePostID+";";
-	
-    	try {
-    		SQLiteDatabase db = this.getWritableDatabase();
-    		db.execSQL(myQuery);
-    		db.close();
-		} catch (SQLException e) {
-			Log.d(LOG,e.toString());
-		}
-	}
-	
-	public void updateEndTimePost(int timePostID, String dateString) {
-		
-		String myQuery = "UPDATE "+TABLE_TIMEPOST+" SET "+KEY_END_TIME+"='"+dateString+"' WHERE "+KEY_TID+"="+timePostID;
-	
-    	try {
-    		SQLiteDatabase db = this.getWritableDatabase();
-			db.execSQL(myQuery);
-			db.close();
-		} catch (SQLException e) {
-			Log.d(LOG,e.toString());
-		}
-	}
 
-	public void updateCommentTimePost(int timePostID, String newComment) {
-		
-		String myQuery = "UPDATE "+TABLE_TIMEPOST+" SET "+KEY_COMMENT+"='"+newComment+"' WHERE "+KEY_TID+"="+timePostID;
-	
-    	try {
-    		SQLiteDatabase db = this.getWritableDatabase();
-			db.execSQL(myQuery);
-			db.close();
-		} catch (SQLException e) {
-			Log.d(LOG,e.toString());
-		}
-	}
-
-	public void updateProjectIDTimePost(int timePostID, int projectID) {
-		
-		String myQuery = "UPDATE "+TABLE_TIMEPOST+" SET "+KEY_PID+"='"+projectID+"' WHERE "+KEY_TID+"="+timePostID;
-	
-    	try {
-    		SQLiteDatabase db = this.getWritableDatabase();
-			db.execSQL(myQuery);
-			db.close();
-		} catch (SQLException e) {
-			Log.d(LOG,e.toString());
-		}
-	}
+	//Behövs projektID skickas med då time post ska deletas?
+//	public void deleteTimePost(int timePostID) {
+//		//Query: "DROP "+TABLE_TIMEPOST+
+//		String myQuery = "UPDATE "+TABLE_TIMEPOST+" SET "+KEY_PID+"='"+projectID+"' WHERE "+KEY_TID+"="+timePostID;
+//	
+//    	try {
+//    		SQLiteDatabase db = this.getWritableDatabase();
+//			db.execSQL(myQuery);
+//			db.close();
+//		} catch (SQLException e) {
+//			Log.d(LOG,e.toString());
+//		}
+//	}
 
 	
 	/* -------------------------------------------- */
 	/* ----------- PROJECT FUNCTIONS -------------- */
 	
-	public void createProject(Project project) {
-		Log.d(LOG,"IM GONNA INSERT A PROJECT!");
-		
-		SQLiteDatabase db = this.getWritableDatabase();
-   	 
-        ContentValues values = new ContentValues();
-        
-        values.put(KEY_PROJECT_NAME, project.getName());
-        values.put(KEY_PROJECT_OWNER, project.getOwner());
-        values.put(KEY_DESCRIPTION, project.getDescription());
-        values.put(KEY_CUSTOMER, project.getCustomer());
- 
-        // insert row
-        db.insert(TABLE_PROJECTS, null, values);
-        db.close();
+	public void setProject(Project project) {
+		//"IS PRIVATE" MISSING?!
+		if(project.getId() == 0){
+			SQLiteDatabase db = this.getWritableDatabase();
+		   	 
+	        ContentValues values = new ContentValues();
+	        
+	        values.put(KEY_PROJECT_NAME, project.getName());
+	        values.put(KEY_PROJECT_OWNER, project.getOwner());
+	        values.put(KEY_DESCRIPTION, project.getDescription());
+	        values.put(KEY_CUSTOMER, project.getCustomer());
+	 
+	        // insert row
+	        db.insert(TABLE_PROJECTS, null, values);
+	        db.close();
+		}
+		else{
+			String myQuery = 
+    		"UPDATE "+TABLE_PROJECTS+" SET "+
+    		KEY_PROJECT_NAME+"='"+project.getName()+"', "+
+    		KEY_PROJECT_OWNER+"='"+project.getOwner()+"', "+
+    		KEY_DESCRIPTION+"='"+project.getDescription()+"', "+
+    		KEY_CUSTOMER+"='"+project.getCustomer()+"'"+
+    		" WHERE "+KEY_PID+"="+project.getId();
+    		
+	    	try {
+	    		SQLiteDatabase db = this.getWritableDatabase();
+	    		db.execSQL(myQuery);
+	    		db.close();
+			} 
+	    	catch (SQLException e) {
+				Log.d(LOG,e.toString());
+			}
+		}
 	}
-
+	
 	public ArrayList<Project> getAllProjects() {
 		ArrayList<Project> ret = new ArrayList<Project>();
     	String selectQuery = "SELECT * FROM "+TABLE_PROJECTS;
@@ -406,7 +410,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     		SQLiteDatabase db = this.getReadableDatabase();
     		Cursor c = db.rawQuery(selectQuery, null);
         	
-        	if (c != null){
+        	if (c.getCount() != 0){
         		c.moveToFirst();
         		
         		do {
@@ -445,7 +449,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     		SQLiteDatabase db = this.getReadableDatabase();
     		Cursor c = db.rawQuery(selectQuery, null);
         	
-        	if (c != null){
+        	if (c.getCount() != 0){
         		c.moveToFirst();
         		
     			temp.setId(c.getInt(c.getColumnIndex(KEY_PID)));
@@ -476,7 +480,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     		SQLiteDatabase db = this.getReadableDatabase();
     		Cursor c = db.rawQuery(selectQuery, null);
     		
-        	if (c != null){
+        	if (c.getCount() != 0){
         		c.moveToFirst();
         		
         		int result = c.getInt(c.getColumnIndex("NUMBERS"));
@@ -499,6 +503,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		
 	}
 
-	
-
+	/* -------------------------------------------- */
 }
+	

@@ -52,17 +52,16 @@ public class DB {
 	public void set(TimePost time){
 		
 		//Put time into DB
-		dbHelper.createTimePost(time);
+		dbHelper.setTimePost(time);
 	}
 	
 	public void set(Project project){
 		
 		//Put project into DB
-		dbHelper.createProject(project);
+		dbHelper.setProject(project);
 	}
 	
-	public ArrayList<TimePost> getTime(int projectId){
-		
+	public ArrayList<TimePost> getTime(int projectId){	
 		return dbHelper.getAllTimePost(projectId);
 	}
 	/*
@@ -101,21 +100,7 @@ public class DB {
 		return dbHelper.projectsEmpty();
 	}
 
-	public void updateStartTimePost(int timePostID, String dateString) {
-		dbHelper.updateStartTimePost(timePostID, dateString);
-	}
-	
-	public void updateEndTimePost(int timePostID, String dateString) {
-		dbHelper.updateEndTimePost(timePostID, dateString);
-	}
-	
-	public void updateCommentTimePost(int timePostID, String newComment) {
-		dbHelper.updateCommentTimePost(timePostID, newComment);
-	}
-	
-	public void updateProjectIDTimePost(int timePostID, int projectID) {
-		dbHelper.updateProjectIDTimePost(timePostID, projectID);
-	}
+
 	
 	/*
 	public void sync(){

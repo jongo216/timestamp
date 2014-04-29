@@ -44,7 +44,7 @@ public class Project {
 	  //Default constructor
 	  public Project()
 	  {
-		  setId(-1);
+		  setId(0);
 		  setName("Default Project");
 		  setDescription("");
 		  setOwner("Default Owner");
