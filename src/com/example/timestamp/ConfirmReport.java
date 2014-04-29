@@ -30,31 +30,45 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package com.example.timestamp;
 
 
+import java.util.ArrayList;
+
+import com.example.timestamp.model.DB;
+import com.example.timestamp.model.Project;
+import com.example.timestamp.model.SettingsManager;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.*;
+import android.widget.AdapterView.OnItemSelectedListener;
 
 public class ConfirmReport extends Fragment {
 	
-	String[] projectsMenuString = {"Project 1", "Project 2", "+ Create Project"};
+	public String[] projectsMenuString; // = {"Projekt 1", "Projekt 2", "Nytt projekt"};
+	public int[] projectMenuIds;
+	private ArrayList<Project> projects;
+	private int[] projectMenuIds2;
+	private ArrayList<Project> projects2;
+	private Spinner spinnerProjectView2;
+	private DB db;
 	private Button button;
 	private View rootView;
+	private FragmentActivity parentActivity;
+	private Spinner spinner;
 
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
  
         rootView = inflater.inflate(R.layout.activity_confirmreport, container, false);
+        db = new DB(getActivity().getApplicationContext());
         activityInitConfirmReport();
        
         return rootView;
@@ -63,10 +77,35 @@ public class ConfirmReport extends Fragment {
 	
 
 	public void activityInitConfirmReport(){
+		
+		parentActivity = getActivity();
 	
 		//Letar efter en spinner i activity_main.xml med ett specifict id
-		Spinner spinner = (Spinner) rootView.findViewById(R.id.projects_menu_spinner2);
+		spinner = (Spinner) rootView.findViewById(R.id.projects_menu_spinner2);
 				
+		
+		int selectedRow = 0;
+		
+		int currentProject = SettingsManager.getCurrentProjectId(parentActivity);
+	
+		projects = db.getAllProjects();
+		projectsMenuString = new String[projects.size() + 1];
+		projectMenuIds = new int[projects.size()+1];
+		
+		for (int n = 0; n < projects.size(); n++)
+		{
+			projectsMenuString[n] = projects.get(n).getName();
+			projectMenuIds[n] = projects.get(n).getId();
+			if (currentProject == projectMenuIds[n])
+				selectedRow = n;
+		}
+		
+		projectsMenuString[projects.size()]=  "List all projects";
+		projectMenuIds[projects.size()] = -1;
+		
+		
+		
+		
 		//Hämtar namn från string array med menu item.
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, projectsMenuString){
 			
@@ -98,7 +137,9 @@ public class ConfirmReport extends Fragment {
 		};
 		//Spinnern använder items från en valt adapter.
 		spinner.setAdapter(adapter);
-		
+
+		spinnerListener();
+		spinner.setSelection(selectedRow);
 				
 		button = (Button) rootView.findViewById(R.id.sendReportButton);
 
@@ -172,6 +213,32 @@ public class ConfirmReport extends Fragment {
 			
 			table.addView(row, new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 		}
+	}
+	
+	public void spinnerListener() {
+		spinner.setOnItemSelectedListener(new OnItemSelectedListener(){
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int pos, long id) {
+				
+				// TODO Auto-generated method stub
+				if(projectMenuIds[pos] != -1){
+					SettingsManager.setCurrentProjectId(projectMenuIds[pos], getActivity());
+					
+				}else{
+					//Lista alla projekt
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		
 	}
 	
 }
