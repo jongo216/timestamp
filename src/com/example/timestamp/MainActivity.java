@@ -160,6 +160,9 @@ ActionBar.TabListener {
 			intent = new Intent(this, EditReport.class);
 			startActivity(intent);
 			return true;
+		case R.id.action_manageprojects: /// För hantera projektvyn
+			intent = new Intent(this, ManageProjects.class);
+			startActivity(intent); 
 			
 		default:
 			return super.onOptionsItemSelected(item);

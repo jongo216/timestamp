@@ -47,6 +47,10 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
+import android.view.View.OnHoverListener;
+import android.view.View.OnTouchListener;
+import android.widget.*;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -234,20 +238,26 @@ public class ConfirmReport extends Fragment {
 		
 		});
 		
-		plotTimeTable(SettingsManager.getCurrentProjectId(parentActivity));
-		
-		
+		plotTimeTable(currentProject);
 	}
 
 	
 	public void plotTimeTable(int projectID){
 		DB db = new DB(this.getActivity());
 		TableLayout table = (TableLayout) rootView.findViewById(R.id.time_table);
-		
-		
-		//Get list of time posts
-		ArrayList<TimePost> times = db.getTime(projectID);
-		
+
+		ArrayList<TimePost> times;
+		//Return if no time posts exist for a given project
+		if (projectID != -1)
+		{
+			//Get list of time posts
+			times = db.getTime(projectID);
+		}
+		else
+		{
+			//Get list of time posts
+			times = db.getTime();
+		}
 		
 		//Remove old rows from table (except the header row)
 		int numRows = table.getChildCount();
@@ -293,6 +303,7 @@ public class ConfirmReport extends Fragment {
 			//Config row
 			if(i%2 == 1)
 				row.setBackgroundColor(Color.parseColor("#CCCCCC"));
+			row.setPadding(0, 8, 0, 8);
 			row.setClickable(true);
 			row.setId(times.get(i).id);
 			row.setOnClickListener(new OnClickListener(){
@@ -305,6 +316,18 @@ public class ConfirmReport extends Fragment {
 			        
 			    }
 			});
+			//Test with focus colors
+//			row.setFocusableInTouchMode(true);
+//			row.setOnFocusChangeListener(new OnFocusChangeListener(){
+//				@Override
+//			    public void onFocusChange(View v, boolean isFocused) {
+//			        //Inform the user the button has been clicked
+//					if (isFocused)
+//						v.setBackgroundColor(Color.RED);
+//					else
+//						v.setBackgroundColor(Color.WHITE);
+//			    }
+//			});
 			
 			//Add row to table
 			table.addView(row, new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
@@ -322,9 +345,9 @@ public class ConfirmReport extends Fragment {
 				// TODO Auto-generated method stub
 				if(projectMenuIds[pos] != -1){
 					SettingsManager.setCurrentProjectId(projectMenuIds[pos], getActivity());
-					
+					plotTimeTable(projectMenuIds[pos]);
 				}else{
-					//Lista alla projekt
+					plotTimeTable(-1);
 				}
 			}
 

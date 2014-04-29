@@ -64,6 +64,10 @@ public class DB {
 	public ArrayList<TimePost> getTime(int projectId){	
 		return dbHelper.getAllTimePost(projectId);
 	}
+	
+	public ArrayList<TimePost> getTime(){	
+		return dbHelper.getAllTimePost();
+	}
 	/*
 	public ArrayList<TimePost> getTimes(GregorianCalendar fromDate, GregorianCalendar toDate, int projectId){
 		

@@ -91,12 +91,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
        <Chronometer
 	        android:id="@+id/chronometer"
 	        android:format="%s"
-	       
+	       	android:layout_weight="1"
 	        android:layout_gravity="center_vertical"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	      
-	       	android:layout_marginLeft="150dp"
+	        android:layout_marginLeft="50dp"
+	       	
 	       	
 	        android:textSize="40sp"
        /> 
@@ -104,10 +104,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
        
        <ImageView
 	        android:id="@+id/clock"
+	        android:layout_weight="1"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center_vertical"
-	        android:layout_marginLeft="50dp"
+	        android:layout_marginRight="50dp"
 	        android:src="@drawable/clock"
         />
 
