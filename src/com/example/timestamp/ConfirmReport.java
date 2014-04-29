@@ -200,7 +200,7 @@ public class ConfirmReport extends Fragment {
 			
 			TextView interval = new TextView(rootView.getContext());
 			//interval.setLayoutParams(lp);
-			interval.setText(start.get(Calendar.HOUR_OF_DAY) + ":" + start.get(Calendar.MINUTE) + " - " + end.get(Calendar.HOUR_OF_DAY) + ":" + end.get(Calendar.MINUTE));
+			interval.setText(times.get(i).FormatedTimeInterval());
 			interval.setGravity(Gravity.CENTER);
 			
 			TextView time = new TextView(rootView.getContext());
