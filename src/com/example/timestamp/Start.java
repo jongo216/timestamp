@@ -258,7 +258,6 @@ public class Start extends Fragment{
     				ArrayList<TimePost> times = db.getTime(1); // PROJECT ID fix....
         			String text = "";
         			for(int i = 0; i < times.size(); ++i){
-        				//buggs with printStart/EndTime
         				text = text + times.get(i).printStartTime() + " - " + times.get(i).printEndTime() + "\n";
         			}
         			Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();

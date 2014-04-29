@@ -41,10 +41,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.TextView;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.*;
 
 public class ConfirmReport extends Fragment {
 	
@@ -131,8 +129,49 @@ public class ConfirmReport extends Fragment {
 		
 		});
 		
+		plotTimeTable(1);
 		
-		
+	}
+	
+	public void plotTimeTable(int projectID){
+		TableLayout table = (TableLayout) rootView.findViewById(R.id.time_table);
+	
+		for(int i  = 0; i < 3; ++i){
+			TableRow row = new TableRow(rootView.getContext());
+			Log.d("Jonas", row.toString());
+			if(i%2 == 1)
+				row.setBackgroundColor(Color.parseColor("#CCCCCC"));
+			
+			LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+			row.setLayoutParams(lp);
+			
+			TextView day = new TextView(rootView.getContext());
+			day.setLayoutParams(lp);
+			day.setText("Mån");
+			day.setGravity(Gravity.CENTER);
+			
+			TextView interval = new TextView(rootView.getContext());
+			interval.setLayoutParams(lp);
+			interval.setText("08:00-10:00");
+			interval.setGravity(Gravity.CENTER);
+			
+			TextView time = new TextView(rootView.getContext());
+			time.setLayoutParams(lp);
+			time.setText("2h");
+			time.setGravity(Gravity.CENTER);
+			
+			TextView comment = new TextView(rootView.getContext());
+			comment.setLayoutParams(lp);
+			comment.setText("Möte på Saab");
+			comment.setGravity(Gravity.CENTER);
+			
+			row.addView(day);
+			row.addView(interval);
+			row.addView(time);
+			row.addView(comment);
+			
+			table.addView(row, new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+		}
 	}
 	
 }

@@ -56,7 +56,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         android:layout_marginTop="47dp" />
 
     <TableLayout
-        android:id="@+id/tableRow1"
+        android:id="@+id/time_table"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/projects_menu_spinner2"
@@ -98,6 +98,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	            android:textColor="#FFFFFF" />
 	
 	    </TableRow>
+	    <!--
 	    <TableRow
 	        >
 
@@ -124,6 +125,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	            android:text="Möte på Saab" />
 	
 	    </TableRow>
+	    
+	    
+	    
 	    <TableRow
 	       android:background="#CCCCCC" >
 
@@ -177,5 +181,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	            android:text="Skidor med fami.." />
 	
 	    </TableRow>
+  -->
    </TableLayout>
 </RelativeLayout>
