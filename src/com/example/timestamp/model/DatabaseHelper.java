@@ -29,11 +29,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.example.timestamp.model;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -50,7 +46,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String LOG = DatabaseHelper.class.getName();
  
     // Database Version
-    private static final int DATABASE_VERSION = 20;
+    private static final int DATABASE_VERSION = 22;
  
     // Database Name
     private static final String DATABASE_NAME = "TimeStamp";
@@ -83,19 +79,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
  
     
     // Table Create Statements
-    
-    // TimePost table create statement
-    /*private static final String CREATE_TABLE_TIME_STAMP = "CREATE TABLE " + TABLE_TIMEPOST
-            + " (" + KEY_TID + " INT(5) PRIMARY KEY NOT NULL AUTO_INCREMENT," 
-    		+ KEY_PID + " INT(5) NOT NULL,"
-            + KEY_START_TIME + " DATETIME,"
-    		+ KEY_END_TIME +" DATETIME,"
-    		+ KEY_COMMENT +" VARCHAR(50)," 
-    		+ KEY_IS_SIGNED +" TINYINT(1)," 
-    		+ KEY_COMMENT_SHARED +" TINYINT(1),"
-            +")";*/
- 
-    private static final String CREATE_TABLE_TIME_STAMP = "CREATE TABLE " + TABLE_TIMEPOST
+   private static final String CREATE_TABLE_TIME_STAMP = "CREATE TABLE " + TABLE_TIMEPOST
             + " (" + KEY_TID + " INTEGER PRIMARY KEY, " 
     		+ KEY_PID + " INTEGER, "
             + KEY_START_TIME + " DATETIME, "
@@ -112,9 +96,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + KEY_PROJECT_NAME + " VARCHAR, "
             + KEY_PROJECT_OWNER + " VARCHAR, "
     		+ KEY_DESCRIPTION +" VARCHAR, " 
-    		+ KEY_CUSTOMER +" VARCHAR, " 
-    		+ KEY_COMMENT_SHARED +" TINYINT)";
-    
+    		+ KEY_CUSTOMER +" VARCHAR)";
+    //+ "FOREIGN KEY ("+KEY_PROJECT_OWNER+") REFERENCES "+TABLE_USERS+"("+KEY_MAIL_ADRESS+") ON DELETE CASCADE)"
     
  // Users  table
     private static final String CREATE_TABLE_USERS = "CREATE TABLE "
@@ -141,70 +124,118 @@ public class DatabaseHelper extends SQLiteOpenHelper {
  
     @Override
     public void onCreate(SQLiteDatabase db) {
-    	Log.d("DatabaseHelper", "Creating database..." );
         // creating required tables
         db.execSQL(CREATE_TABLE_TIME_STAMP);
-        Log.d("DatabaseHelper", "STAMPED");
         db.execSQL(CREATE_TABLE_PROJECTS);
-        Log.d("DatabaseHelper", "PROJED");
         db.execSQL(CREATE_TABLE_USERS);
-        Log.d("DatabaseHelper", "USEEREREDED");
         db.execSQL(CREATE_TABLE_PROJECT_USER);
-        Log.d("DatabaseHelper","Done" );
     }
- 
-    
+  
     //Called if versionnumber is changed
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // on upgrade drop older tables
-    	Log.d("DatabaseHelper", "Update req, removing database..." );
+    	Log.d(LOG, "Update req, removing database..." );
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TIMEPOST);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROJECTS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROJECT_USERS);
-        
-        Log.d("DatabaseHelper","Done" );
+        Log.d(LOG,"Done creating new db" );
         
         // create new tables
         onCreate(db);
     }
 
-
- 
-    public void createTimePost(TimePost timePost) {
-        Log.d("DatabaseHelper", "CREATING TIMEPOST.");
-    	SQLiteDatabase db = this.getWritableDatabase();
+    
+    /* ----------- TIMEPOST FUNCTIONS -------------- */
+    public void setTimePost(TimePost timePost) {
+       
+    	if(timePost.id == 0){
+    		SQLiteDatabase db = this.getWritableDatabase();
     	 
-        ContentValues values = new ContentValues();
-        //values.put(KEY_TID, timePost.id);
-        values.put(KEY_PID, timePost.projectId);
-        values.put(KEY_START_TIME, timePost.getStartTime());
-        values.put(KEY_END_TIME, timePost.getEndTime());
-        values.put(KEY_COMMENT, timePost.comment);
-        values.put(KEY_IS_SIGNED, timePost.isSigned);
-        values.put(KEY_COMMENT_SHARED, timePost.commentShared);
- 
-        // insert row
-        Log.d("DatabaseHelper", "Final insert...");
-        db.insert(TABLE_TIMEPOST, null, values);
-        db.close();
-        //Return auto-ink ID?
-        
+	        ContentValues values = new ContentValues();
+	        
+	        values.put(KEY_PID, timePost.projectId);
+	        values.put(KEY_START_TIME, timePost.getStartTime());
+	        values.put(KEY_END_TIME, timePost.getEndTime());
+	        values.put(KEY_COMMENT, timePost.comment);
+	        values.put(KEY_IS_SIGNED, timePost.isSigned);
+	        values.put(KEY_COMMENT_SHARED, timePost.commentShared);
+	 
+	        // insert row
+	        db.insert(TABLE_TIMEPOST, null, values);
+	        db.close();
+    	}
+    	else{
+    		String myQuery = 
+    		"UPDATE "+TABLE_TIMEPOST+" SET "+
+    		KEY_START_TIME+"='"+timePost.getStartTime()+"', "+
+    		KEY_END_TIME+"='"+timePost.getEndTime()+"', "+
+    		KEY_COMMENT+"='"+timePost.comment+"', "+
+    		KEY_IS_SIGNED+"="+timePost.isSigned+", "+
+    		KEY_COMMENT_SHARED+"="+timePost.commentShared+
+    		" WHERE "+KEY_TID+"="+timePost.id;
+    		
+	    	try {
+	    		SQLiteDatabase db = this.getWritableDatabase();
+	    		db.execSQL(myQuery);
+	    		db.close();
+			} 
+	    	catch (SQLException e) {
+				Log.d(LOG,e.toString());
+			}
+    	}
+    	
     }
     
-    public ArrayList<TimePost> getAllTimePost(int pid){
-    	ArrayList<TimePost> ret = new ArrayList<TimePost>();
-    	String selectQuery = "SELECT * FROM "+TABLE_TIMEPOST; //+"WHERE " + KEY_PID + " = " + pid;
-    	//Log.d("DatabaseHelper", selectQuery);
+    public TimePost getTimePost(int tid){
+    	
+    	String selectQuery = "SELECT * FROM "+TABLE_TIMEPOST+" WHERE "+KEY_TID+"="+tid;
+    	TimePost temp = new TimePost();
     	
     	try{
     		SQLiteDatabase db = this.getReadableDatabase();
     		Cursor c = db.rawQuery(selectQuery, null);
     		
-        	//Log.d("DatabaseHelper", "DATA: " + c.getCount());
+        	if (c.getCount() != 0){
+        		c.moveToFirst();
+        			
+        		String st = c.getString(c.getColumnIndex(KEY_START_TIME));
+        		temp.setStartTimeByString(st);
+        			
+        		st = c.getString(c.getColumnIndex(KEY_END_TIME));
+        		temp.setEndTimeByString(st);
+        			
+        		temp.id = c.getInt(c.getColumnIndex(KEY_TID));
+        			
+        		temp.projectId = c.getInt(c.getColumnIndex(KEY_PID));
+        			
+        		temp.comment = c.getString(c.getColumnIndex(KEY_COMMENT));
+        			
+        		temp.setIsSigned(c.getInt(c.getColumnIndex(KEY_IS_SIGNED)));
+        			
+        		temp.setCommentShared(c.getInt(c.getColumnIndex(KEY_COMMENT_SHARED)));	
+        	}
+        	else{
+        		Log.d(LOG, "Error getting timepost info");
+        	}
+                
+    	}catch(SQLiteException e){
+    		Log.d(LOG, e.toString());
+    	}
+    	
+    	return temp;
+    }
+    
+    public ArrayList<TimePost> getAllTimePost(int pid){
+    	ArrayList<TimePost> ret = new ArrayList<TimePost>();
+    	String selectQuery = "SELECT * FROM "+TABLE_TIMEPOST+" WHERE "+KEY_PID+"="+pid;
+    	
+    	try{
+    		SQLiteDatabase db = this.getReadableDatabase();
+    		Cursor c = db.rawQuery(selectQuery, null);
         	
-        	if (c != null){
+        	if (c.getCount() != 0){
         		c.moveToFirst();
         		
         		do {
@@ -231,51 +262,114 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 } while (c.moveToNext());
         	}
         	else{
-        		Log.d("DatabaseHelper", "NOPE");
+        		Log.d(LOG, "Error getting timepost info");
         	}
-                
-        	
         	
     	}catch(SQLiteException e){
-    		Log.d("DatabaseHelper", e.toString());
+    		Log.d(LOG, e.toString());
     	}
     	
     	return ret;
     }
+
+    public ArrayList<TimePost> getAllTimePost(){
+    	ArrayList<TimePost> ret = new ArrayList<TimePost>();
+		String selectQuery = "SELECT * FROM "+TABLE_TIMEPOST;
+		
+		try{
+			SQLiteDatabase db = this.getReadableDatabase();
+			Cursor c = db.rawQuery(selectQuery, null);
+	    	
+	    	if (c.getCount() != 0){
+	    		c.moveToFirst();
+	    		
+	    		do {
+	    			TimePost temp = new TimePost();
+	    			
+	    			String st = c.getString(c.getColumnIndex(KEY_START_TIME));
+	    			temp.setStartTimeByString(st);
+	    			
+	    			st = c.getString(c.getColumnIndex(KEY_END_TIME));
+	    			temp.setEndTimeByString(st);
+	    			
+	    			temp.id = c.getInt(c.getColumnIndex(KEY_TID));
+	    			
+	    			temp.projectId = c.getInt(c.getColumnIndex(KEY_PID));
+	    			
+	    			temp.comment = c.getString(c.getColumnIndex(KEY_COMMENT));
+	    			
+	    			temp.setIsSigned(c.getInt(c.getColumnIndex(KEY_IS_SIGNED)));
+	    			
+	    			temp.setCommentShared(c.getInt(c.getColumnIndex(KEY_COMMENT_SHARED)));
+	    			
+	    			ret.add(temp);
+	                
+	            } while (c.moveToNext());
+	    	}
+	    	else{
+	    		Log.d(LOG, "Error getting timepost info");
+	    	}
+	    	
+		}catch(SQLiteException e){
+			Log.d(LOG, e.toString());
+		}
+		
+		return ret;
+    }
     
-    public void showTables(){
-    	String selectQuery = "SELECT * FROM "+TABLE_TIMEPOST;
+    public ArrayList<TimePost> getUnsignedTimes() {
+    	ArrayList<TimePost> ret = new ArrayList<TimePost>();
+    	String selectQuery = "SELECT * FROM "+TABLE_TIMEPOST+" WHERE "+KEY_IS_SIGNED+"=0";
     	
     	try{
     		SQLiteDatabase db = this.getReadableDatabase();
     		Cursor c = db.rawQuery(selectQuery, null);
         	
-        	if (c != null){
+        	if (c.getCount() != 0){
         		c.moveToFirst();
         		
         		do {
-        			int s = c.getInt(c.getColumnIndex(KEY_TID));
-                    String p = c.getString(c.getColumnIndex(KEY_PID));
-                    String d = c.getString(c.getColumnIndex(KEY_END_TIME));
+        			TimePost temp = new TimePost();
+        			
+        			String st = c.getString(c.getColumnIndex(KEY_START_TIME));
+        			temp.setStartTimeByString(st);
+        			
+        			st = c.getString(c.getColumnIndex(KEY_END_TIME));
+        			temp.setEndTimeByString(st);
+        			
+        			temp.id = c.getInt(c.getColumnIndex(KEY_TID));
+        			
+        			temp.projectId = c.getInt(c.getColumnIndex(KEY_PID));
+        			
+        			temp.comment = c.getString(c.getColumnIndex(KEY_COMMENT));
+        			
+        			temp.setIsSigned(c.getInt(c.getColumnIndex(KEY_IS_SIGNED)));
+        			
+        			temp.setCommentShared(c.getInt(c.getColumnIndex(KEY_COMMENT_SHARED)));
+        			
+        			ret.add(temp);
                     
                 } while (c.moveToNext());
         	}
+        	else{
+        		Log.d(LOG, "Empty table");
+        	}
         	
     	}catch(SQLiteException e){
-    		Log.d("DatabaseHelper", e.toString());
+    		Log.d(LOG, e.toString());
     	}
     	
-    	
-    }
-
-	public Boolean empty(int pid) {
+    	return ret;
+	}
+    
+	public Boolean timePostEmpty(int pid) {
 		String selectQuery = "SELECT count(*) AS NUMBERS FROM "+TABLE_TIMEPOST; //WHERE pid = pid
     	
     	try{
     		SQLiteDatabase db = this.getReadableDatabase();
     		Cursor c = db.rawQuery(selectQuery, null);
     		
-        	if (c != null){
+        	if (c.getCount() != 0){
         		c.moveToFirst();
         		
         		int result = c.getInt(c.getColumnIndex("NUMBERS"));
@@ -287,332 +381,173 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         		}
         	}
         	else{
-        		Log.d("DatabaseHelper", "NOPE");
+        		Log.d(LOG, "No info");
         	}
         	
     	}
     	catch(SQLiteException e){
-    		Log.d("DatabaseHelper", e.toString());
+    		Log.d(LOG, e.toString());
     	}
 		return false;
 		
 	}
 
-	public void updateStartTimePost(int timePostID, String dateString) {
-		
-		String myQuery = "UPDATE "+TABLE_TIMEPOST+" SET "+KEY_START_TIME+"='"+dateString+"' WHERE "+KEY_TID+"="+timePostID+";";
+
+	//Behövs projektID skickas med då time post ska deletas?
+//	public void deleteTimePost(int timePostID) {
+//		//Query: "DROP "+TABLE_TIMEPOST+
+//		String myQuery = "UPDATE "+TABLE_TIMEPOST+" SET "+KEY_PID+"='"+projectID+"' WHERE "+KEY_TID+"="+timePostID;
+//	
+//    	try {
+//    		SQLiteDatabase db = this.getWritableDatabase();
+//			db.execSQL(myQuery);
+//			db.close();
+//		} catch (SQLException e) {
+//			Log.d(LOG,e.toString());
+//		}
+//	}
+
 	
-    	try {
-    		SQLiteDatabase db = this.getWritableDatabase();
-    		db.execSQL(myQuery);
-    		db.close();
-		} catch (SQLException e) {
-			Log.d(LOG,e.toString());
+	/* -------------------------------------------- */
+	/* ----------- PROJECT FUNCTIONS -------------- */
+	
+	public void setProject(Project project) {
+		//"IS PRIVATE" MISSING?!
+		if(project.getId() == 0){
+			SQLiteDatabase db = this.getWritableDatabase();
+		   	 
+	        ContentValues values = new ContentValues();
+	        
+	        values.put(KEY_PROJECT_NAME, project.getName());
+	        values.put(KEY_PROJECT_OWNER, project.getOwner());
+	        values.put(KEY_DESCRIPTION, project.getDescription());
+	        values.put(KEY_CUSTOMER, project.getCustomer());
+	 
+	        // insert row
+	        db.insert(TABLE_PROJECTS, null, values);
+	        db.close();
+		}
+		else{
+			String myQuery = 
+    		"UPDATE "+TABLE_PROJECTS+" SET "+
+    		KEY_PROJECT_NAME+"='"+project.getName()+"', "+
+    		KEY_PROJECT_OWNER+"='"+project.getOwner()+"', "+
+    		KEY_DESCRIPTION+"='"+project.getDescription()+"', "+
+    		KEY_CUSTOMER+"='"+project.getCustomer()+"'"+
+    		" WHERE "+KEY_PID+"="+project.getId();
+    		
+	    	try {
+	    		SQLiteDatabase db = this.getWritableDatabase();
+	    		db.execSQL(myQuery);
+	    		db.close();
+			} 
+	    	catch (SQLException e) {
+				Log.d(LOG,e.toString());
+			}
 		}
 	}
 	
-	public void updateEndTimePost(int timePostID, String dateString) {
-		
-		String myQuery = "UPDATE "+TABLE_TIMEPOST+" SET "+KEY_END_TIME+"='"+dateString+"' WHERE "+KEY_TID+"="+timePostID;
-	
-    	try {
-    		SQLiteDatabase db = this.getWritableDatabase();
-			db.execSQL(myQuery);
-			db.close();
-		} catch (SQLException e) {
-			Log.d(LOG,e.toString());
-		}
+	public ArrayList<Project> getAllProjects() {
+		ArrayList<Project> ret = new ArrayList<Project>();
+    	String selectQuery = "SELECT * FROM "+TABLE_PROJECTS;
+    	
+    	try{
+    		SQLiteDatabase db = this.getReadableDatabase();
+    		Cursor c = db.rawQuery(selectQuery, null);
+        	
+        	if (c.getCount() != 0){
+        		c.moveToFirst();
+        		
+        		do {
+        			Project temp = new Project();
+        			
+        			temp.setId(c.getInt(c.getColumnIndex(KEY_PID)));
+        			
+        			temp.setName(c.getString(c.getColumnIndex(KEY_PROJECT_NAME)));
+        			
+        			temp.setOwner(c.getString(c.getColumnIndex(KEY_PROJECT_OWNER)));
+        			
+        			temp.setDescription(c.getString(c.getColumnIndex(KEY_DESCRIPTION)));
+        			
+        			temp.setCustomer(c.getString(c.getColumnIndex(KEY_CUSTOMER)));
+        			
+        			ret.add(temp);
+                    
+                } while (c.moveToNext());
+        	}
+        	else{
+        		Log.d(LOG, "Empty project table");
+        	}
+        	
+    	}catch(SQLiteException e){
+    		Log.d(LOG, e.toString());
+    	}
+    	
+    	return ret;
 	}
 
-	public void updateCommentTimePost(int timePostID, String newComment) {
-		
-		String myQuery = "UPDATE "+TABLE_TIMEPOST+" SET "+KEY_COMMENT+"='"+newComment+"' WHERE "+KEY_TID+"="+timePostID;
-	
-    	try {
-    		SQLiteDatabase db = this.getWritableDatabase();
-			db.execSQL(myQuery);
-			db.close();
-		} catch (SQLException e) {
-			Log.d(LOG,e.toString());
-		}
+	public Project getProject(int projectId) {
+		Project temp = new Project();
+    	String selectQuery = "SELECT * FROM "+TABLE_PROJECTS+" WHERE "+KEY_PID+"="+projectId;
+    	
+    	try{
+    		SQLiteDatabase db = this.getReadableDatabase();
+    		Cursor c = db.rawQuery(selectQuery, null);
+        	
+        	if (c.getCount() != 0){
+        		c.moveToFirst();
+        		
+    			temp.setId(c.getInt(c.getColumnIndex(KEY_PID)));
+    			
+    			temp.setName(c.getString(c.getColumnIndex(KEY_PROJECT_NAME)));
+    			
+    			temp.setOwner(c.getString(c.getColumnIndex(KEY_PROJECT_OWNER)));
+    			
+    			temp.setDescription(c.getString(c.getColumnIndex(KEY_DESCRIPTION)));
+    			
+    			temp.setCustomer(c.getString(c.getColumnIndex(KEY_CUSTOMER)));
+        	}
+        	else{
+        		Log.d(LOG, "No project found");
+        	}
+        	
+    	}catch(SQLiteException e){
+    		Log.d(LOG, e.toString());
+    	}
+    	
+    	return temp;
 	}
 
-	public void updateProjectIDTimePost(int timePostID, int projectID) {
+	public Boolean projectsEmpty() {
+		String selectQuery = "SELECT count(*) AS NUMBERS FROM "+TABLE_PROJECTS;
+    	
+    	try{
+    		SQLiteDatabase db = this.getReadableDatabase();
+    		Cursor c = db.rawQuery(selectQuery, null);
+    		
+        	if (c.getCount() != 0){
+        		c.moveToFirst();
+        		
+        		int result = c.getInt(c.getColumnIndex("NUMBERS"));
+        		if(result == 0){
+        			return true;
+        		}
+        		else{
+        			return false;
+        		}
+        	}
+        	else{
+        		Log.d(LOG, "No info");
+        	}
+        	
+    	}
+    	catch(SQLiteException e){
+    		Log.d(LOG, e.toString());
+    	}
+		return false;
 		
-		String myQuery = "UPDATE "+TABLE_TIMEPOST+" SET "+KEY_PID+"='"+projectID+"' WHERE "+KEY_TID+"="+timePostID;
-	
-    	try {
-    		SQLiteDatabase db = this.getWritableDatabase();
-			db.execSQL(myQuery);
-			db.close();
-		} catch (SQLException e) {
-			Log.d(LOG,e.toString());
-		}
 	}
-   
-    
-// 
-//    /**
-//     * get single todo
-//     */
-//    public Todo getTodo(long todo_id) {
-//        SQLiteDatabase db = this.getReadableDatabase();
-// 
-//        String selectQuery = "SELECT  * FROM " + TABLE_TODO + " WHERE "
-//                + KEY_ID + " = " + todo_id;
-// 
-//        Log.e(LOG, selectQuery);
-// 
-//        Cursor c = db.rawQuery(selectQuery, null);
-// 
-//        if (c != null)
-//            c.moveToFirst();
-// 
-//        Todo td = new Todo();
-//        td.setId(c.getInt(c.getColumnIndex(KEY_ID)));
-//        td.setNote((c.getString(c.getColumnIndex(KEY_TODO))));
-//        td.setCreatedAt(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
-// 
-//        return td;
-//    }
-// 
-//    /**
-//     * getting all todos
-//     * */
-//    public List<Todo> getAllToDos() {
-//        List<Todo> todos = new ArrayList<Todo>();
-//        String selectQuery = "SELECT  * FROM " + TABLE_TODO;
-// 
-//        Log.e(LOG, selectQuery);
-// 
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        Cursor c = db.rawQuery(selectQuery, null);
-// 
-//        // looping through all rows and adding to list
-//        if (c.moveToFirst()) {
-//            do {
-//                Todo td = new Todo();
-//                td.setId(c.getInt((c.getColumnIndex(KEY_ID))));
-//                td.setNote((c.getString(c.getColumnIndex(KEY_TODO))));
-//                td.setCreatedAt(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
-// 
-//                // adding to todo list
-//                todos.add(td);
-//            } while (c.moveToNext());
-//        }
-// 
-//        return todos;
-//    }
-// 
-//    /**
-//     * getting all todos under single tag
-//     * */
-//    public List<Todo> getAllToDosByTag(String tag_name) {
-//        List<Todo> todos = new ArrayList<Todo>();
-// 
-//        String selectQuery = "SELECT  * FROM " + TABLE_TODO + " td, "
-//                + TABLE_TAG + " tg, " + TABLE_TODO_TAG + " tt WHERE tg."
-//                + KEY_TAG_NAME + " = '" + tag_name + "'" + " AND tg." + KEY_ID
-//                + " = " + "tt." + KEY_TAG_ID + " AND td." + KEY_ID + " = "
-//                + "tt." + KEY_TODO_ID;
-// 
-//        Log.e(LOG, selectQuery);
-// 
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        Cursor c = db.rawQuery(selectQuery, null);
-// 
-//        // looping through all rows and adding to list
-//        if (c.moveToFirst()) {
-//            do {
-//                Todo td = new Todo();
-//                td.setId(c.getInt((c.getColumnIndex(KEY_ID))));
-//                td.setNote((c.getString(c.getColumnIndex(KEY_TODO))));
-//                td.setCreatedAt(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
-// 
-//                // adding to todo list
-//                todos.add(td);
-//            } while (c.moveToNext());
-//        }
-// 
-//        return todos;
-//    }
-// 
-//    /**
-//     * getting todo count
-//     */
-//    public int getToDoCount() {
-//        String countQuery = "SELECT  * FROM " + TABLE_TODO;
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        Cursor cursor = db.rawQuery(countQuery, null);
-// 
-//        int count = cursor.getCount();
-//        cursor.close();
-// 
-//        // return count
-//        return count;
-//    }
-// 
-//    /**
-//     * Updating a todo
-//     */
-//    public int updateToDo(Todo todo) {
-//        SQLiteDatabase db = this.getWritableDatabase();
-// 
-//        ContentValues values = new ContentValues();
-//        values.put(KEY_TODO, todo.getNote());
-//        values.put(KEY_STATUS, todo.getStatus());
-// 
-//        // updating row
-//        return db.update(TABLE_TODO, values, KEY_ID + " = ?",
-//                new String[] { String.valueOf(todo.getId()) });
-//    }
-// 
-//    /**
-//     * Deleting a todo
-//     */
-//    public void deleteToDo(long tado_id) {
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        db.delete(TABLE_TODO, KEY_ID + " = ?",
-//                new String[] { String.valueOf(tado_id) });
-//    }
-// 
-//    // ------------------------ "tags" table methods ----------------//
-// 
-//    /**
-//     * Creating tag
-//     */
-//    public long createTag(Tag tag) {
-//        SQLiteDatabase db = this.getWritableDatabase();
-// 
-//        ContentValues values = new ContentValues();
-//        values.put(KEY_TAG_NAME, tag.getTagName());
-//        values.put(KEY_CREATED_AT, getDateTime());
-// 
-//        // insert row
-//        long tag_id = db.insert(TABLE_TAG, null, values);
-// 
-//        return tag_id;
-//    }
-// 
-//    /**
-//     * getting all tags
-//     * */
-//    public List<Tag> getAllTags() {
-//        List<Tag> tags = new ArrayList<Tag>();
-//        String selectQuery = "SELECT  * FROM " + TABLE_TAG;
-// 
-//        Log.e(LOG, selectQuery);
-// 
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        Cursor c = db.rawQuery(selectQuery, null);
-// 
-//        // looping through all rows and adding to list
-//        if (c.moveToFirst()) {
-//            do {
-//                Tag t = new Tag();
-//                t.setId(c.getInt((c.getColumnIndex(KEY_ID))));
-//                t.setTagName(c.getString(c.getColumnIndex(KEY_TAG_NAME)));
-// 
-//                // adding to tags list
-//                tags.add(t);
-//            } while (c.moveToNext());
-//        }
-//        return tags;
-//    }
-// 
-//    /**
-//     * Updating a tag
-//     */
-//    public int updateTag(Tag tag) {
-//        SQLiteDatabase db = this.getWritableDatabase();
-// 
-//        ContentValues values = new ContentValues();
-//        values.put(KEY_TAG_NAME, tag.getTagName());
-// 
-//        // updating row
-//        return db.update(TABLE_TAG, values, KEY_ID + " = ?",
-//                new String[] { String.valueOf(tag.getId()) });
-//    }
-// 
-//    /**
-//     * Deleting a tag
-//     */
-//    public void deleteTag(Tag tag, boolean should_delete_all_tag_todos) {
-//        SQLiteDatabase db = this.getWritableDatabase();
-// 
-//        // before deleting tag
-//        // check if todos under this tag should also be deleted
-//        if (should_delete_all_tag_todos) {
-//            // get all todos under this tag
-//            List<Todo> allTagToDos = getAllToDosByTag(tag.getTagName());
-// 
-//            // delete all todos
-//            for (Todo todo : allTagToDos) {
-//                // delete todo
-//                deleteToDo(todo.getId());
-//            }
-//        }
-// 
-//        // now delete the tag
-//        db.delete(TABLE_TAG, KEY_ID + " = ?",
-//                new String[] { String.valueOf(tag.getId()) });
-//    }
-// 
-//    // ------------------------ "todo_tags" table methods ----------------//
-// 
-//    /**
-//     * Creating todo_tag
-//     */
-//    public long createTodoTag(long todo_id, long tag_id) {
-//        SQLiteDatabase db = this.getWritableDatabase();
-// 
-//        ContentValues values = new ContentValues();
-//        values.put(KEY_TODO_ID, todo_id);
-//        values.put(KEY_TAG_ID, tag_id);
-//        values.put(KEY_CREATED_AT, getDateTime());
-// 
-//        long id = db.insert(TABLE_TODO_TAG, null, values);
-// 
-//        return id;
-//    }
-// 
-//    /**
-//     * Updating a todo tag
-//     */
-//    public int updateNoteTag(long id, long tag_id) {
-//        SQLiteDatabase db = this.getWritableDatabase();
-// 
-//        ContentValues values = new ContentValues();
-//        values.put(KEY_TAG_ID, tag_id);
-// 
-//        // updating row
-//        return db.update(TABLE_TODO, values, KEY_ID + " = ?",
-//                new String[] { String.valueOf(id) });
-//    }
-// 
-//    /**
-//     * Deleting a todo tag
-//     */
-//    public void deleteToDoTag(long id) {
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        db.delete(TABLE_TODO, KEY_ID + " = ?",
-//                new String[] { String.valueOf(id) });
-//    }
-// 
-//    // closing database
-//    public void closeDB() {
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        if (db != null && db.isOpen())
-//            db.close();
-//    }
-// 
-//    /**
-//     * get datetime
-//     * */
-//    private String getDateTime() {
-//        SimpleDateFormat dateFormat = new SimpleDateFormat(
-//                "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-//        Date date = new Date();
-//        return dateFormat.format(date);
-//    }
+
+	/* -------------------------------------------- */
 }
+	

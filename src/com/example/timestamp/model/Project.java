@@ -39,13 +39,12 @@ public class Project {
 	  private String customer;
 	  private Boolean isPrivate;
 	  
-	  
 	
 	  
 	  //Default constructor
 	  public Project()
 	  {
-		  setId(-1);
+		  setId(0);
 		  setName("Default Project");
 		  setDescription("");
 		  setOwner("Default Owner");

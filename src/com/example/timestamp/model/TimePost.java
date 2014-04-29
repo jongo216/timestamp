@@ -34,8 +34,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import android.util.Log;
-
 public class TimePost {
 	
 	public GregorianCalendar startTime;

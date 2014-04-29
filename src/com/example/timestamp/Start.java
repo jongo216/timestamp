@@ -73,17 +73,8 @@ public class Start extends Fragment{
         db = new DB(getActivity().getApplicationContext());
         Log.d("DatabaseHelper","New DB");
         
-        //db.dbHelper.showTables();
-        //db.set(new TimePost(1942,10,23,13,37));
-        //db.set(new TimePost(1942,10,24,13,37));
-        //db.set(new TimePost(1942,10,25,13,37));
-        Log.d("DatabaseHelper","Done inserting...");
-        //db.dbHelper.showTables();
-        
         activityInitStart();
         
-        //db.terminateDatabaseHelper();
-       
         return rootView;
     }
 
@@ -93,23 +84,36 @@ public class Start extends Fragment{
 		
 		parentActivity = getActivity();
 		
-		
 		chronometer = (Chronometer)rootView.findViewById(R.id.chronometer);
-		
 
 		imgButton = (LinearLayout) rootView.findViewById(R.id.btnCheckIn);
 		
-		
-	
-		
-
 		initTimer();
-		
 		
 		int selectedRow = 0;
 		
 		int currentProject = SettingsManager.getCurrentProjectId(parentActivity);
 	
+		if(db.projectsEmpty()){
+			Project p1 = new Project();
+			p1.setName("Agil utvecking");
+			p1.setOwner("verboo@mailadress.yoda");
+			p1.setCustomer("Palle Nuh");
+			db.set(p1);
+			
+			Project p2 = new Project();
+			p2.setName("Combitech");
+			p2.setOwner("jonas@mailadress.yoda");
+			p2.setCustomer("Darth Vader");
+			db.set(p2);
+			
+			Project p3 = new Project();
+			p3.setName("Jedi mindtricks");
+			p3.setOwner("niklas@mailadress.yoda");
+			p3.setCustomer("ET");
+			db.set(p3);
+		}
+		
 		projects = db.getAllProjects();
 		projectsMenuString = new String[projects.size() + 1];
 		projectMenuIds = new int[projects.size()+1];
@@ -124,11 +128,6 @@ public class Start extends Fragment{
 		
 		projectsMenuString[projects.size()]= getString(R.string.add_project);
 		projectMenuIds[projects.size()] = -1;
-		
-
-		
-		
-	
 		
 		//Letar efter en spinner i activity_main.xml med ett specifict id
 		spinnerProjectView = (Spinner) rootView.findViewById(R.id.projects_menu_spinner2);
@@ -148,7 +147,6 @@ public class Start extends Fragment{
 		        ((TextView) v).setTextSize(25);
 
 		        return v;
-
 		    }
 			//Style för dropdownmenyn under spinnern..
 			public View getDropDownView(int position, View convertView,ViewGroup parent) {
@@ -177,10 +175,7 @@ public class Start extends Fragment{
 		imageButtonListener();
 		spinnerListener();
 		dbButtonListener();
-		
-		
 	}
-	
 	
 	public void initTimer(){
 		boolean timerRunning;
@@ -304,8 +299,4 @@ public class Start extends Fragment{
 				// show it
 			alertDialog.show();
 		}
-
-
 }
-
-

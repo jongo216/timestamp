@@ -42,6 +42,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,9 +75,6 @@ public class ConfirmReport extends Fragment {
 	public String[] projectsMenuString; // = {"Projekt 1", "Projekt 2", "Nytt projekt"};
 	public int[] projectMenuIds;
 	private ArrayList<Project> projects;
-	private int[] projectMenuIds2;
-	private ArrayList<Project> projects2;
-	private Spinner spinnerProjectView2;
 	private DB db;
 	private Button button;
 	private View rootView;
@@ -141,7 +139,7 @@ public class ConfirmReport extends Fragment {
 	public void onResume()
 	{	
 		super.onResume();
-		plotTimeTable(1);
+		plotTimeTable(SettingsManager.getCurrentProjectId(parentActivity));
 	}
 	
 
@@ -241,31 +239,24 @@ public class ConfirmReport extends Fragment {
 		});
 		
 		plotTimeTable(currentProject);
-		
-		
 	}
 
-	
-	
 	
 	public void plotTimeTable(int projectID){
 		DB db = new DB(this.getActivity());
 		TableLayout table = (TableLayout) rootView.findViewById(R.id.time_table);
+
 		ArrayList<TimePost> times;
 		//Return if no time posts exist for a given project
-		if (projectID != 1)
+		if (projectID != -1)
 		{
-			if(db.empty(projectID))
-				return;
 			//Get list of time posts
 			times = db.getTime(projectID);
 		}
 		else
 		{
-			if(db.empty(projectID))
-				return;
 			//Get list of time posts
-			times = db.getTime(projectID);
+			times = db.getTime();
 		}
 		
 		//Remove old rows from table (except the header row)
@@ -372,7 +363,7 @@ public class ConfirmReport extends Fragment {
 	@Override
 	public void setUserVisibleHint(boolean isVisibleToUser) {
 	    super.setUserVisibleHint(isVisibleToUser);
-	    if (isVisibleToUser) { plotTimeTable(1); }
+	    if (isVisibleToUser) { plotTimeTable(SettingsManager.getCurrentProjectId(parentActivity)); }
 	    else {  }
 	}
 
