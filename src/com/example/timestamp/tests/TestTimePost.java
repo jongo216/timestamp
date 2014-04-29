@@ -106,7 +106,7 @@ public class TestTimePost{
 	@Test
 	public void testGetStartTime(){
 		//System.out.println("testGetStartTime()...");
-		String expected = "2014-Apr-15 13:00:00";
+		String expected = "2014-04-15 13:00:00";
 		//System.out.println(time.getStartTime());
 		assertEquals(time.getStartTime(), expected);
 	}
@@ -151,7 +151,7 @@ public class TestTimePost{
 	@Test
 	public void testGetEndTime(){
 		//System.out.println("testGetEndTime()...");
-		String expected = "2014-Apr-15 17:00:00";
+		String expected = "2014-04-15 17:00:00";
 		//System.out.println(time.getEndTime());
 		assertEquals(time.getEndTime(), expected);
 	}
@@ -191,6 +191,20 @@ public class TestTimePost{
 	}
 	
 	@Test
+	public void testGetWorkedHoursFormated(){
+		time.setStartMinute(2);
+		//System.out.println(time.getWorkedHoursFormated());
+		assertEquals(time.getWorkedHoursFormated(), "3.97");
+	}
+	
+	@Test
+	public void testFormatedTimeInterval(){
+		time.setStartHour(8);
+		//System.out.println(time.FormatedTimeInterval());
+		assertEquals(time.FormatedTimeInterval(), "08:00 - 17:00");
+	}
+	
+	@Test
 	public void testSetProjectId(){
 		int id = time.projectId;
 		time.setProjectId(id+1);
@@ -206,7 +220,7 @@ public class TestTimePost{
 		time.setStartHour(0);
 		time.setStartMinute(59);
 		
-		String startTime = time.getStartTime();
+		String startTime = time.printStartTime();
 		
 		String year = startTime.substring(0, 4);
 		String month = startTime.substring(5, 8);
@@ -229,7 +243,7 @@ public class TestTimePost{
 		time.setEndHour(0);
 		time.setEndMinute(59);
 		
-		String endTime = time.getEndTime();
+		String endTime = time.printEndTime();
 		
 		String year = endTime.substring(0, 4);
 		String month = endTime.substring(5, 8);
