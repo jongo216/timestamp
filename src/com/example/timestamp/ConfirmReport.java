@@ -30,6 +30,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package com.example.timestamp;
 
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
+import com.example.timestamp.model.DB;
+import com.example.timestamp.model.TimePost;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -135,34 +142,41 @@ public class ConfirmReport extends Fragment {
 	
 	public void plotTimeTable(int projectID){
 		TableLayout table = (TableLayout) rootView.findViewById(R.id.time_table);
-	
-		for(int i  = 0; i < 3; ++i){
+		DB db = new DB(this.getActivity());
+		ArrayList<TimePost> times = db.getTime(projectID);
+		for(int i  = 0; i < times.size(); ++i){
+			GregorianCalendar start = times.get(i).startTime;
+			GregorianCalendar end = times.get(i).endTime;
+			
 			TableRow row = new TableRow(rootView.getContext());
-			Log.d("Jonas", row.toString());
 			if(i%2 == 1)
 				row.setBackgroundColor(Color.parseColor("#CCCCCC"));
 			
-			LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-			row.setLayoutParams(lp);
+			//LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+			//row.setLayoutParams(lp);
 			
 			TextView day = new TextView(rootView.getContext());
-			day.setLayoutParams(lp);
-			day.setText("Mån");
+			//day.setLayoutParams(lp);
+			day.setText(Constants.WEEK_DAY_STRINGS[start.get(Calendar.DAY_OF_WEEK)]);
 			day.setGravity(Gravity.CENTER);
 			
 			TextView interval = new TextView(rootView.getContext());
-			interval.setLayoutParams(lp);
-			interval.setText("08:00-10:00");
+			//interval.setLayoutParams(lp);
+			interval.setText(start.get(Calendar.HOUR_OF_DAY) + ":" + start.get(Calendar.MINUTE) + " - " + end.get(Calendar.HOUR_OF_DAY) + ":" + end.get(Calendar.MINUTE));
 			interval.setGravity(Gravity.CENTER);
 			
 			TextView time = new TextView(rootView.getContext());
-			time.setLayoutParams(lp);
-			time.setText("2h");
+			//time.setLayoutParams(lp);
+			time.setText(times.get(i).getWorkedHours() + "h");
 			time.setGravity(Gravity.CENTER);
 			
 			TextView comment = new TextView(rootView.getContext());
-			comment.setLayoutParams(lp);
-			comment.setText("Möte på Saab");
+			//comment.setLayoutParams(lp);
+			String com = times.get(i).comment;
+			if(com.length() > 10){
+				com = com.substring(0, 8) + "...";
+			}
+			comment.setText(com);
 			comment.setGravity(Gravity.CENTER);
 			
 			row.addView(day);

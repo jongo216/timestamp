@@ -37,8 +37,8 @@ import android.util.Log;
 
 public class TimePost {
 	
-	public Calendar startTime;
-	public Calendar endTime;
+	public GregorianCalendar startTime;
+	public GregorianCalendar endTime;
 	public int id;
 	public Boolean isSigned;
 	public String comment;
@@ -133,15 +133,15 @@ public class TimePost {
 	public void setEndMinute(int minute){endTime.set(Calendar.MINUTE, minute);}
 	
 	public void setStartTimeNow(){
-		startTime = Calendar.getInstance();
+		startTime = new GregorianCalendar();
 	}
 	
 	public void setEndTimeNow(){
-		endTime = Calendar.getInstance();
+		endTime = new GregorianCalendar();
 	}
 	
 	public void setEndTimeRandom(){
-		endTime = Calendar.getInstance();
+		endTime = new GregorianCalendar();
 		
 		int i = (int)(Math.random()*3)+3;
 		//Log.d("MESSAGE", "rand"+i);
