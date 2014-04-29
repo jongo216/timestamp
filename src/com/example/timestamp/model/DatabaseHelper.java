@@ -147,6 +147,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.d("DatabaseHelper", "CREATING TIMEPOST.");
     	SQLiteDatabase db = this.getWritableDatabase();
     	
+    	
+    	//Log.d(LOG,"Valueeeeeeeeee: " + timePost.getStartTime());
+    	
+    	 
         ContentValues values = new ContentValues();
         //values.put(KEY_TID, timePost.id);
         //values.put(KEY_PID, timePost.projectId);

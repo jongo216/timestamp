@@ -201,10 +201,9 @@ public class Start extends Fragment{
 					SettingsManager.setIsTimerRunning(false, getActivity());
 					chronometer.stop();
 					TimePost p = new TimePost();
-					//jdtkjgdkj
 					p.setProjectId(SettingsManager.getCurrentProjectId(getActivity()));
 					p.setStartTime(SettingsManager.getStartTime(getActivity()));
-					p.setEndTime(new GregorianCalendar());
+					p.setEndTimeNow();
 					db.set(p);
 				}
 				else{
@@ -224,8 +223,9 @@ public class Start extends Fragment{
     	Button timesBtn = (Button) rootView.findViewById(R.id.Times);
     	timesBtn.setOnClickListener(new OnClickListener(){
     		public void onClick(View arg0){
-    			if(!db.empty(1)){
-    				ArrayList<TimePost> times = db.getTime(1); // PROJECT ID fix....
+    			int currentProjectSelected = SettingsManager.getCurrentProjectId(getActivity());
+    			if(!db.empty(currentProjectSelected)){
+    				ArrayList<TimePost> times = db.getTime(currentProjectSelected); // PROJECT ID fix....
         			String text = "";
         			for(int i = 0; i < times.size(); ++i){
         				//buggs with printStart/EndTime
