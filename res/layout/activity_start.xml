@@ -137,15 +137,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         android:textAppearance="?android:attr/textAppearanceMedium" /> -->
 
     <Button
-        android:id="@+id/Times"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/graf"
-        android:layout_above="@+id/btnCheckIn"
-        android:text="Times" />
-
-    <Button
         android:id="@+id/Projects"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"

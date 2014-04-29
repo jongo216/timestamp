@@ -255,28 +255,7 @@ public class Start extends Fragment{
     
     //database testing!
     public void dbButtonListener(){
-    	//times
-    	Button timesBtn = (Button) rootView.findViewById(R.id.Times);
-    	timesBtn.setOnClickListener(new OnClickListener(){
-    		public void onClick(View arg0){
-    			//int timePostID = 3;
-    			//db.updateStartTimePost(timePostID, "2014-06-07 17:00:00");
-    			int currentProjectSelected = SettingsManager.getCurrentProjectId(getActivity());
-    			if(!db.empty(currentProjectSelected)){
-    				ArrayList<TimePost> times = db.getTime(currentProjectSelected); 
-        			String text = "";
-        			for(int i = 0; i < times.size(); ++i){
-
-        				text = text +times.get(i).id + times.get(i).printStartTime() + " - " + times.get(i).printEndTime() + "\n";
-        			}
-        			Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
-    			}
-    			else{
-    				Toast.makeText(getActivity(), "The database is currently empty!", Toast.LENGTH_LONG).show();
-    			}
-    		}
-    	});
-    	//projects
+       	//projects
     	Button projectsBtn = (Button) rootView.findViewById(R.id.Projects);
     	projectsBtn.setOnClickListener(new OnClickListener(){
     		public void onClick(View arg0){

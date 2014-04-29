@@ -282,7 +282,6 @@ public class ConfirmReport extends Fragment {
 			TextView time = new TextView(rootView.getContext());
 			TextView comment = new TextView(rootView.getContext());
 			GregorianCalendar start = times.get(i).startTime;
-			GregorianCalendar end = times.get(i).endTime;
 			
 			//Put data in text views
 			if(true) {  //TODO: Chose how much detail to show.. if(LARGESCREEN)  
