@@ -37,6 +37,7 @@ import com.example.timestamp.model.Project;
 import com.example.timestamp.model.SettingsManager;
 
 import android.app.AlertDialog;
+import android.app.ActionBar.LayoutParams;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -51,9 +52,15 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.Spinner;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.TimePicker;
+import android.view.View.OnClickListener;
+
 
 public class ConfirmReport extends Fragment {
 	
@@ -68,7 +75,17 @@ public class ConfirmReport extends Fragment {
 	private View rootView;
 	private FragmentActivity parentActivity;
 	private Spinner spinner;
-
+	
+	//För popup vyn
+	private Button editTimePostButton;
+	boolean click = true;
+	PopupWindow popUp;
+	LinearLayout layout;
+	TextView tv;
+	LayoutParams params;
+	LinearLayout mainLayout;
+	Button but;
+	//END För popup vyn 
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -76,11 +93,39 @@ public class ConfirmReport extends Fragment {
         rootView = inflater.inflate(R.layout.activity_confirmreport, container, false);
         db = new DB(getActivity().getApplicationContext());
         activityInitConfirmReport();
-       
+        
+        editTimePostButton = (Button) rootView.findViewById(R.id.editTimePostButton);
+        
+        //popUp = new PopupWindow();
+        addEditTimePostButtonListener();
+
+        
+        
+        
         return rootView;
+	    
     }
 	
-	
+	public void addEditTimePostButtonListener(){
+        
+
+        editTimePostButton.setOnClickListener(new OnClickListener() {
+		    @Override
+        	public void onClick(View v) {
+		    	//Intent intent = new Intent(getActivity(), EditReport.class);
+		    	//startActivity(intent);
+		    	if (click) {
+		            popUp.showAtLocation(rootView, Gravity.BOTTOM, 10, 10);
+		            popUp.update(50, 50, 300, 80);
+		            click = false;
+		    	} else {
+		    		popUp.dismiss();
+		            click = true;
+		        }
+		    	
+			}
+        });
+	}
 
 	public void activityInitConfirmReport(){
 		
@@ -179,6 +224,9 @@ public class ConfirmReport extends Fragment {
 		
 		
 	}
+
+	
+	
 	
 	public void spinnerListener() {
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener(){

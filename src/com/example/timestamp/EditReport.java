@@ -34,23 +34,40 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TimePicker;
+
 
 public class EditReport extends Activity {
 
 	private Button button;
 	final Context message = this;
+	private EditText commentField;
 	
+	TimePicker startPicker, endPicker;
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_editreport);
 		
+		//button = (Button)findViewById(R.id.button_save);
+		
 		button = (Button)findViewById(R.id.button_save);
+		addCommentFieldListener();
+		
+        
+        startPicker = (TimePicker) findViewById(R.id.timePickerStart);
+        startPicker.setIs24HourView(true);
+
+
 		
 		button.setOnClickListener(new View.OnClickListener() {
 			
@@ -91,6 +108,25 @@ public class EditReport extends Activity {
 		
 	}
 
+	public void addCommentFieldListener(){
+		
+		commentField = (EditText) findViewById(R.id.editTextComment);
+		
+		commentField.setOnTouchListener(new View.OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				Log.d("hej", "click");
+				v.setFocusable(true);
+				v.setFocusableInTouchMode(true);
+				return false;
+			}
+		});
+		
+		
+	}
+
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -111,6 +147,6 @@ public class EditReport extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-
-
 }
+
+
