@@ -229,7 +229,7 @@ public class Start extends Fragment{
         			String text = "";
         			for(int i = 0; i < times.size(); ++i){
         				//buggs with printStart/EndTime
-        				text = text + times.get(i).printStartTime() + " - " + times.get(i).printEndTime() + "\n";
+        				text = text +times.get(i).id + times.get(i).printStartTime() + " - " + times.get(i).printEndTime() + "\n";
         			}
         			Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
     			}

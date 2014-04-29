@@ -20,7 +20,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String LOG = DatabaseHelper.class.getName();
  
     // Database Version
-    private static final int DATABASE_VERSION = 17;
+    private static final int DATABASE_VERSION = 20;
  
     // Database Name
     private static final String DATABASE_NAME = "TimeStamp";
@@ -145,19 +145,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void createTimePost(TimePost timePost) {
         Log.d("DatabaseHelper", "CREATING TIMEPOST.");
     	SQLiteDatabase db = this.getWritableDatabase();
-    	
-    	
-    	Log.d(LOG,"Valueeeeeeeeee: " + timePost.getStartTime());
-    	
     	 
         ContentValues values = new ContentValues();
         //values.put(KEY_TID, timePost.id);
-        //values.put(KEY_PID, timePost.projectId);
+        values.put(KEY_PID, timePost.projectId);
         values.put(KEY_START_TIME, timePost.getStartTime());
         values.put(KEY_END_TIME, timePost.getEndTime());
-        //values.put(KEY_COMMENT, timePost.comment);
-        //values.put(KEY_IS_SIGNED, timePost.isSigned);
-        //values.put(KEY_COMMENT_SHARED, timePost.commentShared);
+        values.put(KEY_COMMENT, timePost.comment);
+        values.put(KEY_IS_SIGNED, timePost.isSigned);
+        values.put(KEY_COMMENT_SHARED, timePost.commentShared);
  
         // insert row
         Log.d("DatabaseHelper", "Final insert...");
@@ -180,27 +176,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         	
         	if (c != null){
         		c.moveToFirst();
-        		//int s = c.getInt(c.getColumnIndex(KEY_TID));
-        		//Log.d("DatabaseHelper",Integer.toString(s));
         		
         		do {
         			TimePost temp = new TimePost();
-        			String st = c.getString(c.getColumnIndex(KEY_START_TIME));
         			
+        			String st = c.getString(c.getColumnIndex(KEY_START_TIME));
         			temp.setStartTimeByString(st);
         			
         			st = c.getString(c.getColumnIndex(KEY_END_TIME));
         			temp.setEndTimeByString(st);
         			
+        			temp.id = c.getInt(c.getColumnIndex(KEY_TID));
+        			
+        			temp.projectId = c.getInt(c.getColumnIndex(KEY_PID));
+        			
+        			temp.comment = c.getString(c.getColumnIndex(KEY_COMMENT));
+        			
+        			temp.setIsSigned(c.getInt(c.getColumnIndex(KEY_IS_SIGNED)));
+        			
+        			temp.setCommentShared(c.getInt(c.getColumnIndex(KEY_COMMENT_SHARED)));
         			
         			ret.add(temp);
-        			
-        			//int s = c.getInt(c.getColumnIndex(KEY_TID));
-                    //String p = c.getString(c.getColumnIndex(KEY_PID));
-                    
-                    
-                    //Log.d("DatabaseHelper",Integer.toString(s)+ " "+ p + " "+ d);
-     
                     
                 } while (c.moveToNext());
         	}

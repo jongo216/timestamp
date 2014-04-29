@@ -154,6 +154,16 @@ public class TimePost {
 		
 		setEndTime(new GregorianCalendar(year,months,days,hours,minutes,seconds));
 	}
+
+	public void setIsSigned(int int1) {
+		if(int1 != 0) isSigned = true;
+		else isSigned = false;
+	}
+
+	public void setCommentShared(int int1) {
+		if(int1 != 0) commentShared = true;
+		else commentShared = false;
+	}
 	
 	
 	
