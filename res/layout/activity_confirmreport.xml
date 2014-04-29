@@ -47,6 +47,24 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         android:padding="10dp"
         android:text="@string/textSendTimeReport" />
 
+
+    
+	    <Button
+        android:id="@+id/editTimePostButton"
+        style="@style/CustomStyleButtonDark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:visibility="gone"
+        android:layout_above="@+id/sendReportButton"
+        android:layout_marginTop="47dp"
+        android:minHeight="40dp"
+        android:minWidth="0dp"
+        android:padding="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:singleLine="true"
+        android:text="@string/addNewPost" />
+	
     <Spinner
         android:id="@+id/projects_menu_spinner2"
         style="@style/CustomStyleButtonDark"
@@ -102,89 +120,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	            android:textColor="#FFFFFF" />
 	
 	    </TableRow>
-	    <!--
-	    <TableRow
-	        >
 
-	        <TextView
-	            android:layout_width="50dp"
-	            android:gravity="center"
-	            
-	            android:text="Mån" />
-
-	        <TextView
-	            android:gravity="center"
-	            android:padding="3dp"
-	            android:text="08:00-10:00" />
-
-	        <TextView
-	            android:gravity="center"
-	            android:padding="3dp"
-	            android:text="2h" />
-
-	        <TextView
-	            android:layout_width="100dp"
-	            android:gravity="center"
-	            android:padding="3dp"
-	            android:text="Möte på Saab" />
-	
-	    </TableRow>
-	    
-	    
-	    
-	    <TableRow
-	       android:background="#CCCCCC" >
-
-	        <TextView
-	            android:layout_width="50dp"
-	            android:gravity="center"
-	            android:padding="3dp"
-	            android:text="Tis" />
-
-	        <TextView
-	            android:gravity="center"
-	            android:padding="3dp"
-	            android:text="08:00-14:00" />
-
-	        <TextView
-	            android:gravity="center"
-	            android:padding="3dp"
-	            android:text="6h" />
-
-	        <TextView
-	            android:layout_width="100dp"
-	            android:gravity="center"
-	            android:padding="3dp"
-	            android:text="Möte på LiU" />
-	
-	    </TableRow>
-	    <TableRow
-	      
-	        >
-
-	        <TextView
-	            android:layout_width="50dp"
-	            android:gravity="center"
-	            android:padding="3dp"
-	            android:text="Ons" />
-
-	        <TextView
-	            android:gravity="center"
-	            android:padding="3dp"
-	            android:text="09:00-14:00" />
-
-	        <TextView
-	            android:gravity="center"
-	            android:padding="3dp"
-	            android:text="5h" />
-
-	        <TextView
-	            android:layout_width="100dp"
-	            android:gravity="center"
-	            android:padding="3dp"
-	            android:text="Skidor med fami.." />
-	
-	    </TableRow>
-  -->
    </TableLayout>
 </RelativeLayout>

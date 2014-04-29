@@ -34,8 +34,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import com.example.timestamp.model.*;
-
+import android.app.ActionBar.LayoutParams;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -43,15 +42,32 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
-import android.view.*;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.View.OnHoverListener;
 import android.view.View.OnTouchListener;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.*;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.Spinner;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.timestamp.model.DB;
+import com.example.timestamp.model.Project;
+import com.example.timestamp.model.SettingsManager;
+import com.example.timestamp.model.TimePost;
+
 
 public class ConfirmReport extends Fragment {
 	
@@ -66,7 +82,17 @@ public class ConfirmReport extends Fragment {
 	private View rootView;
 	private FragmentActivity parentActivity;
 	private Spinner spinner;
-
+	
+	//För popup vyn
+	private Button editTimePostButton;
+	boolean click = true;
+	PopupWindow popUp;
+	LinearLayout layout;
+	TextView tv;
+	LayoutParams params;
+	LinearLayout mainLayout;
+	Button but;
+	//END För popup vyn 
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -74,9 +100,42 @@ public class ConfirmReport extends Fragment {
         rootView = inflater.inflate(R.layout.activity_confirmreport, container, false);
         db = new DB(getActivity().getApplicationContext());
         activityInitConfirmReport();
+        
+        editTimePostButton = (Button) rootView.findViewById(R.id.editTimePostButton);
+        
+        //popUp = new PopupWindow();
+        addEditTimePostButtonListener();
+
+        
+        
+        
+
         return rootView;
+	    
     }
 	
+
+	public void addEditTimePostButtonListener(){
+        
+
+        editTimePostButton.setOnClickListener(new OnClickListener() {
+		    @Override
+        	public void onClick(View v) {
+		    	//Intent intent = new Intent(getActivity(), EditReport.class);
+		    	//startActivity(intent);
+		    	if (click) {
+		            popUp.showAtLocation(rootView, Gravity.BOTTOM, 10, 10);
+		            popUp.update(50, 50, 300, 80);
+		            click = false;
+		    	} else {
+		    		popUp.dismiss();
+		            click = true;
+		        }
+		    	
+			}
+        });
+	}
+
 	
 	@Override
 	public void onResume()
@@ -85,6 +144,7 @@ public class ConfirmReport extends Fragment {
 		plotTimeTable(1);
 	}
 	
+
 
 	public void activityInitConfirmReport(){
 		
@@ -184,6 +244,9 @@ public class ConfirmReport extends Fragment {
 		
 		
 	}
+
+	
+	
 	
 	public void plotTimeTable(int projectID){
 		DB db = new DB(this.getActivity());

@@ -39,9 +39,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:text="TimeStamp"
-    android:textColor="#000000"
+    android:textColor="#444444"
 
-    android:textSize="36sp"
+    android:textSize="24sp"
    />
 
 </LinearLayout>
