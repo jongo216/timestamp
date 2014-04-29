@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (c) 2014, Group D in course TNM082
+<!--
+Copyright (c) 2014, Group D in course TNM082
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -33,6 +34,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <string name="app_name">Timestamp</string>
     <string name="action_settings">Settings</string>
     <string name="action_edit">Edit Report</string>
+    <string name="action_manageprojects">Manage projects</string>
     <string name="action_yoursettings">Settings</string>
     <string name="hello_world">Hello world SIMONJARRE!</string>
     <string name="view_option">Overview</string>
@@ -44,9 +46,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     <string name="action_menu">Action Menu</string>
 
-
     <!-- For settings view -->
-    
+
     <string name="buttonSaveSettings">Save</string>
     <string name="textOverviewSettings">Overview</string>
     <string name="textNotifixations">Notifications</string>
@@ -79,47 +80,43 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <color name="myColorG">#C0C0C0</color>
 
     <string name="title_activity_test_services">TestServicesActivity</string>
-
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_project_settings">Project</string>
-
-
     <string name="title_activity_edit_report">Edit Report</string>
-
     <string name="title_activity_settingss">MainActivity</string>
 
-	<!-- Start.java -->
-	<string name="add_project">+ Create Project</string>
-	<!-- END Start.java -->
-	
-	
-	<!-- Style Guide implementation -->
-	<color name="backgroundColor">#cccccc</color>
-	<color name="textColorWhite">#ffffff</color>
-	<color name="textColorBlack">#000000</color>
-	<color name="textColorGray">#333333</color>
-	
-	
-	<!-- Activity edit report -->
-	<string name="textEditStartTime">Start time</string>
-	<string name="textEditEndTime">End time</string>
-	<string name="textEditComment">Comment</string>
-	<string name="editTextCommentHint">Meeting</string>
-	<string name="addNewPost"> + Add new time post</string>
-	<string name="endTime">17:00</string>	
-	<string name="startTime">08:00</string>	
-	<string name="buttonSaveEdit">Save</string>
-	<string name="textEditDate">Choose date to edit:</string>
-	
-	<!-- Activity confirm report -->
-	<string name="textSendTimeReport">Send time report</string>
-	
-	<!-- Activity start -->
-	<string name="textWeek">Week 42</string>
-	
-	<!-- Action bar tabs -->
-	<string name="tabOverview">General</string>
-	<string name="tabReport">Report</string>
-	
+    <!-- Start.java -->
+    <string name="add_project">+ Create Project</string>
+    <!-- END Start.java -->
+
+
+    <!-- Style Guide implementation -->
+    <color name="backgroundColor">#cccccc</color>
+    <color name="textColorWhite">#ffffff</color>
+    <color name="textColorBlack">#000000</color>
+    <color name="textColorGray">#333333</color>
+
+    <!-- Activity edit report -->
+    <string name="textEditStartTime">Start time</string>
+    <string name="textEditEndTime">End time</string>
+    <string name="textEditComment">Comment</string>
+    <string name="editTextCommentHint">Meeting</string>
+    <string name="addNewPost"> + Add new time post</string>
+    <string name="endTime">17:00</string>
+    <string name="startTime">08:00</string>
+    <string name="buttonSaveEdit">Save</string>
+    <string name="textEditDate">Choose date to edit:</string>
+
+    <!-- Activity confirm report -->
+    <string name="textSendTimeReport">Send time report</string>
+
+    <!-- Activity start -->
+    <string name="textWeek">Week 42</string>
+
+    <!-- Action bar tabs -->
+    <string name="tabOverview">General</string>
+    <string name="tabReport">Report</string>
+    <string name="title_activity_manage_projects">ManageProjects</string>
+    <string name="title_activity_create_new_project">CreateNewProject</string>
 
 </resources>
