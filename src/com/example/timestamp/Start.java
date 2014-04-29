@@ -76,6 +76,8 @@ public class Start extends Fragment{
 	private FragmentActivity parentActivity;
 	private DB db;
 	
+
+	
 	
 	@Override		//mother of all inits!
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -105,7 +107,7 @@ public class Start extends Fragment{
 		
 		parentActivity = getActivity();
 		
-		boolean timerRunning = SettingsManager.getIsTimerRunning(parentActivity);
+		
 		chronometer = (Chronometer)rootView.findViewById(R.id.chronometer);
 		
 
@@ -113,24 +115,19 @@ public class Start extends Fragment{
 		
 		
 	
+		
+
+		initTimer();
+		
+		
+		int selectedRow = 0;
+		
 		int currentProject = SettingsManager.getCurrentProjectId(parentActivity);
-		
-		if (timerRunning)
-		{
-			GregorianCalendar startTime = SettingsManager.getStartTime(parentActivity);
-			GregorianCalendar currentTime = new GregorianCalendar();
-			imgButton.setBackgroundColor(Color.GREEN);
-			chronometer.setBase(SystemClock.elapsedRealtime() - currentTime.getTimeInMillis() + startTime.getTimeInMillis());
-			chronometer.start();
-		}
-		else imgButton.setBackgroundColor(Color.WHITE);
-		
-		
+	
 		projects = db.getAllProjects();
-		Log.d("DatabaseHelper","Projsize: "+projects.size());
 		projectsMenuString = new String[projects.size() + 1];
 		projectMenuIds = new int[projects.size()+1];
-		int selectedRow = 0;
+		
 		for (int n = 0; n < projects.size(); n++)
 		{
 			projectsMenuString[n] = projects.get(n).getName();
@@ -138,8 +135,14 @@ public class Start extends Fragment{
 			if (currentProject == projectMenuIds[n])
 				selectedRow = n;
 		}
+		
 		projectsMenuString[projects.size()]= getString(R.string.add_project);
 		projectMenuIds[projects.size()] = -1;
+		
+
+		
+		
+	
 		
 		//Letar efter en spinner i activity_main.xml med ett specifict id
 		spinnerProjectView = (Spinner) rootView.findViewById(R.id.projects_menu_spinner2);
@@ -175,6 +178,7 @@ public class Start extends Fragment{
 		    }	
 		};
 		
+		
 		//Spinnern använder items från en valt adapter.
 		spinnerProjectView.setAdapter(adapter);
 		
@@ -188,6 +192,22 @@ public class Start extends Fragment{
 		spinnerListener();
 		dbButtonListener();
 		
+		
+	}
+	
+	
+	public void initTimer(){
+		boolean timerRunning;
+		timerRunning = SettingsManager.getIsTimerRunning(parentActivity);
+		if (timerRunning)
+		{
+			GregorianCalendar startTime = SettingsManager.getStartTime(parentActivity);
+			GregorianCalendar currentTime = new GregorianCalendar();
+			imgButton.setBackground(getResources().getDrawable(R.drawable.checkinbutton_green) );
+			chronometer.setBase(SystemClock.elapsedRealtime() - currentTime.getTimeInMillis() + startTime.getTimeInMillis());
+			chronometer.start();
+		}
+		else imgButton.setBackground(getResources().getDrawable(R.drawable.checkinbutton_white) );
 		
 	}
 	
@@ -226,7 +246,7 @@ public class Start extends Fragment{
 				boolean timerRunning = SettingsManager.getIsTimerRunning(getActivity());
 							
 				if(timerRunning){
-					imgButton.setBackgroundColor(Color.WHITE);
+					imgButton.setBackground(getResources().getDrawable(R.drawable.checkinbutton_white) );
 					
 					SettingsManager.setIsTimerRunning(false, getActivity());
 					chronometer.stop();
@@ -237,7 +257,7 @@ public class Start extends Fragment{
 					db.set(p);
 				}
 				else{
-					imgButton.setBackgroundColor(Color.GREEN);
+					imgButton.setBackground(getResources().getDrawable(R.drawable.checkinbutton_green) );
 					chronometer.setBase(SystemClock.elapsedRealtime());
 					chronometer.start();
 					SettingsManager.setIsTimerRunning(true, getActivity());
