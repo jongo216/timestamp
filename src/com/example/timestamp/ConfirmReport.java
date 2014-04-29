@@ -71,10 +71,16 @@ public class ConfirmReport extends Fragment {
         rootView = inflater.inflate(R.layout.activity_confirmreport, container, false);
         db = new DB(getActivity().getApplicationContext());
         activityInitConfirmReport();
-       
         return rootView;
     }
 	
+	
+	@Override
+	public void onResume()
+	{	
+		super.onResume();
+		plotTimeTable(1);
+	}
 	
 
 	public void activityInitConfirmReport(){
@@ -173,57 +179,64 @@ public class ConfirmReport extends Fragment {
 		
 		plotTimeTable(1);
 		
+		
 	}
 	
 	public void plotTimeTable(int projectID){
 		DB db = new DB(this.getActivity());
-		//return if no time posts exist for a given project
+		TableLayout table = (TableLayout) rootView.findViewById(R.id.time_table);
+		
+		//Return if no time posts exist for a given project
 		if(db.empty(projectID))
 			return;
 		
-		TableLayout table = (TableLayout) rootView.findViewById(R.id.time_table);
+		//Get list of time posts
 		ArrayList<TimePost> times = db.getTime(projectID);
 		
+		//Remove old rows from table (except the header row)
+		int numRows = table.getChildCount();
+		if (numRows > 1)
+			table.removeViews(1, numRows - 1);
+		
+		//Add time posts to the table
 		for(int i  = 0; i < times.size(); ++i){
+			//Init objects
+			TableRow row = new TableRow(rootView.getContext());
+			TextView day = new TextView(rootView.getContext());
+			TextView interval = new TextView(rootView.getContext());
+			TextView time = new TextView(rootView.getContext());
+			TextView comment = new TextView(rootView.getContext());
 			GregorianCalendar start = times.get(i).startTime;
 			GregorianCalendar end = times.get(i).endTime;
 			
-			TableRow row = new TableRow(rootView.getContext());
-			if(i%2 == 1)
-				row.setBackgroundColor(Color.parseColor("#CCCCCC"));
-			
-			//LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-			//row.setLayoutParams(lp);
-			
-			TextView day = new TextView(rootView.getContext());
-			//day.setLayoutParams(lp);
-			day.setText(Constants.WEEK_DAY_STRINGS[start.get(Calendar.DAY_OF_WEEK)]);
-			day.setGravity(Gravity.CENTER);
-			
-			TextView interval = new TextView(rootView.getContext());
-			//interval.setLayoutParams(lp);
-			interval.setText(start.get(Calendar.HOUR_OF_DAY) + ":" + start.get(Calendar.MINUTE) + " - " + end.get(Calendar.HOUR_OF_DAY) + ":" + end.get(Calendar.MINUTE));
-			interval.setGravity(Gravity.CENTER);
-			
-			TextView time = new TextView(rootView.getContext());
-			//time.setLayoutParams(lp);
-			time.setText(times.get(i).getWorkedHoursFormated() + "h");
-			time.setGravity(Gravity.CENTER);
-			
-			TextView comment = new TextView(rootView.getContext());
-			
-			//comment.setLayoutParams(lp);
-			String com = times.get(i).comment;
-			if(com.length() > 10){
-				com = com.substring(0, 8) + "...";
+			//Put data in text views
+			if(true) {  //TODO: Chose how much detail to show.. if(LARGESCREEN)  
+				day.setText(Constants.WEEK_DAY_STRINGS[start.get(Calendar.DAY_OF_WEEK)]);
+				interval.setText(start.get(Calendar.HOUR_OF_DAY) + ":" + start.get(Calendar.MINUTE) + " - " + end.get(Calendar.HOUR_OF_DAY) + ":" + end.get(Calendar.MINUTE));
+				time.setText(times.get(i).getWorkedHoursFormated() + "h");
+				
+				String com = times.get(i).comment;
+				if(com.length() > 10) com = com.substring(0, 8) + "...";
+				comment.setText(com);
 			}
-			comment.setText(com);
+			//else //Show less detail if small screen
+			
+			
+			//Config text views
+			day.setGravity(Gravity.CENTER);
+			interval.setGravity(Gravity.CENTER);
+			time.setGravity(Gravity.CENTER);
 			comment.setGravity(Gravity.CENTER);
 			
+			//Add text views to object
 			row.addView(day);
 			row.addView(interval);
 			row.addView(time);
 			row.addView(comment);
+			
+			//Config row
+			if(i%2 == 1)
+				row.setBackgroundColor(Color.parseColor("#CCCCCC"));
 			row.setClickable(true);
 			row.setId(times.get(i).id);
 			row.setOnClickListener(new OnClickListener(){
@@ -237,8 +250,9 @@ public class ConfirmReport extends Fragment {
 			    }
 			});
 			
+			//Add row to table
 			table.addView(row, new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-		}
+		} //End of for loop
 	}
 	
 
@@ -266,6 +280,13 @@ public class ConfirmReport extends Fragment {
 			
 		});
 		
+	}
+	
+	@Override
+	public void setUserVisibleHint(boolean isVisibleToUser) {
+	    super.setUserVisibleHint(isVisibleToUser);
+	    if (isVisibleToUser) { plotTimeTable(1); }
+	    else {  }
 	}
 
 }
