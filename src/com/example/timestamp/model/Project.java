@@ -39,7 +39,6 @@ public class Project {
 	  private String customer;
 	  private Boolean isPrivate;
 	  
-	  
 	
 	  
 	  //Default constructor

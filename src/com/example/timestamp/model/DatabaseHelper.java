@@ -46,7 +46,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String LOG = DatabaseHelper.class.getName();
  
     // Database Version
-    private static final int DATABASE_VERSION = 20;
+    private static final int DATABASE_VERSION = 22;
  
     // Database Name
     private static final String DATABASE_NAME = "TimeStamp";
@@ -96,9 +96,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + KEY_PROJECT_NAME + " VARCHAR, "
             + KEY_PROJECT_OWNER + " VARCHAR, "
     		+ KEY_DESCRIPTION +" VARCHAR, " 
-    		+ KEY_CUSTOMER +" VARCHAR, " 
-    		+ KEY_COMMENT_SHARED +" TINYINT)";
-    
+    		+ KEY_CUSTOMER +" VARCHAR)";
+    //+ "FOREIGN KEY ("+KEY_PROJECT_OWNER+") REFERENCES "+TABLE_USERS+"("+KEY_MAIL_ADRESS+") ON DELETE CASCADE)"
     
  // Users  table
     private static final String CREATE_TABLE_USERS = "CREATE TABLE "
@@ -131,8 +130,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_USERS);
         db.execSQL(CREATE_TABLE_PROJECT_USER);
     }
- 
-    
+  
     //Called if versionnumber is changed
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -148,8 +146,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-
- 
+    
+    /* ----------- TIMEPOST FUNCTIONS -------------- */
     public void createTimePost(TimePost timePost) {
        
     	SQLiteDatabase db = this.getWritableDatabase();
@@ -252,7 +250,52 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     	return ret;
     }
 
-	public Boolean empty(int pid) {
+    public ArrayList<TimePost> getUnsignedTimes() {
+    	ArrayList<TimePost> ret = new ArrayList<TimePost>();
+    	String selectQuery = "SELECT * FROM "+TABLE_TIMEPOST+" WHERE "+KEY_IS_SIGNED+"=0";
+    	
+    	try{
+    		SQLiteDatabase db = this.getReadableDatabase();
+    		Cursor c = db.rawQuery(selectQuery, null);
+        	
+        	if (c != null){
+        		c.moveToFirst();
+        		
+        		do {
+        			TimePost temp = new TimePost();
+        			
+        			String st = c.getString(c.getColumnIndex(KEY_START_TIME));
+        			temp.setStartTimeByString(st);
+        			
+        			st = c.getString(c.getColumnIndex(KEY_END_TIME));
+        			temp.setEndTimeByString(st);
+        			
+        			temp.id = c.getInt(c.getColumnIndex(KEY_TID));
+        			
+        			temp.projectId = c.getInt(c.getColumnIndex(KEY_PID));
+        			
+        			temp.comment = c.getString(c.getColumnIndex(KEY_COMMENT));
+        			
+        			temp.setIsSigned(c.getInt(c.getColumnIndex(KEY_IS_SIGNED)));
+        			
+        			temp.setCommentShared(c.getInt(c.getColumnIndex(KEY_COMMENT_SHARED)));
+        			
+        			ret.add(temp);
+                    
+                } while (c.moveToNext());
+        	}
+        	else{
+        		Log.d(LOG, "Empty table");
+        	}
+        	
+    	}catch(SQLiteException e){
+    		Log.d(LOG, e.toString());
+    	}
+    	
+    	return ret;
+	}
+    
+	public Boolean timePostEmpty(int pid) {
 		String selectQuery = "SELECT count(*) AS NUMBERS FROM "+TABLE_TIMEPOST; //WHERE pid = pid
     	
     	try{
@@ -333,4 +376,129 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			Log.d(LOG,e.toString());
 		}
 	}
+
+	
+	/* -------------------------------------------- */
+	/* ----------- PROJECT FUNCTIONS -------------- */
+	
+	public void createProject(Project project) {
+		Log.d(LOG,"IM GONNA INSERT A PROJECT!");
+		
+		SQLiteDatabase db = this.getWritableDatabase();
+   	 
+        ContentValues values = new ContentValues();
+        
+        values.put(KEY_PROJECT_NAME, project.getName());
+        values.put(KEY_PROJECT_OWNER, project.getOwner());
+        values.put(KEY_DESCRIPTION, project.getDescription());
+        values.put(KEY_CUSTOMER, project.getCustomer());
+ 
+        // insert row
+        db.insert(TABLE_PROJECTS, null, values);
+        db.close();
+	}
+
+	public ArrayList<Project> getAllProjects() {
+		ArrayList<Project> ret = new ArrayList<Project>();
+    	String selectQuery = "SELECT * FROM "+TABLE_PROJECTS;
+    	
+    	try{
+    		SQLiteDatabase db = this.getReadableDatabase();
+    		Cursor c = db.rawQuery(selectQuery, null);
+        	
+        	if (c != null){
+        		c.moveToFirst();
+        		
+        		do {
+        			Project temp = new Project();
+        			
+        			temp.setId(c.getInt(c.getColumnIndex(KEY_PID)));
+        			
+        			temp.setName(c.getString(c.getColumnIndex(KEY_PROJECT_NAME)));
+        			
+        			temp.setOwner(c.getString(c.getColumnIndex(KEY_PROJECT_OWNER)));
+        			
+        			temp.setDescription(c.getString(c.getColumnIndex(KEY_DESCRIPTION)));
+        			
+        			temp.setCustomer(c.getString(c.getColumnIndex(KEY_CUSTOMER)));
+        			
+        			ret.add(temp);
+                    
+                } while (c.moveToNext());
+        	}
+        	else{
+        		Log.d(LOG, "Empty project table");
+        	}
+        	
+    	}catch(SQLiteException e){
+    		Log.d(LOG, e.toString());
+    	}
+    	
+    	return ret;
+	}
+
+	public Project getProject(int projectId) {
+		Project temp = new Project();
+    	String selectQuery = "SELECT * FROM "+TABLE_PROJECTS+" WHERE "+KEY_PID+"="+projectId;
+    	
+    	try{
+    		SQLiteDatabase db = this.getReadableDatabase();
+    		Cursor c = db.rawQuery(selectQuery, null);
+        	
+        	if (c != null){
+        		c.moveToFirst();
+        		
+    			temp.setId(c.getInt(c.getColumnIndex(KEY_PID)));
+    			
+    			temp.setName(c.getString(c.getColumnIndex(KEY_PROJECT_NAME)));
+    			
+    			temp.setOwner(c.getString(c.getColumnIndex(KEY_PROJECT_OWNER)));
+    			
+    			temp.setDescription(c.getString(c.getColumnIndex(KEY_DESCRIPTION)));
+    			
+    			temp.setCustomer(c.getString(c.getColumnIndex(KEY_CUSTOMER)));
+        	}
+        	else{
+        		Log.d(LOG, "No project found");
+        	}
+        	
+    	}catch(SQLiteException e){
+    		Log.d(LOG, e.toString());
+    	}
+    	
+    	return temp;
+	}
+
+	public Boolean projectsEmpty() {
+		String selectQuery = "SELECT count(*) AS NUMBERS FROM "+TABLE_PROJECTS;
+    	
+    	try{
+    		SQLiteDatabase db = this.getReadableDatabase();
+    		Cursor c = db.rawQuery(selectQuery, null);
+    		
+        	if (c != null){
+        		c.moveToFirst();
+        		
+        		int result = c.getInt(c.getColumnIndex("NUMBERS"));
+        		if(result == 0){
+        			return true;
+        		}
+        		else{
+        			return false;
+        		}
+        	}
+        	else{
+        		Log.d(LOG, "No info");
+        	}
+        	
+    	}
+    	catch(SQLiteException e){
+    		Log.d(LOG, e.toString());
+    	}
+		return false;
+		
+	}
+
+	
+
 }

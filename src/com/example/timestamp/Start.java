@@ -114,9 +114,6 @@ public class Start extends Fragment{
 		imgButton = (LinearLayout) rootView.findViewById(R.id.btnCheckIn);
 		
 		
-	
-		
-
 		initTimer();
 		
 		
@@ -124,6 +121,26 @@ public class Start extends Fragment{
 		
 		int currentProject = SettingsManager.getCurrentProjectId(parentActivity);
 	
+		if(db.projectsEmpty()){
+			Project p1 = new Project();
+			p1.setName("Agil utvecking");
+			p1.setOwner("verboo@mailadress.yoda");
+			p1.setCustomer("Palle Nuh");
+			db.set(p1);
+			
+			Project p2 = new Project();
+			p2.setName("Combitech");
+			p2.setOwner("jonas@mailadress.yoda");
+			p2.setCustomer("Darth Vader");
+			db.set(p2);
+			
+			Project p3 = new Project();
+			p3.setName("Jedi mindtricks");
+			p3.setOwner("niklas@mailadress.yoda");
+			p3.setCustomer("ET");
+			db.set(p3);
+		}
+		
 		projects = db.getAllProjects();
 		projectsMenuString = new String[projects.size() + 1];
 		projectMenuIds = new int[projects.size()+1];
@@ -273,10 +290,11 @@ public class Start extends Fragment{
     	Button timesBtn = (Button) rootView.findViewById(R.id.Times);
     	timesBtn.setOnClickListener(new OnClickListener(){
     		public void onClick(View arg0){
+    			
     			//int timePostID = 3;
     			//db.updateStartTimePost(timePostID, "2014-06-07 17:00:00");
     			int currentProjectSelected = SettingsManager.getCurrentProjectId(getActivity());
-    			if(!db.empty(currentProjectSelected)){
+    			if(!db.timePostEmpty(currentProjectSelected)){
     				ArrayList<TimePost> times = db.getTime(currentProjectSelected); 
         			String text = "";
         			for(int i = 0; i < times.size(); ++i){
