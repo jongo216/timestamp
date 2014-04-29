@@ -29,7 +29,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.example.timestamp.model;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,6 +38,7 @@ import java.util.GregorianCalendar;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -50,7 +50,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String LOG = DatabaseHelper.class.getName();
  
     // Database Version
-    private static final int DATABASE_VERSION = 17;
+    private static final int DATABASE_VERSION = 20;
  
     // Database Name
     private static final String DATABASE_NAME = "TimeStamp";
@@ -175,15 +175,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void createTimePost(TimePost timePost) {
         Log.d("DatabaseHelper", "CREATING TIMEPOST.");
     	SQLiteDatabase db = this.getWritableDatabase();
-    	
+    	 
         ContentValues values = new ContentValues();
         //values.put(KEY_TID, timePost.id);
-        //values.put(KEY_PID, timePost.projectId);
+        values.put(KEY_PID, timePost.projectId);
         values.put(KEY_START_TIME, timePost.getStartTime());
         values.put(KEY_END_TIME, timePost.getEndTime());
-        //values.put(KEY_COMMENT, timePost.comment);
-        //values.put(KEY_IS_SIGNED, timePost.isSigned);
-        //values.put(KEY_COMMENT_SHARED, timePost.commentShared);
+        values.put(KEY_COMMENT, timePost.comment);
+        values.put(KEY_IS_SIGNED, timePost.isSigned);
+        values.put(KEY_COMMENT_SHARED, timePost.commentShared);
  
         // insert row
         Log.d("DatabaseHelper", "Final insert...");
@@ -206,40 +206,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         	
         	if (c != null){
         		c.moveToFirst();
-        		//int s = c.getInt(c.getColumnIndex(KEY_TID));
-        		//Log.d("DatabaseHelper",Integer.toString(s));
         		
         		do {
         			TimePost temp = new TimePost();
+        			
         			String st = c.getString(c.getColumnIndex(KEY_START_TIME));
-        			DateFormat formatter;
-        			formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        			Date date;
-					try {
-						date = (Date) formatter.parse(st);
-						temp.setStartTime(new GregorianCalendar(date.getYear(), date.getMonth(), date.getDay(), date.getHours(), date.getMinutes()));
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-
+        			temp.setStartTimeByString(st);
+        			
         			st = c.getString(c.getColumnIndex(KEY_END_TIME));
-        			formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        			try {
-						date = (Date) formatter.parse(st);
-						temp.setEndTime(new GregorianCalendar(date.getYear(), date.getMonth(), date.getDay(), date.getHours(), date.getMinutes()));
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+        			temp.setEndTimeByString(st);
+        			
+        			temp.id = c.getInt(c.getColumnIndex(KEY_TID));
+        			
+        			temp.projectId = c.getInt(c.getColumnIndex(KEY_PID));
+        			
+        			temp.comment = c.getString(c.getColumnIndex(KEY_COMMENT));
+        			
+        			temp.setIsSigned(c.getInt(c.getColumnIndex(KEY_IS_SIGNED)));
+        			
+        			temp.setCommentShared(c.getInt(c.getColumnIndex(KEY_COMMENT_SHARED)));
         			
         			ret.add(temp);
-        			//int s = c.getInt(c.getColumnIndex(KEY_TID));
-                    //String p = c.getString(c.getColumnIndex(KEY_PID));
-                    
-                    
-                    //Log.d("DatabaseHelper",Integer.toString(s)+ " "+ p + " "+ d);
-     
                     
                 } while (c.moveToNext());
         	}
@@ -322,6 +309,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     		Log.d("DatabaseHelper", e.toString());
     	}
 		return false;
+		
+	}
+
+	public void updateStartTimePost(int timePostID, String dateString) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		
+		String myQuery = "UPDATE "+TABLE_TIMEPOST+" SET "+KEY_START_TIME+"='"+dateString+"' WHERE "+KEY_TID+"="+timePostID+";";
+	
+    	try {
+			db.execSQL(myQuery);
+		} catch (SQLException e) {
+			Log.d(LOG,e.toString());
+		}
+    	
+    	db.close();
+	}
+	
+	public void updateEndTimePost(int timePostID, String dateString) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		
+		String myQuery = "UPDATE "+TABLE_TIMEPOST+" SET "+KEY_END_TIME+"='"+dateString+"' WHERE "+KEY_TID+"="+timePostID+";";
+	
+    	try {
+			db.execSQL(myQuery);
+		} catch (SQLException e) {
+			Log.d(LOG,e.toString());
+		}
+    	
+    	db.close();
+	}
+
+	public void updateCommentTimePost(int timePostID, String newComment) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void updateProjectIDTimePost(int timePostID, int projectID) {
+		// TODO Auto-generated method stub
 		
 	}
    
