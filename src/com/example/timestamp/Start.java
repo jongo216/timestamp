@@ -273,9 +273,11 @@ public class Start extends Fragment{
     	Button timesBtn = (Button) rootView.findViewById(R.id.Times);
     	timesBtn.setOnClickListener(new OnClickListener(){
     		public void onClick(View arg0){
+    			//int timePostID = 3;
+    			//db.updateStartTimePost(timePostID, "2014-06-07 17:00:00");
     			int currentProjectSelected = SettingsManager.getCurrentProjectId(getActivity());
     			if(!db.empty(currentProjectSelected)){
-    				ArrayList<TimePost> times = db.getTime(currentProjectSelected); // PROJECT ID fix....
+    				ArrayList<TimePost> times = db.getTime(currentProjectSelected); 
         			String text = "";
         			for(int i = 0; i < times.size(); ++i){
         				//buggs with printStart/EndTime

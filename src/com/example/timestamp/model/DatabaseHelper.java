@@ -38,6 +38,7 @@ import java.util.GregorianCalendar;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -308,6 +309,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     		Log.d("DatabaseHelper", e.toString());
     	}
 		return false;
+		
+	}
+
+	public void updateStartTimePost(int timePostID, String dateString) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		
+		String myQuery = "UPDATE "+TABLE_TIMEPOST+" SET "+KEY_START_TIME+"='"+dateString+"' WHERE "+KEY_TID+"="+timePostID+";";
+	
+    	try {
+			db.execSQL(myQuery);
+		} catch (SQLException e) {
+			Log.d(LOG,e.toString());
+		}
+    	
+    	db.close();
+	}
+	
+	public void updateEndTimePost(int timePostID, String dateString) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		
+		String myQuery = "UPDATE "+TABLE_TIMEPOST+" SET "+KEY_END_TIME+"='"+dateString+"' WHERE "+KEY_TID+"="+timePostID+";";
+	
+    	try {
+			db.execSQL(myQuery);
+		} catch (SQLException e) {
+			Log.d(LOG,e.toString());
+		}
+    	
+    	db.close();
+	}
+
+	public void updateCommentTimePost(int timePostID, String newComment) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void updateProjectIDTimePost(int timePostID, int projectID) {
+		// TODO Auto-generated method stub
 		
 	}
    
