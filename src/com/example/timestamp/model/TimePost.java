@@ -29,6 +29,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.example.timestamp.model;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -118,6 +119,12 @@ public class TimePost {
 		long end = endTime.getTimeInMillis();
 		
 		return (double)(end-start)/(1000*60*60); //from ms -> s -> min -> h
+	}
+	
+	public String getWorkedHoursFormated(){
+		double time = getWorkedHours();
+		DecimalFormat hourFormat = new DecimalFormat("#.00");		
+		return hourFormat.format(time);
 	}
 	
 	public void setStartYear(int year){startTime.set(Calendar.YEAR, year);}

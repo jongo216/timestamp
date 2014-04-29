@@ -143,7 +143,12 @@ public class ConfirmReport extends Fragment {
 	public void plotTimeTable(int projectID){
 		TableLayout table = (TableLayout) rootView.findViewById(R.id.time_table);
 		DB db = new DB(this.getActivity());
+		Log.d("Jonas", "DB");
 		ArrayList<TimePost> times = db.getTime(projectID);
+		if(times != null)
+			Log.d("Jonas", times.size()+"");
+		else
+			Log.d("Jonas", "times == NULL");
 		for(int i  = 0; i < times.size(); ++i){
 			GregorianCalendar start = times.get(i).startTime;
 			GregorianCalendar end = times.get(i).endTime;
@@ -167,7 +172,7 @@ public class ConfirmReport extends Fragment {
 			
 			TextView time = new TextView(rootView.getContext());
 			//time.setLayoutParams(lp);
-			time.setText(times.get(i).getWorkedHours() + "h");
+			time.setText(times.get(i).getWorkedHoursFormated() + "h");
 			time.setGravity(Gravity.CENTER);
 			
 			TextView comment = new TextView(rootView.getContext());
