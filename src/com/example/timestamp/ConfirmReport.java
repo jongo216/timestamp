@@ -38,12 +38,14 @@ import com.example.timestamp.model.*;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.*;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.*;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -209,6 +211,7 @@ public class ConfirmReport extends Fragment {
 			time.setGravity(Gravity.CENTER);
 			
 			TextView comment = new TextView(rootView.getContext());
+			
 			//comment.setLayoutParams(lp);
 			String com = times.get(i).comment;
 			if(com.length() > 10){
@@ -221,11 +224,24 @@ public class ConfirmReport extends Fragment {
 			row.addView(interval);
 			row.addView(time);
 			row.addView(comment);
+			row.setClickable(true);
+			row.setId(times.get(i).id);
+			row.setOnClickListener(new OnClickListener(){
+				@Override
+			    public void onClick(View v) {
+			        //Inform the user the button has been clicked
+			        Toast.makeText(getActivity(), "Clicked timepost with id = " + v.getId(), 2).show();
+			        Intent editIntent = new Intent(getActivity(), EditReport.class);
+			        startActivity(editIntent);
+			        
+			    }
+			});
 			
 			table.addView(row, new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 		}
 	}
 	
+
 	public void spinnerListener() {
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener(){
 
@@ -251,5 +267,5 @@ public class ConfirmReport extends Fragment {
 		});
 		
 	}
-	
+
 }
