@@ -153,8 +153,23 @@ public class DB {
 	}
 
 	public boolean empty(int pid) {
-		// TODO Auto-generated method stub
 		return dbHelper.empty(pid);
+	}
+
+	public void updateStartTimePost(int timePostID, String dateString) {
+		dbHelper.updateStartTimePost(timePostID, dateString);
+	}
+	
+	public void updateEndTimePost(int timePostID, String dateString) {
+		dbHelper.updateEndTimePost(timePostID, dateString);
+	}
+	
+	public void updateCommentTimePost(int timePostID, String newComment) {
+		dbHelper.updateCommentTimePost(timePostID, newComment);
+	}
+	
+	public void updateProjectIDTimePost(int timePostID, int projectID) {
+		dbHelper.updateProjectIDTimePost(timePostID, projectID);
 	}
 	
 	/*public ArrayList<Project> getProjects

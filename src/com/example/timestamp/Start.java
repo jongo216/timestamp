@@ -40,26 +40,12 @@ import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.view.*;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.*;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.Chronometer;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.timestamp.model.DB;
-import com.example.timestamp.model.Project;
-import com.example.timestamp.model.SettingsManager;
-import com.example.timestamp.model.TimePost;
+import com.example.timestamp.model.*;
 
 
 public class Start extends Fragment{
@@ -75,6 +61,8 @@ public class Start extends Fragment{
 	private Chronometer chronometer;
 	private FragmentActivity parentActivity;
 	private DB db;
+	
+
 	
 	
 	@Override		//mother of all inits!
@@ -105,7 +93,7 @@ public class Start extends Fragment{
 		
 		parentActivity = getActivity();
 		
-		boolean timerRunning = SettingsManager.getIsTimerRunning(parentActivity);
+		
 		chronometer = (Chronometer)rootView.findViewById(R.id.chronometer);
 		
 
@@ -113,24 +101,19 @@ public class Start extends Fragment{
 		
 		
 	
+		
+
+		initTimer();
+		
+		
+		int selectedRow = 0;
+		
 		int currentProject = SettingsManager.getCurrentProjectId(parentActivity);
-		
-		if (timerRunning)
-		{
-			GregorianCalendar startTime = SettingsManager.getStartTime(parentActivity);
-			GregorianCalendar currentTime = new GregorianCalendar();
-			imgButton.setBackgroundColor(Color.GREEN);
-			chronometer.setBase(SystemClock.elapsedRealtime() - currentTime.getTimeInMillis() + startTime.getTimeInMillis());
-			chronometer.start();
-		}
-		else imgButton.setBackgroundColor(Color.WHITE);
-		
-		
+	
 		projects = db.getAllProjects();
-		Log.d("DatabaseHelper","Projsize: "+projects.size());
 		projectsMenuString = new String[projects.size() + 1];
 		projectMenuIds = new int[projects.size()+1];
-		int selectedRow = 0;
+		
 		for (int n = 0; n < projects.size(); n++)
 		{
 			projectsMenuString[n] = projects.get(n).getName();
@@ -138,8 +121,14 @@ public class Start extends Fragment{
 			if (currentProject == projectMenuIds[n])
 				selectedRow = n;
 		}
+		
 		projectsMenuString[projects.size()]= getString(R.string.add_project);
 		projectMenuIds[projects.size()] = -1;
+		
+
+		
+		
+	
 		
 		//Letar efter en spinner i activity_main.xml med ett specifict id
 		spinnerProjectView = (Spinner) rootView.findViewById(R.id.projects_menu_spinner2);
@@ -175,6 +164,7 @@ public class Start extends Fragment{
 		    }	
 		};
 		
+		
 		//Spinnern använder items från en valt adapter.
 		spinnerProjectView.setAdapter(adapter);
 		
@@ -188,6 +178,22 @@ public class Start extends Fragment{
 		spinnerListener();
 		dbButtonListener();
 		
+		
+	}
+	
+	
+	public void initTimer(){
+		boolean timerRunning;
+		timerRunning = SettingsManager.getIsTimerRunning(parentActivity);
+		if (timerRunning)
+		{
+			GregorianCalendar startTime = SettingsManager.getStartTime(parentActivity);
+			GregorianCalendar currentTime = new GregorianCalendar();
+			imgButton.setBackground(getResources().getDrawable(R.drawable.checkinbutton_green) );
+			chronometer.setBase(SystemClock.elapsedRealtime() - currentTime.getTimeInMillis() + startTime.getTimeInMillis());
+			chronometer.start();
+		}
+		else imgButton.setBackground(getResources().getDrawable(R.drawable.checkinbutton_white) );
 		
 	}
 	
@@ -226,19 +232,18 @@ public class Start extends Fragment{
 				boolean timerRunning = SettingsManager.getIsTimerRunning(getActivity());
 							
 				if(timerRunning){
-					imgButton.setBackgroundColor(Color.WHITE);
+					imgButton.setBackground(getResources().getDrawable(R.drawable.checkinbutton_white) );
 					
 					SettingsManager.setIsTimerRunning(false, getActivity());
 					chronometer.stop();
 					TimePost p = new TimePost();
-					//jdtkjgdkj
 					p.setProjectId(SettingsManager.getCurrentProjectId(getActivity()));
 					p.setStartTime(SettingsManager.getStartTime(getActivity()));
-					p.setEndTime(new GregorianCalendar());
+					p.setEndTimeNow();
 					db.set(p);
 				}
 				else{
-					imgButton.setBackgroundColor(Color.GREEN);
+					imgButton.setBackground(getResources().getDrawable(R.drawable.checkinbutton_green) );
 					chronometer.setBase(SystemClock.elapsedRealtime());
 					chronometer.start();
 					SettingsManager.setIsTimerRunning(true, getActivity());
@@ -254,11 +259,15 @@ public class Start extends Fragment{
     	Button timesBtn = (Button) rootView.findViewById(R.id.Times);
     	timesBtn.setOnClickListener(new OnClickListener(){
     		public void onClick(View arg0){
-    			if(!db.empty(1)){
-    				ArrayList<TimePost> times = db.getTime(1); // PROJECT ID fix....
+    			//int timePostID = 3;
+    			//db.updateStartTimePost(timePostID, "2014-06-07 17:00:00");
+    			int currentProjectSelected = SettingsManager.getCurrentProjectId(getActivity());
+    			if(!db.empty(currentProjectSelected)){
+    				ArrayList<TimePost> times = db.getTime(currentProjectSelected); 
         			String text = "";
         			for(int i = 0; i < times.size(); ++i){
-        				text = text + times.get(i).printStartTime() + " - " + times.get(i).printEndTime() + "\n";
+
+        				text = text +times.get(i).id + times.get(i).printStartTime() + " - " + times.get(i).printEndTime() + "\n";
         			}
         			Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
     			}
