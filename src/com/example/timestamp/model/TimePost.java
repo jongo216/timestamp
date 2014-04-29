@@ -29,6 +29,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.example.timestamp.model;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -37,8 +38,8 @@ import android.util.Log;
 
 public class TimePost {
 	
-	public Calendar startTime;
-	public Calendar endTime;
+	public GregorianCalendar startTime;
+	public GregorianCalendar endTime;
 	public int id;
 	public Boolean isSigned;
 	public String comment;
@@ -85,11 +86,23 @@ public class TimePost {
 			return new SimpleDateFormat("yyyy MMM dd HH:mm:ss").format(startTime.getTime());
 		return "";
 	}
+	
 	//for printing nice output
 	public String printEndTime(){
 		//System.out.println(new SimpleDateFormat("yyyy MMM dd HH:mm:ss").format(endTime.getTime()));
 		if(endTime != null)
 			return new SimpleDateFormat("yyyy MMM dd HH:mm:ss").format(endTime.getTime());
+		return "";
+	}
+	
+	//for printing nice output
+	public String FormatedTimeInterval(){
+		if(startTime != null && endTime != null){
+			return String.format("%2s", startTime.get(Calendar.HOUR_OF_DAY)).replace(' ', '0') + ":" + 
+				   String.format("%2s", startTime.get(Calendar.MINUTE))		.replace(' ', '0') + " - " + 
+				   String.format("%2s", endTime.get(Calendar.HOUR_OF_DAY))	.replace(' ', '0') + ":" + 
+				   String.format("%2s", endTime.get(Calendar.MINUTE))		.replace(' ', '0');
+		}
 		return "";
 	}
 	
@@ -120,6 +133,12 @@ public class TimePost {
 		return (double)(end-start)/(1000*60*60); //from ms -> s -> min -> h
 	}
 	
+	public String getWorkedHoursFormated(){
+		double time = getWorkedHours();
+		DecimalFormat hourFormat = new DecimalFormat("#0.00");		
+		return hourFormat.format(time);
+	}
+	
 	public void setStartYear(int year){startTime.set(Calendar.YEAR, year);}
 	public void setStartMonth(int month){startTime.set(Calendar.MONTH, month);}
 	public void setStartDay(int day){startTime.set(Calendar.DAY_OF_MONTH, day);}
@@ -133,19 +152,18 @@ public class TimePost {
 	public void setEndMinute(int minute){endTime.set(Calendar.MINUTE, minute);}
 	
 	public void setStartTimeNow(){
-		startTime = Calendar.getInstance();
+		startTime = new GregorianCalendar();
 	}
 	
 	public void setEndTimeNow(){
-		endTime = Calendar.getInstance();
+		endTime = new GregorianCalendar();
 	}
 	
 	public void setEndTimeRandom(){
-		endTime = Calendar.getInstance();
+		endTime = new GregorianCalendar();
 		
 		int i = (int)(Math.random()*3)+3;
-		//Log.d("MESSAGE", "rand"+i);
-		Log.d("MESSAGE",Integer.toString(endTime.get(Calendar.HOUR_OF_DAY)+i));
+		//Log.d("MESSAGE",Integer.toString(endTime.get(Calendar.HOUR_OF_DAY)+i));
 		setEndHour(endTime.get(Calendar.HOUR_OF_DAY)+i);
 		
 	}

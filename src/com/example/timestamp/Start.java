@@ -40,26 +40,12 @@ import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.view.*;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.*;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.Chronometer;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.timestamp.model.DB;
-import com.example.timestamp.model.Project;
-import com.example.timestamp.model.SettingsManager;
-import com.example.timestamp.model.TimePost;
+import com.example.timestamp.model.*;
 
 
 public class Start extends Fragment{
@@ -298,7 +284,7 @@ public class Start extends Fragment{
     				ArrayList<TimePost> times = db.getTime(currentProjectSelected); 
         			String text = "";
         			for(int i = 0; i < times.size(); ++i){
-        				//buggs with printStart/EndTime
+
         				text = text +times.get(i).id + times.get(i).printStartTime() + " - " + times.get(i).printEndTime() + "\n";
         			}
         			Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
