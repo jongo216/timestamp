@@ -30,45 +30,148 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package com.example.timestamp;
 
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
+import android.app.ActionBar.LayoutParams;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v4.app.FragmentActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.Spinner;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.timestamp.model.DB;
+import com.example.timestamp.model.Project;
+import com.example.timestamp.model.SettingsManager;
+import com.example.timestamp.model.TimePost;
+
 
 public class ConfirmReport extends Fragment {
 	
-	String[] projectsMenuString = {"Project 1", "Project 2", "+ Create Project"};
+	public String[] projectsMenuString; // = {"Projekt 1", "Projekt 2", "Nytt projekt"};
+	public int[] projectMenuIds;
+	private ArrayList<Project> projects;
+	private int[] projectMenuIds2;
+	private ArrayList<Project> projects2;
+	private Spinner spinnerProjectView2;
+	private DB db;
 	private Button button;
 	private View rootView;
-
+	private FragmentActivity parentActivity;
+	private Spinner spinner;
+	
+	//För popup vyn
+	private Button editTimePostButton;
+	boolean click = true;
+	PopupWindow popUp;
+	LinearLayout layout;
+	TextView tv;
+	LayoutParams params;
+	LinearLayout mainLayout;
+	Button but;
+	//END För popup vyn 
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
  
         rootView = inflater.inflate(R.layout.activity_confirmreport, container, false);
+        db = new DB(getActivity().getApplicationContext());
         activityInitConfirmReport();
-       
+        
+        editTimePostButton = (Button) rootView.findViewById(R.id.editTimePostButton);
+        
+        //popUp = new PopupWindow();
+        addEditTimePostButtonListener();
+
+        
+        
+        
+
         return rootView;
+	    
     }
 	
+
+	public void addEditTimePostButtonListener(){
+        
+
+        editTimePostButton.setOnClickListener(new OnClickListener() {
+		    @Override
+        	public void onClick(View v) {
+		    	//Intent intent = new Intent(getActivity(), EditReport.class);
+		    	//startActivity(intent);
+		    	if (click) {
+		            popUp.showAtLocation(rootView, Gravity.BOTTOM, 10, 10);
+		            popUp.update(50, 50, 300, 80);
+		            click = false;
+		    	} else {
+		    		popUp.dismiss();
+		            click = true;
+		        }
+		    	
+			}
+        });
+	}
+
+	
+	@Override
+	public void onResume()
+	{	
+		super.onResume();
+		plotTimeTable(1);
+	}
 	
 
+
 	public void activityInitConfirmReport(){
+		
+		parentActivity = getActivity();
 	
 		//Letar efter en spinner i activity_main.xml med ett specifict id
-		Spinner spinner = (Spinner) rootView.findViewById(R.id.projects_menu_spinner2);
+		spinner = (Spinner) rootView.findViewById(R.id.projects_menu_spinner2);
 				
+		
+		int selectedRow = 0;
+		
+		int currentProject = SettingsManager.getCurrentProjectId(parentActivity);
+	
+		projects = db.getAllProjects();
+		projectsMenuString = new String[projects.size() + 1];
+		projectMenuIds = new int[projects.size()+1];
+		
+		for (int n = 0; n < projects.size(); n++)
+		{
+			projectsMenuString[n] = projects.get(n).getName();
+			projectMenuIds[n] = projects.get(n).getId();
+			if (currentProject == projectMenuIds[n])
+				selectedRow = n;
+		}
+		
+		projectsMenuString[projects.size()]=  "List all projects";
+		projectMenuIds[projects.size()] = -1;
+		
+		
+		
+		
 		//Hämtar namn från string array med menu item.
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, projectsMenuString){
 			
@@ -100,7 +203,9 @@ public class ConfirmReport extends Fragment {
 		};
 		//Spinnern använder items från en valt adapter.
 		spinner.setAdapter(adapter);
-		
+
+		spinnerListener();
+		spinner.setSelection(selectedRow);
 				
 		button = (Button) rootView.findViewById(R.id.sendReportButton);
 
@@ -131,8 +236,119 @@ public class ConfirmReport extends Fragment {
 		
 		});
 		
+		plotTimeTable(1);
 		
 		
 	}
+
 	
+	
+	
+	public void plotTimeTable(int projectID){
+		DB db = new DB(this.getActivity());
+		TableLayout table = (TableLayout) rootView.findViewById(R.id.time_table);
+		
+		//Return if no time posts exist for a given project
+		if(db.empty(projectID))
+			return;
+		
+		//Get list of time posts
+		ArrayList<TimePost> times = db.getTime(projectID);
+		
+		//Remove old rows from table (except the header row)
+		int numRows = table.getChildCount();
+		if (numRows > 1)
+			table.removeViews(1, numRows - 1);
+		
+		//Add time posts to the table
+		for(int i  = 0; i < times.size(); ++i){
+			//Init objects
+			TableRow row = new TableRow(rootView.getContext());
+			TextView day = new TextView(rootView.getContext());
+			TextView interval = new TextView(rootView.getContext());
+			TextView time = new TextView(rootView.getContext());
+			TextView comment = new TextView(rootView.getContext());
+			GregorianCalendar start = times.get(i).startTime;
+			GregorianCalendar end = times.get(i).endTime;
+			
+			//Put data in text views
+			if(true) {  //TODO: Chose how much detail to show.. if(LARGESCREEN)  
+				day.setText(Constants.WEEK_DAY_STRINGS[start.get(Calendar.DAY_OF_WEEK)]);
+				interval.setText(times.get(i).FormatedTimeInterval());
+				time.setText(times.get(i).getWorkedHoursFormated() + "h");
+				
+				String com = times.get(i).comment;
+				if(com.length() > 10) com = com.substring(0, 8) + "...";
+				comment.setText(com);
+			}
+			//else //Show less detail if small screen
+			
+			
+			//Config text views
+			day.setGravity(Gravity.CENTER);
+			interval.setGravity(Gravity.CENTER);
+			time.setGravity(Gravity.CENTER);
+			comment.setGravity(Gravity.CENTER);
+			
+			//Add text views to object
+			row.addView(day);
+			row.addView(interval);
+			row.addView(time);
+			row.addView(comment);
+			
+			//Config row
+			if(i%2 == 1)
+				row.setBackgroundColor(Color.parseColor("#CCCCCC"));
+			row.setClickable(true);
+			row.setId(times.get(i).id);
+			row.setOnClickListener(new OnClickListener(){
+				@Override
+			    public void onClick(View v) {
+			        //Inform the user the button has been clicked
+			        Toast.makeText(getActivity(), "Clicked timepost with id = " + v.getId(), 2).show();
+			        Intent editIntent = new Intent(getActivity(), EditReport.class);
+			        startActivity(editIntent);
+			        
+			    }
+			});
+			
+			//Add row to table
+			table.addView(row, new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+		} //End of for loop
+	}
+	
+
+	public void spinnerListener() {
+		spinner.setOnItemSelectedListener(new OnItemSelectedListener(){
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int pos, long id) {
+				
+				// TODO Auto-generated method stub
+				if(projectMenuIds[pos] != -1){
+					SettingsManager.setCurrentProjectId(projectMenuIds[pos], getActivity());
+					
+				}else{
+					//Lista alla projekt
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		
+	}
+	
+	@Override
+	public void setUserVisibleHint(boolean isVisibleToUser) {
+	    super.setUserVisibleHint(isVisibleToUser);
+	    if (isVisibleToUser) { plotTimeTable(1); }
+	    else {  }
+	}
+
 }

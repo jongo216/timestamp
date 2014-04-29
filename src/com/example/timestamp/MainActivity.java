@@ -114,6 +114,11 @@ ActionBar.TabListener {
 				// on changing the page
 				// make respected tab selected
 				actionBar.setSelectedNavigationItem(position);
+				//if (position == 1)
+				//{
+				//	ConfirmReport fragment = (ConfirmReport) getSupportFragmentManager().findFragmentById(R.id.confirmReportFragment);
+				//	fragment.plotTimeTable(1);
+				//}
 			}
 
 			@Override
@@ -179,5 +184,8 @@ ActionBar.TabListener {
 	@Override
 	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
 	}
+	
+	
+	
 
 }

@@ -60,7 +60,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
    </style>
     
     <style name="CornerRadius">
-        <item name="android:background">@drawable/corner_radius</item>
+        <item name="android:background">@drawable/checkinbutton_white</item>
     </style>
     
     <style name="CustomStyleButtonDark" parent="@android:style/Widget.Button">

@@ -35,6 +35,7 @@ public class Constants {
 	public static final String SETTING_START_TIME = "startTime";
 	public static final String SETTING_CURRENT_PROJECT = "currentProject";
 	public static final String SETTING_IS_TIMER_RUNNING = "isTimerRunning";
+	public static final String[] WEEK_DAY_STRINGS = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"}; 
 	
 	
 }
