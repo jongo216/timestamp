@@ -120,6 +120,40 @@ public class TimePost {
 		setEndHour(endTime.get(Calendar.HOUR_OF_DAY)+i);
 		
 	}
+
+	public void setStartTimeByString(String st) {
+		String[] splitDate = st.split("-");
+		
+		int year = Integer.parseInt(splitDate[0]);
+		int months = Integer.parseInt(splitDate[1]) - 1;
+		
+		splitDate = splitDate[2].split(" ");
+		int days = Integer.parseInt(splitDate[0]);
+		
+		splitDate = splitDate[1].split(":");
+		int hours = Integer.parseInt(splitDate[0]);
+		int minutes = Integer.parseInt(splitDate[1]);
+		int seconds = Integer.parseInt(splitDate[2]);
+		
+		setStartTime(new GregorianCalendar(year,months,days,hours,minutes,seconds));
+	}
+
+	public void setEndTimeByString(String st) {
+		String[] splitDate = st.split("-");
+		
+		int year = Integer.parseInt(splitDate[0]);
+		int months = Integer.parseInt(splitDate[1]) - 1;
+		
+		splitDate = splitDate[2].split(" ");
+		int days = Integer.parseInt(splitDate[0]);
+		
+		splitDate = splitDate[1].split(":");
+		int hours = Integer.parseInt(splitDate[0]);
+		int minutes = Integer.parseInt(splitDate[1]);
+		int seconds = Integer.parseInt(splitDate[2]);
+		
+		setEndTime(new GregorianCalendar(year,months,days,hours,minutes,seconds));
+	}
 	
 	
 	

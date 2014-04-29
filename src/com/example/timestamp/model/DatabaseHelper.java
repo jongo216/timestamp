@@ -1,6 +1,5 @@
 package com.example.timestamp.model;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -148,7 +147,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     	SQLiteDatabase db = this.getWritableDatabase();
     	
     	
-    	//Log.d(LOG,"Valueeeeeeeeee: " + timePost.getStartTime());
+    	Log.d(LOG,"Valueeeeeeeeee: " + timePost.getStartTime());
     	
     	 
         ContentValues values = new ContentValues();
@@ -187,28 +186,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         		do {
         			TimePost temp = new TimePost();
         			String st = c.getString(c.getColumnIndex(KEY_START_TIME));
-        			DateFormat formatter;
-        			formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        			Date date;
-					try {
-						date = (Date) formatter.parse(st);
-						temp.setStartTime(new GregorianCalendar(date.getYear(), date.getMonth(), date.getDay(), date.getHours(), date.getMinutes()));
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-
+        			
+        			temp.setStartTimeByString(st);
+        			
         			st = c.getString(c.getColumnIndex(KEY_END_TIME));
-        			formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        			try {
-						date = (Date) formatter.parse(st);
-						temp.setEndTime(new GregorianCalendar(date.getYear(), date.getMonth(), date.getDay(), date.getHours(), date.getMinutes()));
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+        			temp.setEndTimeByString(st);
+        			
         			
         			ret.add(temp);
+        			
         			//int s = c.getInt(c.getColumnIndex(KEY_TID));
                     //String p = c.getString(c.getColumnIndex(KEY_PID));
                     
