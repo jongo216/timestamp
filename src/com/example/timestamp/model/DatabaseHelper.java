@@ -245,35 +245,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     
     public void showTables(){
     	String selectQuery = "SELECT * FROM "+TABLE_TIMEPOST;
-    	Log.d("DatabaseHelper", selectQuery);
     	
     	try{
     		SQLiteDatabase db = this.getReadableDatabase();
     		Cursor c = db.rawQuery(selectQuery, null);
-    		
-        	Log.d("DatabaseHelper", "DATA: " + c.getCount());
         	
         	if (c != null){
         		c.moveToFirst();
-        		//int s = c.getInt(c.getColumnIndex(KEY_TID));
-        		//Log.d("DatabaseHelper",Integer.toString(s));
         		
         		do {
-        			
         			int s = c.getInt(c.getColumnIndex(KEY_TID));
                     String p = c.getString(c.getColumnIndex(KEY_PID));
                     String d = c.getString(c.getColumnIndex(KEY_END_TIME));
                     
-                    Log.d("DatabaseHelper",Integer.toString(s)+ " "+ p + " "+ d);
-     
-                    
                 } while (c.moveToNext());
         	}
-        	else{
-        		Log.d("DatabaseHelper", "NOPE");
-        	}
-                
-        	
         	
     	}catch(SQLiteException e){
     		Log.d("DatabaseHelper", e.toString());
@@ -313,41 +299,55 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 
 	public void updateStartTimePost(int timePostID, String dateString) {
-		SQLiteDatabase db = this.getWritableDatabase();
 		
 		String myQuery = "UPDATE "+TABLE_TIMEPOST+" SET "+KEY_START_TIME+"='"+dateString+"' WHERE "+KEY_TID+"="+timePostID+";";
 	
     	try {
-			db.execSQL(myQuery);
+    		SQLiteDatabase db = this.getWritableDatabase();
+    		db.execSQL(myQuery);
+    		db.close();
 		} catch (SQLException e) {
 			Log.d(LOG,e.toString());
 		}
-    	
-    	db.close();
 	}
 	
 	public void updateEndTimePost(int timePostID, String dateString) {
-		SQLiteDatabase db = this.getWritableDatabase();
 		
-		String myQuery = "UPDATE "+TABLE_TIMEPOST+" SET "+KEY_END_TIME+"='"+dateString+"' WHERE "+KEY_TID+"="+timePostID+";";
+		String myQuery = "UPDATE "+TABLE_TIMEPOST+" SET "+KEY_END_TIME+"='"+dateString+"' WHERE "+KEY_TID+"="+timePostID;
 	
     	try {
+    		SQLiteDatabase db = this.getWritableDatabase();
 			db.execSQL(myQuery);
+			db.close();
 		} catch (SQLException e) {
 			Log.d(LOG,e.toString());
 		}
-    	
-    	db.close();
 	}
 
 	public void updateCommentTimePost(int timePostID, String newComment) {
-		// TODO Auto-generated method stub
 		
+		String myQuery = "UPDATE "+TABLE_TIMEPOST+" SET "+KEY_COMMENT+"='"+newComment+"' WHERE "+KEY_TID+"="+timePostID;
+	
+    	try {
+    		SQLiteDatabase db = this.getWritableDatabase();
+			db.execSQL(myQuery);
+			db.close();
+		} catch (SQLException e) {
+			Log.d(LOG,e.toString());
+		}
 	}
 
 	public void updateProjectIDTimePost(int timePostID, int projectID) {
-		// TODO Auto-generated method stub
 		
+		String myQuery = "UPDATE "+TABLE_TIMEPOST+" SET "+KEY_PID+"='"+projectID+"' WHERE "+KEY_TID+"="+timePostID;
+	
+    	try {
+    		SQLiteDatabase db = this.getWritableDatabase();
+			db.execSQL(myQuery);
+			db.close();
+		} catch (SQLException e) {
+			Log.d(LOG,e.toString());
+		}
 	}
    
     
