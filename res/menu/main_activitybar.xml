@@ -39,15 +39,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <menu>
            <item android:id="@+id/action_edit"
            android:title="@string/action_edit"
-           
-           /> 
+           android:visible="false"
+           />
+           <item android:id="@+id/action_manageprojects"
+           android:title="@string/action_manageprojects"
+           />  
             <item android:id="@+id/action_yoursettings"
            android:title="@string/action_yoursettings"
            
            />
-           <item android:id="@+id/action_manageprojects"
-           android:title="@string/action_manageprojects"
-           /> 
+           
         
    </menu>
     </item>

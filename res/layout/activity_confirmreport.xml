@@ -36,20 +36,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     android:tileMode="repeat"
     tools:context=".MainActivity" >
 
-    <Button
-        android:id="@+id/sendReportButton"
-        style="@style/CustomStyleButtonDark"
-        android:layout_width="280dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="32dp"
-        android:padding="10dp"
-        android:text="@string/textSendTimeReport" />
-
 
     
-	    <Button
+<!-- 	<Button
         android:id="@+id/editTimePostButton"
         style="@style/CustomStyleButtonDark"
         android:layout_width="wrap_content"
@@ -63,7 +52,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:singleLine="true"
-        android:text="@string/addNewPost" />
+        android:text="@string/addNewPost" /> -->
 	
     <Spinner
         android:id="@+id/projects_menu_spinner2"
@@ -72,54 +61,72 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="47dp" />
+        android:layout_marginTop="30dp" />
 
-    <TableLayout
-        android:id="@+id/time_table"
+    <ScrollView
+        android:id="@+id/timePostScrollView"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:layout_below="@+id/projects_menu_spinner2"
+        android:layout_above="@+id/sendReportButton"
         android:layout_centerHorizontal="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="15dp"
-        android:gravity="center" >
+        android:layout_margin="20dp"
+        android:gravity="top"
+        android:scrollbars="vertical" 
+        android:fadeScrollbars="false">
 
-	    <TableRow
-	       android:background="#063A70"
-	       
-	       >
-
-	        <TextView
-	            android:layout_weight="1"
-	            android:gravity="center"
-	            android:padding="3dp"
-	            android:text="Day"
-	            android:textColor="#FFFFFF"
-	            />
-
-	        <TextView
-	            android:layout_weight="4"
-	            android:gravity="center"
-	            android:padding="3dp"
-	            android:text="Time interval" 
-	             android:textColor="#FFFFFF"/>
-
-	        <TextView
-	            android:layout_weight="3"
-	            android:gravity="center"
-	            android:padding="3dp"
-	            android:text="Total hours" 
-	            android:textColor="#FFFFFF"/>
-
-	        <TextView
-	            
-	            android:layout_weight="6"
-	            android:gravity="center"
-	            android:padding="3dp"
-	            android:text="Comment"
-	            android:textColor="#FFFFFF" />
+	    <TableLayout
+	        android:id="@+id/time_table"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:stretchColumns="3"
+	        android:shrinkColumns="2" 
+	        >
+			
+		    <TableRow
+		       android:background="#063A70"
+		       
+		       >
 	
-	    </TableRow>
+		        <TextView
+		            android:gravity="center"
+		            android:padding="5dp"
+		            android:text="Day"
+		            android:textColor="#FFFFFF"
+		            />
+	
+		        <TextView
+		            android:gravity="center"
+		            android:padding="5dp"
+		            android:text="Time interval" 
+		             android:textColor="#FFFFFF"/>
+	
+		        <TextView
+		            android:gravity="center"
+		            android:padding="5dp"
+		            android:text="Total hours" 
+		            android:textColor="#FFFFFF"/>
+	
+		        <TextView
+		            android:gravity="center"
+		            android:padding="5dp"
+		            android:text="Comment"
+		            android:textColor="#FFFFFF" />
+		
+		    </TableRow>
+	
+	   </TableLayout>
+   </ScrollView>
 
-   </TableLayout>
+    <Button
+        android:id="@+id/sendReportButton"
+        style="@style/CustomStyleButtonDark"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="12dp"
+        android:padding="10dp"
+        android:text="@string/textSendTimeReport" />
+
 </RelativeLayout>

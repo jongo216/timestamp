@@ -1,22 +1,23 @@
 package com.example.timestamp;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
+import com.example.timestamp.model.*;
+
 import android.app.Activity;
 import android.app.ActionBar;
-import android.app.AlertDialog;
-import android.app.Fragment;
-import android.content.DialogInterface;
+import android.app.ActionBar.LayoutParams;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.os.Build;
+import android.view.*;
+import android.view.View.OnClickListener;
+import android.widget.*;
 
 public class ManageProjects extends Activity {
 	
@@ -34,11 +35,13 @@ public class ManageProjects extends Activity {
 		actionBarTop.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
 		actionBarTop.setCustomView(R.layout.actionbar);
 		actionBarTop.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#11ffffff")));
-		actionBarTop.setDisplayShowHomeEnabled(true); //Nödvändig(??) för att visa action bars i rätt ordning
-		
+		//actionBarTop.setDisplayShowHomeEnabled(true); //Nödvändig(??) för att visa action bars i rätt ordning
+		actionBarTop.setDisplayShowTitleEnabled(true);
+		actionBarTop.setHomeButtonEnabled(true);
+		actionBarTop.setDisplayHomeAsUpEnabled(true);
 		//Fix som döljer ikonen i övre vänstra hörnet
-		View homeIcon = findViewById(android.R.id.home);
-		((View) homeIcon.getParent()).setVisibility(View.GONE);
+		//View homeIcon = findViewById(android.R.id.home);
+		//((View) homeIcon.getParent()).setVisibility(View.GONE);
 		
 		createNewProjectbtn = (Button)findViewById(R.id.createnewprojectbtn);
 
@@ -46,14 +49,85 @@ public class ManageProjects extends Activity {
 			
 			@Override
 			public void onClick(View arg0){
-				Intent myIntent = new Intent(ManageProjects.this, CreateNewProject.class);
-				//myIntent.putExtra("key", value); //Optional parameters
-				ManageProjects.this.startActivity(myIntent);
+				Intent intent = new Intent(getBaseContext(), CreateNewProject.class);
+				intent.putExtra(Constants.PROJECT_ID, 0); //Optional parameters
+				startActivity(intent);
 				
 			}
 		});
+		
+		initProjectTable();
+		
 					
 	}
+	
+	public void initProjectTable()
+	{
+		DB db = new DB(this);
+		TableLayout table = (TableLayout) findViewById(R.id.project_table);
+		ArrayList<Project> projects = db.getAllProjects();
+		
+		int numRows = table.getChildCount();
+		if (numRows > 1)
+			table.removeViews(1, numRows - 1);
+		
+		//Add time posts to the table
+		for(int i  = 0; i < projects.size(); ++i){
+			//Init objects
+			TableRow row = new TableRow(this);
+			TextView name = new TextView(this);
+			TextView customer = new TextView(this);
+			TextView description = new TextView(this);
+			
+			
+			//Put data in text views
+			if(true) {  //TODO: Chose how much detail to show.. if(LARGESCREEN)  
+				name.setText(projects.get(i).getName());
+				customer.setText(projects.get(i).getCustomer());
+				description.setText(projects.get(i).getDescription());
+			}
+			//else //Show less detail if small screen
+			
+			
+			//Configure text views
+			LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT);
+			name.setGravity(Gravity.CENTER);
+			customer.setGravity(Gravity.CENTER);
+			description.setGravity(Gravity.CENTER);
+			
+			//Add text views to object
+			row.addView(name);
+			row.addView(customer);
+			row.addView(description);
+			
+			//Configure row
+			if(i%2 == 1)
+				row.setBackgroundColor(Color.parseColor("#CCCCCC"));
+			row.setPadding(3, 9, 3, 9);
+			row.setClickable(true);
+			row.setId(projects.get(i).getId());
+			row.setOnClickListener(new OnClickListener(){
+				@Override
+			    public void onClick(View v) {
+			        //Inform the user the button has been clicked
+			        //Toast.makeText(getBaseContext(), "Clicked project with id = " + v.getId(), 2).show();
+			        
+					//Start the edit/create project activity
+					Intent intent = new Intent(getBaseContext(), CreateNewProject.class);
+					intent.putExtra(Constants.PROJECT_ID, v.getId()); //Optional parameters
+					startActivity(intent);
+			        
+			    }
+			});
+			
+			
+			//Add row to table
+			table.addView(row, new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+			
+		} //End of for loop
+		
+	}
+	
 		
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -92,4 +166,12 @@ public class ManageProjects extends Activity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
+	
+	@Override
+	public void onResume()
+	{	
+		super.onResume();
+		initProjectTable();
+	}
+	
 }

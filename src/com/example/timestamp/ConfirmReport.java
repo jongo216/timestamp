@@ -99,7 +99,7 @@ public class ConfirmReport extends Fragment {
         db = new DB(getActivity().getApplicationContext());
         activityInitConfirmReport();
         
-        editTimePostButton = (Button) rootView.findViewById(R.id.editTimePostButton);
+        editTimePostButton = (Button) rootView.findViewById(R.id.sendReportButton);
         
         //popUp = new PopupWindow();
         addEditTimePostButtonListener();
@@ -139,7 +139,8 @@ public class ConfirmReport extends Fragment {
 	public void onResume()
 	{	
 		super.onResume();
-		plotTimeTable(SettingsManager.getCurrentProjectId(parentActivity));
+		activityInitConfirmReport();
+		//plotTimeTable(SettingsManager.getCurrentProjectId(parentActivity));
 	}
 	
 
@@ -243,7 +244,7 @@ public class ConfirmReport extends Fragment {
 
 	
 	public void plotTimeTable(int projectID){
-		DB db = new DB(this.getActivity());
+		DB db = new DB(getActivity());
 		TableLayout table = (TableLayout) rootView.findViewById(R.id.time_table);
 
 		ArrayList<TimePost> times;
@@ -251,12 +252,12 @@ public class ConfirmReport extends Fragment {
 		if (projectID != -1)
 		{
 			//Get list of time posts
-			times = db.getTime(projectID);
+			times = db.getTimePosts(projectID);
 		}
 		else
 		{
 			//Get list of time posts
-			times = db.getTime();
+			times = db.getTimePosts();
 		}
 		
 		//Remove old rows from table (except the header row)
@@ -288,6 +289,7 @@ public class ConfirmReport extends Fragment {
 			
 			
 			//Config text views
+			LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT);
 			day.setGravity(Gravity.CENTER);
 			interval.setGravity(Gravity.CENTER);
 			time.setGravity(Gravity.CENTER);
@@ -302,15 +304,15 @@ public class ConfirmReport extends Fragment {
 			//Config row
 			if(i%2 == 1)
 				row.setBackgroundColor(Color.parseColor("#CCCCCC"));
-			row.setPadding(0, 8, 0, 8);
+			row.setPadding(3, 8, 3, 8);
 			row.setClickable(true);
 			row.setId(times.get(i).id);
 			row.setOnClickListener(new OnClickListener(){
 				@Override
 			    public void onClick(View v) {
-			        //Inform the user the button has been clicked
-			        Toast.makeText(getActivity(), "Clicked timepost with id = " + v.getId(), 2).show();
+			        //Start the EditReport activity
 			        Intent editIntent = new Intent(getActivity(), EditReport.class);
+			        editIntent.putExtra(Constants.TIME_POST_ID, v.getId());
 			        startActivity(editIntent);
 			        
 			    }
@@ -330,6 +332,7 @@ public class ConfirmReport extends Fragment {
 			
 			//Add row to table
 			table.addView(row, new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+			
 		} //End of for loop
 	}
 	
@@ -363,7 +366,7 @@ public class ConfirmReport extends Fragment {
 	@Override
 	public void setUserVisibleHint(boolean isVisibleToUser) {
 	    super.setUserVisibleHint(isVisibleToUser);
-	    if (isVisibleToUser) { plotTimeTable(SettingsManager.getCurrentProjectId(parentActivity)); }
+	    if (isVisibleToUser) { activityInitConfirmReport(); }//plotTimeTable(SettingsManager.getCurrentProjectId(parentActivity)); }
 	    else {  }
 	}
 

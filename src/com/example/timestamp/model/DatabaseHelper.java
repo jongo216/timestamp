@@ -172,9 +172,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     		KEY_START_TIME+"='"+timePost.getStartTime()+"', "+
     		KEY_END_TIME+"='"+timePost.getEndTime()+"', "+
     		KEY_COMMENT+"='"+timePost.comment+"', "+
-    		KEY_IS_SIGNED+"="+timePost.isSigned+", "+
-    		KEY_COMMENT_SHARED+"="+timePost.commentShared+
-    		" WHERE "+KEY_TID+"="+timePost.id;
+    		KEY_IS_SIGNED+"='"+timePost.isSigned+"', "+
+    		KEY_COMMENT_SHARED+"='"+timePost.commentShared+
+    		"' WHERE "+KEY_TID+"="+timePost.id;
     		
 	    	try {
 	    		SQLiteDatabase db = this.getWritableDatabase();

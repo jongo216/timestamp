@@ -60,13 +60,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         <activity
             android:name="com.example.timestamp.TestServicesActivity"
             android:label="@string/title_activity_test_services" >
-            <intent-filter>
-
-                <!-- Denna tag gör att denna activity blir en alternativ start activity med en egen icon i telefonen -->
+            <!-- Följande intent filter gör att denna activity blir en alternativ start-activity med en egen icon i telefonen -->
+            <!--<intent-filter>
+				
                 <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+				<category android:name="android.intent.category.LAUNCHER" /> 
+            </intent-filter>-->
         </activity>
         <activity
             android:name="com.example.timestamp.ConfirmReport"

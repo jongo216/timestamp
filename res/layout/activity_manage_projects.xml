@@ -6,130 +6,58 @@
     tools:context="com.example.timestamp.ManageProjects"
     tools:ignore="MergeRootFrame" >
     
-    <TableLayout
-        android:id="@+id/tableRow1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/projects_menu_spinner2"
+    <ScrollView
+        android:id="@+id/timePostScrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="60dp"
-        android:gravity="center" >
+        android:layout_margin="20dp"
+        android:gravity="top"
+        android:scrollbars="vertical"
+        android:fadeScrollbars="false" >
 
-	    <TableRow
-	       android:background="#063A70"
-	       
-	       >
-
-	        <TextView
-	            android:layout_width="50dp"
-	            android:gravity="center"
-	            android:padding="3dp"
-	            android:text="Dag"
-	            android:textColor="#FFFFFF"
-	            />
-
-	        <TextView
-	            android:gravity="center"
-	            android:padding="3dp"
-	            android:text="Tidsintervall" 
-	             android:textColor="#FFFFFF"/>
-
-	        <TextView
-	            android:gravity="center"
-	            android:padding="3dp"
-	            android:text="Total tid" 
-	            android:textColor="#FFFFFF"/>
-
-	        <TextView
-	            android:layout_width="100dp"
-	            android:gravity="center"
-	            android:padding="3dp"
-	            android:text="Kommentar"
-	            android:textColor="#FFFFFF" />
-	
-	    </TableRow>
-	    <TableRow
+	    <TableLayout
+	        android:id="@+id/project_table"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:stretchColumns="2"
+	        android:shrinkColumns="2" 
 	        >
+    
 
-	        <TextView
-	            android:layout_width="50dp"
-	            android:gravity="center"
-	            
-	            android:text="Mån" />
-
-	        <TextView
-	            android:gravity="center"
-	            android:padding="3dp"
-	            android:text="08:00-10:00" />
-
-	        <TextView
-	            android:gravity="center"
-	            android:padding="3dp"
-	            android:text="2h" />
-
-	        <TextView
-	            android:layout_width="100dp"
-	            android:gravity="center"
-	            android:padding="3dp"
-	            android:text="Möte på Saab" />
+		    <TableRow
+		       android:background="#063A70"
+		       >
 	
-	    </TableRow>
-	    <TableRow
-	       android:background="#CCCCCC" >
-
-	        <TextView
-	            android:layout_width="50dp"
-	            android:gravity="center"
-	            android:padding="3dp"
-	            android:text="Tis" />
-
-	        <TextView
-	            android:gravity="center"
-	            android:padding="3dp"
-	            android:text="08:00-14:00" />
-
-	        <TextView
-	            android:gravity="center"
-	            android:padding="3dp"
-	            android:text="6h" />
-
-	        <TextView
-	            android:layout_width="100dp"
-	            android:gravity="center"
-	            android:padding="3dp"
-	            android:text="Möte på LiU" />
+		        <TextView
+		            android:layout_weight="1"
+		            android:gravity="center"
+		            android:padding="3dp"
+		            android:text="Project"
+		            android:textColor="#FFFFFF"
+		            />
 	
-	    </TableRow>
-	    <TableRow
-	      
-	        >
-
-	        <TextView
-	            android:layout_width="50dp"
-	            android:gravity="center"
-	            android:padding="3dp"
-	            android:text="Ons" />
-
-	        <TextView
-	            android:gravity="center"
-	            android:padding="3dp"
-	            android:text="09:00-14:00" />
-
-	        <TextView
-	            android:gravity="center"
-	            android:padding="3dp"
-	            android:text="5h" />
-
-	        <TextView
-	            android:layout_width="100dp"
-	            android:gravity="center"
-	            android:padding="3dp"
-	            android:text="Skidor med fami.." />
+		        <TextView
+		            android:layout_weight="1"
+		            android:gravity="center"
+		            android:padding="3dp"
+		            android:text="Customer" 
+		             android:textColor="#FFFFFF"/>
 	
-	    </TableRow>
-   </TableLayout>
-
+		        <TextView
+		            android:layout_weight="2"
+		            android:gravity="center"
+		            android:padding="3dp"
+		            android:text="Description" 
+		            android:textColor="#FFFFFF"/>
+	
+		        
+		
+		    </TableRow>
+	    
+   		</TableLayout>
+	</ScrollView>
     <Button
         android:id="@+id/createnewprojectbtn"
         style="@style/CustomStyleButtonDark"
@@ -137,9 +65,9 @@
         android:layout_height="wrap_content"
         android:paddingRight="15dp"
         android:paddingLeft="15dp"
-        android:layout_alignLeft="@+id/tableRow1"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="46dp"
-        android:text="Create new project" />
+        android:text="+ Create project" />
 
 </RelativeLayout>

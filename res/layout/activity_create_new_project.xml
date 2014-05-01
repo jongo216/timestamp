@@ -7,88 +7,116 @@
     tools:ignore="MergeRootFrame" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/createProjectTitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:text="Create new project"
+        android:layout_margin="30dp"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <EditText
-        android:id="@+id/editText1"
+    
+    
+    <TextView
+        android:id="@+id/projectNameLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/textView1"
-        android:layout_marginRight="18dp"
-        android:layout_marginTop="48dp"
-        android:ems="10"
+        android:layout_below="@+id/createProjectTitleTextView"
+        android:layout_alignParentLeft="true"
+        android:text="Project name"
+        android:layout_margin="20dp"
+        android:layout_marginBottom="36dp"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+    
+    <EditText
+        android:id="@+id/projectNameEditText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/projectNameLabel"
+        android:layout_alignBottom="@+id/projectNameLabel"
+        android:layout_toRightOf="@+id/projectNameLabel"
+        android:layout_marginRight="20dp"
         android:inputType="textPersonName" >
 
         <requestFocus />
     </EditText>
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/projectCustomerLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/editText1"
-        android:layout_alignBottom="@+id/editText1"
-        android:layout_toLeftOf="@+id/editText1"
-        android:text="Project name"
+        android:layout_below="@+id/projectNameLabel"
+        android:layout_alignParentLeft="true"
+        android:text="Customer"
+        android:layout_margin="20dp"
+        android:layout_marginBottom="36dp"
         android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_below="@+id/editText1"
-        android:layout_marginTop="108dp"
-        android:text="Hours to spend"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
+    
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/projectCustomerEditText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/projectCustomerLabel"
+        android:layout_alignBottom="@+id/projectCustomerLabel"
+        android:layout_toRightOf="@+id/projectCustomerLabel"
+        android:layout_marginRight="20dp"
+        android:inputType="text"/>
+    
+    <TextView
+        android:id="@+id/projectDescriptionLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/projectCustomerLabel"
+        android:layout_alignParentLeft="true"
+        android:text="Description"
+        android:layout_margin="20dp"
+        android:layout_marginBottom="36dp"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+    
+    <EditText
+        android:id="@+id/projectDescriptionEditText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/projectDescriptionLabel"
+        android:layout_alignBottom="@+id/projectDescriptionLabel"
+        android:layout_toRightOf="@+id/projectDescriptionLabel"
+        android:layout_marginRight="20dp"
+        android:inputType="textMultiLine"
+        />
+    
+    <TextView
+        android:id="@+id/projectTimeBudgetLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/projectDescriptionLabel"
+        android:layout_alignParentLeft="true"
+        android:text="Hours to spend"
+        android:layout_margin="20dp"
+        android:layout_marginBottom="36dp"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+    
+    <EditText
+        android:id="@+id/projectTimeBudgetEditText"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView3"
-        android:layout_alignBottom="@+id/textView3"
-        android:layout_toRightOf="@+id/textView3"
+        android:layout_alignBaseline="@+id/projectTimeBudgetLabel"
+        android:layout_alignBottom="@+id/projectTimeBudgetLabel"
+        android:layout_toRightOf="@+id/projectTimeBudgetLabel"
+        android:inputType="number"
         android:ems="10" />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/editText2"
-        android:layout_alignLeft="@+id/textView3"
-        android:layout_marginBottom="34dp"
-        android:text="Project code"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    <EditText
-        android:id="@+id/editText3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView4"
-        android:layout_alignBottom="@+id/textView4"
-        android:layout_alignLeft="@+id/editText1"
-        android:ems="10" />
-
+    
     <CheckBox
-        android:id="@+id/checkBox1"
+        android:id="@+id/projectSharedCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView3"
-        android:layout_below="@+id/editText2"
-        android:layout_marginTop="46dp"
+        android:layout_below="@+id/projectTimeBudgetLabel"
+        android:layout_margin="10dp"
+        android:layout_centerHorizontal="true"
         android:text="Show in time report" />
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/save_project_button"
         style="@style/CustomStyleButtonDark"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"

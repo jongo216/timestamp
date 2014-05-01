@@ -41,7 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/projectCustomerLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -53,18 +53,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         android:id="@+id/editTextComment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignLeft="@+id/editText3"
-                        android:layout_below="@+id/editText3"
+                        android:layout_alignLeft="@+id/projectCustomerEditText"
+                        android:layout_below="@+id/projectCustomerEditText"
                         android:layout_marginTop="34dp"
                         android:layout_weight="1"
                         android:ems="10"
                         android:inputType="textPersonName" />
 
                     <EditText
-                        android:id="@+id/editText3"
+                        android:id="@+id/projectCustomerEditText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/editText2"
+                        android:layout_below="@+id/projectTimeBudgetEditText"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="37dp"
                         android:layout_weight="1"
@@ -77,11 +77,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
                         android:layout_marginBottom="25dp"
-                        android:layout_toRightOf="@+id/textView2"
+                        android:layout_toRightOf="@+id/projectNameLabel"
                         android:text="Spara" />
 
                     <CheckBox
-                        android:id="@+id/checkBox1"
+                        android:id="@+id/projectSharedCheckBox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_above="@+id/Times"
@@ -91,31 +91,31 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         android:text="Visa i tidsrapport" />
 
                     <TextView
-                        android:id="@+id/textView3"
+                        android:id="@+id/projectTimeBudgetLabel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignRight="@+id/checkBox1"
-                        android:layout_below="@+id/editText3"
+                        android:layout_alignRight="@+id/projectSharedCheckBox"
+                        android:layout_below="@+id/projectCustomerEditText"
                         android:layout_weight="1"
                         android:text="Totala antal timmar"
                         android:textAppearance="?android:attr/textAppearanceLarge" />
 
                     <TextView
-                        android:id="@+id/textView2"
+                        android:id="@+id/projectNameLabel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignLeft="@+id/textView3"
-                        android:layout_below="@+id/editText2"
+                        android:layout_alignLeft="@+id/projectTimeBudgetLabel"
+                        android:layout_below="@+id/projectTimeBudgetEditText"
                         android:layout_weight="1"
                         android:text="Projekt kod"
                         android:textAppearance="?android:attr/textAppearanceLarge" />
 
                     <EditText
-                        android:id="@+id/editText2"
+                        android:id="@+id/projectTimeBudgetEditText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignLeft="@+id/editText3"
-                        android:layout_below="@+id/textView1"
+                        android:layout_alignLeft="@+id/projectCustomerEditText"
+                        android:layout_below="@+id/createProjectTitleTextView"
                         android:layout_weight="1"
                         android:ems="10"
                         android:inputType="textPersonName" >
@@ -124,10 +124,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                     </EditText>
 
                     <TextView
-                        android:id="@+id/textView1"
+                        android:id="@+id/createProjectTitleTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignLeft="@+id/textView2"
+                        android:layout_alignLeft="@+id/projectNameLabel"
                         android:layout_below="@+id/Overview"
                         android:layout_marginTop="25dp"
                         android:layout_weight="1"

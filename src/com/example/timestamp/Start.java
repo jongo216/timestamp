@@ -34,6 +34,7 @@ import java.util.GregorianCalendar;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -59,8 +60,8 @@ public class Start extends Fragment{
 	private Spinner spinnerProjectView;
 	private View rootView;
 	private Chronometer chronometer;
-	private FragmentActivity parentActivity;
-	private DB db;
+	//private FragmentActivity parentActivity;
+	//private DB db;
 	
 
 	
@@ -69,51 +70,33 @@ public class Start extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
  
         rootView = inflater.inflate(R.layout.activity_start, container, false);
+        //parentActivity = getActivity();
         
-        db = new DB(getActivity().getApplicationContext());
-        Log.d("DatabaseHelper","New DB");
+        //Link to xml objects
+		chronometer = (Chronometer)rootView.findViewById(R.id.chronometer);
+		imgButton = (LinearLayout) rootView.findViewById(R.id.btnCheckIn);
+		spinnerProjectView = (Spinner) rootView.findViewById(R.id.projects_menu_spinner2);
+		
         
-        activityInitStart();
+        //db = new DB(getActivity().getApplicationContext());
+        //Log.d("DatabaseHelper","New DB");
         
+		initTimer();
+		initProjectSpinner();
+		initTimerButton();
+		dbButtonListener(); //Button is just for debug and not visible anyways. But i leave this ftm.
         return rootView;
     }
 
 
 	// Initierar startvyn..
-	private void activityInitStart(){
-		
-		parentActivity = getActivity();
-		
-		chronometer = (Chronometer)rootView.findViewById(R.id.chronometer);
-
-		imgButton = (LinearLayout) rootView.findViewById(R.id.btnCheckIn);
-		
-		initTimer();
+	private void initProjectSpinner(){
 		
 		int selectedRow = 0;
+		int currentProject = SettingsManager.getCurrentProjectId(getActivity());
 		
-		int currentProject = SettingsManager.getCurrentProjectId(parentActivity);
-	
-		if(db.projectsEmpty()){
-			Project p1 = new Project();
-			p1.setName("Agil utvecking");
-			p1.setOwner("verboo@mailadress.yoda");
-			p1.setCustomer("Palle Nuh");
-			db.set(p1);
-			
-			Project p2 = new Project();
-			p2.setName("Combitech");
-			p2.setOwner("jonas@mailadress.yoda");
-			p2.setCustomer("Darth Vader");
-			db.set(p2);
-			
-			Project p3 = new Project();
-			p3.setName("Jedi mindtricks");
-			p3.setOwner("niklas@mailadress.yoda");
-			p3.setCustomer("ET");
-			db.set(p3);
-		}
-		
+		//Fetch projects froom data base and use them to create arrays 
+		DB db = new DB(getActivity());
 		projects = db.getAllProjects();
 		projectsMenuString = new String[projects.size() + 1];
 		projectMenuIds = new int[projects.size()+1];
@@ -128,9 +111,6 @@ public class Start extends Fragment{
 		
 		projectsMenuString[projects.size()]= getString(R.string.add_project);
 		projectMenuIds[projects.size()] = -1;
-		
-		//Letar efter en spinner i activity_main.xml med ett specifict id
-		spinnerProjectView = (Spinner) rootView.findViewById(R.id.projects_menu_spinner2);
 		
 		//För att välja vilken typ av graf man vill se. 
 		//Hämtar namn från string array med menu item.
@@ -168,31 +148,8 @@ public class Start extends Fragment{
 		
 		spinnerProjectView.setSelection(selectedRow);
 
-		//spinnerOverView.setAdapter(adapterView);
-		//Hur spinnern ska se ut
-		//adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		
-		imageButtonListener();
-		spinnerListener();
-		dbButtonListener();
-	}
-	
-	public void initTimer(){
-		boolean timerRunning;
-		timerRunning = SettingsManager.getIsTimerRunning(parentActivity);
-		if (timerRunning)
-		{
-			GregorianCalendar startTime = SettingsManager.getStartTime(parentActivity);
-			GregorianCalendar currentTime = new GregorianCalendar();
-			imgButton.setBackground(getResources().getDrawable(R.drawable.checkinbutton_green) );
-			chronometer.setBase(SystemClock.elapsedRealtime() - currentTime.getTimeInMillis() + startTime.getTimeInMillis());
-			chronometer.start();
-		}
-		else imgButton.setBackground(getResources().getDrawable(R.drawable.checkinbutton_white) );
-		
-	}
-	
-	public void spinnerListener() {
+		//Set action listener for the spinner
 		spinnerProjectView.setOnItemSelectedListener(new OnItemSelectedListener(){
 
 			@Override
@@ -205,6 +162,9 @@ public class Start extends Fragment{
 					
 				}else{
 					//Skapa nytt projekt
+					Intent intent = new Intent(getActivity(), CreateNewProject.class);
+					intent.putExtra(Constants.PROJECT_ID, 0); //Optional parameters
+					startActivity(intent);
 				}
 			}
 
@@ -216,10 +176,33 @@ public class Start extends Fragment{
 			
 		});
 		
+		
+		//spinnerListener();
+		
+	}
+	
+	public void initTimer(){
+		boolean timerRunning;
+		timerRunning = SettingsManager.getIsTimerRunning(getActivity());
+		if (timerRunning)
+		{
+			GregorianCalendar startTime = SettingsManager.getStartTime(getActivity());
+			GregorianCalendar currentTime = new GregorianCalendar();
+			imgButton.setBackground(getResources().getDrawable(R.drawable.checkinbutton_green) );
+			chronometer.setBase(SystemClock.elapsedRealtime() - currentTime.getTimeInMillis() + startTime.getTimeInMillis());
+			chronometer.start();
+		}
+		else imgButton.setBackground(getResources().getDrawable(R.drawable.checkinbutton_white) );
+		
+	}
+	
+	public void spinnerListener() {
+		
+		
 	}
 	
 	
-    public void imageButtonListener(){
+    public void initTimerButton(){
 		
 		imgButton.setOnClickListener(new OnClickListener(){
 			
@@ -235,6 +218,7 @@ public class Start extends Fragment{
 					p.setProjectId(SettingsManager.getCurrentProjectId(getActivity()));
 					p.setStartTime(SettingsManager.getStartTime(getActivity()));
 					p.setEndTimeNow();
+					DB db = new DB(getActivity());
 					db.set(p);
 				}
 				else{
@@ -254,6 +238,7 @@ public class Start extends Fragment{
     	Button projectsBtn = (Button) rootView.findViewById(R.id.Projects);
     	projectsBtn.setOnClickListener(new OnClickListener(){
     		public void onClick(View arg0){
+    			DB db = new DB(getActivity());
     			ArrayList<Project> projects = db.getAllProjects();
     			String text = "";
     			for(int i = 0; i < projects.size(); ++i){
@@ -268,35 +253,48 @@ public class Start extends Fragment{
     }
 	
 
-	public void startTime(View view){
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
- 
-		// set title
-		alertDialogBuilder.setTitle("Timestamp");
- 
-			// set dialog message
-		alertDialogBuilder
-			.setMessage("You have now checked in!")
-			.setCancelable(false)
-			.setPositiveButton("Cancel",new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog,int id) {
-					// if this button is clicked, close
-					// current activity
-					getActivity().finish();
+	
+    
+	@Override
+	public void onResume()
+	{	
+		super.onResume();
+		initTimer();
+		initProjectSpinner();
+	}
+	
+	
+	//OLD METHOD. DEPRECATED?
+	/*public void startTime(View view){
+	AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+
+	// set title
+	alertDialogBuilder.setTitle("Timestamp");
+
+		// set dialog message
+	alertDialogBuilder
+		.setMessage("You have now checked in!")
+		.setCancelable(false)
+		.setPositiveButton("Cancel",new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog,int id) {
+				// if this button is clicked, close
+				// current activity
+				getActivity().finish();
+			}
+		  })
+		.setNegativeButton("Okay",new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog,int id) {
+				// if this button is clicked, just close
+				// the dialog box and do nothing
+					dialog.cancel();
 				}
-			  })
-			.setNegativeButton("Okay",new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog,int id) {
-					// if this button is clicked, just close
-					// the dialog box and do nothing
-						dialog.cancel();
-					}
-				});
- 
-				// create alert dialog
-				AlertDialog alertDialog = alertDialogBuilder.create();
- 
-				// show it
-			alertDialog.show();
-		}
+			});
+
+			// create alert dialog
+			AlertDialog alertDialog = alertDialogBuilder.create();
+
+			// show it
+		alertDialog.show();
+	}*/
+	
 }

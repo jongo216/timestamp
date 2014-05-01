@@ -29,19 +29,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.example.timestamp;
 
+import java.util.Calendar;
+
+import com.example.timestamp.model.*;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TimePicker;
+import android.view.*;
+import android.widget.*;
 
 
 public class EditReport extends Activity {
@@ -51,27 +50,38 @@ public class EditReport extends Activity {
 	private EditText commentField;
 	
 	TimePicker startPicker, endPicker;
-
+	
+	TimePost timePost;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_editreport);
 		
-		//button = (Button)findViewById(R.id.button_save);
-		
+		//Initialize time post object (create new if id = 0)
+		int timePostId = getIntent().getIntExtra(Constants.TIME_POST_ID, 0);
+		if (timePostId != 0) {
+			DB db = new DB(this);
+			timePost = db.getTimePost(timePostId);
+			if (timePost == null) timePost = new TimePost();
+		}
+		else
+			timePost = new TimePost();
+		//Link GUI objects with xml ids
 		button = (Button)findViewById(R.id.button_save);
-		addCommentFieldListener();
+		commentField = (EditText) findViewById(R.id.editTextComment);
+		startPicker = (TimePicker) findViewById(R.id.timePickerStart);
 		
-        
-        startPicker = (TimePicker) findViewById(R.id.timePickerStart);
-        startPicker.setIs24HourView(true);
+		//Init GUI functionality
+		initCommentField();
+		initTimePickers();
+		initSaveButton();
+	}
 
-
+	
+	public void initSaveButton() {
 		
 		button.setOnClickListener(new View.OnClickListener() {
-			
-			
 			
 			@Override
 			public void onClick(View v) {
@@ -85,6 +95,13 @@ public class EditReport extends Activity {
 					.setCancelable(false)
 					.setPositiveButton("Ja",new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog,int id) {
+							timePost.startTime.set(Calendar.HOUR_OF_DAY, startPicker.getCurrentHour());
+							timePost.startTime.set(Calendar.MINUTE, startPicker.getCurrentMinute());
+							timePost.comment = commentField.getEditableText().toString();
+							Log.d("Oskar testar", timePost.comment);
+							
+							DB db = new DB(message);
+							db.set(timePost);
 							// if this button is clicked, close
 							// current activity
 							EditReport.this.finish();
@@ -105,12 +122,18 @@ public class EditReport extends Activity {
 					alertDialog.show();
 			}
 		});
-		
 	}
+	
+	public void initTimePickers() {
+		startPicker.setIs24HourView(true);
+        startPicker.setCurrentHour(timePost.startTime.get(Calendar.HOUR_OF_DAY));
+        startPicker.setCurrentMinute(timePost.startTime.get(Calendar.MINUTE));
 
-	public void addCommentFieldListener(){
-		
-		commentField = (EditText) findViewById(R.id.editTextComment);
+	}
+	
+	public void initCommentField(){
+		if (timePost.comment.length() > 0)
+			commentField.setText(timePost.comment);
 		
 		commentField.setOnTouchListener(new View.OnTouchListener() {
 			
@@ -122,8 +145,6 @@ public class EditReport extends Activity {
 				return false;
 			}
 		});
-		
-		
 	}
 
 	

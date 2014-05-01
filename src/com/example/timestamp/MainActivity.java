@@ -31,6 +31,8 @@ package com.example.timestamp;
 
 
 
+import com.example.timestamp.model.*;
+
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
@@ -41,10 +43,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 
 
 
@@ -72,6 +71,28 @@ ActionBar.TabListener {
 		mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
 
 		viewPager.setAdapter(mAdapter);
+		
+		//Add some demo projects if project list is empty
+		DB db = new DB(this);
+		if(db.projectsEmpty()){
+			Project p1 = new Project();
+			p1.setName("Agil utvecking");
+			p1.setOwner("verboo@mailadress.yoda");
+			p1.setCustomer("Palle Nuh");
+			db.set(p1);
+			
+			Project p2 = new Project();
+			p2.setName("Combitech");
+			p2.setOwner("jonas@mailadress.yoda");
+			p2.setCustomer("Darth Vader");
+			db.set(p2);
+			
+			Project p3 = new Project();
+			p3.setName("Jedi mindtricks");
+			p3.setOwner("niklas@mailadress.yoda");
+			p3.setCustomer("ET");
+			db.set(p3);
+		}
 		
 		
 		//Stylear actionbar
@@ -156,10 +177,10 @@ ActionBar.TabListener {
 			 intent = new Intent(this, SettingsActivity.class);
 			startActivity(intent);
 			return true;
-		case R.id.action_edit:
+		/*case R.id.action_edit:
 			intent = new Intent(this, EditReport.class);
 			startActivity(intent);
-			return true;
+			return true;*/
 		case R.id.action_manageprojects: /// För hantera projektvyn
 			intent = new Intent(this, ManageProjects.class);
 			startActivity(intent); 
