@@ -71,6 +71,7 @@ public class EditReport extends Activity {
 		button = (Button)findViewById(R.id.button_save);
 		commentField = (EditText) findViewById(R.id.editTextComment);
 		startPicker = (TimePicker) findViewById(R.id.timePickerStart);
+		endPicker = (TimePicker) findViewById(R.id.timePickerEnd);
 		
 		//Init GUI functionality
 		initCommentField();
@@ -97,6 +98,10 @@ public class EditReport extends Activity {
 						public void onClick(DialogInterface dialog,int id) {
 							timePost.startTime.set(Calendar.HOUR_OF_DAY, startPicker.getCurrentHour());
 							timePost.startTime.set(Calendar.MINUTE, startPicker.getCurrentMinute());
+							
+							timePost.endTime.set(Calendar.HOUR_OF_DAY, endPicker.getCurrentHour());
+							timePost.endTime.set(Calendar.MINUTE, endPicker.getCurrentMinute());
+							
 							timePost.comment = commentField.getEditableText().toString();
 							Log.d("Oskar testar", timePost.comment);
 							
@@ -129,6 +134,9 @@ public class EditReport extends Activity {
         startPicker.setCurrentHour(timePost.startTime.get(Calendar.HOUR_OF_DAY));
         startPicker.setCurrentMinute(timePost.startTime.get(Calendar.MINUTE));
 
+        endPicker.setIs24HourView(true);
+        endPicker.setCurrentHour(timePost.endTime.get(Calendar.HOUR_OF_DAY));
+        endPicker.setCurrentMinute(timePost.endTime.get(Calendar.MINUTE));
 	}
 	
 	public void initCommentField(){
