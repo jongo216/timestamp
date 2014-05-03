@@ -277,7 +277,7 @@ public class ConfirmReport extends Fragment {
 			
 			//Put data in text views
 			if(true) {  //TODO: Chose how much detail to show.. if(LARGESCREEN)  
-				day.setText(Constants.WEEK_DAY_STRINGS[start.get(Calendar.DAY_OF_WEEK)]);
+				day.setText(Constants.WEEK_DAY_STRINGS[start.get(Calendar.DAY_OF_WEEK) - 1]);
 				interval.setText(times.get(i).FormatedTimeInterval());
 				time.setText(times.get(i).getWorkedHoursFormated() + "h");
 				
