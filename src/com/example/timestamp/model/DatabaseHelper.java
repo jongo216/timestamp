@@ -393,8 +393,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 	
 	public TimePost getLatestTimePost(int pid) {
-		String selectQuery = "SELECT * FROM "+TABLE_TIMEPOST+" WHERE "+KEY_TID+"=";
-		String selectQuery2 = "(SELECT MAX("+KEY_TID+") FROM "+TABLE_TIMEPOST+" WHERE "+KEY_PID+"="+pid+")";
+		String selectQuery = "SELECT * FROM "+TABLE_TIMEPOST+" WHERE "+KEY_END_TIME+"=";
+		String selectQuery2 = "(SELECT MAX("+KEY_END_TIME+") FROM "+TABLE_TIMEPOST+" WHERE "+KEY_PID+"="+pid+")";
     	selectQuery += selectQuery2;
 		TimePost temp = new TimePost();
     	
@@ -433,8 +433,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 	
 	public TimePost getLatestTimePost() {
-		String selectQuery = "SELECT * FROM "+TABLE_TIMEPOST+" WHERE "+KEY_TID+"=";
-		String selectQuery2 = "(SELECT MAX("+KEY_TID+") FROM "+TABLE_TIMEPOST+")";
+		String selectQuery = "SELECT * FROM "+TABLE_TIMEPOST+" WHERE "+KEY_END_TIME+"=";
+		String selectQuery2 = "(SELECT MAX("+KEY_END_TIME+") FROM "+TABLE_TIMEPOST+")";
     	selectQuery = selectQuery + selectQuery2;
     	Log.d(LOG,selectQuery);
 		TimePost temp = new TimePost();
@@ -633,7 +633,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public void deleteTimePost(int tid) {
 		String deleteQuery = "DELETE FROM " + TABLE_TIMEPOST + " WHERE " + KEY_TID + "=" + tid;
 		
-		//Ha någon koll på om id är noll?
+		//Ha nï¿½gon koll pï¿½ om id ï¿½r noll?
 		//if(tid == 0)
     		
     	try {
