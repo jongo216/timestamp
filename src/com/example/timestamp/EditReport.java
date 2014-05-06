@@ -141,7 +141,7 @@ public class EditReport extends Activity {
 						db.set(timePost);
 						// if this button is clicked, close
 						// current activity
-						EditReport.this.finish();
+						EditReport.this.finish(); 
 					}
 				});
 				ad.setNegativeButton(R.string.editReportConfirmNegative,new DialogInterface.OnClickListener() {
