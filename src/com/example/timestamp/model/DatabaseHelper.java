@@ -630,6 +630,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		
 	}
 
+	public void deleteTimePost(int tid) {
+		String deleteQuery = "DELETE FROM " + TABLE_TIMEPOST + " WHERE " + KEY_TID + "=" + tid;
+		
+		//Ha någon koll på om id är noll?
+		//if(tid == 0)
+    		
+    	try {
+    		SQLiteDatabase db = this.getWritableDatabase();
+    		db.execSQL(deleteQuery);
+    		db.close();
+		} 
+    	catch (SQLException e) {
+			Log.d(LOG,e.toString());
+		}
+	}
+
+	public void deleteProject(int pid) {
+		String deleteQuery = "DELETE FROM " + TABLE_PROJECTS + " WHERE " + KEY_PID + "=" + pid;
+    		
+    	try {
+    		SQLiteDatabase db = this.getWritableDatabase();
+    		db.execSQL(deleteQuery);
+    		db.close();
+		} 
+    	catch (SQLException e) {
+			Log.d(LOG,e.toString());
+		}
+		
+	}
+
 	/* -------------------------------------------- */
 }
 	
