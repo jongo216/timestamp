@@ -105,6 +105,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <string name="endTime">17:00</string>
     <string name="startTime">08:00</string>
     <string name="buttonSaveEdit">Save</string>
+    <string name="buttonDeleteEdit">Delete</string>
+    <string name="editReportConfirmMessage">Are you sure?</string>
+    <string name="editReportConfirmPositive">Yes</string>
+    <string name="editReportConfirmNegative">Cancel</string>
     <string name="textEditDate">Choose date to edit:</string>
 
     <!-- Activity confirm report -->
