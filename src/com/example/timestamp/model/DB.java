@@ -49,16 +49,12 @@ public class DB {
 		dbHelper.closeDB();
 	}
 	
+	 /* ----------- TIMEPOST FUNCTIONS -------------- */
+	
 	public void set(TimePost time){
 		
 		//Put time into DB
 		dbHelper.setTimePost(time);
-	}
-	
-	public void set(Project project){
-		
-		//Put project into DB
-		dbHelper.setProject(project);
 	}
 	
 	public ArrayList<TimePost> getTimePosts(int projectId){	
@@ -100,21 +96,13 @@ public class DB {
 		return dbHelper.getUnsignedTimes();
 	}
 	
-	public ArrayList<Project> getAllProjects(){
-		return dbHelper.getAllProjects();
+	public ArrayList<TimePost> getUnsignedTimes(int pid){
+		//Get all unsigned TimePost objects for given project id
+		return dbHelper.getUnsignedTimes(pid);
 	}
 	
-	public Project getProject(int projectId){
-		//Get project by id
-		return dbHelper.getProject(projectId);
-	}
-
 	public boolean timePostEmpty(int pid) {
 		return dbHelper.timePostEmpty(pid);
-	}
-	
-	public boolean projectsEmpty() {
-		return dbHelper.projectsEmpty();
 	}
 	
 	public void deleteTimePost(int tid) {
@@ -127,6 +115,41 @@ public class DB {
 		dbHelper.deleteTimePost(t.id);
 	}
 	
+	public ArrayList<TimePost> getByInterval(GregorianCalendar startTime, GregorianCalendar endTime){		
+
+		//Get time post within interval by start and end time
+		return dbHelper.getByInterval(startTime, endTime);
+	}
+	
+	public ArrayList<TimePost> getByInterval(GregorianCalendar startTime, GregorianCalendar endTime, int pid){
+		//Get time post within interval by start, end time and project id
+		return dbHelper.getByInterval(startTime, endTime, pid);
+		
+	}
+
+	/* -------------------------------------------- */
+	
+	/* ----------- PROJECT FUNCTIONS -------------- */
+	
+	public void set(Project project){
+		
+		//Put project into DB
+		dbHelper.setProject(project);
+	}
+
+	public ArrayList<Project> getAllProjects(){
+		return dbHelper.getAllProjects();
+	}
+	
+	public Project getProject(int projectId){
+		//Get project by id
+		return dbHelper.getProject(projectId);
+	}
+	
+	public boolean projectsEmpty() {
+		return dbHelper.projectsEmpty();
+	}
+	
 	public void deleteProject(int pid) {
 		// Delete project by passing id
 		dbHelper.deleteProject(pid);
@@ -137,27 +160,7 @@ public class DB {
 		dbHelper.deleteProject(p.getId());
 	}
 	
-	public ArrayList<TimePost> getByInterval(GregorianCalendar startTime, GregorianCalendar endTime){
-		
-		//två sånda: starttid, slutttid
-		//starttid, slutttid, projektid
-		//Vis alla time post i ett intervall
-		//Anropa funktion flera gånger för att 
-		//getStartTime i timepost för att få rätt format
-		//t.getStarttime
-		//OBS: se till att det görs med antingen gregorian eller string --> string för att anropa getTime
-		
-		//Get time post within interval by start and end time
-		return dbHelper.getByInterval(startTime, endTime);
-		
-	}
-	public ArrayList<TimePost> getByInterval(GregorianCalendar startTime, GregorianCalendar endTime, int pid){
-		//Get time post within interval by start, end time and project id
-		return dbHelper.getByInterval(startTime, endTime, pid);
-		
-	}
-
-
+	/* -------------------------------------------- */
 	
 	/*
 	public void sync(){
