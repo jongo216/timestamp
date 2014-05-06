@@ -30,9 +30,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package com.example.timestamp.model;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 import android.content.Context;
-import android.util.Log;
 
 
 public class DB {
@@ -49,16 +49,12 @@ public class DB {
 		dbHelper.closeDB();
 	}
 	
+	 /* ----------- TIMEPOST FUNCTIONS -------------- */
+	
 	public void set(TimePost time){
 		
 		//Put time into DB
 		dbHelper.setTimePost(time);
-	}
-	
-	public void set(Project project){
-		
-		//Put project into DB
-		dbHelper.setProject(project);
 	}
 	
 	public ArrayList<TimePost> getTimePosts(int projectId){	
@@ -71,6 +67,14 @@ public class DB {
 	
 	public TimePost getTimePost(int id){	
 		return dbHelper.getTimePost(id);
+	}
+	
+	public TimePost getLatestTimePost(int pid){
+		return dbHelper.getLatestTimePost(pid);
+	}
+	
+	public TimePost getLatestTimePost(){
+		return dbHelper.getLatestTimePost();
 	}
 	
 	/*
@@ -92,6 +96,47 @@ public class DB {
 		return dbHelper.getUnsignedTimes();
 	}
 	
+	public ArrayList<TimePost> getUnsignedTimes(int pid){
+		//Get all unsigned TimePost objects for given project id
+		return dbHelper.getUnsignedTimes(pid);
+	}
+	
+	public boolean timePostEmpty(int pid) {
+		return dbHelper.timePostEmpty(pid);
+	}
+	
+	public void deleteTimePost(int tid) {
+		// Delete time post by passing id
+		dbHelper.deleteTimePost(tid);
+	}
+	
+	public void deleteTimePost(TimePost t) {
+		// Delete time post by passing TimePost
+		dbHelper.deleteTimePost(t.id);
+	}
+	
+	public ArrayList<TimePost> getByInterval(GregorianCalendar startTime, GregorianCalendar endTime){		
+
+		//Get time post within interval by start and end time
+		return dbHelper.getByInterval(startTime, endTime);
+	}
+	
+	public ArrayList<TimePost> getByInterval(GregorianCalendar startTime, GregorianCalendar endTime, int pid){
+		//Get time post within interval by start, end time and project id
+		return dbHelper.getByInterval(startTime, endTime, pid);
+		
+	}
+
+	/* -------------------------------------------- */
+	
+	/* ----------- PROJECT FUNCTIONS -------------- */
+	
+	public void set(Project project){
+		
+		//Put project into DB
+		dbHelper.setProject(project);
+	}
+
 	public ArrayList<Project> getAllProjects(){
 		return dbHelper.getAllProjects();
 	}
@@ -100,16 +145,22 @@ public class DB {
 		//Get project by id
 		return dbHelper.getProject(projectId);
 	}
-
-	public boolean timePostEmpty(int pid) {
-		return dbHelper.timePostEmpty(pid);
-	}
 	
 	public boolean projectsEmpty() {
 		return dbHelper.projectsEmpty();
 	}
-
-
+	
+	public void deleteProject(int pid) {
+		// Delete project by passing id
+		dbHelper.deleteProject(pid);
+	}
+	
+	public void deleteProject(Project p) {
+		// Delete project by passing project
+		dbHelper.deleteProject(p.getId());
+	}
+	
+	/* -------------------------------------------- */
 	
 	/*
 	public void sync(){

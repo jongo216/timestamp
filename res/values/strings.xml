@@ -105,7 +105,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <string name="endTime">17:00</string>
     <string name="startTime">08:00</string>
     <string name="buttonSaveEdit">Save</string>
+    <string name="buttonDeleteEdit">Delete</string>
+    <string name="editReportConfirmMessage">Are you sure?</string>
+    <string name="editReportConfirmPositive">Yes</string>
+    <string name="editReportConfirmNegative">Cancel</string>
     <string name="textEditDate">Choose date to edit:</string>
+    
+    <!-- Project edit -->
+    <string name="editProjectConfirmMessage">Delete this project?</string>
+    <string name="editProjectConfirmPositive">Yes</string>
+    <string name="editProjectConfirmNegative">Cancel</string>
 
     <!-- Activity confirm report -->
     <string name="textSendTimeReport">Send time report</string>

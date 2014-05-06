@@ -122,21 +122,31 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	
     <!-- SPARA KNAPPEN -->
     <Button
-        style="@style/CustomStyleButtonDark"
         android:id="@+id/button_save"
-        android:layout_width="300dp"
+        style="@style/CustomStyleButtonDark"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:minHeight="40dp"
         android:minWidth="0dp"
-        android:text="@string/buttonSaveEdit"
-        android:padding="10dp" />
-	
+        android:padding="10dp"
+        android:text="@string/buttonSaveEdit" />
 
+    <!-- TA BORT KNAPPEN -->
+    <Button
+        android:id="@+id/button_delete"
+        style="@style/CustomStyleButtonDark"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/button_save"
+        android:layout_alignBottom="@+id/button_save"
+        android:layout_alignRight="@+id/editTextComment"
+        android:minHeight="40dp"
+        android:minWidth="0dp"
+        android:padding="10dp"
+        android:text="@string/buttonDeleteEdit" />
 
 </RelativeLayout>  
 
