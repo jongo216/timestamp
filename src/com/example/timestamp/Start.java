@@ -32,21 +32,30 @@ package com.example.timestamp;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.util.Log;
-import android.view.*;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.*;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Chronometer;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.timestamp.model.*;
+import com.example.timestamp.model.DB;
+import com.example.timestamp.model.Project;
+import com.example.timestamp.model.SettingsManager;
+import com.example.timestamp.model.TimePost;
 
 
 public class Start extends Fragment{
@@ -63,9 +72,6 @@ public class Start extends Fragment{
 	//private FragmentActivity parentActivity;
 	//private DB db;
 	
-
-	
-	
 	@Override		//mother of all inits!
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
  
@@ -76,10 +82,6 @@ public class Start extends Fragment{
 		chronometer = (Chronometer)rootView.findViewById(R.id.chronometer);
 		imgButton = (LinearLayout) rootView.findViewById(R.id.btnCheckIn);
 		spinnerProjectView = (Spinner) rootView.findViewById(R.id.projects_menu_spinner2);
-		
-        
-        //db = new DB(getActivity().getApplicationContext());
-        //Log.d("DatabaseHelper","New DB");
         
 		initTimer();
 		initProjectSpinner();
@@ -87,7 +89,6 @@ public class Start extends Fragment{
 		dbButtonListener(); //Button is just for debug and not visible anyways. But i leave this ftm.
         return rootView;
     }
-
 
 	// Initierar startvyn..
 	private void initProjectSpinner(){
@@ -171,12 +172,11 @@ public class Start extends Fragment{
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 				// TODO Auto-generated method stub
-				
 			}
 			
 		});
 		
-		
+
 		//spinnerListener();
 		
 	}

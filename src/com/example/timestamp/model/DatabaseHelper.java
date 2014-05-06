@@ -391,8 +391,90 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		return false;
 		
 	}
-
-
+	
+	public TimePost getLatestTimePost(int pid) {
+		String selectQuery = "SELECT * FROM "+TABLE_TIMEPOST+" WHERE "+KEY_TID+"=";
+		String selectQuery2 = "(SELECT MAX("+KEY_TID+") FROM "+TABLE_TIMEPOST+" WHERE "+KEY_PID+"="+pid+")";
+    	selectQuery += selectQuery2;
+		TimePost temp = new TimePost();
+    	
+    	try{
+    		SQLiteDatabase db = this.getReadableDatabase();
+    		Cursor c = db.rawQuery(selectQuery, null);
+    		
+        	if (c.getCount() != 0){
+        		c.moveToFirst();
+        			
+        		String st = c.getString(c.getColumnIndex(KEY_START_TIME));
+        		temp.setStartTimeByString(st);
+        			
+        		st = c.getString(c.getColumnIndex(KEY_END_TIME));
+        		temp.setEndTimeByString(st);
+        			
+        		temp.id = c.getInt(c.getColumnIndex(KEY_TID));
+        			
+        		temp.projectId = c.getInt(c.getColumnIndex(KEY_PID));
+        			
+        		temp.comment = c.getString(c.getColumnIndex(KEY_COMMENT));
+        			
+        		temp.setIsSigned(c.getInt(c.getColumnIndex(KEY_IS_SIGNED)));
+        			
+        		temp.setCommentShared(c.getInt(c.getColumnIndex(KEY_COMMENT_SHARED)));	
+        	}
+        	else{
+        		Log.d(LOG, "Error getting timepost info");
+        	}
+                
+    	}catch(SQLiteException e){
+    		Log.d(LOG, e.toString());
+    	}
+    	
+    	return temp;
+	}
+	
+	public TimePost getLatestTimePost() {
+		String selectQuery = "SELECT * FROM "+TABLE_TIMEPOST+" WHERE "+KEY_TID+"=";
+		String selectQuery2 = "(SELECT MAX("+KEY_TID+") FROM "+TABLE_TIMEPOST+")";
+    	selectQuery = selectQuery + selectQuery2;
+    	Log.d(LOG,selectQuery);
+		TimePost temp = new TimePost();
+    	
+    	try{
+    		SQLiteDatabase db = this.getReadableDatabase();
+    		Cursor c = db.rawQuery(selectQuery, null);
+    		
+        	if (c.getCount() != 0){
+        		c.moveToFirst();
+        			
+        		String st = c.getString(c.getColumnIndex(KEY_START_TIME));
+        		temp.setStartTimeByString(st);
+        			
+        		st = c.getString(c.getColumnIndex(KEY_END_TIME));
+        		temp.setEndTimeByString(st);
+        			
+        		temp.id = c.getInt(c.getColumnIndex(KEY_TID));
+        			
+        		temp.projectId = c.getInt(c.getColumnIndex(KEY_PID));
+        			
+        		temp.comment = c.getString(c.getColumnIndex(KEY_COMMENT));
+        			
+        		temp.setIsSigned(c.getInt(c.getColumnIndex(KEY_IS_SIGNED)));
+        			
+        		temp.setCommentShared(c.getInt(c.getColumnIndex(KEY_COMMENT_SHARED)));	
+        	}
+        	else{
+        		Log.d(LOG, "Error getting timepost info");
+        	}
+                
+    	}catch(SQLiteException e){
+    		Log.d(LOG, e.toString());
+    	}
+    	
+    	return temp;
+	}
+	
+	
+	
 	//Behövs projektID skickas med då time post ska deletas?
 //	public void deleteTimePost(int timePostID) {
 //		//Query: "DROP "+TABLE_TIMEPOST+
