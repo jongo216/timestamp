@@ -29,27 +29,123 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.example.timestamp;
 
+import java.text.FieldPosition;
+import java.text.Format;
+import java.text.ParsePosition;
+import java.util.Arrays;
+
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.androidplot.xy.LineAndPointFormatter;
+import com.androidplot.xy.PointLabelFormatter;
+import com.androidplot.xy.SimpleXYSeries;
+import com.androidplot.xy.XYPlot;
+import com.androidplot.xy.XYSeries;
+import com.androidplot.xy.XYStepMode;
+import com.example.timestamp.model.DB;
+
 
 public class StatsBurnDownFragment extends Fragment{
 
 	private View rootView;
+	
+	private DB db;
+	private XYPlot plot;
 	
 	
 	@Override		//mother of all inits!
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
  
         rootView = inflater.inflate(R.layout.stats_burn_down_fragment, container, false);
+     // initialize our XYPlot reference:
+        plot = (XYPlot) rootView.findViewById(R.id.mySimpleXYPlot);
+        
+        
+  
+     // Create a couple arrays of y-values to plot:
+        Number[] series1Numbers = {20, 16, 15, 12, 6, 4};
+        Number[] series2Numbers = {24, 20, 10, 3, 2, 1};
+        
+        Number[] xValues = {0, 1, 2, 3, 4, 5};
+        
+       
+        
+        XYSeries series1 = new SimpleXYSeries(
+        		Arrays.asList(xValues) // SimpleXYSeries takes a List so turn our array into a List
+                ,Arrays.asList(series1Numbers), // Y_VALS_ONLY means use the element index as the x value
+                "Series1");
+     // same as above
+        XYSeries series2 = new SimpleXYSeries(Arrays.asList(xValues),Arrays.asList(series2Numbers),  "Series2");
+        
+        plot.getGraphWidget().setDomainValueFormat(new GraphXLabelFormat());
+        // Create a formatter to use for drawing a series using LineAndPointRenderer
+        // and configure it from xml:
+        LineAndPointFormatter series1Format = new LineAndPointFormatter();
+        series1Format.setPointLabelFormatter(new PointLabelFormatter());
+        series1Format.configure(getActivity(),
+                R.xml.line_point_formatter_with_plf1);
+
+        // add a new series' to the xyplot:
+        plot.addSeries(series1, series1Format);
+     // same as above:
+        LineAndPointFormatter series2Format = new LineAndPointFormatter();
+        series2Format.setPointLabelFormatter(new PointLabelFormatter());
+        series2Format.configure(getActivity(),
+                R.xml.line_point_formatter_with_plf2);
+        plot.addSeries(series2, series2Format);
+
+        // reduce the number of range labels
+        plot.setTicksPerRangeLabel(4);
+        
+        plot.setDomainStep(XYStepMode.SUBDIVIDE, 6);
+        plot.getGraphWidget().setDomainLabelOrientation(-45);
+        
+        
+        //Set background color o.s.v
+        plot.getBorderPaint().setColor(Color.WHITE);
+        plot.getBackgroundPaint().setColor(Color.WHITE);
+        //
+        plot.getGraphWidget().getDomainOriginLabelPaint().setColor(Color.BLACK);
+        
+        plot.getGraphWidget().getBackgroundPaint().setColor(Color.WHITE);
+        plot.getGraphWidget().getGridBackgroundPaint().setColor(Color.WHITE);
+        
+        plot.getGraphWidget().getDomainLabelPaint().setColor(Color.BLACK);
+        plot.getGraphWidget().getRangeLabelPaint().setColor(Color.BLACK);
+              
+    
+        
+        
+        db = new DB(getActivity());
         //parentActivity = getActivity();
         
         
         return rootView;
     }
+	
+	private class GraphXLabelFormat extends Format {
+
+	    String LABELS[]  = {"Jan", "Feb", "Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec",};
+
+	    @Override
+	    public StringBuffer format(Object object, StringBuffer buffer, FieldPosition field) {
+	        int parsedInt = Math.round(Float.parseFloat(object.toString()));
+	        String labelString = LABELS[parsedInt];
+	        System.out.println(LABELS[parsedInt]);
+	        buffer.append(labelString);
+	        return buffer;
+	    }
+
+	    @Override
+	    public Object parseObject(String string, ParsePosition position) {
+	        return java.util.Arrays.asList(LABELS).indexOf(string);
+	    }
+	}
 
 
 	
