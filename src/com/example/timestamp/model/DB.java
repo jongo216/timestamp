@@ -30,9 +30,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package com.example.timestamp.model;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 import android.content.Context;
-import android.util.Log;
 
 
 public class DB {
@@ -108,22 +108,45 @@ public class DB {
 	public boolean projectsEmpty() {
 		return dbHelper.projectsEmpty();
 	}
-	// Delete time post by passing id
+	
 	public void deleteTimePost(int tid) {
+		// Delete time post by passing id
 		dbHelper.deleteTimePost(tid);
 	}
-	// Delete time post by passing TimePost
+	
 	public void deleteTimePost(TimePost t) {
+		// Delete time post by passing TimePost
 		dbHelper.deleteTimePost(t.id);
 	}
 	
-	// Delete project by passing id
 	public void deleteProject(int pid) {
+		// Delete project by passing id
 		dbHelper.deleteProject(pid);
 	}
-	// Delete project by passing project
+	
 	public void deleteProject(Project p) {
+		// Delete project by passing project
 		dbHelper.deleteProject(p.getId());
+	}
+	
+	public ArrayList<TimePost> getByInterval(GregorianCalendar startTime, GregorianCalendar endTime){
+		
+		//två sånda: starttid, slutttid
+		//starttid, slutttid, projektid
+		//Vis alla time post i ett intervall
+		//Anropa funktion flera gånger för att 
+		//getStartTime i timepost för att få rätt format
+		//t.getStarttime
+		//OBS: se till att det görs med antingen gregorian eller string --> string för att anropa getTime
+		
+		//Get time post within interval by start and end time
+		return dbHelper.getByInterval(startTime, endTime);
+		
+	}
+	public ArrayList<TimePost> getByInterval(GregorianCalendar startTime, GregorianCalendar endTime, int pid){
+		//Get time post within interval by start, end time and project id
+		return dbHelper.getByInterval(startTime, endTime, pid);
+		
 	}
 
 
