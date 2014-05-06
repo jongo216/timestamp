@@ -73,6 +73,14 @@ public class DB {
 		return dbHelper.getTimePost(id);
 	}
 	
+	public TimePost getLatestTimePost(int pid){
+		return dbHelper.getLatestTimePost(pid);
+	}
+	
+	public TimePost getLatestTimePost(){
+		return dbHelper.getLatestTimePost();
+	}
+	
 	/*
 	public ArrayList<TimePost> getTimes(GregorianCalendar fromDate, GregorianCalendar toDate, int projectId){
 		

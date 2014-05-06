@@ -404,6 +404,89 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			Log.d(LOG,e.toString());
 		}
 	}
+
+	public TimePost getLatestTimePost(int pid) {
+		String selectQuery = "SELECT * FROM "+TABLE_TIMEPOST+" WHERE "+KEY_END_TIME+"=";
+		String selectQuery2 = "(SELECT MAX("+KEY_END_TIME+") FROM "+TABLE_TIMEPOST+" WHERE "+KEY_PID+"="+pid+")";
+		selectQuery += selectQuery2;
+		TimePost temp = new TimePost();
+	
+		try{
+			SQLiteDatabase db = this.getReadableDatabase();
+			Cursor c = db.rawQuery(selectQuery, null);
+	    	
+	    	if (c.getCount() != 0){
+	    		c.moveToFirst();
+	    		
+	    		String st = c.getString(c.getColumnIndex(KEY_START_TIME));
+        		temp.setStartTimeByString(st);
+        			
+        		st = c.getString(c.getColumnIndex(KEY_END_TIME));
+        		temp.setEndTimeByString(st);
+        			
+        		temp.id = c.getInt(c.getColumnIndex(KEY_TID));
+        			
+        		temp.projectId = c.getInt(c.getColumnIndex(KEY_PID));
+        			
+        		temp.comment = c.getString(c.getColumnIndex(KEY_COMMENT));
+        			
+        		temp.setIsSigned(c.getInt(c.getColumnIndex(KEY_IS_SIGNED)));
+        			
+        		temp.setCommentShared(c.getInt(c.getColumnIndex(KEY_COMMENT_SHARED)));	
+	    		
+	    	}
+	    	else{
+	    		Log.d(LOG, "Empty table");
+	    	}
+	    	
+		}catch(SQLiteException e){
+    		Log.d(LOG, e.toString());
+    	}
+		
+		return temp;
+	}
+	
+	public TimePost getLatestTimePost() {
+		String selectQuery = "SELECT * FROM "+TABLE_TIMEPOST+" WHERE "+KEY_END_TIME+"=";
+		String selectQuery2 = "(SELECT MAX("+KEY_END_TIME+") FROM "+TABLE_TIMEPOST+")";
+    	selectQuery = selectQuery + selectQuery2;
+    	Log.d(LOG,selectQuery);
+		TimePost temp = new TimePost();
+    	
+    	try{
+    		SQLiteDatabase db = this.getReadableDatabase();
+    		Cursor c = db.rawQuery(selectQuery, null);
+        	
+        	
+        	if (c.getCount() != 0){
+        		c.moveToFirst();
+        			
+        		String st = c.getString(c.getColumnIndex(KEY_START_TIME));
+        		temp.setStartTimeByString(st);
+        			
+        		st = c.getString(c.getColumnIndex(KEY_END_TIME));
+        		temp.setEndTimeByString(st);
+        			
+        		temp.id = c.getInt(c.getColumnIndex(KEY_TID));
+        			
+        		temp.projectId = c.getInt(c.getColumnIndex(KEY_PID));
+        			
+        		temp.comment = c.getString(c.getColumnIndex(KEY_COMMENT));
+        			
+        		temp.setIsSigned(c.getInt(c.getColumnIndex(KEY_IS_SIGNED)));
+        			
+        		temp.setCommentShared(c.getInt(c.getColumnIndex(KEY_COMMENT_SHARED)));	
+        	}
+        	else{
+        		Log.d(LOG, "Error getting timepost info");
+        	}
+        	
+    	}catch(SQLiteException e){
+    		Log.d(LOG, e.toString());
+    	}
+    	return temp;
+	}
+	
 	// Get time post by interval
 	public ArrayList<TimePost> getByInterval(GregorianCalendar startTime, GregorianCalendar endTime) {
 		
@@ -414,45 +497,42 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		TimePost t = new TimePost(startTime, endTime, pid);	//Create new time post to get the right date format 
 		
     	String selectQuery = "SELECT * FROM " + TABLE_TIMEPOST + " WHERE " + KEY_START_TIME + " >= '" + t.getStartTime() + "' AND " + KEY_END_TIME + " <= '" + t.getEndTime() + "'";
-    	
-    	try{
-    		SQLiteDatabase db = this.getReadableDatabase();
-    		Cursor c = db.rawQuery(selectQuery, null);
-        	
-        	if (c.getCount() != 0){
-        		c.moveToFirst();
+    		
+    	SQLiteDatabase db = this.getReadableDatabase();
+		Cursor c = db.rawQuery(selectQuery, null);
+	
+    	if (c.getCount() != 0){
+    		c.moveToFirst();
+    		
+    		do {
+    			TimePost temp = new TimePost();
+    			
+    			String st = c.getString(c.getColumnIndex(KEY_START_TIME));
+    			temp.setStartTimeByString(st);
+    			
+    			st = c.getString(c.getColumnIndex(KEY_END_TIME));
+    			temp.setEndTimeByString(st);
+    			
+    			temp.id = c.getInt(c.getColumnIndex(KEY_TID));
+    			
+    			temp.projectId = c.getInt(c.getColumnIndex(KEY_PID));
+    			
+    			temp.comment = c.getString(c.getColumnIndex(KEY_COMMENT));
+    			
+    			temp.setIsSigned(c.getInt(c.getColumnIndex(KEY_IS_SIGNED)));
+    			
+    			temp.setCommentShared(c.getInt(c.getColumnIndex(KEY_COMMENT_SHARED)));
+    			
+    			ret.add(temp);
+                
+            } while (c.moveToNext());
+        			
         		
-        		do {
-        			TimePost temp = new TimePost();
-        			
-        			String st = c.getString(c.getColumnIndex(KEY_START_TIME));
-        			temp.setStartTimeByString(st);
-        			
-        			st = c.getString(c.getColumnIndex(KEY_END_TIME));
-        			temp.setEndTimeByString(st);
-        			
-        			temp.id = c.getInt(c.getColumnIndex(KEY_TID));
-        			
-        			temp.projectId = c.getInt(c.getColumnIndex(KEY_PID));
-        			
-        			temp.comment = c.getString(c.getColumnIndex(KEY_COMMENT));
-        			
-        			temp.setIsSigned(c.getInt(c.getColumnIndex(KEY_IS_SIGNED)));
-        			
-        			temp.setCommentShared(c.getInt(c.getColumnIndex(KEY_COMMENT_SHARED)));
-        			
-        			ret.add(temp);
-                    
-                } while (c.moveToNext());
         	}
         	else{
-        		Log.d(LOG, "Empty table");
+        		Log.d(LOG, "Error getting timepost info");
         	}
-        	
-    	}catch(SQLiteException e){
-    		Log.d(LOG, e.toString());
-    	}
-    	
+                
     	return ret;
 		
 	}
@@ -466,62 +546,43 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		
     	String selectQuery = "SELECT * FROM " + TABLE_TIMEPOST + " WHERE " + KEY_START_TIME + " >= '" + t.getStartTime() + "' AND " + KEY_END_TIME + " <= '" + t.getEndTime() + "' AND " + KEY_PID + " = " + pid;
     	
-    	try{
-    		SQLiteDatabase db = this.getReadableDatabase();
-    		Cursor c = db.rawQuery(selectQuery, null);
-        	
-        	if (c.getCount() != 0){
-        		c.moveToFirst();
+    	SQLiteDatabase db = this.getReadableDatabase();
+		Cursor c = db.rawQuery(selectQuery, null);
+	
+    	if (c.getCount() != 0){
+    		c.moveToFirst();
+    		
+    		do {
+    			TimePost temp = new TimePost();
+    			
+    			String st = c.getString(c.getColumnIndex(KEY_START_TIME));
+    			temp.setStartTimeByString(st);
+    			
+    			st = c.getString(c.getColumnIndex(KEY_END_TIME));
+    			temp.setEndTimeByString(st);
+    			
+    			temp.id = c.getInt(c.getColumnIndex(KEY_TID));
+    			
+    			temp.projectId = c.getInt(c.getColumnIndex(KEY_PID));
+    			
+    			temp.comment = c.getString(c.getColumnIndex(KEY_COMMENT));
+    			
+    			temp.setIsSigned(c.getInt(c.getColumnIndex(KEY_IS_SIGNED)));
+    			
+    			temp.setCommentShared(c.getInt(c.getColumnIndex(KEY_COMMENT_SHARED)));
+    			
+    			ret.add(temp);
+                
+            } while (c.moveToNext());
+        			
         		
-        		do {
-        			TimePost temp = new TimePost();
-        			
-        			String st = c.getString(c.getColumnIndex(KEY_START_TIME));
-        			temp.setStartTimeByString(st);
-        			
-        			st = c.getString(c.getColumnIndex(KEY_END_TIME));
-        			temp.setEndTimeByString(st);
-        			
-        			temp.id = c.getInt(c.getColumnIndex(KEY_TID));
-        			
-        			temp.projectId = c.getInt(c.getColumnIndex(KEY_PID));
-        			
-        			temp.comment = c.getString(c.getColumnIndex(KEY_COMMENT));
-        			
-        			temp.setIsSigned(c.getInt(c.getColumnIndex(KEY_IS_SIGNED)));
-        			
-        			temp.setCommentShared(c.getInt(c.getColumnIndex(KEY_COMMENT_SHARED)));
-        			
-        			ret.add(temp);
-                    
-                } while (c.moveToNext());
         	}
         	else{
-        		Log.d(LOG, "Empty table");
+        		Log.d(LOG, "Error getting timepost info");
         	}
-        	
-    	}catch(SQLiteException e){
-    		Log.d(LOG, e.toString());
-    	}
-    	
+                
     	return ret;
-		
 	}
-
-
-	//Behövs projektID skickas med då time post ska deletas?
-//	public void deleteTimePost(int timePostID) {
-//		//Query: "DROP "+TABLE_TIMEPOST+
-//		String myQuery = "UPDATE "+TABLE_TIMEPOST+" SET "+KEY_PID+"='"+projectID+"' WHERE "+KEY_TID+"="+timePostID;
-//	
-//    	try {
-//    		SQLiteDatabase db = this.getWritableDatabase();
-//			db.execSQL(myQuery);
-//			db.close();
-//		} catch (SQLException e) {
-//			Log.d(LOG,e.toString());
-//		}
-//	}
 
 	
 	/* -------------------------------------------- */
@@ -663,7 +724,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		return false;
 		
 	}
-
+	
 	public void deleteProject(int pid) {
 		String deleteQuery = "DELETE FROM " + TABLE_PROJECTS + " WHERE " + KEY_PID + "=" + pid;
     		

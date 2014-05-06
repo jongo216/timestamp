@@ -7,7 +7,12 @@
         android:color="#FFFFFF" >
     </solid>
 
- 
+     
+ 	<stroke 
+ 	    android:width="5dp"
+ 	    android:color="#000000"
+ 	    />
+	
 
 
 

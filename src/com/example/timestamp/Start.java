@@ -32,21 +32,30 @@ package com.example.timestamp;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.util.Log;
-import android.view.*;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.*;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Chronometer;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.timestamp.model.*;
+import com.example.timestamp.model.DB;
+import com.example.timestamp.model.Project;
+import com.example.timestamp.model.SettingsManager;
+import com.example.timestamp.model.TimePost;
 
 
 public class Start extends Fragment{
@@ -60,11 +69,10 @@ public class Start extends Fragment{
 	private Spinner spinnerProjectView;
 	private View rootView;
 	private Chronometer chronometer;
+	private TextView textView;
+	
 	//private FragmentActivity parentActivity;
 	//private DB db;
-	
-
-	
 	
 	@Override		//mother of all inits!
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -74,12 +82,10 @@ public class Start extends Fragment{
         
         //Link to xml objects
 		chronometer = (Chronometer)rootView.findViewById(R.id.chronometer);
+		chronometer.setVisibility(View.GONE);
+		textView = (TextView)rootView.findViewById(R.id.textStamplaIn);
 		imgButton = (LinearLayout) rootView.findViewById(R.id.btnCheckIn);
 		spinnerProjectView = (Spinner) rootView.findViewById(R.id.projects_menu_spinner2);
-		
-        
-        //db = new DB(getActivity().getApplicationContext());
-        //Log.d("DatabaseHelper","New DB");
         
 		initTimer();
 		initProjectSpinner();
@@ -87,7 +93,6 @@ public class Start extends Fragment{
 		dbButtonListener(); //Button is just for debug and not visible anyways. But i leave this ftm.
         return rootView;
     }
-
 
 	// Initierar startvyn..
 	private void initProjectSpinner(){
@@ -171,12 +176,11 @@ public class Start extends Fragment{
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 				// TODO Auto-generated method stub
-				
 			}
 			
 		});
 		
-		
+
 		//spinnerListener();
 		
 	}
@@ -191,6 +195,8 @@ public class Start extends Fragment{
 			imgButton.setBackground(getResources().getDrawable(R.drawable.checkinbutton_green) );
 			chronometer.setBase(SystemClock.elapsedRealtime() - currentTime.getTimeInMillis() + startTime.getTimeInMillis());
 			chronometer.start();
+			chronometer.setVisibility(View.VISIBLE);
+			textView.setVisibility(View.GONE);
 		}
 		else imgButton.setBackground(getResources().getDrawable(R.drawable.checkinbutton_white) );
 		
@@ -208,12 +214,14 @@ public class Start extends Fragment{
 			
 			public void onClick(View arg0){
 				boolean timerRunning = SettingsManager.getIsTimerRunning(getActivity());
-							
+					
 				if(timerRunning){
 					imgButton.setBackground(getResources().getDrawable(R.drawable.checkinbutton_white) );
 					
 					SettingsManager.setIsTimerRunning(false, getActivity());
 					chronometer.stop();
+					textView.setVisibility(View.VISIBLE);
+					chronometer.setVisibility(View.GONE);
 					TimePost p = new TimePost();
 					p.setProjectId(SettingsManager.getCurrentProjectId(getActivity()));
 					p.setStartTime(SettingsManager.getStartTime(getActivity()));
@@ -225,6 +233,8 @@ public class Start extends Fragment{
 					imgButton.setBackground(getResources().getDrawable(R.drawable.checkinbutton_green) );
 					chronometer.setBase(SystemClock.elapsedRealtime());
 					chronometer.start();
+					chronometer.setVisibility(View.VISIBLE);
+					textView.setVisibility(View.GONE);
 					SettingsManager.setIsTimerRunning(true, getActivity());
 					SettingsManager.setStartTime(new GregorianCalendar(), getActivity());
 				}
