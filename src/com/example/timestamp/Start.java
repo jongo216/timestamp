@@ -66,6 +66,8 @@ public class Start extends Fragment{
 	private Chronometer chronometer;
 	private ViewPager statsViewPager;
 	private MyAdapter statsPagerAdapter;
+	private TextView textView;
+	
 	//private FragmentActivity parentActivity;
 	//private DB db;
 	
@@ -80,6 +82,8 @@ public class Start extends Fragment{
         
         //Link to xml objects
 		chronometer = (Chronometer)rootView.findViewById(R.id.chronometer);
+		chronometer.setVisibility(View.GONE);
+		textView = (TextView)rootView.findViewById(R.id.textStamplaIn);
 		imgButton = (LinearLayout) rootView.findViewById(R.id.btnCheckIn);
 		spinnerProjectView = (Spinner) rootView.findViewById(R.id.projects_menu_spinner2);
 		statsViewPager = (ViewPager) rootView.findViewById(R.id.statsViewPager);
@@ -239,6 +243,8 @@ public class Start extends Fragment{
 			imgButton.setBackground(getResources().getDrawable(R.drawable.checkinbutton_green) );
 			chronometer.setBase(SystemClock.elapsedRealtime() - currentTime.getTimeInMillis() + startTime.getTimeInMillis());
 			chronometer.start();
+			chronometer.setVisibility(View.VISIBLE);
+			textView.setVisibility(View.GONE);
 		}
 		else imgButton.setBackground(getResources().getDrawable(R.drawable.checkinbutton_white) );
 		
@@ -251,12 +257,14 @@ public class Start extends Fragment{
 			
 			public void onClick(View arg0){
 				boolean timerRunning = SettingsManager.getIsTimerRunning(getActivity());
-							
+					
 				if(timerRunning){
 					imgButton.setBackground(getResources().getDrawable(R.drawable.checkinbutton_white) );
 					
 					SettingsManager.setIsTimerRunning(false, getActivity());
 					chronometer.stop();
+					textView.setVisibility(View.VISIBLE);
+					chronometer.setVisibility(View.GONE);
 					TimePost p = new TimePost();
 					p.setProjectId(SettingsManager.getCurrentProjectId(getActivity()));
 					p.setStartTime(SettingsManager.getStartTime(getActivity()));
@@ -268,6 +276,8 @@ public class Start extends Fragment{
 					imgButton.setBackground(getResources().getDrawable(R.drawable.checkinbutton_green) );
 					chronometer.setBase(SystemClock.elapsedRealtime());
 					chronometer.start();
+					chronometer.setVisibility(View.VISIBLE);
+					textView.setVisibility(View.GONE);
 					SettingsManager.setIsTimerRunning(true, getActivity());
 					SettingsManager.setStartTime(new GregorianCalendar(), getActivity());
 				}

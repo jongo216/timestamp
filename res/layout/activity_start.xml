@@ -85,13 +85,23 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       	
         android:layout_centerHorizontal="true"
  		
- 		
-        android:layout_marginTop="54dp"
-       
+        android:layout_marginTop="54dp"   
         android:padding="20dp"
         android:paddingLeft="100dp"
      
         > 
+        
+        <TextView
+      		android:id="@+id/textStamplaIn"
+	        android:format="%s"
+	       	android:layout_weight="1"
+	        android:layout_gravity="center_vertical"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="50dp"
+	        android:text="Stämpla In"
+	        android:textSize="25sp"
+	   />
 
 
        <Chronometer
@@ -101,16 +111,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	        android:layout_gravity="center_vertical"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_marginLeft="50dp"
-	       	
-	       	
+	        android:layout_marginLeft="55dp"
 	        android:textSize="40sp"
        /> 
        
        
        <ImageView
 	        android:id="@+id/clock"
-	        android:layout_weight="1"
+	        android:layout_weight="0.1"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center_vertical"
@@ -118,29 +126,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	        android:src="@drawable/clock"
         />
 
-        </LinearLayout>
+    </LinearLayout>
 
-   
-  <!--    <ImageView
-        android:id="@+id/graf"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/spinnerProjectView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:baselineAlignBottom="true"
-        android:src="@drawable/graf"/>
-   -->
-   <!--  <TextView
-        android:id="@+id/textWeek"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/projects_menu_spinner2"
-        android:layout_centerHorizontal="true"
-        android:textColor="@color/myColorG"
-        android:text="@string/textWeek"
-        android:textAppearance="?android:attr/textAppearanceMedium" /> -->
+ 
 
     <Button
         android:id="@+id/Projects"
@@ -150,6 +138,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         android:layout_above="@+id/Projects"
         android:layout_alignLeft="@+id/Projects"
         android:text="Projects"
+        android:background="@android:color/transparent"
         android:visibility="gone" />
 
 
