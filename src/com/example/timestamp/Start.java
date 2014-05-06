@@ -220,6 +220,8 @@ public class Start extends Fragment{
 					
 					SettingsManager.setIsTimerRunning(false, getActivity());
 					chronometer.stop();
+					textView.setVisibility(View.VISIBLE);
+					chronometer.setVisibility(View.GONE);
 					TimePost p = new TimePost();
 					p.setProjectId(SettingsManager.getCurrentProjectId(getActivity()));
 					p.setStartTime(SettingsManager.getStartTime(getActivity()));
