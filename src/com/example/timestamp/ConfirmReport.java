@@ -34,6 +34,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+
 import android.app.ActionBar.LayoutParams;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -65,6 +68,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.timestamp.model.DB;
+import com.example.timestamp.model.Exporter;
 import com.example.timestamp.model.Project;
 import com.example.timestamp.model.SettingsManager;
 import com.example.timestamp.model.TimePost;
@@ -235,6 +239,9 @@ public class ConfirmReport extends Fragment {
 				AlertDialog alertDialog = builder.create();
 				
 				alertDialog.show();
+				new Exporter().execute();
+				//Exporter ex = new Exporter();
+				//ex.exportToEmail(getActivity());
 			}
 		
 		});
@@ -277,7 +284,7 @@ public class ConfirmReport extends Fragment {
 			
 			//Put data in text views
 			if(true) {  //TODO: Chose how much detail to show.. if(LARGESCREEN)  
-				day.setText(Constants.WEEK_DAY_STRINGS[start.get(Calendar.DAY_OF_WEEK)]);
+				day.setText(Constants.WEEK_DAY_STRINGS[start.get(Calendar.DAY_OF_WEEK) - 1]);
 				interval.setText(times.get(i).FormatedTimeInterval());
 				time.setText(times.get(i).getWorkedHoursFormated() + "h");
 				
