@@ -40,6 +40,10 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.*;
 import android.view.View.OnClickListener;
@@ -60,6 +64,8 @@ public class Start extends Fragment{
 	private Spinner spinnerProjectView;
 	private View rootView;
 	private Chronometer chronometer;
+	private ViewPager statsViewPager;
+	private MyAdapter statsPagerAdapter;
 	//private FragmentActivity parentActivity;
 	//private DB db;
 	
@@ -76,12 +82,13 @@ public class Start extends Fragment{
 		chronometer = (Chronometer)rootView.findViewById(R.id.chronometer);
 		imgButton = (LinearLayout) rootView.findViewById(R.id.btnCheckIn);
 		spinnerProjectView = (Spinner) rootView.findViewById(R.id.projects_menu_spinner2);
+		statsViewPager = (ViewPager) rootView.findViewById(R.id.statsViewPager);
+        
+        
 		
-        
-        //db = new DB(getActivity().getApplicationContext());
-        //Log.d("DatabaseHelper","New DB");
-        
 		initTimer();
+		initStats();
+		updateStats();
 		initProjectSpinner();
 		initTimerButton();
 		dbButtonListener(); //Button is just for debug and not visible anyways. But i leave this ftm.
@@ -89,7 +96,7 @@ public class Start extends Fragment{
     }
 
 
-	// Initierar startvyn..
+	// Initierar spinner
 	private void initProjectSpinner(){
 		
 		int selectedRow = 0;
@@ -181,6 +188,47 @@ public class Start extends Fragment{
 		
 	}
 	
+	
+	
+	private void initStats() {
+		statsPagerAdapter = new MyAdapter(getChildFragmentManager());
+		statsViewPager.setAdapter(statsPagerAdapter);
+		
+		
+	}
+	
+	public static class MyAdapter extends FragmentPagerAdapter {
+        public MyAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public int getCount() {
+            return 3;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+        	switch (position) {
+        		case 0: 
+        			return new StatsBarChartFragment();
+        			
+        		case 1:
+        			return new StatsBurnDownFragment();
+        		
+        		case 2:
+        			return new StatsSummaryFragment();
+        		
+        	}
+        	return (Fragment) new StatsBarChartFragment();
+        }
+	}
+	
+	
+	private void updateStats() {
+		
+	}
+	
 	public void initTimer(){
 		boolean timerRunning;
 		timerRunning = SettingsManager.getIsTimerRunning(getActivity());
@@ -196,12 +244,7 @@ public class Start extends Fragment{
 		
 	}
 	
-	public void spinnerListener() {
-		
-		
-	}
-	
-	
+
     public void initTimerButton(){
 		
 		imgButton.setOnClickListener(new OnClickListener(){
@@ -231,6 +274,7 @@ public class Start extends Fragment{
 			}	
 		});
 	}
+ 
     
     //database testing!
     public void dbButtonListener(){
@@ -252,7 +296,7 @@ public class Start extends Fragment{
     	});
     }
 	
-
+    
 	
     
 	@Override
