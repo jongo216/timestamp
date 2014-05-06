@@ -116,15 +116,26 @@
         android:text="Show in time report" />
 
     <Button
-        android:id="@+id/save_project_button"
+        android:id="@+id/delete_project_button"
         style="@style/CustomStyleButtonDark"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
+        android:layout_alignRight="@+id/projectDescriptionEditText"
+        android:layout_below="@+id/projectSharedCheckBox"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:text="Delete project"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/save_project_button"
+        style="@style/CustomStyleButtonDark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/projectTimeBudgetLabel"
+        android:layout_below="@+id/projectSharedCheckBox"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:text="Save project" />
 
 </RelativeLayout>

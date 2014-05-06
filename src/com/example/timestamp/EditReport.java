@@ -122,42 +122,19 @@ public class EditReport extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				AlertDialog.Builder ad = new AlertDialog.Builder(message);
 				
-				//ad.setTitle("Confirm");
-				ad.setMessage(R.string.editReportConfirmMessage);
-				ad.setCancelable(false);
-				ad.setPositiveButton(R.string.editReportConfirmPositive,new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog,int id) {
-						timePost.startTime.set(Calendar.HOUR_OF_DAY, startPicker.getCurrentHour());
-						timePost.startTime.set(Calendar.MINUTE, startPicker.getCurrentMinute());
-						
-						timePost.endTime.set(Calendar.HOUR_OF_DAY, endPicker.getCurrentHour());
-						timePost.endTime.set(Calendar.MINUTE, endPicker.getCurrentMinute());
-						
-						timePost.comment = commentField.getEditableText().toString();
-						
-						DB db = new DB(message);
-						db.set(timePost);
-						// if this button is clicked, close
-						// current activity
-						EditReport.this.finish(); 
-					}
-				});
-				ad.setNegativeButton(R.string.editReportConfirmNegative,new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog,int id) {
-						// if this button is clicked, just close
-						// the dialog box and do nothing
-						dialog.cancel();
-					}
-				});
-	 
-				// create alert dialog
-				AlertDialog alertDialog = ad.create();
- 
-				// show it
-				alertDialog.show();
-			}
+				timePost.startTime.set(Calendar.HOUR_OF_DAY, startPicker.getCurrentHour());
+				timePost.startTime.set(Calendar.MINUTE, startPicker.getCurrentMinute());
+				
+				timePost.endTime.set(Calendar.HOUR_OF_DAY, endPicker.getCurrentHour());
+				timePost.endTime.set(Calendar.MINUTE, endPicker.getCurrentMinute());
+				
+				timePost.comment = commentField.getEditableText().toString();
+				
+				DB db = new DB(message);
+				db.set(timePost);
+				finish();
+			};
 		});
 	}
 	
