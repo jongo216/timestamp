@@ -108,6 +108,23 @@ public class DB {
 	public boolean projectsEmpty() {
 		return dbHelper.projectsEmpty();
 	}
+	// Delete time post by passing id
+	public void deleteTimePost(int tid) {
+		dbHelper.deleteTimePost(tid);
+	}
+	// Delete time post by passing TimePost
+	public void deleteTimePost(TimePost t) {
+		dbHelper.deleteTimePost(t.id);
+	}
+	
+	// Delete project by passing id
+	public void deleteProject(int pid) {
+		dbHelper.deleteProject(pid);
+	}
+	// Delete project by passing project
+	public void deleteProject(Project p) {
+		dbHelper.deleteProject(p.getId());
+	}
 
 
 	
