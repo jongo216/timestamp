@@ -27,13 +27,11 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
-
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	android:background="@drawable/background_gradient" >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_gradient" >
 
 	<LinearLayout
 	    android:id="@+id/LinearLayoutSettings"
@@ -42,6 +40,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	    android:gravity="bottom"
 	    android:orientation="vertical"
 	    android:paddingLeft="20dp"
+	    android:paddingRight="20dp"
 	    tools:context=".MainActivity" >
 
 	    <TextView
@@ -68,15 +67,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	            android:onClick="onRadioButtonClicked"
 	            android:text="@string/viewOptWeek"
 	            android:textColor="@color/textColorBlack" />
-
-	        <RadioButton
-	            android:id="@+id/radio_viewOptDay"
-	            android:fontFamily="sans-serif-light"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:onClick="onRadioButtonClicked"
-	            android:text="@string/viewOptDay"
-	        	android:textColor="@color/textColorBlack" />
 
 	        <RadioButton
 	            android:id="@+id/radio_viewOptMonth"
@@ -145,6 +135,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	        android:fontFamily="sans-serif-light"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
+
 	        android:paddingTop="20dp"
 	        android:text="@string/textExport"
 	        android:textColor="@color/textColorGray" />
@@ -181,7 +172,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	        style="@style/CustomStyleButtonDark"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-
 	        android:minWidth="100dp"
 	        android:layout_marginBottom="5dp"
 	        android:text="@string/buttonExport" />
@@ -190,7 +180,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	        android:id="@+id/TextSync"
 	        android:fontFamily="sans-serif-light"
 	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content" 
+	        android:layout_height="wrap_content"
 	        android:text="@string/textSync" 
 	        android:paddingTop="20dp"
 	        android:textColor="@color/textColorGray" />
@@ -220,53 +210,21 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	            android:text="@string/sync2"
 	            android:textColor="@color/textColorBlack" />
 	    </RadioGroup>
+
 	    
-	    <TextView
-	        android:id="@+id/TextLayout"
-	        android:fontFamily="sans-serif-light"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:paddingTop="20dp"
-	        android:text="@string/textLayout"
-	        android:textColor="@color/textColorGray" />
-	    
-	    <RadioGroup
-	        android:id="@+id/radio_layout"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:orientation="vertical" >
-
-	        <RadioButton
-	            android:id="@+id/radio_layoutStandard"
-	            android:fontFamily="sans-serif-light"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:checked="true"
-	            android:onClick="onRadioButtonClicked"
-	            android:text="@string/layoutStandard"
-	            android:textColor="@color/textColorBlack" />
-
-	        <RadioButton
-	            android:id="@+id/radio_layoutBackground"
-	            android:fontFamily="sans-serif-light"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:onClick="onRadioButtonClicked"
-	            android:text="@string/layoutBackground" 
-	            android:textColor="@color/textColorBlack"/>
-	    </RadioGroup>
-
-	    <Button
+        <Button
 	        android:id="@+id/saveButtonSettings"
 	        style="@style/CustomStyleButtonDark"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_horizontal|center"
+	        android:layout_marginBottom="0dp"
+	        android:layout_marginTop="140dp"
 	        android:paddingLeft="120dp"
 	        android:paddingRight="120dp"
-	        android:layout_marginTop="30dp"
-	        android:layout_gravity="center"
-	        android:layout_marginBottom="32dp"
 	        android:text="@string/buttonSaveSettings" />
+		
+
 	</LinearLayout>
 
 </ScrollView>
