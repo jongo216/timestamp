@@ -31,6 +31,8 @@ package com.example.timestamp;
 
 
 
+import java.util.GregorianCalendar;
+
 import com.example.timestamp.model.*;
 
 import android.app.ActionBar;
@@ -93,7 +95,7 @@ ActionBar.TabListener {
 			p3.setCustomer("ET");
 			db.set(p3);
 		}
-		
+
 		
 		//Stylear actionbar
 		ActionBar actionBarTop = getActionBar(); //Action bar med rubrik + settingsknapp

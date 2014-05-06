@@ -29,8 +29,101 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.example.timestamp.model;
 
-public class Exporter {
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.List;
 
+import android.content.ContentProvider;
+import android.content.Context;
+import android.util.Log;
+
+public class Exporter {
+	
+	String csvFile = "mycsv.csv";
+	BufferedReader br;
+	
+	
+	public void createCSV(Context c, ArrayList<TimePost> tplist){
+		try{
+		
+			
+			DB db = new DB(c);
+			
+			FileOutputStream fOut = c.openFileOutput(csvFile, Context.MODE_WORLD_WRITEABLE);
+		    OutputStreamWriter writer = new OutputStreamWriter(fOut); 			
+			String output="";
+			
+			
+			//CSV header 
+			output += "Project";
+			output += ',';
+			output += "Start time";
+			output += ',';
+			output += "End time";
+			output += ',';
+			output += "Comment";
+			output += '\n';
+			
+			
+			//Write all timepost to csv output string.
+			for (TimePost temp : tplist){
+				
+				output += db.getProject(temp.projectId).getName();
+				output += ',';
+				output += temp.getStartTime();
+				output += ',';
+				output += temp.getEndTime();
+				output += ',';
+				output += temp.getComment();
+				output += '\n';
+				
+			}
+
+			
+			writer.write(output);
+		    writer.close();
+		    
+			
+		}catch(IOException e){
+			e.printStackTrace();
+			Log.d("hej","write fail");
+		}
+		
+		
+	}
+	
+	//Function for debugging CSV file.
+	public void readCSV(Context c){
+		try{
+			FileInputStream in = c.openFileInput(csvFile);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+
+			String line;
+			StringBuilder out = new StringBuilder();
+			
+	        while ((line = reader.readLine()) != null) {
+	            out.append(line);
+	        }
+	        Log.d("hej", out.toString());  
+			
+			reader.close();
+		}
+		catch(IOException e){
+			Log.d("hej", "Read fail");
+			e.printStackTrace();
+		}
+	}
 	/*
 	 * 
 	 * No functions defined yet!
