@@ -68,7 +68,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         android:layout_width="fill_parent"
         android:layout_height="220dp"
         android:layout_below="@+id/projects_menu_spinner2"
-        android:layout_above="@+id/chechBoxShowSigned"
+        android:layout_above="@+id/checkBoxShowSigned"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
         android:layout_marginLeft="25dp"
@@ -123,14 +123,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
    
      
     <CheckBox
-        android:id="@+id/chechBoxShowSigned"
+        android:id="@+id/checkBoxShowSigned"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/projects_menu_spinner2"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="0dp"
         android:layout_above="@+id/addNewPost"
-        android:text="@string/chechBoxShowSigned"
+        android:text="@string/checkBoxShowSigned"
         android:textSize="12sp"
         android:textStyle="italic" />
         
