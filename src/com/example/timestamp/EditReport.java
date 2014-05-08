@@ -50,6 +50,7 @@ public class EditReport extends Activity {
 	private EditText commentField;
 	
 	TimePicker startPicker, endPicker;
+	DatePicker datePicker;
 	
 	TimePost timePost;
 	
@@ -64,8 +65,7 @@ public class EditReport extends Activity {
 		commentField = (EditText) findViewById(R.id.editTextComment);
 		startPicker = (TimePicker) findViewById(R.id.timePickerStart);
 		endPicker = (TimePicker) findViewById(R.id.timePickerEnd);
-		
-
+		datePicker = (DatePicker)findViewById(R.id.datePickerEditReport);
 		
 		
 		//Initialize time post object (create new if id = 0)
@@ -141,6 +141,15 @@ public class EditReport extends Activity {
 			@Override
 			public void onClick(View v) {
 				
+				timePost.startTime.set(Calendar.YEAR, datePicker.getYear());
+				timePost.endTime.set(Calendar.YEAR, datePicker.getYear());
+				
+				timePost.startTime.set(Calendar.MONTH, datePicker.getMonth());
+				timePost.endTime.set(Calendar.MONTH, datePicker.getMonth());
+				
+				timePost.startTime.set(Calendar.DAY_OF_MONTH, datePicker.getDayOfMonth());
+				timePost.endTime.set(Calendar.DAY_OF_MONTH, datePicker.getDayOfMonth());
+				
 				timePost.startTime.set(Calendar.HOUR_OF_DAY, startPicker.getCurrentHour());
 				timePost.startTime.set(Calendar.MINUTE, startPicker.getCurrentMinute());
 				
@@ -157,6 +166,8 @@ public class EditReport extends Activity {
 	}
 	
 	public void initTimePickers() {
+		datePicker.updateDate(timePost.startTime.get(Calendar.YEAR), timePost.startTime.get(Calendar.MONTH), timePost.startTime.get(Calendar.DAY_OF_MONTH));
+		
 		startPicker.setIs24HourView(true);
         startPicker.setCurrentHour(timePost.startTime.get(Calendar.HOUR_OF_DAY));
         startPicker.setCurrentMinute(timePost.startTime.get(Calendar.MINUTE));
