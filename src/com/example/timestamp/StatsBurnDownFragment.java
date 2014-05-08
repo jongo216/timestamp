@@ -74,12 +74,12 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
         //the legend
         plot.getLegendWidget().setTableModel(new DynamicTableModel(1, 2));
         plot.getLegendWidget().setSize(new SizeMetrics(150, SizeLayoutType.ABSOLUTE, 200, SizeLayoutType.ABSOLUTE));
-        
+       
         
         // add a semi-transparent black background to the legend
         // so it's easier to see overlaid on top of our plot:
         Paint bgPaint = new Paint();
-        bgPaint.setColor(Color.WHITE);
+        bgPaint.setColor(Color.BLACK);
         bgPaint.setStyle(Paint.Style.STROKE);
         bgPaint.setAlpha(140);
         plot.getLegendWidget().setBackgroundPaint(bgPaint);
