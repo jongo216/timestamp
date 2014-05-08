@@ -29,16 +29,27 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.example.timestamp;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
+import com.example.timestamp.model.DB;
+import com.example.timestamp.model.SettingsManager;
+import com.example.timestamp.model.TimePost;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 
 public class StatsSummaryFragment extends Fragment implements UpdateableStatistics {
 
 	private View rootView;
+	private TextView weeklyHours, weeklyProjectHours, totalProjectHours;
 	
 	
 	@Override		//mother of all inits!
@@ -47,6 +58,9 @@ public class StatsSummaryFragment extends Fragment implements UpdateableStatisti
         rootView = inflater.inflate(R.layout.stats_summary_fragment, container, false);
         //parentActivity = getActivity();
         
+        weeklyHours = (TextView)rootView.findViewById(R.id.summary_weekly_hours2);
+        weeklyProjectHours = (TextView)rootView.findViewById(R.id.summary_weekly_project_hours);
+        totalProjectHours = (TextView)rootView.findViewById(R.id.summary_total_project_hours);
         
         return rootView;
     }
@@ -63,6 +77,37 @@ public class StatsSummaryFragment extends Fragment implements UpdateableStatisti
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
+		if (weeklyHours == null) return;
 		
+		DB db = new DB(getParentFragment().getActivity());
+		
+		int currentProject = SettingsManager.getCurrentProjectId(getParentFragment().getActivity());
+		
+		ArrayList<TimePost> timePosts = db.getTimePosts();
+		
+		double wh = 0, wph = 0, tph = 0; 
+		GregorianCalendar startOfWeek = new GregorianCalendar();
+		startOfWeek.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+		startOfWeek.set(Calendar.HOUR_OF_DAY, 0);
+		startOfWeek.set(Calendar.MINUTE, 1);
+		long startOfWeekAsLong = startOfWeek.getTimeInMillis();
+		
+		for (TimePost t : timePosts)
+		{
+			if (t.projectId == currentProject) {
+				tph += t.getWorkedHours();
+				if (t.startTime.getTimeInMillis() > startOfWeekAsLong) {
+					wph += t.getWorkedHours();
+					wh += t.getWorkedHours();
+				}
+			}
+			else if (t.startTime.getTimeInMillis() > startOfWeekAsLong)
+				wh += t.getWorkedHours();
+		}
+		DecimalFormat df = new DecimalFormat("#.#h");
+		
+		weeklyHours.setText(df.format(wh));
+		weeklyProjectHours.setText(df.format(wph));
+		totalProjectHours.setText(df.format(tph));
 	}
 }

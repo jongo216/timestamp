@@ -33,27 +33,74 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     android:tileMode="repeat"
     tools:context=".Start" 
     android:padding="10dp">
-    
-    
-    <TextView 
-        android:id="@+id/summary_total_hours_label"
+    <LinearLayout 
+        android:id="@+id/summary_upper_div"
         android:layout_width="wrap_content"
-    	android:layout_height="wrap_content"
-        android:text="Hours this week"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        />
-    <TextView 
-        android:id="@+id/summary_total_hours"
+	    android:layout_centerHorizontal="true"
+	    android:orientation="horizontal"
+        >
+        <TextView 
+	        android:id="@+id/summary_weekly_hours2"
+	        android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	        android:text="23.6h"
+	        android:textColor="#22BB11"
+	        android:textSize="30sp"
+	        />
+	    <TextView 
+	        android:id="@+id/summary_weekly_hours_label3"
+	        android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	        android:text="this week"
+	        android:textSize="30sp"
+	        android:layout_marginLeft="10dp"
+	        />
+    </LinearLayout>
+    
+    <LinearLayout 
+        android:id="@+id/summary_lower_div"
         android:layout_width="wrap_content"
-    	android:layout_height="wrap_content"
-        android:text="23.6h"
-        android:textColor="#22BB11"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/summary_total_hours_label"
-        />
-    
-
-    
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/summary_upper_div"
+        android:layout_marginTop="20dp"
+	    android:layout_centerHorizontal="true"
+	    android:orientation="horizontal"
+        >
+	    <TextView 
+	        android:id="@+id/summary_weekly_project_hours_label"
+	        android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	        android:text="In project this week:"
+	        android:textSize="12sp"
+	        />
+	    <TextView 
+	        android:id="@+id/summary_weekly_project_hours"
+	        android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	        android:text="23.6h"
+	        android:textColor="#555555"
+	        android:textSize="12sp"
+	        android:layout_marginLeft="6dp"
+	        />
+	    <TextView 
+	        android:id="@+id/summary_total_project_hours_label"
+	        android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	        android:text="Total in project:"
+	        android:textSize="12sp"
+	        android:layout_marginLeft="22dp"
+	        />
+	    <TextView 
+	        android:id="@+id/summary_total_project_hours"
+	        android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	        android:text="23.6h"
+	        android:textColor="#555555"
+	        android:textSize="12sp"
+	        android:layout_marginLeft="6dp"
+	        />
+    </LinearLayout>
        
 </RelativeLayout>
