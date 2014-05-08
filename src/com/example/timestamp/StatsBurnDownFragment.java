@@ -134,10 +134,11 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
         plot.setDomainStep(XYStepMode.SUBDIVIDE, 6);
         plot.getGraphWidget().setDomainLabelOrientation(0); //Changed from -45   
         //Set background color o.s.v
-        plot.getBorderPaint().setColor(Color.WHITE);
-        plot.getBackgroundPaint().setColor(Color.WHITE);
-        plot.getGraphWidget().getBackgroundPaint().setColor(Color.WHITE);
-        plot.getGraphWidget().getGridBackgroundPaint().setColor(Color.WHITE);
+        
+        plot.getBorderPaint().setColor(Color.TRANSPARENT);
+        plot.getBackgroundPaint().setColor(Color.TRANSPARENT);
+        plot.getGraphWidget().getBackgroundPaint().setColor(Color.TRANSPARENT);
+        plot.getGraphWidget().getGridBackgroundPaint().setColor(Color.TRANSPARENT);
         
         
         //Domain (X-labels) settings
@@ -148,6 +149,9 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
         //Range (Y-labels) settings
         plot.getGraphWidget().setRangeValueFormat(new DecimalFormat("0"));
         plot.getGraphWidget().getRangeLabelPaint().setColor(Color.BLACK);
+        
+        plot.setMarkupEnabled(false);
+        
         
         //Margins and Padding for whole plot
         plot.getGraphWidget().setMarginLeft(30);
