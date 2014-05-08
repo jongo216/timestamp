@@ -43,6 +43,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.androidplot.ui.AnchorPosition;
+import com.androidplot.ui.DynamicTableModel;
+import com.androidplot.ui.SizeLayoutType;
+import com.androidplot.ui.SizeMetrics;
+import com.androidplot.ui.XLayoutStyle;
+import com.androidplot.ui.YLayoutStyle;
 import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.PointLabelFormatter;
 import com.androidplot.xy.SimpleXYSeries;
@@ -50,12 +56,6 @@ import com.androidplot.xy.XYPlot;
 import com.androidplot.xy.XYSeries;
 import com.androidplot.xy.XYStepMode;
 import com.example.timestamp.model.DB;
-import com.androidplot.ui.AnchorPosition;
-import com.androidplot.ui.DynamicTableModel;
-import com.androidplot.ui.SizeLayoutType;
-import com.androidplot.ui.SizeMetrics;
-import com.androidplot.ui.XLayoutStyle;
-import com.androidplot.ui.YLayoutStyle;
 
 public class StatsBurnDownFragment extends Fragment implements UpdateableStatistics {
 
@@ -77,13 +77,15 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
         legendPaint.setTextSize(25);
         plot.getLegendWidget().setTableModel(new DynamicTableModel(1, 2));
         plot.getLegendWidget().setSize(new SizeMetrics(150, SizeLayoutType.ABSOLUTE, 200, SizeLayoutType.ABSOLUTE));
+
         plot.getLegendWidget().setTextPaint(legendPaint);
 
-        
+
         
         // add a semi-transparent black background to the legend
         // so it's easier to see overlaid on top of our plot:
         Paint bgPaint = new Paint();
+     
         bgPaint.setColor(Color.TRANSPARENT);
         plot.getLegendWidget().setBackgroundPaint(bgPaint);
  
@@ -94,9 +96,8 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
                 0,
                 YLayoutStyle.RELATIVE_TO_TOP,
                 AnchorPosition.RIGHT_TOP
-        		);
+        );
         
-
      // Create a couple arrays of y-values to plot:
         Number[] series1Numbers = {20, 16, 15, 12, 6, 4};
         Number[] series2Numbers = {24, 20, 10, 3, 2, 1};
@@ -132,19 +133,17 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
         series2Format.getPointLabelFormatter().setTextPaint(bgPaint);
         
         plot.addSeries(series2, series2Format);
-        
+       
         //Titles for axis
         plot.getGraphWidget().getDomainLabelPaint().setColor(Color.BLACK);
-
         // Settings for ticks and labels on x and y axis
         plot.setTicksPerRangeLabel(1);               
         plot.setDomainStep(XYStepMode.SUBDIVIDE, 6);
         plot.getGraphWidget().setDomainLabelOrientation(0); //Changed from -45
-        
         plot.setRangeStep(XYStepMode.INCREMENT_BY_VAL,10);
         plot.setRangeValueFormat(new DecimalFormat("10"));
                
-        //Set background color o.s.v
+
         plot.getBorderPaint().setColor(Color.TRANSPARENT);
         plot.getBackgroundPaint().setColor(Color.TRANSPARENT);
         plot.getGraphWidget().getBackgroundPaint().setColor(Color.TRANSPARENT);

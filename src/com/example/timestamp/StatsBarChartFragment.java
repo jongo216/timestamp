@@ -29,6 +29,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.example.timestamp;
 
+import java.text.DecimalFormat;
 import java.text.FieldPosition;
 import java.text.Format;
 import java.text.ParsePosition;
@@ -39,11 +40,18 @@ import java.util.GregorianCalendar;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.*;
 
+import com.androidplot.ui.AnchorPosition;
+import com.androidplot.ui.DynamicTableModel;
+import com.androidplot.ui.SizeLayoutType;
+import com.androidplot.ui.SizeMetrics;
+import com.androidplot.ui.XLayoutStyle;
+import com.androidplot.ui.YLayoutStyle;
 import com.androidplot.xy.*;
 import com.example.timestamp.model.*;
 
@@ -69,6 +77,7 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
 		
         rootView = inflater.inflate(R.layout.stats_bar_chart_fragment, container, false);
         
+        barChart = (XYPlot) rootView.findViewById(R.id.barChart);
         //Init database and get timepost and project data
         //db = new DB(getActivity());
         
@@ -76,6 +85,60 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
         //Link to xml objects
         barChart = (XYPlot)rootView.findViewById(R.id.barChart);
         
+      //the legend
+        barChart.getLegendWidget().setTableModel(new DynamicTableModel(1, 2));
+        barChart.getLegendWidget().setSize(new SizeMetrics(150, SizeLayoutType.ABSOLUTE, 200, SizeLayoutType.ABSOLUTE));
+       
+        
+        // add a semi-transparent black background to the legend
+        // so it's easier to see overlaid on top of our plot:
+        Paint bgPaint = new Paint();
+        Paint bgPaint2 = new Paint();
+        
+        
+        bgPaint.setColor(Color.TRANSPARENT);
+        bgPaint2.setColor(Color.BLACK);
+        bgPaint.setTextSize(25);
+        //bgPaint.setC
+        barChart.getLegendWidget().setBackgroundPaint(bgPaint);
+        barChart.getLegendWidget().setTextPaint(bgPaint2);
+        // edge of the graph widget:
+        barChart.getLegendWidget().position(
+        		0,
+                XLayoutStyle.RELATIVE_TO_RIGHT,
+                0,
+                YLayoutStyle.RELATIVE_TO_TOP,
+                AnchorPosition.RIGHT_TOP
+        );
+        
+        
+        
+      //Titles for axis
+        barChart.getGraphWidget().getDomainLabelPaint().setColor(Color.BLACK);
+        // Settings for ticks and labels on x and y axis
+        barChart.setTicksPerRangeLabel(1);               
+        barChart.setDomainStep(XYStepMode.SUBDIVIDE, 6);
+        
+      //Set background color o.s.v
+        barChart.getBorderPaint().setColor(Color.TRANSPARENT);
+        barChart.getBackgroundPaint().setColor(Color.TRANSPARENT);
+        barChart.getGraphWidget().getBackgroundPaint().setColor(Color.TRANSPARENT);
+        barChart.getGraphWidget().getGridBackgroundPaint().setColor(Color.TRANSPARENT);
+        barChart.getGraphWidget().setPaddingBottom(30);
+        
+      //Domain (X-labels) settings
+        barChart.getGraphWidget().getDomainOriginLabelPaint().setColor(Color.BLACK);
+        barChart.getGraphWidget().getDomainLabelPaint().setColor(Color.BLACK);
+        
+        
+        //Range (Y-labels) settings
+        barChart.getGraphWidget().setRangeValueFormat(new DecimalFormat("0"));
+        barChart.getGraphWidget().getRangeLabelPaint().setColor(Color.BLACK);
+        
+      //Margins and Padding for whole plot
+        barChart.getGraphWidget().setMarginLeft(30);
+        barChart.getGraphWidget().setPaddingLeft(0);
+        barChart.getGraphWidget().setMarginRight(200);
         
         initChart();
         update();
