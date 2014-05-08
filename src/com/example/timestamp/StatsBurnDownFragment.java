@@ -35,11 +35,13 @@ import java.text.ParsePosition;
 import java.util.Arrays;
 
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 
 import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.PointLabelFormatter;
@@ -48,7 +50,12 @@ import com.androidplot.xy.XYPlot;
 import com.androidplot.xy.XYSeries;
 import com.androidplot.xy.XYStepMode;
 import com.example.timestamp.model.DB;
-
+import com.androidplot.ui.AnchorPosition;
+import com.androidplot.ui.DynamicTableModel;
+import com.androidplot.ui.SizeLayoutType;
+import com.androidplot.ui.SizeMetrics;
+import com.androidplot.ui.XLayoutStyle;
+import com.androidplot.ui.YLayoutStyle;
 
 public class StatsBurnDownFragment extends Fragment{
 
@@ -56,31 +63,66 @@ public class StatsBurnDownFragment extends Fragment{
 	
 	private DB db;
 	private XYPlot plot;
-	
-	
+
 	@Override		//mother of all inits!
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
  
         rootView = inflater.inflate(R.layout.stats_burn_down_fragment, container, false);
      // initialize our XYPlot reference:
-        plot = (XYPlot) rootView.findViewById(R.id.mySimpleXYPlot);
+        plot = (XYPlot) rootView.findViewById(R.id.myBurnDownChart);
         
+        //the legend
+        plot.getLegendWidget().setTableModel(new DynamicTableModel(2, 1));
+        plot.getLegendWidget().setSize(new SizeMetrics(40, SizeLayoutType.ABSOLUTE, 75, SizeLayoutType.ABSOLUTE));
         
-  
+        // add a semi-transparent black background to the legend
+        // so it's easier to see overlaid on top of our plot:
+        Paint bgPaint = new Paint();
+        bgPaint.setColor(Color.BLACK);
+        bgPaint.setStyle(Paint.Style.FILL);
+        bgPaint.setAlpha(140);
+        plot.getLegendWidget().setBackgroundPaint(bgPaint);
+ 
+        // adjust the padding of the legend widget to look a little nicer:
+        plot.getLegendWidget().setPadding(10, 1, 1, 1);     
+        
+
+        // reposition the grid so that it rests above the bottom-left
+        // edge of the graph widget:
+       
+        // edge of the graph widget:
+        plot.getGraphWidget().position(
+        		0,
+                XLayoutStyle.ABSOLUTE_FROM_RIGHT,
+                0,
+                YLayoutStyle.ABSOLUTE_FROM_BOTTOM,
+                AnchorPosition.RIGHT_BOTTOM
+        		);
+        
+        /*position(
+                mySimpleXYPlot.getLegendWidget(),
+                20,
+                XLayoutStyle.ABSOLUTE_FROM_RIGHT,
+                35,
+                YLayoutStyle.ABSOLUTE_FROM_BOTTOM,
+                AnchorPosition.RIGHT_BOTTOM);*/
+        
+        ///----
      // Create a couple arrays of y-values to plot:
         Number[] series1Numbers = {20, 16, 15, 12, 6, 4};
         Number[] series2Numbers = {24, 20, 10, 3, 2, 1};
         
         Number[] xValues = {0, 1, 2, 3, 4, 5};
-        
-       
-        
+         
         XYSeries series1 = new SimpleXYSeries(
-        		Arrays.asList(xValues) // SimpleXYSeries takes a List so turn our array into a List
+        		 Arrays.asList(xValues) // SimpleXYSeries takes a List so turn our array into a List
                 ,Arrays.asList(series1Numbers), // Y_VALS_ONLY means use the element index as the x value
-                "Series1");
+                "Combitech");
      // same as above
-        XYSeries series2 = new SimpleXYSeries(Arrays.asList(xValues),Arrays.asList(series2Numbers),  "Series2");
+        XYSeries series2 = new SimpleXYSeries(
+        		Arrays.asList(xValues),
+        		Arrays.asList(series2Numbers),
+        		"Saab");
         
         plot.getGraphWidget().setDomainValueFormat(new GraphXLabelFormat());
         // Create a formatter to use for drawing a series using LineAndPointRenderer
@@ -96,20 +138,19 @@ public class StatsBurnDownFragment extends Fragment{
         LineAndPointFormatter series2Format = new LineAndPointFormatter();
         series2Format.setPointLabelFormatter(new PointLabelFormatter());
         series2Format.configure(getActivity(),
-                R.xml.line_point_formatter_with_plf2);
+        R.xml.line_point_formatter_with_plf2);
         plot.addSeries(series2, series2Format);
 
         // reduce the number of range labels
         plot.setTicksPerRangeLabel(4);
-        
+                          
         plot.setDomainStep(XYStepMode.SUBDIVIDE, 6);
-        plot.getGraphWidget().setDomainLabelOrientation(-45);
-        
+        plot.getGraphWidget().setDomainLabelOrientation(0); //Changed from -45
         
         //Set background color o.s.v
         plot.getBorderPaint().setColor(Color.WHITE);
         plot.getBackgroundPaint().setColor(Color.WHITE);
-        //
+        
         plot.getGraphWidget().getDomainOriginLabelPaint().setColor(Color.BLACK);
         
         plot.getGraphWidget().getBackgroundPaint().setColor(Color.WHITE);
@@ -117,13 +158,9 @@ public class StatsBurnDownFragment extends Fragment{
         
         plot.getGraphWidget().getDomainLabelPaint().setColor(Color.BLACK);
         plot.getGraphWidget().getRangeLabelPaint().setColor(Color.BLACK);
-              
-    
-        
         
         db = new DB(getActivity());
         //parentActivity = getActivity();
-        
         
         return rootView;
     }
@@ -147,7 +184,7 @@ public class StatsBurnDownFragment extends Fragment{
 	    }
 	}
 
-
+     
 	
 		    
 	@Override
