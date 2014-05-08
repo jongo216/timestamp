@@ -31,15 +31,32 @@ package com.example.timestamp;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
+
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
+
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.util.Log;
+import android.view.*;
+import android.view.View.MeasureSpec;
+
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -69,10 +86,14 @@ public class Start extends Fragment{
 	private Spinner spinnerProjectView;
 	private View rootView;
 	private Chronometer chronometer;
+	private ViewPager statsViewPager;
+	private MyAdapter statsPagerAdapter;
 	private TextView textView;
+	private FragmentManager statsFragmentManager;
+	
 	
 	//private FragmentActivity parentActivity;
-	//private DB db;
+	private static DB db;
 	
 	@Override		//mother of all inits!
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -86,22 +107,39 @@ public class Start extends Fragment{
 		textView = (TextView)rootView.findViewById(R.id.textStamplaIn);
 		imgButton = (LinearLayout) rootView.findViewById(R.id.btnCheckIn);
 		spinnerProjectView = (Spinner) rootView.findViewById(R.id.projects_menu_spinner2);
+
+		statsViewPager = (ViewPager) rootView.findViewById(R.id.statsViewPager);
+
         
+		Log.d("Activityinfo: ", "Activity of Start: " + getActivity().toString());
+		db = new DB(getActivity());
+		
 		initTimer();
+		
 		initProjectSpinner();
 		initTimerButton();
+		initStats();
 		dbButtonListener(); //Button is just for debug and not visible anyways. But i leave this ftm.
         return rootView;
     }
+	
+	
+	
+	
+	/*public void onActivityCreated (Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		
+		
+	}*/
 
-	// Initierar startvyn..
+
 	private void initProjectSpinner(){
 		
 		int selectedRow = 0;
 		int currentProject = SettingsManager.getCurrentProjectId(getActivity());
 		
 		//Fetch projects froom data base and use them to create arrays 
-		DB db = new DB(getActivity());
+		 
 		projects = db.getAllProjects();
 		projectsMenuString = new String[projects.size() + 1];
 		projectMenuIds = new int[projects.size()+1];
@@ -175,6 +213,7 @@ public class Start extends Fragment{
 				// TODO Auto-generated method stub
 				if(projectMenuIds[pos] != -1){
 					SettingsManager.setCurrentProjectId(projectMenuIds[pos], getActivity());
+					updateStats();
 					
 				}else{
 					//Skapa nytt projekt
@@ -196,6 +235,61 @@ public class Start extends Fragment{
 		
 	}
 	
+	
+	
+	private void initStats() {
+		statsFragmentManager = getChildFragmentManager();
+		statsPagerAdapter = new MyAdapter(statsFragmentManager);
+	    //statsPagerAdapter.instantiateItem(statsViewPager, 0); //Not needed
+	    statsViewPager.setOffscreenPageLimit(5);
+	    statsViewPager.setAdapter(statsPagerAdapter);
+	    
+	    //statsViewPager.measure(MeasureSpec.AT_MOST, MeasureSpec.AT_MOST);
+	    
+	}
+	
+	
+	
+	public static class MyAdapter extends FragmentPagerAdapter {
+        public MyAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public int getCount() {
+            return 3;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+        	switch (position) {
+        		case 0: 
+        			StatsBarChartFragment barChart = new StatsBarChartFragment();
+        			
+        			//barChart.setRetainInstance(true);
+        			//barChart.setDB(db);
+        			return barChart;
+        			
+        		case 1:
+        			return new StatsBurnDownFragment();
+        		
+        		case 2:
+        			return new StatsSummaryFragment();
+        		
+        	}
+        	return new StatsSummaryFragment();
+        }
+	}
+	
+	
+	private void updateStats() {
+		List<Fragment> fragments = statsFragmentManager.getFragments();
+		if (fragments != null)
+			for (int n = 0; n < fragments.size(); n++)
+				((UpdateableStatistics)fragments.get(n)).update();
+		
+	}
+	
 	public void initTimer(){
 		boolean timerRunning;
 		timerRunning = SettingsManager.getIsTimerRunning(getActivity());
@@ -213,12 +307,7 @@ public class Start extends Fragment{
 		
 	}
 	
-	public void spinnerListener() {
-		
-		
-	}
-	
-	
+
     public void initTimerButton(){
 		
 		imgButton.setOnClickListener(new OnClickListener(){
@@ -237,7 +326,7 @@ public class Start extends Fragment{
 					p.setProjectId(SettingsManager.getCurrentProjectId(getActivity()));
 					p.setStartTime(SettingsManager.getStartTime(getActivity()));
 					p.setEndTimeNow();
-					DB db = new DB(getActivity());
+					//DB db = new DB(getActivity());
 					db.set(p);
 				}
 				else{
@@ -252,6 +341,7 @@ public class Start extends Fragment{
 			}	
 		});
 	}
+ 
     
     //database testing!
     public void dbButtonListener(){
@@ -259,7 +349,7 @@ public class Start extends Fragment{
     	Button projectsBtn = (Button) rootView.findViewById(R.id.Projects);
     	projectsBtn.setOnClickListener(new OnClickListener(){
     		public void onClick(View arg0){
-    			DB db = new DB(getActivity());
+    			//DB db = new DB(getActivity());
     			ArrayList<Project> projects = db.getAllProjects();
     			String text = "";
     			for(int i = 0; i < projects.size(); ++i){
@@ -273,13 +363,14 @@ public class Start extends Fragment{
     	});
     }
 	
-
+    
 	
     
 	@Override
 	public void onResume()
 	{	
 		super.onResume();
+		//updateStats();
 		initTimer();
 		initProjectSpinner();
 	}
