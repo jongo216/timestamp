@@ -52,6 +52,7 @@ import com.androidplot.ui.SizeLayoutType;
 import com.androidplot.ui.SizeMetrics;
 import com.androidplot.xy.BarFormatter;
 import com.androidplot.xy.BarRenderer;
+import com.androidplot.xy.BoundaryMode;
 import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYPlot;
 import com.androidplot.xy.XYSeries;
@@ -119,6 +120,9 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
         barChart.getGraphWidget().setRangeValueFormat(new DecimalFormat("0"));
         barChart.getGraphWidget().getRangeLabelPaint().setColor(Color.BLACK);
         barChart.getRangeLabelWidget().getLabelPaint().setColor(Color.BLACK);
+        
+        barChart.setRangeStep(XYStepMode.INCREMENT_BY_VAL, 2); // Set tick and a fixed value of worked hours..
+        barChart.setRangeBoundaries(0, 12, BoundaryMode.FIXED);
         
         //Margins and Padding for whole plot
         barChart.getGraphWidget().setMarginLeft(30);
