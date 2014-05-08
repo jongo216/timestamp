@@ -30,18 +30,29 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#AACC11"
     android:tileMode="repeat"
-    tools:context=".Start" >
+    tools:context=".Start" 
+    android:padding="10dp">
     
     
     <TextView 
+        android:id="@+id/summary_total_hours_label"
         android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
-        android:text="SUMMARY"
+        android:text="Hours this week"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentLeft="true"
         />
+    <TextView 
+        android:id="@+id/summary_total_hours"
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+        android:text="23.6h"
+        android:textColor="#22BB11"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/summary_total_hours_label"
+        />
+    
 
     
        
