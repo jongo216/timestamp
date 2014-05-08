@@ -125,7 +125,6 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
 		//updateChart();
 	}
 
-
 	private void initChart()
 	{
 		
@@ -137,8 +136,6 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
 	public void update()
 	{   
 		//Log.d("Fragment info: ", getActivity().toString());
-		
-		
 		if (barChart == null)
 		{
 			Log.d("Fragment info: ", "barChart = null");
@@ -147,7 +144,6 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
 		
 		if (db == null)
 			db = new DB(getParentFragment().getActivity());
-		
 		
 		//DB db = new DB(getActivity());
 		int currentProject = SettingsManager.getCurrentProjectId(getParentFragment().getActivity());
