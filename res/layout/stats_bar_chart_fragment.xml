@@ -60,6 +60,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             androidPlot.legendWidget.heightMetric.value="25dp"
             androidPlot.legendWidget.positionMetrics.anchor="right_bottom"
             
+            androidPlot.legendWidget.textPaint.textSize="@dimen/legend_text_font_size"
             
             
             android:layout_weight="1"
