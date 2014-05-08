@@ -72,9 +72,13 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
         plot = (XYPlot) rootView.findViewById(R.id.myBurnDownChart);
         
         //the legend
+        Paint legendPaint = new Paint();
+        legendPaint.setColor(Color.BLACK);
+        legendPaint.setTextSize(25);
         plot.getLegendWidget().setTableModel(new DynamicTableModel(1, 2));
         plot.getLegendWidget().setSize(new SizeMetrics(150, SizeLayoutType.ABSOLUTE, 200, SizeLayoutType.ABSOLUTE));
-        
+        plot.getLegendWidget().setTextPaint(legendPaint);
+
         
         
         // add a semi-transparent black background to the legend
@@ -116,6 +120,7 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
         series1Format.setPointLabelFormatter(new PointLabelFormatter());
         series1Format.configure(getActivity(),
                 R.xml.line_point_formatter_with_plf1);
+        series1Format.getPointLabelFormatter().setTextPaint(bgPaint);
 
         // add a new series' to the xyplot:
         plot.addSeries(series1, series1Format);
@@ -123,7 +128,9 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
         LineAndPointFormatter series2Format = new LineAndPointFormatter();
         series2Format.setPointLabelFormatter(new PointLabelFormatter());
         series2Format.configure(getActivity(),
-        R.xml.line_point_formatter_with_plf2);
+        		R.xml.line_point_formatter_with_plf2);
+        series2Format.getPointLabelFormatter().setTextPaint(bgPaint);
+        
         plot.addSeries(series2, series2Format);
         
         //Titles for axis
@@ -138,27 +145,23 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
         plot.setRangeValueFormat(new DecimalFormat("10"));
                
         //Set background color o.s.v
-
         plot.getBorderPaint().setColor(Color.TRANSPARENT);
         plot.getBackgroundPaint().setColor(Color.TRANSPARENT);
         plot.getGraphWidget().getBackgroundPaint().setColor(Color.TRANSPARENT);
         plot.getGraphWidget().getGridBackgroundPaint().setColor(Color.TRANSPARENT);
         
         plot.getGraphWidget().setPaddingBottom(30);
-
-
-
-        
+         
         //Domain (X-labels) settings
         plot.getGraphWidget().getDomainOriginLabelPaint().setColor(Color.BLACK);
         plot.getGraphWidget().getDomainLabelPaint().setColor(Color.BLACK);
-        
-        
+           
         //Range (Y-labels) settings
         plot.getGraphWidget().setRangeValueFormat(new DecimalFormat("0"));
         plot.getGraphWidget().getRangeLabelPaint().setColor(Color.BLACK);
+        plot.getGraphWidget().getRangeOriginLabelPaint().setColor(Color.BLACK);
         
-        plot.setMarkupEnabled(false);
+        //plot.setMarkupEnabled(false);
         
         
         //Margins and Padding for whole plot
