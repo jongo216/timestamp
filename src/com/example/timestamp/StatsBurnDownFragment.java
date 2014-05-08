@@ -124,14 +124,13 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
         series2Format.configure(getActivity(),
         R.xml.line_point_formatter_with_plf2);
         plot.addSeries(series2, series2Format);
+       
         //Titles for axis
         plot.getGraphWidget().getDomainLabelPaint().setColor(Color.BLACK);
         // Settings for ticks and labels on x and y axis
         plot.setTicksPerRangeLabel(1);               
         plot.setDomainStep(XYStepMode.SUBDIVIDE, 6);
-
         plot.getGraphWidget().setDomainLabelOrientation(0); //Changed from -45
-        
         plot.setRangeStep(XYStepMode.INCREMENT_BY_VAL,10);
         plot.setRangeValueFormat(new DecimalFormat("10"));
                
