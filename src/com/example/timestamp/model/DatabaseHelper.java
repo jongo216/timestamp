@@ -781,6 +781,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			Log.d(LOG,e.toString());
 		}
 		
+    	deleteTimePostsByPid(pid);
+	}
+
+	private void deleteTimePostsByPid(int pid) {
+		String deleteQuery = "DELETE FROM " + TABLE_TIMEPOST + " WHERE " + KEY_PID + "=" + pid;
+		
+    	try {
+    		SQLiteDatabase db = this.getWritableDatabase();
+    		db.execSQL(deleteQuery);
+    		db.close();
+		} 
+    	catch (SQLException e) {
+			Log.d(LOG,e.toString());
+		}
+		
 	}
 	
 	/* -------------------------------------------- */
