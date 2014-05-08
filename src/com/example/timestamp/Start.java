@@ -344,7 +344,7 @@ public class Start extends Fragment{
 	public void onResume()
 	{	
 		super.onResume();
-		updateStats();
+		//updateStats();
 		initTimer();
 		initProjectSpinner();
 	}
