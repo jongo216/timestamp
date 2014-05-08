@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!-- Copyright (c) 2014, Group D in course TNM082
+<!--
+Copyright (c) 2014, Group D in course TNM082
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -33,124 +34,101 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     android:layout_height="match_parent"
     android:background="@drawable/background_gradient"
     android:orientation="vertical" >
-    
-    
-    <RelativeLayout
-        android:layout_width="300dp"
-   		android:layout_height="600dp"
-   		android:layout_centerHorizontal="true"
-   		android:layout_marginTop="45dp"
-
-        >
-    <TextView
-        android:id="@+id/textEditStartTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-		android:textSize="26dp"
-        android:layout_marginTop="80dp"
-        android:text="@string/textEditStartTime"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    <TextView
-        android:id="@+id/textEditEndTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textEditStartTime"
-        android:layout_below="@+id/textEditStartTime"
-		android:textSize="26dp"
-        android:layout_marginTop="150dp"
-        android:text="@string/textEditEndTime"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
 
     
-    	<!-- Comment Field -->
-    <EditText
-        android:id="@+id/editTextComment"
-        android:focusable="false"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/button_save"
-		
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:ems="10"
-        android:gravity="top|left"
-        android:hint="@string/editTextCommentHint"
-        android:maxLength="40"
-        android:paddingLeft="5dp"
-        android:paddingTop="1dp"
-        android:textSize="12sp" />
+        <DatePicker
+            android:id="@+id/datePickerEditReport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:calendarViewShown="false"
+            android:layout_centerHorizontal="true"
+            android:layout_alignLeft="@+id/button_save" />
+        <!-- START-TIME-PICKER-TEXT -->
+        <TextView
+            android:id="@+id/textEditStartTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/timePickerStart"
+            android:text="@string/textEditStartTime"
+            android:textSize="13sp" />
         
-   <!-- Header till comment Field -->   
-    <TextView
-        android:id="@+id/textEditComment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        <!-- START-TIME-PICKER -->
+        <TimePicker
+            android:id="@+id/timePickerStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/datePickerEditReport"
+            android:layout_toRightOf="@+id/textEditStartTime"
+            android:scaleX="0.7"
+            android:scaleY="0.7" />
+        
+        <!-- END-TIME-PICKER-TEXT -->
+        <TextView
+            android:id="@+id/textEditEndTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/timePickerStart"
+            android:layout_alignTop="@+id/timePickerStart"
+            android:text="@string/textEditEndTime"
+            android:textSize="13sp" />
+        
+        <!-- END-TIME-PICKER -->
+        <TimePicker
+            android:id="@+id/timePickerEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/textEditEndTime"
+            android:layout_alignTop="@+id/timePickerStart"
+            android:scaleX="0.7"
+            android:scaleY="0.7" />
 
-        android:layout_above="@+id/editTextComment"
-        android:layout_marginBottom="15dp"
-        android:text="@string/textEditComment"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-   
-    <!-- KOMMENTAR FÄLTET
-    	Behöver någon slags maxgräns, kan max skriva
-    	40 tecken, men kan trycka enter 40 gånger och 
-    	då åker försvinner undre "linjen" -->
-	<TimePicker
-	    android:id="@+id/timePickerStart"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-     	android:layout_alignParentRight="true"
-     	android:layout_alignParentTop="true"
-	    android:layout_above="@+id/button_save"
-	    />
-	
-	<TimePicker
-	    android:id="@+id/timePickerEnd"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-     	android:layout_alignParentRight="true"
-     	android:layout_marginTop="190dp"
-	    android:layout_toRightOf="@+id/textEditTimeEnd"
-	     android:layout_marginBottom="20dp"
-	    />
-
-
-	
-    <!-- SPARA KNAPPEN -->
-    <Button
-        android:id="@+id/button_save"
-        style="@style/CustomStyleButtonDark"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="20dp"
-        android:minHeight="40dp"
-        android:minWidth="0dp"
-        android:padding="10dp"
-        android:text="@string/buttonSaveEdit" />
-
-    <!-- TA BORT KNAPPEN -->
-    <Button
-        android:id="@+id/button_delete"
-        style="@style/CustomStyleButtonDark"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/button_save"
-        android:layout_alignBottom="@+id/button_save"
-        android:layout_alignRight="@+id/editTextComment"
-        android:minHeight="40dp"
-        android:minWidth="0dp"
-        android:padding="10dp"
-        android:text="@string/buttonDeleteEdit" />
-
-</RelativeLayout>  
+        <!-- Header till comment Field -->
+        <TextView
+            android:id="@+id/textEditComment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/editTextComment"
+            android:layout_marginLeft="20dp"
+            android:text="@string/textEditComment" />
+        
+        <!-- Comment Field -->
+        <EditText
+            android:id="@+id/editTextComment"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_above="@+id/button_save"
+            android:layout_alignLeft="@+id/button_save"
+            android:layout_alignRight="@+id/button_delete"
+            android:singleLine="true"
+            android:hint="@string/editTextCommentHint"
+            android:maxLength="40"
+            android:textSize="12sp" />
 
 
+        <!-- SPARA KNAPPEN -->
+        <Button
+            android:id="@+id/button_save"
+            style="@style/CustomStyleButtonDark"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:text="@string/buttonSaveEdit" />
 
+        <!-- TA BORT KNAPPEN -->
+        <Button
+            android:id="@+id/button_delete"
+            style="@style/CustomStyleButtonDark"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+			android:layout_alignParentBottom="true"
+			android:layout_alignParentRight="true"
+			android:layout_marginBottom="20dp"
+            android:layout_marginRight="20dp"
+            android:text="@string/buttonDeleteEdit" />
+
+        
 
 </RelativeLayout>
