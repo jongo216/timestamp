@@ -78,8 +78,8 @@ public class SettingsActivity extends Activity {
 				DB db = new DB(context);
 				
 				//Byt till att exportera endast valda projekt.
-				ArrayList<TimePost> allTimePosts = db.getTimePosts();
-				Log.d("hej", "createcsv");
+				ArrayList<TimePost> allTimePosts = db.getThisWeekTimePosts();				
+
 				exporter.createCSV(context, allTimePosts);
 				//exporter.readCSV(context);
 			}	

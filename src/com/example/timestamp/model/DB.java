@@ -30,9 +30,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package com.example.timestamp.model;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import android.content.Context;
+import android.util.Log;
 
 
 public class DB {
@@ -119,6 +121,34 @@ public class DB {
 
 		//Get time post within interval by start and end time
 		return dbHelper.getByInterval(startTime, endTime);
+	}
+	
+	public ArrayList<TimePost> getThisWeekTimePosts(){
+		GregorianCalendar c= new GregorianCalendar();
+		
+		
+		GregorianCalendar first = new GregorianCalendar(
+				c.get(Calendar.YEAR),
+				c.get(Calendar.MONTH),
+				(c.get(Calendar.DAY_OF_MONTH) +2  - c.get(Calendar.DAY_OF_WEEK)),
+				c.get(0),
+				c.get(0)
+				);
+
+		
+		
+		GregorianCalendar last = new GregorianCalendar(
+				c.get(Calendar.YEAR),
+				c.get(Calendar.MONTH),
+				(c.get(Calendar.DAY_OF_MONTH) + 2 + (7- c.get(Calendar.DAY_OF_WEEK) )),
+				c.get(0),
+				c.get(0)
+				);
+		
+		
+
+		
+		return getByInterval(first, last);
 	}
 	
 	public ArrayList<TimePost> getByInterval(GregorianCalendar startTime, GregorianCalendar endTime, int pid){

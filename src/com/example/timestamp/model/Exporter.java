@@ -75,6 +75,7 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 			
 			DB db = new DB(c);
 			
+			
 			FileOutputStream fOut = c.openFileOutput(csvFile, Context.MODE_WORLD_WRITEABLE);
 		    OutputStreamWriter writer = new OutputStreamWriter(fOut); 			
 			String output="";		
