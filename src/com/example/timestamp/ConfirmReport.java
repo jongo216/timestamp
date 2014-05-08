@@ -34,6 +34,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+
 import android.app.ActionBar.LayoutParams;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -65,6 +68,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.timestamp.model.DB;
+import com.example.timestamp.model.Exporter;
 import com.example.timestamp.model.Project;
 import com.example.timestamp.model.SettingsManager;
 import com.example.timestamp.model.TimePost;
@@ -75,7 +79,7 @@ public class ConfirmReport extends Fragment {
 	public String[] projectsMenuString; // = {"Projekt 1", "Projekt 2", "Nytt projekt"};
 	public int[] projectMenuIds;
 	private ArrayList<Project> projects;
-	private DB db;
+	//private DB db;
 	private Button button;
 	private View rootView;
 	private FragmentActivity parentActivity;
@@ -96,7 +100,8 @@ public class ConfirmReport extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
  
         rootView = inflater.inflate(R.layout.activity_confirmreport, container, false);
-        db = new DB(getActivity().getApplicationContext());
+        
+        //db = new DB(getActivity().getApplicationContext());
         activityInitConfirmReport();
         
         editTimePostButton = (Button) rootView.findViewById(R.id.sendReportButton);
@@ -198,7 +203,7 @@ public class ConfirmReport extends Fragment {
 		int selectedRow = 0;
 		
 		int currentProject = SettingsManager.getCurrentProjectId(parentActivity);
-	
+		DB db = new DB(getActivity().getApplicationContext());
 		projects = db.getAllProjects();
 		projectsMenuString = new String[projects.size() + 1];
 		projectMenuIds = new int[projects.size()+1];
@@ -277,6 +282,11 @@ public class ConfirmReport extends Fragment {
 				AlertDialog alertDialog = builder.create();
 				
 				alertDialog.show();
+				Exporter ex = new Exporter();
+				ex.getActivity(getActivity());
+				ex.execute();
+				//Exporter ex = new Exporter();
+				//ex.exportToEmail(getActivity());
 			}
 		
 		});

@@ -31,6 +31,8 @@ package com.example.timestamp;
 
 
 
+import java.util.GregorianCalendar;
+
 import com.example.timestamp.model.*;
 
 import android.app.ActionBar;
@@ -73,7 +75,6 @@ ActionBar.TabListener {
 		viewPager.setAdapter(mAdapter);
 		
 
-		
 		
 		//Stylear actionbar
 		ActionBar actionBarTop = getActionBar(); //Action bar med rubrik + settingsknapp
@@ -164,7 +165,7 @@ ActionBar.TabListener {
 		case R.id.action_manageprojects: /// För hantera projektvyn
 			intent = new Intent(this, ManageProjects.class);
 			startActivity(intent); 
-			
+			//return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}

@@ -29,12 +29,239 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.example.timestamp.model;
 
-public class Exporter {
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Properties;
+
+import javax.activation.DataHandler;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import javax.mail.util.ByteArrayDataSource;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.util.Log;
+import android.widget.Toast;
+
+public class Exporter extends AsyncTask <Void, Void, Void>{
+	
+	String csvFile = "mycsv.csv";
+	BufferedReader br;
+	Context context;
+	
+	public void createCSV(Context c, ArrayList<TimePost> tplist){
+		try{
+		
+			
+			DB db = new DB(c);
+			
+			
+			FileOutputStream fOut = c.openFileOutput(csvFile, Context.MODE_WORLD_WRITEABLE);
+		    OutputStreamWriter writer = new OutputStreamWriter(fOut); 			
+			String output="";		
+			
+			//CSV header 
+			output += "Project";
+			output += ',';
+			output += "Start time";
+			output += ',';
+			output += "End time";
+			output += ',';
+			output += "Comment";
+			output += '\n';
+			
+			
+			//Write all timepost to csv output string.
+			for (TimePost temp : tplist){
+				output += db.getProject(temp.projectId).getName();
+				output += ',';
+				output += temp.getStartTime();
+				output += ',';
+				output += temp.getEndTime();
+				output += ',';
+				output += temp.getComment();
+				output += '\n';
+				
+			}
+			
+			writer.write(output);
+		    writer.close();
+		    
+			
+		}catch(IOException e){
+			e.printStackTrace();
+			Log.d("hej","CSVcreate: write fail");
+		}
+		
+		
+	}
+	public void getActivity(Activity a){
+		context  =a;
+	}
+	//Function for debugging CSV file.
+	public void readCSV(Context c){
+		try{
+			FileInputStream in = c.openFileInput(csvFile);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+
+
+			String line;
+			StringBuilder out = new StringBuilder();
+			
+	        while ((line = reader.readLine()) != null) {
+	            out.append(line);
+	        } 
+			
+			reader.close();
+		}
+		catch(IOException e){
+			Log.d("hej", "readCSV: fail");
+			e.printStackTrace();
+		}
+	}
 	/*
 	 * 
 	 * No functions defined yet!
 	 * 
 	 */
 	
+	/*public void exportToGmail(){
+		try {   
+            GMailSender sender = new GMailSender("username@gmail.com", "password");
+            sender.sendMail("This is Subject",   
+                    "This is Body",   
+                    "user@gmail.com",   
+                    "user@yahoo.com");   
+        } catch (Exception e) {   
+            Log.e("SendMail", e.getMessage(), e);   
+        } 
+	}*/
+	
+	public void exportToEmail(Activity A){
+		Intent i = new Intent(Intent.ACTION_SEND);
+		i.setType("message/rfc822");
+		i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"timestampnoreply@gmail.com"});
+		i.putExtra(Intent.EXTRA_SUBJECT, "subject of email");
+		i.putExtra(Intent.EXTRA_TEXT   , "Testing 1, 2\n testing testing");
+		i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		try {
+		    A.startActivity(Intent.createChooser(i, "Send mail..."));
+		} catch (android.content.ActivityNotFoundException ex) {
+		    Toast.makeText(A, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+		}
+	}
+	
+	private void exportJavaMail() throws AddressException, MessagingException, UnsupportedEncodingException{
+		String host = "smtp.gmail.com";
+		String address = "timestampnoreply@gmail.com";
+		
+		String from = "timestampnoreply@gmail.com";
+		String pass = "timestamp123";
+		String to="timestampnoreply@gmail.com";
+		
+	
+		
+	
+		String finalString="";
+		
+		// Initiate setup for mail.
+		Properties props = System.getProperties();
+		
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.host", host);
+		props.put("mail.smtp.user", address);
+		props.put("mail.smtp.password", pass);
+		props.put("mail.smtp.port", "465");
+		props.put("mail.debug", "false");
+		props.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+
+		Session session = Session.getDefaultInstance(props, null);
+		
+		//Build the mail structure
+		MimeMessage message = new MimeMessage(session);
+		message.setFrom(new InternetAddress(from));
+		
+		MimeBodyPart messageBodyPart = new MimeBodyPart(); 
+		messageBodyPart.setText("Tidsrapporten:");
+		
+		Multipart multiPart = new MimeMultipart();
+		multiPart.addBodyPart(messageBodyPart);
+
+		messageBodyPart = new MimeBodyPart(); 
+               
+		//adding csv file
+		try{
+			File dir = context.getFilesDir();
+			File file = new File( dir.getAbsolutePath() + "/mycsv.csv");
+
+			messageBodyPart.attachFile(file);
+			messageBodyPart.setFileName("Tidsrapport.csv");
+		    multiPart.addBodyPart(messageBodyPart);
+		    
+		}catch(IOException e){
+			Log.d("hej", "Send mail: file not found");
+		}
+		
+		
+		InternetAddress toAddress;
+		toAddress = new InternetAddress(to);
+				
+		message.setSubject("Tidsrapport för vecka " + new GregorianCalendar().get(Calendar.WEEK_OF_YEAR)+":");
+		message.setContent(multiPart);
+		message.addRecipient(Message.RecipientType.TO, toAddress);
+		
+		
+		Transport transport = session.getTransport("smtp");
+		transport.connect(host, address, pass);
+		transport.sendMessage(message, message.getAllRecipients());
+		transport.close();
+		
+		Log.i("Check", "sent");
+	}
+
+
+	@Override
+	protected Void doInBackground(Void... params) {
+		try {
+			exportJavaMail();
+		} catch (AddressException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	/*
+	protected void onPreExeute(){
+		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+	    .permitAll().build();
+
+		StrictMode.setThreadPolicy(policy);
+	}*/
 }
