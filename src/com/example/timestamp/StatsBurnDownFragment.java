@@ -29,6 +29,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.example.timestamp;
 
+import java.text.DecimalFormat;
 import java.text.FieldPosition;
 import java.text.Format;
 import java.text.ParsePosition;
@@ -41,7 +42,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 
 import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.PointLabelFormatter;
@@ -75,6 +75,8 @@ public class StatsBurnDownFragment extends Fragment{
         plot.getLegendWidget().setTableModel(new DynamicTableModel(1, 2));
         plot.getLegendWidget().setSize(new SizeMetrics(200, SizeLayoutType.ABSOLUTE, 350, SizeLayoutType.ABSOLUTE));
         
+        
+        
         // add a semi-transparent black background to the legend
         // so it's easier to see overlaid on top of our plot:
         Paint bgPaint = new Paint();
@@ -87,9 +89,7 @@ public class StatsBurnDownFragment extends Fragment{
         plot.getLegendWidget().setPadding(10, 1, 1, 1);     
         
 
-        // reposition the grid so that it rests above the bottom-left
-        // edge of the graph widget:
-       
+
         // edge of the graph widget:
         plot.getLegendWidget().position(
         		0,
@@ -99,8 +99,7 @@ public class StatsBurnDownFragment extends Fragment{
                 AnchorPosition.RIGHT_BOTTOM
         		);
         
-        
-        ///----
+
      // Create a couple arrays of y-values to plot:
         Number[] series1Numbers = {20, 16, 15, 12, 6, 4};
         Number[] series2Numbers = {24, 20, 10, 3, 2, 1};
@@ -143,13 +142,15 @@ public class StatsBurnDownFragment extends Fragment{
         //Set background color o.s.v
         plot.getBorderPaint().setColor(Color.WHITE);
         plot.getBackgroundPaint().setColor(Color.WHITE);
-        
-        plot.getGraphWidget().getDomainOriginLabelPaint().setColor(Color.BLACK);
-        
         plot.getGraphWidget().getBackgroundPaint().setColor(Color.WHITE);
         plot.getGraphWidget().getGridBackgroundPaint().setColor(Color.WHITE);
         
+        //Domain (X-labels) settings
+        plot.getGraphWidget().getDomainOriginLabelPaint().setColor(Color.BLACK);
         plot.getGraphWidget().getDomainLabelPaint().setColor(Color.BLACK);
+        
+        //Range (Y-labels) settings
+        plot.getGraphWidget().setRangeValueFormat(new DecimalFormat("0"));
         plot.getGraphWidget().getRangeLabelPaint().setColor(Color.BLACK);
         
         db = new DB(getActivity());
