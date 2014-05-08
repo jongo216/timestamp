@@ -38,23 +38,27 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import android.app.Activity;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-import com.androidplot.ui.AnchorPosition;
 import com.androidplot.ui.DynamicTableModel;
 import com.androidplot.ui.SeriesRenderer;
 import com.androidplot.ui.SizeLayoutType;
 import com.androidplot.ui.SizeMetrics;
-import com.androidplot.ui.XLayoutStyle;
-import com.androidplot.ui.YLayoutStyle;
-import com.androidplot.xy.*;
-import com.example.timestamp.model.*;
+import com.androidplot.xy.BarFormatter;
+import com.androidplot.xy.BarRenderer;
+import com.androidplot.xy.SimpleXYSeries;
+import com.androidplot.xy.XYPlot;
+import com.androidplot.xy.XYSeries;
+import com.androidplot.xy.XYStepMode;
+import com.example.timestamp.model.DB;
+import com.example.timestamp.model.SettingsManager;
+import com.example.timestamp.model.TimePost;
 
 
 public class StatsBarChartFragment extends Fragment implements UpdateableStatistics {
@@ -74,75 +78,54 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
 	
 	@Override		//mother of all inits!
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
- 
-		
+
         rootView = inflater.inflate(R.layout.stats_bar_chart_fragment, container, false);
         
-        barChart = (XYPlot) rootView.findViewById(R.id.barChart);
-        //Init database and get timepost and project data
-        //db = new DB(getActivity());
-        
-        
+        barChart = (XYPlot) rootView.findViewById(R.id.barChart);        
         //Link to xml objects
         barChart = (XYPlot)rootView.findViewById(R.id.barChart);
-        
-        
-        
-        
-      //the legend
+
         barChart.getLegendWidget().setTableModel(new DynamicTableModel(1, 2));
         barChart.getLegendWidget().setSize(new SizeMetrics(150, SizeLayoutType.ABSOLUTE, 200, SizeLayoutType.ABSOLUTE));
-       
-        
-        // add a semi-transparent black background to the legend
-        // so it's easier to see overlaid on top of our plot:
-        Paint bgPaint = new Paint();
-        Paint bgPaint2 = new Paint();
+
         
         
-        bgPaint.setColor(Color.TRANSPARENT);
-        bgPaint2.setColor(Color.BLACK);
-        bgPaint.setTextSize(25);
-        //bgPaint.setC
-        barChart.getLegendWidget().setBackgroundPaint(bgPaint);
-        barChart.getLegendWidget().setTextPaint(bgPaint2);
-        // edge of the graph widget:
-        barChart.getLegendWidget().position(
-        		0,
-                XLayoutStyle.RELATIVE_TO_RIGHT,
-                0,
-                YLayoutStyle.RELATIVE_TO_TOP,
-                AnchorPosition.RIGHT_TOP
-        );
+        // Set domain values for x axis
+        barChart.getGraphWidget().setDomainValueFormat(new GraphXLabelFormat());
         
-        
-        
-      //Titles for axis
+        //Titles for axis
         barChart.getGraphWidget().getDomainLabelPaint().setColor(Color.BLACK);
         // Settings for ticks and labels on x and y axis
-        barChart.setTicksPerRangeLabel(1);               
-        barChart.setDomainStep(XYStepMode.SUBDIVIDE, 6);
+        barChart.setTicksPerRangeLabel(3);               
+        barChart.setDomainStep(XYStepMode.SUBDIVIDE, 2);
         
-      //Set background color o.s.v
+        //Set background color o.s.v
         barChart.getBorderPaint().setColor(Color.TRANSPARENT);
         barChart.getBackgroundPaint().setColor(Color.TRANSPARENT);
         barChart.getGraphWidget().getBackgroundPaint().setColor(Color.TRANSPARENT);
         barChart.getGraphWidget().getGridBackgroundPaint().setColor(Color.TRANSPARENT);
         barChart.getGraphWidget().setPaddingBottom(30);
         
-      //Domain (X-labels) settings
+        //Domain (X-labels) settings
         barChart.getGraphWidget().getDomainOriginLabelPaint().setColor(Color.BLACK);
         barChart.getGraphWidget().getDomainLabelPaint().setColor(Color.BLACK);
+        barChart.getGraphWidget().getRangeOriginLabelPaint().setColor(Color.BLACK);
         
+        barChart.setTicksPerRangeLabel(1); 
+        barChart.setTicksPerDomainLabel(1);
+        barChart.setDomainStep(XYStepMode.SUBDIVIDE, 7);
         
         //Range (Y-labels) settings
         barChart.getGraphWidget().setRangeValueFormat(new DecimalFormat("0"));
         barChart.getGraphWidget().getRangeLabelPaint().setColor(Color.BLACK);
+        barChart.getRangeLabelWidget().getLabelPaint().setColor(Color.BLACK);
         
-      //Margins and Padding for whole plot
+        //Margins and Padding for whole plot
         barChart.getGraphWidget().setMarginLeft(30);
         barChart.getGraphWidget().setPaddingLeft(0);
         barChart.getGraphWidget().setMarginRight(200);
+        //hide legend
+        barChart.getLegendWidget().setVisible(false);
         
         initChart();
         update();
@@ -199,8 +182,10 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
 			}
 		}
 
-		
 		//BarFormatter formatter = new BarFormatter(Color.argb(200, 100, 150, 100), Color.argb(200, 10, 15, 10));
+		
+		//Format for days of the week
+		Number[] xValues = {0, 1, 2, 3, 4, 5, 6};
 		
 		data = new SimpleXYSeries(Arrays.asList(hoursPerDay), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Worked Hours");
 
@@ -211,20 +196,31 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
         ((MyBarRenderer) barChart.getRenderer(MyBarRenderer.class)).setBarWidth(23);
 		
 		barChart.redraw();
-		
-		
 	}
 	
-	
+	private class GraphXLabelFormat extends Format {
+
+	    String LABELS[] = {"Mon","Tue","Wed","Thu","Fri","Sat","Sun"};
+
+	    @Override
+	    public StringBuffer format(Object object, StringBuffer buffer, FieldPosition field) {
+	        int parsedInt = Math.round(Float.parseFloat(object.toString()));
+	        String labelString = LABELS[parsedInt];
+	        System.out.println(LABELS[parsedInt]);
+	        buffer.append(labelString);
+	        return buffer;
+	    }
+	    @Override
+	    public Object parseObject(String string, ParsePosition position) {
+	        return java.util.Arrays.asList(LABELS).indexOf(string);
+	    }
+	}    
 		    
 	@Override
 	public void onResume()
 	{	
 		super.onResume();
 	}
-	
-	
-	
 	
 	
 	class MyBarFormatter extends BarFormatter {
@@ -254,5 +250,5 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
         }
     }
 	
-	
+
 }
