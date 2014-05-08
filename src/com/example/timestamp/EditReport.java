@@ -53,10 +53,22 @@ public class EditReport extends Activity {
 	
 	TimePost timePost;
 	
+	// Adding new post if id = 0
+	
+	private Button button_add, button_cancel;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_editreport);
+		
+		//Link GUI objects with xml ids
+		button_save = (Button)findViewById(R.id.button_save);
+		button_delete = (Button)findViewById(R.id.button_delete);
+		commentField = (EditText) findViewById(R.id.editTextComment);
+		startPicker = (TimePicker) findViewById(R.id.timePickerStart);
+		endPicker = (TimePicker) findViewById(R.id.timePickerEnd);
+		
 		
 		//Initialize time post object (create new if id = 0)
 		int timePostId = getIntent().getIntExtra(Constants.TIME_POST_ID, 0);
@@ -65,14 +77,14 @@ public class EditReport extends Activity {
 			timePost = db.getTimePost(timePostId);
 			if (timePost == null) timePost = new TimePost();
 		}
-		else
+		else{
+			
 			timePost = new TimePost();
-		//Link GUI objects with xml ids
-		button_save = (Button)findViewById(R.id.button_save);
-		button_delete = (Button)findViewById(R.id.button_delete);
-		commentField = (EditText) findViewById(R.id.editTextComment);
-		startPicker = (TimePicker) findViewById(R.id.timePickerStart);
-		endPicker = (TimePicker) findViewById(R.id.timePickerEnd);
+			button_delete.setVisibility(2);
+			this.setTitle(R.string.title_activity_add_new_post);
+			
+			
+		}
 		
 		//Init GUI functionality
 		initCommentField();
@@ -80,6 +92,7 @@ public class EditReport extends Activity {
 		initSaveButton();
 		initDeleteButton();
 	}
+	
 
 	
 	private void initDeleteButton() {

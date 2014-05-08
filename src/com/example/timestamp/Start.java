@@ -147,13 +147,14 @@ public class Start extends Fragment{
 		//Check if there are any projects
 		//if there are not, direct the user
 		//to create a new project
-		//Or call on a boolean to check if the are any projects
 		if(db.projectsEmpty()){		
 			//create new project
 			Intent intent = new Intent(getActivity(), CreateNewProject.class);
 			intent.putExtra(Constants.PROJECT_ID, 0); //Optional parameters
 			startActivity(intent);		
 		}
+
+		
 		
 		for (int n = 0; n < projects.size(); n++)
 		{

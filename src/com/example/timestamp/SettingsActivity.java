@@ -29,17 +29,63 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.example.timestamp;
 
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+
+import com.example.timestamp.model.DB;
+import com.example.timestamp.model.Exporter;
+import com.example.timestamp.model.SettingsManager;
+import com.example.timestamp.model.TimePost;
+
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.app.Activity;
+import android.content.Context;
+import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 public class SettingsActivity extends Activity {
-
+	private Button exportButton;
+	Exporter exporter;
+	Context context = this;
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_settings);
+		
+		//init stuff
+		 exporter = new Exporter();
+		 exportButton = (Button) findViewById(R.id.exportButton);
+		
+		
+		initSettingsView();
 	}
+	
+	
+	
+	public void initSettingsView(){
+		
+		exportButton.setOnClickListener(new OnClickListener(){
+			
+			public void onClick(View arg0){
+				
+				DB db = new DB(context);
+				
+				//Byt till att exportera endast valda projekt.
+				ArrayList<TimePost> allTimePosts = db.getThisWeekTimePosts();				
 
+				exporter.createCSV(context, allTimePosts);
+				//exporter.readCSV(context);
+			}	
+		});
+		
+		
+	}
 
 }
