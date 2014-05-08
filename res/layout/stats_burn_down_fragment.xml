@@ -58,5 +58,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             androidPlot.graphWidget.gridLinePaint.color="#000000"
             androidPlot.graphWidget.domainGridLinePaint.alpha="0"
             androidPlot.graphWidget.domainOriginLinePaint.alpha="0"
+            androidPlot.graphWidget.rangeOriginLinePaint.color="#000000"
             />
 </RelativeLayout>

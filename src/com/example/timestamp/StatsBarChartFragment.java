@@ -38,23 +38,27 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import android.app.Activity;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-import com.androidplot.ui.AnchorPosition;
 import com.androidplot.ui.DynamicTableModel;
 import com.androidplot.ui.SeriesRenderer;
 import com.androidplot.ui.SizeLayoutType;
 import com.androidplot.ui.SizeMetrics;
-import com.androidplot.ui.XLayoutStyle;
-import com.androidplot.ui.YLayoutStyle;
-import com.androidplot.xy.*;
-import com.example.timestamp.model.*;
+import com.androidplot.xy.BarFormatter;
+import com.androidplot.xy.BarRenderer;
+import com.androidplot.xy.SimpleXYSeries;
+import com.androidplot.xy.XYPlot;
+import com.androidplot.xy.XYSeries;
+import com.androidplot.xy.XYStepMode;
+import com.example.timestamp.model.DB;
+import com.example.timestamp.model.SettingsManager;
+import com.example.timestamp.model.TimePost;
 
 
 public class StatsBarChartFragment extends Fragment implements UpdateableStatistics {
@@ -84,6 +88,11 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
         barChart.getLegendWidget().setTableModel(new DynamicTableModel(1, 2));
         barChart.getLegendWidget().setSize(new SizeMetrics(150, SizeLayoutType.ABSOLUTE, 200, SizeLayoutType.ABSOLUTE));
 
+        
+        
+        // Set domain values for x axis
+        barChart.getGraphWidget().setDomainValueFormat(new GraphXLabelFormat());
+        
         //Titles for axis
         barChart.getGraphWidget().getDomainLabelPaint().setColor(Color.BLACK);
         // Settings for ticks and labels on x and y axis
@@ -100,10 +109,16 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
         //Domain (X-labels) settings
         barChart.getGraphWidget().getDomainOriginLabelPaint().setColor(Color.BLACK);
         barChart.getGraphWidget().getDomainLabelPaint().setColor(Color.BLACK);
+        barChart.getGraphWidget().getRangeOriginLabelPaint().setColor(Color.BLACK);
+        
+        barChart.setTicksPerRangeLabel(1); 
+        barChart.setTicksPerDomainLabel(1);
+        barChart.setDomainStep(XYStepMode.SUBDIVIDE, 7);
         
         //Range (Y-labels) settings
         barChart.getGraphWidget().setRangeValueFormat(new DecimalFormat("0"));
         barChart.getGraphWidget().getRangeLabelPaint().setColor(Color.BLACK);
+        barChart.getRangeLabelWidget().getLabelPaint().setColor(Color.BLACK);
         
         //Margins and Padding for whole plot
         barChart.getGraphWidget().setMarginLeft(30);
@@ -169,6 +184,9 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
 
 		//BarFormatter formatter = new BarFormatter(Color.argb(200, 100, 150, 100), Color.argb(200, 10, 15, 10));
 		
+		//Format for days of the week
+		Number[] xValues = {0, 1, 2, 3, 4, 5, 6};
+		
 		data = new SimpleXYSeries(Arrays.asList(hoursPerDay), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Worked Hours");
 
 		barChart.clear();
@@ -179,6 +197,24 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
 		
 		barChart.redraw();
 	}
+	
+	private class GraphXLabelFormat extends Format {
+
+	    String LABELS[] = {"Mon","Tue","Wed","Thu","Fri","Sat","Sun"};
+
+	    @Override
+	    public StringBuffer format(Object object, StringBuffer buffer, FieldPosition field) {
+	        int parsedInt = Math.round(Float.parseFloat(object.toString()));
+	        String labelString = LABELS[parsedInt];
+	        System.out.println(LABELS[parsedInt]);
+	        buffer.append(labelString);
+	        return buffer;
+	    }
+	    @Override
+	    public Object parseObject(String string, ParsePosition position) {
+	        return java.util.Arrays.asList(LABELS).indexOf(string);
+	    }
+	}    
 		    
 	@Override
 	public void onResume()
