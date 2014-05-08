@@ -43,6 +43,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.androidplot.ui.AnchorPosition;
+import com.androidplot.ui.DynamicTableModel;
+import com.androidplot.ui.SizeLayoutType;
+import com.androidplot.ui.SizeMetrics;
+import com.androidplot.ui.XLayoutStyle;
+import com.androidplot.ui.YLayoutStyle;
 import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.PointLabelFormatter;
 import com.androidplot.xy.SimpleXYSeries;
@@ -50,12 +56,6 @@ import com.androidplot.xy.XYPlot;
 import com.androidplot.xy.XYSeries;
 import com.androidplot.xy.XYStepMode;
 import com.example.timestamp.model.DB;
-import com.androidplot.ui.AnchorPosition;
-import com.androidplot.ui.DynamicTableModel;
-import com.androidplot.ui.SizeLayoutType;
-import com.androidplot.ui.SizeMetrics;
-import com.androidplot.ui.XLayoutStyle;
-import com.androidplot.ui.YLayoutStyle;
 
 public class StatsBurnDownFragment extends Fragment implements UpdateableStatistics {
 
@@ -79,13 +79,10 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
         // add a semi-transparent black background to the legend
         // so it's easier to see overlaid on top of our plot:
         Paint bgPaint = new Paint();
-        bgPaint.setColor(Color.BLACK);
-        bgPaint.setStyle(Paint.Style.STROKE);
-        bgPaint.setAlpha(140);
+     
+        bgPaint.setColor(Color.TRANSPARENT);
         plot.getLegendWidget().setBackgroundPaint(bgPaint);
  
-        // adjust the padding of the legend widget to look a little nicer:
-
         // edge of the graph widget:
         plot.getLegendWidget().position(
         		0,
@@ -130,21 +127,30 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
         //Titles for axis
         plot.getGraphWidget().getDomainLabelPaint().setColor(Color.BLACK);
         // Settings for ticks and labels on x and y axis
-        plot.setTicksPerRangeLabel(2);               
+        plot.setTicksPerRangeLabel(1);               
         plot.setDomainStep(XYStepMode.SUBDIVIDE, 6);
-        plot.getGraphWidget().setDomainLabelOrientation(0); //Changed from -45   
-        //Set background color o.s.v
+
+        plot.getGraphWidget().setDomainLabelOrientation(0); //Changed from -45
         
+        plot.setRangeStep(XYStepMode.INCREMENT_BY_VAL,10);
+        plot.setRangeValueFormat(new DecimalFormat("10"));
+               
+     //Set background color o.s.v
+
         plot.getBorderPaint().setColor(Color.TRANSPARENT);
         plot.getBackgroundPaint().setColor(Color.TRANSPARENT);
         plot.getGraphWidget().getBackgroundPaint().setColor(Color.TRANSPARENT);
         plot.getGraphWidget().getGridBackgroundPaint().setColor(Color.TRANSPARENT);
         
+        plot.getGraphWidget().setPaddingBottom(30);
+
+
+
         
         //Domain (X-labels) settings
         plot.getGraphWidget().getDomainOriginLabelPaint().setColor(Color.BLACK);
         plot.getGraphWidget().getDomainLabelPaint().setColor(Color.BLACK);
-
+        
         
         //Range (Y-labels) settings
         plot.getGraphWidget().setRangeValueFormat(new DecimalFormat("0"));
