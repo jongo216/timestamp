@@ -138,6 +138,7 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
         plot.setRangeValueFormat(new DecimalFormat("10"));
                
         //Set background color o.s.v
+
         plot.getBorderPaint().setColor(Color.TRANSPARENT);
         plot.getBackgroundPaint().setColor(Color.TRANSPARENT);
         plot.getGraphWidget().getBackgroundPaint().setColor(Color.TRANSPARENT);
@@ -156,6 +157,9 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
         //Range (Y-labels) settings
         plot.getGraphWidget().setRangeValueFormat(new DecimalFormat("0"));
         plot.getGraphWidget().getRangeLabelPaint().setColor(Color.BLACK);
+        
+        plot.setMarkupEnabled(false);
+        
         
         //Margins and Padding for whole plot
         plot.getGraphWidget().setMarginLeft(30);
