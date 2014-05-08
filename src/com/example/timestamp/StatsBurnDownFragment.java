@@ -73,7 +73,7 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
         
         //the legend
         plot.getLegendWidget().setTableModel(new DynamicTableModel(1, 2));
-        plot.getLegendWidget().setSize(new SizeMetrics(200, SizeLayoutType.ABSOLUTE, 350, SizeLayoutType.ABSOLUTE));
+        plot.getLegendWidget().setSize(new SizeMetrics(150, SizeLayoutType.ABSOLUTE, 200, SizeLayoutType.ABSOLUTE));
         
         
         
@@ -86,17 +86,18 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
         plot.getLegendWidget().setBackgroundPaint(bgPaint);
  
         // adjust the padding of the legend widget to look a little nicer:
-        plot.getLegendWidget().setPadding(10, 1, 1, 1);     
-        
 
 
+
+      
         // edge of the graph widget:
         plot.getLegendWidget().position(
         		0,
                 XLayoutStyle.RELATIVE_TO_RIGHT,
-                1,
-                YLayoutStyle.RELATIVE_TO_BOTTOM,
-                AnchorPosition.RIGHT_BOTTOM
+                0,
+                YLayoutStyle.RELATIVE_TO_TOP,
+                AnchorPosition.RIGHT_TOP
+
         		);
         
 
@@ -114,7 +115,7 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
         XYSeries series2 = new SimpleXYSeries(
         		Arrays.asList(xValues),
         		Arrays.asList(series2Numbers),
-        		"Saab");
+        		"Siemens");
         
         plot.getGraphWidget().setDomainValueFormat(new GraphXLabelFormat());
         // Create a formatter to use for drawing a series using LineAndPointRenderer
@@ -132,10 +133,12 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
         series2Format.configure(getActivity(),
         R.xml.line_point_formatter_with_plf2);
         plot.addSeries(series2, series2Format);
+        
+        //Titles for axis
+        plot.getGraphWidget().getDomainLabelPaint().setColor(Color.BLACK);
 
-        // reduce the number of range labels
-        plot.setTicksPerRangeLabel(4);
-                          
+        // Settings for ticks and labels on x and y axis
+        plot.setTicksPerRangeLabel(2);               
         plot.setDomainStep(XYStepMode.SUBDIVIDE, 6);
         plot.getGraphWidget().setDomainLabelOrientation(0); //Changed from -45
         
@@ -145,14 +148,22 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
         plot.getGraphWidget().getBackgroundPaint().setColor(Color.WHITE);
         plot.getGraphWidget().getGridBackgroundPaint().setColor(Color.WHITE);
         
+        
         //Domain (X-labels) settings
         plot.getGraphWidget().getDomainOriginLabelPaint().setColor(Color.BLACK);
         plot.getGraphWidget().getDomainLabelPaint().setColor(Color.BLACK);
+
         
         //Range (Y-labels) settings
         plot.getGraphWidget().setRangeValueFormat(new DecimalFormat("0"));
         plot.getGraphWidget().getRangeLabelPaint().setColor(Color.BLACK);
         
+        //Margins and Padding for whole plot
+        plot.getGraphWidget().setMarginLeft(30);
+        plot.getGraphWidget().setPaddingLeft(0);
+        plot.getGraphWidget().setMarginRight(200);
+        
+                
         db = new DB(getActivity());
         //parentActivity = getActivity();
         
