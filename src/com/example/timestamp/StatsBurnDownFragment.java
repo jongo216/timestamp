@@ -93,9 +93,9 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
         // edge of the graph widget:
         plot.getLegendWidget().position(
         		0,
-                XLayoutStyle.ABSOLUTE_FROM_RIGHT,
-                400,
-                YLayoutStyle.ABSOLUTE_FROM_BOTTOM,
+                XLayoutStyle.RELATIVE_TO_RIGHT,
+                1,
+                YLayoutStyle.RELATIVE_TO_BOTTOM,
                 AnchorPosition.RIGHT_BOTTOM
         		);
         
