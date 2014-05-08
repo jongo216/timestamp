@@ -72,14 +72,14 @@ public class StatsBurnDownFragment extends Fragment{
         plot = (XYPlot) rootView.findViewById(R.id.myBurnDownChart);
         
         //the legend
-        plot.getLegendWidget().setTableModel(new DynamicTableModel(2, 1));
-        plot.getLegendWidget().setSize(new SizeMetrics(40, SizeLayoutType.ABSOLUTE, 75, SizeLayoutType.ABSOLUTE));
+        plot.getLegendWidget().setTableModel(new DynamicTableModel(1, 2));
+        plot.getLegendWidget().setSize(new SizeMetrics(200, SizeLayoutType.ABSOLUTE, 350, SizeLayoutType.ABSOLUTE));
         
         // add a semi-transparent black background to the legend
         // so it's easier to see overlaid on top of our plot:
         Paint bgPaint = new Paint();
-        bgPaint.setColor(Color.BLACK);
-        bgPaint.setStyle(Paint.Style.FILL);
+        bgPaint.setColor(Color.WHITE);
+        bgPaint.setStyle(Paint.Style.STROKE);
         bgPaint.setAlpha(140);
         plot.getLegendWidget().setBackgroundPaint(bgPaint);
  
@@ -91,21 +91,14 @@ public class StatsBurnDownFragment extends Fragment{
         // edge of the graph widget:
        
         // edge of the graph widget:
-        plot.getGraphWidget().position(
+        plot.getLegendWidget().position(
         		0,
                 XLayoutStyle.ABSOLUTE_FROM_RIGHT,
-                0,
+                400,
                 YLayoutStyle.ABSOLUTE_FROM_BOTTOM,
                 AnchorPosition.RIGHT_BOTTOM
         		);
         
-        /*position(
-                mySimpleXYPlot.getLegendWidget(),
-                20,
-                XLayoutStyle.ABSOLUTE_FROM_RIGHT,
-                35,
-                YLayoutStyle.ABSOLUTE_FROM_BOTTOM,
-                AnchorPosition.RIGHT_BOTTOM);*/
         
         ///----
      // Create a couple arrays of y-values to plot:
