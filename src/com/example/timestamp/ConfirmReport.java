@@ -239,7 +239,9 @@ public class ConfirmReport extends Fragment {
 				AlertDialog alertDialog = builder.create();
 				
 				alertDialog.show();
-				new Exporter().execute();
+				Exporter ex = new Exporter();
+				ex.getActivity(getActivity());
+				ex.execute();
 				//Exporter ex = new Exporter();
 				//ex.exportToEmail(getActivity());
 			}

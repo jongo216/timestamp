@@ -41,6 +41,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -78,7 +79,7 @@ public class SettingsActivity extends Activity {
 				
 				//Byt till att exportera endast valda projekt.
 				ArrayList<TimePost> allTimePosts = db.getTimePosts();
-				
+				Log.d("hej", "createcsv");
 				exporter.createCSV(context, allTimePosts);
 				//exporter.readCSV(context);
 			}	

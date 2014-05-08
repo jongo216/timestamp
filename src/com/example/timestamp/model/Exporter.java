@@ -31,6 +31,7 @@ package com.example.timestamp.model;
 
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -38,8 +39,11 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Properties;
 
+import javax.activation.DataHandler;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
@@ -47,7 +51,10 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import javax.mail.util.ByteArrayDataSource;
 
 import android.app.Activity;
 import android.content.Context;
@@ -60,7 +67,7 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 	
 	String csvFile = "mycsv.csv";
 	BufferedReader br;
-	
+	Context context;
 	
 	public void createCSV(Context c, ArrayList<TimePost> tplist){
 		try{
@@ -70,8 +77,7 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 			
 			FileOutputStream fOut = c.openFileOutput(csvFile, Context.MODE_WORLD_WRITEABLE);
 		    OutputStreamWriter writer = new OutputStreamWriter(fOut); 			
-			String output="";
-			
+			String output="";		
 			
 			//CSV header 
 			output += "Project";
@@ -86,7 +92,6 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 			
 			//Write all timepost to csv output string.
 			for (TimePost temp : tplist){
-				
 				output += db.getProject(temp.projectId).getName();
 				output += ',';
 				output += temp.getStartTime();
@@ -97,7 +102,6 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 				output += '\n';
 				
 			}
-
 			
 			writer.write(output);
 		    writer.close();
@@ -105,12 +109,14 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 			
 		}catch(IOException e){
 			e.printStackTrace();
-			Log.d("hej","write fail");
+			Log.d("hej","CSVcreate: write fail");
 		}
 		
 		
 	}
-	
+	public void getActivity(Activity a){
+		context  =a;
+	}
 	//Function for debugging CSV file.
 	public void readCSV(Context c){
 		try{
@@ -123,13 +129,12 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 			
 	        while ((line = reader.readLine()) != null) {
 	            out.append(line);
-	        }
-	        Log.d("hej", out.toString());  
+	        } 
 			
 			reader.close();
 		}
 		catch(IOException e){
-			Log.d("hej", "Read fail");
+			Log.d("hej", "readCSV: fail");
 			e.printStackTrace();
 		}
 	}
@@ -154,7 +159,7 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 	public void exportToEmail(Activity A){
 		Intent i = new Intent(Intent.ACTION_SEND);
 		i.setType("message/rfc822");
-		i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"oscjo729@student.liu.se"});
+		i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"timestampnoreply@gmail.com"});
 		i.putExtra(Intent.EXTRA_SUBJECT, "subject of email");
 		i.putExtra(Intent.EXTRA_TEXT   , "Testing 1, 2\n testing testing");
 		i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -167,70 +172,70 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 	
 	private void exportJavaMail() throws AddressException, MessagingException, UnsupportedEncodingException{
 		String host = "smtp.gmail.com";
-		String address = "jonas.gorling@gmail.com";
+		String address = "timestampnoreply@gmail.com";
 		
-		String from = "noReply@timestamp.com";
-		String pass = "password";
-		String to="jonas.gorling@gmail.com";
+		String from = "timestampnoreply@gmail.com";
+		String pass = "timestamp123";
+		String to="timestampnoreply@gmail.com";
 		
-		Multipart multiPart;
+	
+		
+	
 		String finalString="";
 		
-
+		// Initiate setup for mail.
 		Properties props = System.getProperties();
+		
 		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.host", host);
 		props.put("mail.smtp.user", address);
 		props.put("mail.smtp.password", pass);
-		props.put("mail.smtp.port", "587");
-		props.put("mail.smtp.auth", "true");
-		Log.i("Check", "done pops");
+		props.put("mail.smtp.port", "465");
+		props.put("mail.debug", "false");
+		props.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+
 		Session session = Session.getDefaultInstance(props, null);
 		
-		//testar
-		try {
-            Message msg = new MimeMessage(session);
-            msg.setFrom(new InternetAddress("jonas.gorling@gmail.com", "Example.com Admin"));
-            msg.addRecipient(Message.RecipientType.TO,
-                             new InternetAddress("jonas.gorling@gmail.com", "Mr. User"));
-            msg.setSubject("Your Example.com account has been activated");
-            msg.setText("Demo For Sending Mail in Android Automatically");
-            Transport.send(msg);
-
-        } catch (AddressException e) {
-            Log.d("Export", "AddressException");
-        } catch (MessagingException e) {
-            Log.d("Export", e.toString());
-        }
-		//testar
-		
-		/*
-		DataHandler handler = new DataHandler(new ByteArrayDataSource(finalString.getBytes(),"text/plain" ));
+		//Build the mail structure
 		MimeMessage message = new MimeMessage(session);
 		message.setFrom(new InternetAddress(from));
-		message.setDataHandler(handler);
-		Log.i("Check", "done sessions");
 		
-		multiPart=new MimeMultipart();
+		MimeBodyPart messageBodyPart = new MimeBodyPart(); 
+		messageBodyPart.setText("Tidsrapporten:");
+		
+		Multipart multiPart = new MimeMultipart();
+		multiPart.addBodyPart(messageBodyPart);
 
+		messageBodyPart = new MimeBodyPart(); 
+               
+		//adding csv file
+		try{
+			File dir = context.getFilesDir();
+			File file = new File( dir.getAbsolutePath() + "/mycsv.csv");
+
+			messageBodyPart.attachFile(file);
+			messageBodyPart.setFileName("Tidsrapport.csv");
+		    multiPart.addBodyPart(messageBodyPart);
+		    
+		}catch(IOException e){
+			Log.d("hej", "Send mail: file not found");
+		}
+		
+		
 		InternetAddress toAddress;
 		toAddress = new InternetAddress(to);
-		message.addRecipient(Message.RecipientType.TO, toAddress);
-		Log.i("Check", "added recipient");
-		message.setSubject("Send Auto-Mail");
+				
+		message.setSubject("Tidsrapport för vecka " + new GregorianCalendar().get(Calendar.WEEK_OF_YEAR)+":");
 		message.setContent(multiPart);
-		message.setText("Demo For Sending Mail in Android Automatically");
-		*/
+		message.addRecipient(Message.RecipientType.TO, toAddress);
 		
-		/*
-		Log.i("Check", "transport");
+		
 		Transport transport = session.getTransport("smtp");
-		Log.i("Check", "connecting");
 		transport.connect(host, address, pass);
-		Log.i("Check", "wana send");
 		transport.sendMessage(message, message.getAllRecipients());
 		transport.close();
-		*/
+		
 		Log.i("Check", "sent");
 	}
 
