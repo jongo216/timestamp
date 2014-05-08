@@ -139,7 +139,7 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
 		
 		barChart.clear();
 		barChart.addSeries(data, formatter);
-		
+		barChart.redraw();
 		
 		
 	}
