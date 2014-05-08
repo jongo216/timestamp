@@ -135,7 +135,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	        android:fontFamily="sans-serif-light"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-
 	        android:paddingTop="20dp"
 	        android:text="@string/textExport"
 	        android:textColor="@color/textColorGray" />
@@ -175,42 +174,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	        android:minWidth="100dp"
 	        android:layout_marginBottom="5dp"
 	        android:text="@string/buttonExport" />
-
-	    <TextView
-	        android:id="@+id/TextSync"
-	        android:fontFamily="sans-serif-light"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/textSync" 
-	        android:paddingTop="20dp"
-	        android:textColor="@color/textColorGray" />
-	        
-	    <RadioGroup
-	        android:id="@+id/radio_sync"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:orientation="vertical" >
-
-	        <RadioButton
-	            android:id="@+id/radio_sync1"
-	            android:fontFamily="sans-serif-light"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:checked="true"
-	            android:onClick="onRadioButtonClicked"
-	            android:text="@string/sync1"
-	            android:textColor="@color/textColorBlack" />
-
-	        <RadioButton
-	            android:id="@+id/radio_sync2"
-	            android:fontFamily="sans-serif-light"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:onClick="onRadioButtonClicked"
-	            android:text="@string/sync2"
-	            android:textColor="@color/textColorBlack" />
-	    </RadioGroup>
-
 	    
         <Button
 	        android:id="@+id/saveButtonSettings"
@@ -218,8 +181,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center_horizontal|center"
-	        android:layout_marginBottom="0dp"
-	        android:layout_marginTop="140dp"
+	        android:layout_marginBottom="20dp"
+	        android:layout_marginTop="250dp"
 	        android:paddingLeft="120dp"
 	        android:paddingRight="120dp"
 	        android:text="@string/buttonSaveSettings" />
