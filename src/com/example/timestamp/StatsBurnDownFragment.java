@@ -57,7 +57,7 @@ import com.androidplot.ui.SizeMetrics;
 import com.androidplot.ui.XLayoutStyle;
 import com.androidplot.ui.YLayoutStyle;
 
-public class StatsBurnDownFragment extends Fragment{
+public class StatsBurnDownFragment extends Fragment implements UpdateableStatistics {
 
 	private View rootView;
 	
@@ -185,6 +185,15 @@ public class StatsBurnDownFragment extends Fragment{
 	public void onResume()
 	{	
 		super.onResume();
+	}
+
+
+
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
