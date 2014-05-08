@@ -76,7 +76,6 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
         plot.getLegendWidget().setSize(new SizeMetrics(150, SizeLayoutType.ABSOLUTE, 200, SizeLayoutType.ABSOLUTE));
         
         
-        
         // add a semi-transparent black background to the legend
         // so it's easier to see overlaid on top of our plot:
         Paint bgPaint = new Paint();
@@ -87,9 +86,6 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
  
         // adjust the padding of the legend widget to look a little nicer:
 
-
-
-      
         // edge of the graph widget:
         plot.getLegendWidget().position(
         		0,
@@ -97,10 +93,8 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
                 0,
                 YLayoutStyle.RELATIVE_TO_TOP,
                 AnchorPosition.RIGHT_TOP
-
-        		);
+        );
         
-
      // Create a couple arrays of y-values to plot:
         Number[] series1Numbers = {20, 16, 15, 12, 6, 4};
         Number[] series2Numbers = {24, 20, 10, 3, 2, 1};
@@ -133,15 +127,12 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
         series2Format.configure(getActivity(),
         R.xml.line_point_formatter_with_plf2);
         plot.addSeries(series2, series2Format);
-        
         //Titles for axis
         plot.getGraphWidget().getDomainLabelPaint().setColor(Color.BLACK);
-
         // Settings for ticks and labels on x and y axis
         plot.setTicksPerRangeLabel(2);               
         plot.setDomainStep(XYStepMode.SUBDIVIDE, 6);
-        plot.getGraphWidget().setDomainLabelOrientation(0); //Changed from -45
-        
+        plot.getGraphWidget().setDomainLabelOrientation(0); //Changed from -45   
         //Set background color o.s.v
         plot.getBorderPaint().setColor(Color.WHITE);
         plot.getBackgroundPaint().setColor(Color.WHITE);
