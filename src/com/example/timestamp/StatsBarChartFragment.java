@@ -48,6 +48,7 @@ import android.view.*;
 
 import com.androidplot.ui.AnchorPosition;
 import com.androidplot.ui.DynamicTableModel;
+import com.androidplot.ui.SeriesRenderer;
 import com.androidplot.ui.SizeLayoutType;
 import com.androidplot.ui.SizeMetrics;
 import com.androidplot.ui.XLayoutStyle;
@@ -79,8 +80,7 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
         barChart = (XYPlot) rootView.findViewById(R.id.barChart);        
         //Link to xml objects
         barChart = (XYPlot)rootView.findViewById(R.id.barChart);
-        
-        //the legend
+
         barChart.getLegendWidget().setTableModel(new DynamicTableModel(1, 2));
         barChart.getLegendWidget().setSize(new SizeMetrics(150, SizeLayoutType.ABSOLUTE, 200, SizeLayoutType.ABSOLUTE));
 
@@ -166,11 +166,17 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
 				hoursPerDay[day] = (Number)(timePosts.get(n).getWorkedHours() + hoursPerDay[day].floatValue());
 			}
 		}
-		BarFormatter formatter = new BarFormatter(Color.argb(200, 100, 150, 100), Color.argb(200, 10, 15, 10));
+
+		//BarFormatter formatter = new BarFormatter(Color.argb(200, 100, 150, 100), Color.argb(200, 10, 15, 10));
 		
 		data = new SimpleXYSeries(Arrays.asList(hoursPerDay), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Worked Hours");
+
 		barChart.clear();
-		barChart.addSeries(data, formatter);
+		MyBarFormatter seriesFormat = new MyBarFormatter(Color.parseColor("#063A70"), Color.WHITE);
+        barChart.addSeries(data, seriesFormat); 
+        ((MyBarRenderer) barChart.getRenderer(MyBarRenderer.class)).setBarWidthStyle(BarRenderer.BarWidthStyle.FIXED_WIDTH);
+        ((MyBarRenderer) barChart.getRenderer(MyBarRenderer.class)).setBarWidth(23);
+		
 		barChart.redraw();
 	}
 		    
@@ -180,4 +186,33 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
 		super.onResume();
 	}
 	
+	
+	class MyBarFormatter extends BarFormatter {
+        public MyBarFormatter(int fillColor, int borderColor) {
+            super(fillColor, borderColor);
+        }
+
+        @Override
+        public Class<? extends SeriesRenderer> getRendererClass() {
+            return MyBarRenderer.class;
+        }
+
+        @Override
+        public SeriesRenderer getRendererInstance(XYPlot plot) {
+            return new MyBarRenderer(plot);
+        }
+    }
+
+    class MyBarRenderer extends BarRenderer<MyBarFormatter> {
+
+        public MyBarRenderer(XYPlot plot) {
+            super(plot);
+        }
+
+        protected MyBarFormatter getFormatter(int index, XYSeries series) {
+            return getFormatter(series);
+        }
+    }
+	
+
 }
