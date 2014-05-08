@@ -79,9 +79,8 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
         plot.getLegendWidget().setSize(new SizeMetrics(150, SizeLayoutType.ABSOLUTE, 200, SizeLayoutType.ABSOLUTE));
 
         plot.getLegendWidget().setTextPaint(legendPaint);
-
-
         
+               
         // add a semi-transparent black background to the legend
         // so it's easier to see overlaid on top of our plot:
         Paint bgPaint = new Paint();
@@ -136,6 +135,10 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
        
         //Titles for axis
         plot.getGraphWidget().getDomainLabelPaint().setColor(Color.BLACK);
+        plot.getGraphWidget().getRangeGridLinePaint().setColor(Color.BLACK);
+        plot.getGraphWidget().getDomainOriginLinePaint().setColor(Color.BLACK);
+        
+        
         // Settings for ticks and labels on x and y axis
         plot.setTicksPerRangeLabel(1);               
         plot.setDomainStep(XYStepMode.SUBDIVIDE, 6);
@@ -153,16 +156,15 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
          
         //Domain (X-labels) settings
         plot.getGraphWidget().getDomainOriginLabelPaint().setColor(Color.BLACK);
-        plot.getGraphWidget().getDomainLabelPaint().setColor(Color.BLACK);
            
         //Range (Y-labels) settings
         plot.getGraphWidget().setRangeValueFormat(new DecimalFormat("0"));
         plot.getGraphWidget().getRangeLabelPaint().setColor(Color.BLACK);
         plot.getGraphWidget().getRangeOriginLabelPaint().setColor(Color.BLACK);
         
-        //plot.setMarkupEnabled(false);
-        
-        
+        plot.getRangeLabelWidget().getLabelPaint().setColor(Color.BLACK);
+
+
         //Margins and Padding for whole plot
         plot.getGraphWidget().setMarginLeft(30);
         plot.getGraphWidget().setPaddingLeft(0);
