@@ -4,11 +4,16 @@
     android:shape="rectangle"   >
 
     <solid
-        android:color="#00FF00" >
+        android:color="#5fce55" >
+        <!-- #063A70 -->
     </solid>
-
- 
-
+	
+   
+ 	<stroke 
+ 	    android:width="5dp"
+ 	    android:color="#000000"
+ 	    />
+	
 
 
     <corners

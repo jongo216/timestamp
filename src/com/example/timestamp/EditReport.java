@@ -45,7 +45,7 @@ import android.widget.*;
 
 public class EditReport extends Activity {
 
-	private Button button;
+	private Button button_save, button_delete;
 	final Context message = this;
 	private EditText commentField;
 	
@@ -53,10 +53,22 @@ public class EditReport extends Activity {
 	
 	TimePost timePost;
 	
+	// Adding new post if id = 0
+	
+	private Button button_add, button_cancel;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_editreport);
+		
+		//Link GUI objects with xml ids
+		button_save = (Button)findViewById(R.id.button_save);
+		button_delete = (Button)findViewById(R.id.button_delete);
+		commentField = (EditText) findViewById(R.id.editTextComment);
+		startPicker = (TimePicker) findViewById(R.id.timePickerStart);
+		endPicker = (TimePicker) findViewById(R.id.timePickerEnd);
+		
 		
 		//Initialize time post object (create new if id = 0)
 		int timePostId = getIntent().getIntExtra(Constants.TIME_POST_ID, 0);
@@ -65,67 +77,77 @@ public class EditReport extends Activity {
 			timePost = db.getTimePost(timePostId);
 			if (timePost == null) timePost = new TimePost();
 		}
-		else
+		else{
+			
 			timePost = new TimePost();
-		//Link GUI objects with xml ids
-		button = (Button)findViewById(R.id.button_save);
-		commentField = (EditText) findViewById(R.id.editTextComment);
-		startPicker = (TimePicker) findViewById(R.id.timePickerStart);
-		endPicker = (TimePicker) findViewById(R.id.timePickerEnd);
+			button_delete.setVisibility(2);
+			this.setTitle(R.string.title_activity_add_new_post);
+			
+			
+		}
 		
 		//Init GUI functionality
 		initCommentField();
 		initTimePickers();
 		initSaveButton();
+		initDeleteButton();
 	}
+	
 
 	
-	public void initSaveButton() {
+	private void initDeleteButton() {
 		
-		button.setOnClickListener(new View.OnClickListener() {
+		button_delete.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				AlertDialog.Builder ad = new AlertDialog.Builder(message);
 				
-				ad.setTitle("Bekräftelse");
-				 
-				// set dialog message
-				ad
-					.setMessage("Vill du spara?")
-					.setCancelable(false)
-					.setPositiveButton("Ja",new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog,int id) {
-							timePost.startTime.set(Calendar.HOUR_OF_DAY, startPicker.getCurrentHour());
-							timePost.startTime.set(Calendar.MINUTE, startPicker.getCurrentMinute());
-							
-							timePost.endTime.set(Calendar.HOUR_OF_DAY, endPicker.getCurrentHour());
-							timePost.endTime.set(Calendar.MINUTE, endPicker.getCurrentMinute());
-							
-							timePost.comment = commentField.getEditableText().toString();
-							Log.d("Oskar testar", timePost.comment);
-							
-							DB db = new DB(message);
-							db.set(timePost);
-							// if this button is clicked, close
-							// current activity
-							EditReport.this.finish();
-						}
-					  })
-					.setNegativeButton("Nej",new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog,int id) {
-							// if this button is clicked, just close
-							// the dialog box and do nothing
-							dialog.cancel();
-						}
-					});
+				AlertDialog.Builder ad = new AlertDialog.Builder(message);
+				//ad.setTitle("Confirm"); 
+				ad.setMessage(R.string.editReportConfirmMessage);
+				ad.setCancelable(false);
+				ad.setPositiveButton(R.string.editReportConfirmPositive,new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog,int id) {
+						DB db = new DB(message);
+						db.deleteTimePost(timePost);
+						EditReport.this.finish();
+					}
+				});
+				ad.setNegativeButton(R.string.editReportConfirmNegative,new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog,int id) {
+						dialog.cancel();
+					}
+				});
 	 
-					// create alert dialog
-					AlertDialog alertDialog = ad.create();
+				// create alert dialog
+				AlertDialog alertDialog = ad.create();
 	 
-					// show it
-					alertDialog.show();
+				// show it
+				alertDialog.show();
 			}
+		});
+	}
+
+
+	public void initSaveButton() {
+		
+		button_save.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+				timePost.startTime.set(Calendar.HOUR_OF_DAY, startPicker.getCurrentHour());
+				timePost.startTime.set(Calendar.MINUTE, startPicker.getCurrentMinute());
+				
+				timePost.endTime.set(Calendar.HOUR_OF_DAY, endPicker.getCurrentHour());
+				timePost.endTime.set(Calendar.MINUTE, endPicker.getCurrentMinute());
+				
+				timePost.comment = commentField.getEditableText().toString();
+				
+				DB db = new DB(message);
+				db.set(timePost);
+				finish();
+			};
 		});
 	}
 	

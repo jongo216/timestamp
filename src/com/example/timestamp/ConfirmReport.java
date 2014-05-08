@@ -86,7 +86,7 @@ public class ConfirmReport extends Fragment {
 	private Spinner spinner;
 	
 	//För popup vyn
-	private Button editTimePostButton;
+	private Button editTimePostButton, addNewTimePostButton;
 	boolean click = true;
 	PopupWindow popUp;
 	LinearLayout layout;
@@ -104,9 +104,11 @@ public class ConfirmReport extends Fragment {
         activityInitConfirmReport();
         
         editTimePostButton = (Button) rootView.findViewById(R.id.sendReportButton);
+        addNewTimePostButton = (Button) rootView.findViewById(R.id.addNewPost);
         
         //popUp = new PopupWindow();
         addEditTimePostButtonListener();
+        addNewTimePostButtonListener();
 
         
         
@@ -137,6 +139,46 @@ public class ConfirmReport extends Fragment {
 			}
         });
 	}
+	
+	public void addNewTimePostButtonListener(){
+			
+			addNewTimePostButton.setOnClickListener(new OnClickListener() {
+	        	
+			    @Override
+	        	public void onClick(View v) {
+			    	
+			    	Log.d("Confirm report", "Add new time post");
+	//		        
+	//		    	//Intent intent = new Intent(getActivity(), EditReport.class);
+	//		    	//startActivity(intent);
+	//		    	if (click) {
+	//		            popUp.showAtLocation(rootView, Gravity.BOTTOM, 10, 10);
+	//		            popUp.update(50, 50, 300, 80);
+	//		            click = false;
+	//		    	} else {
+	//		    		popUp.dismiss();
+	//		            click = true;
+	//		        }
+			    	
+			    	
+			    	int new_time_post_id = 0;
+			    	
+			    	
+			    	//Call edit post for new post.Check if id is 0 and in that case adjust buttons with Add and Cancel.
+			    	
+			    	Intent editIntent = new Intent(getActivity(), EditReport.class);
+			        editIntent.putExtra(Constants.TIME_POST_ID, new_time_post_id);
+			        startActivity(editIntent);
+			        
+			        
+			       
+			        
+			    	
+				}
+	        });
+		}
+	
+
 
 	
 	@Override
