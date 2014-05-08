@@ -116,10 +116,12 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
         barChart.setTicksPerDomainLabel(1);
         barChart.setDomainStep(XYStepMode.SUBDIVIDE, 7);
         
+        
         //Range (Y-labels) settings
         barChart.getGraphWidget().setRangeValueFormat(new DecimalFormat("0"));
         barChart.getGraphWidget().getRangeLabelPaint().setColor(Color.BLACK);
         barChart.getRangeLabelWidget().getLabelPaint().setColor(Color.BLACK);
+
         
         barChart.setRangeStep(XYStepMode.INCREMENT_BY_VAL, 2); // Set tick and a fixed value of worked hours..
         barChart.setRangeBoundaries(0, 12, BoundaryMode.FIXED);
