@@ -36,7 +36,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-public class StatsSummaryFragment extends Fragment{
+public class StatsSummaryFragment extends Fragment implements UpdateableStatistics {
 
 	private View rootView;
 	
@@ -60,4 +60,9 @@ public class StatsSummaryFragment extends Fragment{
 		super.onResume();
 	}
 	
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
+	}
 }

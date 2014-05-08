@@ -36,7 +36,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-public class StatsBurnDownFragment extends Fragment{
+public class StatsBurnDownFragment extends Fragment implements UpdateableStatistics {
 
 	private View rootView;
 	
@@ -58,6 +58,15 @@ public class StatsBurnDownFragment extends Fragment{
 	public void onResume()
 	{	
 		super.onResume();
+	}
+
+
+
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

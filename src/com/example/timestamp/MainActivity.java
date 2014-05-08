@@ -184,7 +184,7 @@ ActionBar.TabListener {
 		case R.id.action_manageprojects: /// För hantera projektvyn
 			intent = new Intent(this, ManageProjects.class);
 			startActivity(intent); 
-			
+			//return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}

@@ -29,29 +29,121 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.example.timestamp;
 
+import java.text.FieldPosition;
+import java.text.Format;
+import java.text.ParsePosition;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
+import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.util.Log;
+import android.view.*;
+
+import com.androidplot.xy.*;
+import com.example.timestamp.model.*;
 
 
-public class StatsBarChartFragment extends Fragment{
+public class StatsBarChartFragment extends Fragment implements UpdateableStatistics {
 
 	private View rootView;
+	private XYPlot barChart;
+	private DB db;
+	private ArrayList<TimePost> timePosts;
+	private XYSeries data;
 	
+	
+	public void setDB(DB database)
+	{
+		db = database;
+		
+	}
 	
 	@Override		//mother of all inits!
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
  
+		
         rootView = inflater.inflate(R.layout.stats_bar_chart_fragment, container, false);
-        //parentActivity = getActivity();
+        
+        //Init database and get timepost and project data
+        //db = new DB(getActivity());
+        
+        
+        //Link to xml objects
+        barChart = (XYPlot)rootView.findViewById(R.id.barChart);
+        
+        
+        initChart();
+        update();
         
         
         return rootView;
     }
+	
+	
+	public void onActivityCreated (Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		//updateChart();
+	}
 
 
+	private void initChart()
+	{
+		
+		
+		
+	}
+	
+	@Override
+	public void update()
+	{   
+		//Log.d("Fragment info: ", getActivity().toString());
+		
+		
+		if (barChart == null)
+		{
+			Log.d("Fragment info: ", "barChart = null");
+			return;
+		}
+		
+		if (db == null)
+			db = new DB(getParentFragment().getActivity());
+		
+		
+		//DB db = new DB(getActivity());
+		int currentProject = SettingsManager.getCurrentProjectId(getParentFragment().getActivity());
+		timePosts = db.getTimePosts(currentProject);
+		Number[] hoursPerDay = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
+		
+		GregorianCalendar startOfWeek = new GregorianCalendar();
+		startOfWeek.setTimeInMillis(startOfWeek.getTimeInMillis() - 1000 * 3600 * 24 * 2);
+		startOfWeek.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+		startOfWeek.set(Calendar.HOUR_OF_DAY, 1);
+		
+		for (int n = 0; n < timePosts.size(); n++) {
+			if (timePosts.get(n).startTime.getTimeInMillis() > startOfWeek.getTimeInMillis())
+			{
+				int day = (timePosts.get(n).startTime.get(Calendar.DAY_OF_WEEK) + 6) % 7;
+				hoursPerDay[day] = (Number)(timePosts.get(n).getWorkedHours() + hoursPerDay[day].floatValue());
+			}
+		}
+
+		
+		BarFormatter formatter = new BarFormatter(Color.argb(200, 100, 150, 100), Color.argb(200, 10, 15, 10));
+		
+		data = new SimpleXYSeries(Arrays.asList(hoursPerDay), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Worked Hours");
+		
+		barChart.clear();
+		barChart.addSeries(data, formatter);
+		
+		
+		
+	}
+	
 	
 		    
 	@Override
@@ -59,5 +151,11 @@ public class StatsBarChartFragment extends Fragment{
 	{	
 		super.onResume();
 	}
+	
+	
+	
+	
+	
+	
 	
 }

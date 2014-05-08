@@ -34,14 +34,31 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     android:tileMode="repeat"
     tools:context=".Start" >
     
+    <com.androidplot.xy.XYPlot
+            android:id="@+id/barChart"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            androidPlot.title="Growth"
+            androidPlot.domainLabel="Day"
+            androidPlot.rangeLabel="Hours"
+            androidPlot.graphWidget.margin="10dp"
+            androidPlot.graphWidget.gridBackgroundPaint.color="#000000"
+            androidPlot.graphWidget.domainGridLinePaint.alpha="0"
+            androidPlot.graphWidget.domainOriginLinePaint.alpha="0"
+            androidPlot.legendWidget.iconSizeMetrics.heightMetric.value="15dp"
+            androidPlot.legendWidget.iconSizeMetrics.widthMetric.value="15dp"
+            androidPlot.legendWidget.heightMetric.value="25dp"
+            androidPlot.legendWidget.positionMetrics.anchor="right_bottom"
+            android:layout_weight="1"
+            androidPlot.graphWidget.gridLinePaint.color="#000000"/>
     
-    <TextView 
+    <!-- <TextView 
         android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
         android:text="BAR CHART"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        />
+        /> -->
 
     
        

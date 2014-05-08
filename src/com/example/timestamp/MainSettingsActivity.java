@@ -113,7 +113,7 @@ ActionBar.TabListener {
 	    inflater.inflate(R.menu.main_activitybar, menu);
 	    return super.onCreateOptionsMenu(menu);
 	}
-	
+	/*
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// toggle nav drawer on selecting action bar app icon/title
@@ -137,7 +137,7 @@ ActionBar.TabListener {
 			return super.onOptionsItemSelected(item);
 		}
 	}
-	
+	*/
 
 	@Override
 	public void onTabReselected(Tab tab, FragmentTransaction ft) {
