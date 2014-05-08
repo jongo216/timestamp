@@ -390,8 +390,16 @@ public class ConfirmReport extends Fragment {
 				if(projectMenuIds[pos] != -1){
 					SettingsManager.setCurrentProjectId(projectMenuIds[pos], getActivity());
 					plotTimeTable(projectMenuIds[pos]);
+					
+					addNewTimePostButton.setEnabled(true);
+					editTimePostButton.setEnabled(true);
+					
 				}else{
 					plotTimeTable(-1);
+					
+					// If all projects are chosen it will not be able to add a time post
+					addNewTimePostButton.setEnabled(false);
+					
 				}
 			}
 

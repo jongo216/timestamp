@@ -53,10 +53,6 @@ public class EditReport extends Activity {
 	
 	TimePost timePost;
 	
-	// Adding new post if id = 0
-	
-	private Button button_add, button_cancel;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -69,20 +65,29 @@ public class EditReport extends Activity {
 		startPicker = (TimePicker) findViewById(R.id.timePickerStart);
 		endPicker = (TimePicker) findViewById(R.id.timePickerEnd);
 		
+
+		
 		
 		//Initialize time post object (create new if id = 0)
 		int timePostId = getIntent().getIntExtra(Constants.TIME_POST_ID, 0);
+		
 		if (timePostId != 0) {
 			DB db = new DB(this);
 			timePost = db.getTimePost(timePostId);
 			if (timePost == null) timePost = new TimePost();
 		}
 		else{
-			
+			//DB db = new DB(this);
+			Log.d("new time post", "inne i else då id=0");
 			timePost = new TimePost();
-			button_delete.setVisibility(2);
+			timePost.projectId = SettingsManager.getCurrentProjectId(this);
+			
+			// If it is a new time post 
 			this.setTitle(R.string.title_activity_add_new_post);
 			
+			//Rename button strings
+			button_save.setText(R.string.addNewPostButton);
+			//button_delete.setText(R.string.cancelNewPostButton);
 			
 		}
 		
