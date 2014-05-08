@@ -73,72 +73,44 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
 	
 	@Override		//mother of all inits!
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
- 
-		
+
         rootView = inflater.inflate(R.layout.stats_bar_chart_fragment, container, false);
         
-        barChart = (XYPlot) rootView.findViewById(R.id.barChart);
-        //Init database and get timepost and project data
-        //db = new DB(getActivity());
-        
-        
+        barChart = (XYPlot) rootView.findViewById(R.id.barChart);        
         //Link to xml objects
         barChart = (XYPlot)rootView.findViewById(R.id.barChart);
         
-      //the legend
+        //the legend
         barChart.getLegendWidget().setTableModel(new DynamicTableModel(1, 2));
         barChart.getLegendWidget().setSize(new SizeMetrics(150, SizeLayoutType.ABSOLUTE, 200, SizeLayoutType.ABSOLUTE));
-       
-        
-        // add a semi-transparent black background to the legend
-        // so it's easier to see overlaid on top of our plot:
-        Paint bgPaint = new Paint();
-        Paint bgPaint2 = new Paint();
-        
-        
-        bgPaint.setColor(Color.TRANSPARENT);
-        bgPaint2.setColor(Color.BLACK);
-        bgPaint.setTextSize(25);
-        //bgPaint.setC
-        barChart.getLegendWidget().setBackgroundPaint(bgPaint);
-        barChart.getLegendWidget().setTextPaint(bgPaint2);
-        // edge of the graph widget:
-        barChart.getLegendWidget().position(
-        		0,
-                XLayoutStyle.RELATIVE_TO_RIGHT,
-                0,
-                YLayoutStyle.RELATIVE_TO_TOP,
-                AnchorPosition.RIGHT_TOP
-        );
-        
-        
-        
-      //Titles for axis
+
+        //Titles for axis
         barChart.getGraphWidget().getDomainLabelPaint().setColor(Color.BLACK);
         // Settings for ticks and labels on x and y axis
-        barChart.setTicksPerRangeLabel(1);               
-        barChart.setDomainStep(XYStepMode.SUBDIVIDE, 6);
+        barChart.setTicksPerRangeLabel(3);               
+        barChart.setDomainStep(XYStepMode.SUBDIVIDE, 2);
         
-      //Set background color o.s.v
+        //Set background color o.s.v
         barChart.getBorderPaint().setColor(Color.TRANSPARENT);
         barChart.getBackgroundPaint().setColor(Color.TRANSPARENT);
         barChart.getGraphWidget().getBackgroundPaint().setColor(Color.TRANSPARENT);
         barChart.getGraphWidget().getGridBackgroundPaint().setColor(Color.TRANSPARENT);
         barChart.getGraphWidget().setPaddingBottom(30);
         
-      //Domain (X-labels) settings
+        //Domain (X-labels) settings
         barChart.getGraphWidget().getDomainOriginLabelPaint().setColor(Color.BLACK);
         barChart.getGraphWidget().getDomainLabelPaint().setColor(Color.BLACK);
-        
         
         //Range (Y-labels) settings
         barChart.getGraphWidget().setRangeValueFormat(new DecimalFormat("0"));
         barChart.getGraphWidget().getRangeLabelPaint().setColor(Color.BLACK);
         
-      //Margins and Padding for whole plot
+        //Margins and Padding for whole plot
         barChart.getGraphWidget().setMarginLeft(30);
         barChart.getGraphWidget().setPaddingLeft(0);
         barChart.getGraphWidget().setMarginRight(200);
+        //hide legend
+        barChart.getLegendWidget().setVisible(false);
         
         initChart();
         update();
@@ -194,31 +166,18 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
 				hoursPerDay[day] = (Number)(timePosts.get(n).getWorkedHours() + hoursPerDay[day].floatValue());
 			}
 		}
-
-		
 		BarFormatter formatter = new BarFormatter(Color.argb(200, 100, 150, 100), Color.argb(200, 10, 15, 10));
 		
 		data = new SimpleXYSeries(Arrays.asList(hoursPerDay), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Worked Hours");
-		
 		barChart.clear();
 		barChart.addSeries(data, formatter);
 		barChart.redraw();
-		
-		
 	}
-	
-	
 		    
 	@Override
 	public void onResume()
 	{	
 		super.onResume();
 	}
-	
-	
-	
-	
-	
-	
 	
 }
