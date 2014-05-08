@@ -195,9 +195,7 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
 	}
 	
 	private class GraphXLabelFormat extends Format {
-
 	    String LABELS[] = {"Mon","Tue","Wed","Thu","Fri","Sat","Sun"};
-
 	    @Override
 	    public StringBuffer format(Object object, StringBuffer buffer, FieldPosition field) {
 	        int parsedInt = Math.round(Float.parseFloat(object.toString()));
