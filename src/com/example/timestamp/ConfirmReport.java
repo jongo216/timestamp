@@ -39,9 +39,12 @@ import javax.mail.internet.AddressException;
 
 import android.app.ActionBar.LayoutParams;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -228,6 +231,28 @@ public class ConfirmReport extends Fragment {
 				builder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
 			           public void onClick(DialogInterface dialog, int id) {
 			               // Skicka in rapport (tas till redigera vyn?)
+			        	   
+			       		ConnectivityManager cm =
+			    		        (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+			    		 
+			    		NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+			    		boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+			        	if(!isConnected){
+				    		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+							builder.setTitle("No internet connection detected");
+							
+							builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+						           public void onClick(DialogInterface dialog, int id) {
+						        	   
+						           }
+						    });
+								
+							AlertDialog alertDialog = builder.create();
+							
+							alertDialog.show();
+			        	}
+						
+			    		new Exporter(getActivity(), isConnected).execute();
 			           }
 			    });
 					builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -239,9 +264,6 @@ public class ConfirmReport extends Fragment {
 				AlertDialog alertDialog = builder.create();
 				
 				alertDialog.show();
-				new Exporter().execute();
-				//Exporter ex = new Exporter();
-				//ex.exportToEmail(getActivity());
 			}
 		
 		});

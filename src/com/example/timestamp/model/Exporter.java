@@ -37,10 +37,17 @@ import javax.mail.internet.*;
 import javax.mail.util.*;
 import javax.activation.*;
 
+import com.sun.mail.smtp.SMTPTransport;
+import com.sun.mail.util.BASE64EncoderStream;
+
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.accounts.AccountManagerCallback;
+import android.accounts.AccountManagerFuture;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.StrictMode;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -63,6 +70,17 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
             Log.e("SendMail", e.getMessage(), e);   
         } 
 	}*/
+	private Activity A;
+	private String token;
+	private Session session;
+	private boolean isConnected;
+	
+	public Exporter(Activity a, boolean connection){
+		A = a;
+		token = "";
+		isConnected = connection;
+		
+	}
 	
 	public void exportToEmail(Activity A){
 		Intent i = new Intent(Intent.ACTION_SEND);
@@ -98,8 +116,10 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 		props.put("mail.smtp.port", "587");
 		props.put("mail.smtp.auth", "true");
 		Log.i("Check", "done pops");
-		Session session = Session.getDefaultInstance(props, null);
 		
+		//Properties props = new Properties();
+		Session session = Session.getDefaultInstance(props, null);
+		/*
 		//testar
 		try {
             Message msg = new MimeMessage(session);
@@ -108,15 +128,48 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
                              new InternetAddress("jonas.gorling@gmail.com", "Mr. User"));
             msg.setSubject("Your Example.com account has been activated");
             msg.setText("Demo For Sending Mail in Android Automatically");
+            
             Transport.send(msg);
 
         } catch (AddressException e) {
             Log.d("Export", "AddressException");
         } catch (MessagingException e) {
             Log.d("Export", e.toString());
-        }
+        }*/
 		//testar
 		
+		
+		//testar mer
+		String emailID=new String();
+		//Pattern emailPattern=Patterns.EMAIL_ADDRESS;
+		Account []accounts=AccountManager.get(A).getAccountsByType("com.google");
+		AccountManagerFuture acquiredToken = null;
+		for(Account account:accounts)
+		{
+			//if(emailPattern.matcher(account.name).matches())
+			//{
+				emailID=emailID+account.name;
+				//OnTokenAcquired acquiredToken = new OnTokenAcquired();
+				acquiredToken = AccountManager.get(A).getAuthToken(account, "oauth2:https://mail.google.com/", null, A, new OnTokenAcquired(), null);
+				//invalidate
+				//AccountManager.get(A).invalidateAuthToken("com.google", token);
+				//AccountManager.get(A).getAuthToken(account, "oauth2:https://mail.google.com/", null, A, new OnTokenAcquired(), null);
+				
+			//}
+		}
+		Log.d("Check", emailID);
+		//token = SettingsManager.getAuthToken(A);
+		//threading problem... kolla mer
+		while(!acquiredToken.isDone());
+		{
+			Log.d("Export", "Is Not Done!");
+		}
+		if(isConnected){
+			sendMail("TimeStamp export", "Hello this is an automaticaly generated email from the TimeStamp application \n "
+					+ "Below you will see the attatched .csv file containing your worked time", emailID, token, emailID);
+			Log.i("Export", "sent");
+		}
+		//testar mer
 		/*
 		DataHandler handler = new DataHandler(new ByteArrayDataSource(finalString.getBytes(),"text/plain" ));
 		MimeMessage message = new MimeMessage(session);
@@ -133,20 +186,19 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 		message.setSubject("Send Auto-Mail");
 		message.setContent(multiPart);
 		message.setText("Demo For Sending Mail in Android Automatically");
-		*/
 		
-		/*
+		
+		
 		Log.i("Check", "transport");
 		Transport transport = session.getTransport("smtp");
 		Log.i("Check", "connecting");
 		transport.connect(host, address, pass);
 		Log.i("Check", "wana send");
-		transport.sendMessage(message, message.getAllRecipients());
+		//transport.sendMessage(message, message.getAllRecipients());
 		transport.close();
 		*/
-		Log.i("Check", "sent");
+		
 	}
-
 
 	@Override
 	protected Void doInBackground(Void... params) {
@@ -164,11 +216,95 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 		}
 		return null;
 	}
-	/*
-	protected void onPreExeute(){
-		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-	    .permitAll().build();
 
-		StrictMode.setThreadPolicy(policy);
-	}*/
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    //... senast test
+	
+	private class OnTokenAcquired implements AccountManagerCallback<Bundle>{
+
+		@Override
+		public void run(AccountManagerFuture<Bundle> result) {
+			try{
+				Bundle bundle = result.getResult();
+				token = bundle.getString(AccountManager.KEY_AUTHTOKEN);
+				Log.d("Export", token);
+			}
+			catch (Exception e){
+				Log.d("Export", e.toString());
+			}
+			
+		}
+		
+	}
+	
+	
+	    
+    public SMTPTransport connectToSmtp(String host, int port, String userEmail,
+            String oauthToken, boolean debug) throws Exception {
+
+        Properties props = new Properties();
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.starttls.required", "true");
+        props.put("mail.smtp.sasl.enable", "false");
+        props.put("mail.debug", "true");
+        session = Session.getInstance(props);
+        session.setDebug(debug);
+
+
+        final URLName unusedUrlName = null;
+        SMTPTransport transport = new SMTPTransport(session, unusedUrlName);
+        // If the password is non-null, SMTP tries to do AUTH LOGIN.
+        final String emptyPassword = null;
+        transport.connect(host, port, userEmail, emptyPassword);
+
+                byte[] response = String.format("user=%s\1auth=Bearer %s\1\1", userEmail,
+                oauthToken).getBytes();
+        response = BASE64EncoderStream.encode(response);
+
+        transport.issueCommand("AUTH XOAUTH2 " + new String(response), 235);
+
+        return transport;
+    }
+
+    public synchronized void sendMail(String subject, String body, String user,
+            String oauthToken, String recipients) {
+        try {
+
+            SMTPTransport smtpTransport = connectToSmtp("smtp.gmail.com",
+                    587,
+                    user,
+                    oauthToken,
+                    true);
+
+            MimeMessage message = new MimeMessage(session);
+            DataHandler handler = new DataHandler(new ByteArrayDataSource(body.getBytes(), "text/plain"));   
+                    message.setSender(new InternetAddress(user));   
+                    message.setSubject(subject);   
+                    message.setDataHandler(handler);   
+            if (recipients.indexOf(',') > 0)   
+                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipients));   
+            else  
+                message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipients));   
+            smtpTransport.sendMessage(message, message.getAllRecipients());   
+
+
+        } catch (Exception e) {
+            Log.d("Export", e.getMessage());
+        }
+    
+    
+    }
+    
 }
