@@ -79,13 +79,13 @@ public class ConfirmReport extends Fragment {
 	public String[] projectsMenuString; // = {"Projekt 1", "Projekt 2", "Nytt projekt"};
 	public int[] projectMenuIds;
 	private ArrayList<Project> projects;
-	private DB db;
+	
 	private Button button;
 	private View rootView;
 	private FragmentActivity parentActivity;
 	private Spinner spinner;
 	
-	//För popup vyn
+	//F��r popup vyn
 	private Button editTimePostButton, addNewTimePostButton;
 	boolean click = true;
 	PopupWindow popUp;
@@ -94,13 +94,14 @@ public class ConfirmReport extends Fragment {
 	LayoutParams params;
 	LinearLayout mainLayout;
 	Button but;
-	//END För popup vyn 
+	//END F��r popup vyn 
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
  
         rootView = inflater.inflate(R.layout.activity_confirmreport, container, false);
-        db = new DB(getActivity().getApplicationContext());
+        
+        
         activityInitConfirmReport();
         
         editTimePostButton = (Button) rootView.findViewById(R.id.sendReportButton);
@@ -202,7 +203,7 @@ public class ConfirmReport extends Fragment {
 		int selectedRow = 0;
 		
 		int currentProject = SettingsManager.getCurrentProjectId(parentActivity);
-	
+		DB db = new DB(getActivity().getApplicationContext());
 		projects = db.getAllProjects();
 		projectsMenuString = new String[projects.size() + 1];
 		projectMenuIds = new int[projects.size()+1];
@@ -221,11 +222,11 @@ public class ConfirmReport extends Fragment {
 		
 		
 		
-		//Hämtar namn från string array med menu item.
+		//H��mtar namn fr��n string array med menu item.
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, projectsMenuString){
 			
 						
-			// Style för Spinnern.. Sätter textstorlek samt centrerar..
+			// Style f��r Spinnern.. S��tter textstorlek samt centrerar..
 			public View getView(int position, View convertView,ViewGroup parent) {
 
 		        View v = super.getView(position, convertView, parent);
@@ -237,7 +238,7 @@ public class ConfirmReport extends Fragment {
 		        return v;
 
 		    }
-			//Style för dropdownmenyn under spinnern..
+			//Style f��r dropdownmenyn under spinnern..
 			public View getDropDownView(int position, View convertView,ViewGroup parent) {
 
 		        View v = super.getDropDownView(position, convertView,parent);
@@ -250,7 +251,7 @@ public class ConfirmReport extends Fragment {
 		        return v;
 		    }	
 		};
-		//Spinnern använder items från en valt adapter.
+		//Spinnern anv��nder items fr��n en valt adapter.
 		spinner.setAdapter(adapter);
 
 		spinnerListener();
@@ -271,6 +272,7 @@ public class ConfirmReport extends Fragment {
 			           public void onClick(DialogInterface dialog, int id) {
 							Exporter ex = new Exporter();
 							ex.getActivity(getActivity());
+							DB db = new DB(getActivity().getApplicationContext());
 							ArrayList<TimePost> allTimePosts = db.getThisWeekTimePosts();				
 							ex.createCSV(getActivity(), allTimePosts);
 							ex.execute();
@@ -402,8 +404,16 @@ public class ConfirmReport extends Fragment {
 				if(projectMenuIds[pos] != -1){
 					SettingsManager.setCurrentProjectId(projectMenuIds[pos], getActivity());
 					plotTimeTable(projectMenuIds[pos]);
+					
+					addNewTimePostButton.setEnabled(true);
+					editTimePostButton.setEnabled(true);
+					
 				}else{
 					plotTimeTable(-1);
+					
+					// If all projects are chosen it will not be able to add a time post
+					addNewTimePostButton.setEnabled(false);
+					
 				}
 			}
 

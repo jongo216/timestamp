@@ -73,6 +73,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
        <item name="android:shadowRadius">0.6</item>
        <item name="android:background">@drawable/custom_button_dark</item>
        <!--  <item name="android:padding">10dip</item> -->
+       
    </style>
    
    <style name="CustomStyleButtonBlue" parent="@android:style/Widget.Button">
