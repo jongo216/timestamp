@@ -239,7 +239,7 @@ public class ConfirmReport extends Fragment {
 			    		boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
 			        	if(!isConnected){
 				    		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-							builder.setTitle("No internet connection detected");
+							builder.setTitle("Cannot send report, check for internet connection");
 							
 							builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						           public void onClick(DialogInterface dialog, int id) {
@@ -248,11 +248,10 @@ public class ConfirmReport extends Fragment {
 						    });
 								
 							AlertDialog alertDialog = builder.create();
-							
 							alertDialog.show();
 			        	}
-						
-			    		new Exporter(getActivity(), isConnected).execute();
+			        	else
+			        		new Exporter(getActivity()).execute();
 			           }
 			    });
 					builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
