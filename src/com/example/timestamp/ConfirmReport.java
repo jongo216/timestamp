@@ -269,6 +269,11 @@ public class ConfirmReport extends Fragment {
 				
 				builder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
 			           public void onClick(DialogInterface dialog, int id) {
+							Exporter ex = new Exporter();
+							ex.getActivity(getActivity());
+							ArrayList<TimePost> allTimePosts = db.getThisWeekTimePosts();				
+							ex.createCSV(getActivity(), allTimePosts);
+							ex.execute();
 			               // Skicka in rapport (tas till redigera vyn?)
 			           }
 			    });
@@ -281,9 +286,7 @@ public class ConfirmReport extends Fragment {
 				AlertDialog alertDialog = builder.create();
 				
 				alertDialog.show();
-				Exporter ex = new Exporter();
-				ex.getActivity(getActivity());
-				ex.execute();
+
 				//Exporter ex = new Exporter();
 				//ex.exportToEmail(getActivity());
 			}
