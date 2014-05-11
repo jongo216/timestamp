@@ -60,10 +60,10 @@ public class SettingsActivity extends Activity {
 		setContentView(R.layout.activity_settings);
 		
 		//init stuff
-		/* 
-		exporter = new Exporter();
+		 
+		//exporter = new Exporter();
 		exportButton = (Button) findViewById(R.id.exportButton);
-		*/
+		
 		
 		initSettingsView();
 	}

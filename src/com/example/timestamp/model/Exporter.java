@@ -66,8 +66,12 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AccountManagerFuture;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -82,12 +86,72 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 	private Activity A;
 	
 	private Session session;
-	private Boolean isStatic;
+	private boolean isStatic;
+	private boolean isConnected;
 	
-	public Exporter(Activity a, Boolean stat){
+	public Exporter(String message, Activity a){
 		A = a;
 		context = a;
-		isStatic = stat;
+		
+		//Checks for internet connection
+		ConnectivityManager cm = (ConnectivityManager)A.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+		isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+		
+		//Setup dialog
+		AlertDialog.Builder builder = new AlertDialog.Builder(A);
+		
+		builder.setTitle(message);
+		
+		builder.setPositiveButton("Send with token", new DialogInterface.OnClickListener() {
+	           public void onClick(DialogInterface dialog, int id) {
+	               // Skicka in rapport (tas till redigera vyn?)
+	        	   
+	    		if(!isConnected){
+		    		AlertDialog.Builder builder = new AlertDialog.Builder(A);
+					builder.setTitle("Cannot send report, check for internet connection");
+					
+					builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+				           public void onClick(DialogInterface dialog, int id) {
+				        	   
+				           }
+				    });
+						
+					AlertDialog alertDialog = builder.create();
+					alertDialog.show();
+	        	}
+	        	else{
+	        		isStatic = false;
+	    			execute();
+	        	}
+	        }
+	           
+		});
+		builder.setNegativeButton("Send with static", new DialogInterface.OnClickListener() {
+	           public void onClick(DialogInterface dialog, int id) {
+	        	   
+	        	if(!isConnected){
+		    		AlertDialog.Builder builder = new AlertDialog.Builder(A);
+					builder.setTitle("Cannot send report, check for internet connection");
+					
+					builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+				           public void onClick(DialogInterface dialog, int id) {
+				        	   
+				           }
+				    });
+						
+					AlertDialog alertDialog = builder.create();
+					alertDialog.show();
+	        	}
+	        	else{
+	        		isStatic = true;
+	        		execute();
+	        	}
+	           }
+	    });
+		AlertDialog alertDialog = builder.create();
+		
+		alertDialog.show();
 	}
 	
 	public void createCSV(Context c, ArrayList<TimePost> tplist){

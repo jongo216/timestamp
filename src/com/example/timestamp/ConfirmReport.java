@@ -267,73 +267,8 @@ public class ConfirmReport extends Fragment {
 			@Override
 			public void onClick(View arg0){
 	
-				AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-				
-				builder.setTitle("Are you sure you want to send in the report?");
-				
-				builder.setPositiveButton("Send with token", new DialogInterface.OnClickListener() {
-			           public void onClick(DialogInterface dialog, int id) {
-			               // Skicka in rapport (tas till redigera vyn?)
-			        	   
-			       		ConnectivityManager cm =
-			    		        (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-			    		 
-			    		NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-			    		boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-			        	if(!isConnected){
-				    		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-							builder.setTitle("Cannot send report, check for internet connection");
-							
-							builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-						           public void onClick(DialogInterface dialog, int id) {
-						        	   
-						           }
-						    });
-								
-							AlertDialog alertDialog = builder.create();
-							alertDialog.show();
-			        	}
-			        	else
-			        		new Exporter(getActivity(), false).execute();
-			           }
-			    });
-				builder.setNegativeButton("Send with static", new DialogInterface.OnClickListener() {
-			           public void onClick(DialogInterface dialog, int id) {
-			               // Skicka in rapport (tas till redigera vyn?)
-			        	   
-			       		ConnectivityManager cm =
-			    		        (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-			    		 
-			    		NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-			    		boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-			        	if(!isConnected){
-				    		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-							builder.setTitle("Cannot send report, check for internet connection");
-							
-							builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-						           public void onClick(DialogInterface dialog, int id) {
-						        	   
-						           }
-						    });
-								
-							AlertDialog alertDialog = builder.create();
-							alertDialog.show();
-			        	}
-			        	else
-			        		new Exporter(getActivity(), true).execute();
-			           }
-			    });
-				/*builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-			           public void onClick(DialogInterface dialog, int id) {
-			               // Cancel
-			           }
-			    });*/
-					
-				AlertDialog alertDialog = builder.create();
-				
-				alertDialog.show();
+				new Exporter("Are you sure you want to send in the report?", getActivity());
 			}
-		
 		});
 		
 		plotTimeTable(currentProject);
