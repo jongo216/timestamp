@@ -89,9 +89,16 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 	private boolean isStatic;
 	private boolean isConnected;
 	
-	public Exporter(String message, Activity a){
+	private ArrayList<TimePost> exportList;
+	
+	public Exporter(){
+		
+	}
+	
+	public Exporter(String message, ArrayList<TimePost> list, Activity a){
 		A = a;
 		context = a;
+		exportList = list;
 		
 		//Checks for internet connection
 		ConnectivityManager cm = (ConnectivityManager)A.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -156,10 +163,8 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 	
 	public void createCSV(Context c, ArrayList<TimePost> tplist){
 		try{
-		
-			
+
 			DB db = new DB(c);
-			
 			
 			FileOutputStream fOut = c.openFileOutput(csvFile, Context.MODE_WORLD_WRITEABLE);
 		    OutputStreamWriter writer = new OutputStreamWriter(fOut); 			
@@ -225,6 +230,7 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 
 //Jonas part
 	
+	@Deprecated
 	public void exportToEmail(Activity A){
 		Intent i = new Intent(Intent.ACTION_SEND);
 		i.setType("message/rfc822");
@@ -234,7 +240,7 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 		i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		try {
 		    A.startActivity(Intent.createChooser(i, "Send mail..."));
-		} catch (android.content.ActivityNotFoundException ex) {
+		} catch (android.content.ActivityNotFoundException e) {
 		    Toast.makeText(A, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
 		}
 	}
@@ -259,12 +265,17 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 			Log.d("Export", token);
 			Log.d("Export", emailID);
 			
-			String title = "TimeStamp export";
-			String body = "Hello this is an automaticaly generated email from the TimeStamp application \n"
+			String title = "TimeStamp export week " + new GregorianCalendar().get(Calendar.WEEK_OF_YEAR)+":";
+			String body = "This is an automaticaly generated email from the TimeStamp application \n"
 						+ "Below you will see the attatched .csv file containing your worked time";
-			sendMail(title, body, emailID, token, emailID);
-		}
-		catch(Exception e){
+			//adding csv file
+			File dir = context.getFilesDir();
+			File file = new File( dir.getAbsolutePath() + "/mycsv.csv");
+			sendMail(title, body, file, emailID, token, emailID);
+			
+		}catch(IOException e){
+			Log.d("Export", "Send mail: file not found");
+		}catch(Exception e){
 			Log.d("Export", e.getMessage());
 		}
 		//invalidate, if necessary?
@@ -279,7 +290,6 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 		
 		String from = "timestampnoreply@gmail.com";
 		String pass = "timestamp123";
-		//String to="jonas.gorling@gmail.com";
 		String to="timestampnoreply@gmail.com";
 		
 
@@ -299,15 +309,14 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 
 		Session session = Session.getDefaultInstance(props, null);
 		
-		// ? DataHandler handler = new DataHandler(new ByteArrayDataSource(finalString.getBytes(),"text/plain" ));
-		
-		
 		//Build the mail structure
 		MimeMessage message = new MimeMessage(session);
 		message.setFrom(new InternetAddress(from));
 		
 		MimeBodyPart messageBodyPart = new MimeBodyPart(); 
-		messageBodyPart.setText("Tidsrapporten:");
+		String bodyPart = "This is an automaticaly generated email from the TimeStamp application \n"
+						+ "Below you will see the attatched .csv file containing your worked time";
+		messageBodyPart.setText(bodyPart);
 		
 		Multipart multiPart = new MimeMultipart();
 		multiPart.addBodyPart(messageBodyPart);
@@ -324,12 +333,11 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 		    multiPart.addBodyPart(messageBodyPart);
 		    
 		}catch(IOException e){
-			Log.d("Check", "Send mail: file not found");
+			Log.d("Export", "Send mail: file not found");
 		}
 		
 		
-		InternetAddress toAddress;
-		toAddress = new InternetAddress(to);
+		InternetAddress toAddress = new InternetAddress(to);
 				
 		message.setSubject("Tidsrapport för vecka " + new GregorianCalendar().get(Calendar.WEEK_OF_YEAR)+":");
 		message.setContent(multiPart);
@@ -353,6 +361,7 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 	@Override
 	protected Void doInBackground(Void... params) {
 		try {
+			createCSV(context, exportList);
 			if(isStatic)
 				exportJavaMailStatic();
 			else
@@ -402,8 +411,8 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
         return transport;
     }
 
-    public synchronized void sendMail(String subject, String body, String user,
-            String oauthToken, String recipients) {
+    public synchronized void sendMail(String subject, String body, File attatchedFile, 
+    		String user, String oauthToken, String recipients) {
         try {
 
             SMTPTransport smtpTransport = connectToSmtp("smtp.gmail.com",
@@ -412,11 +421,28 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
             //Allow exception to be thrown upon success
             smtpTransport.setReportSuccess(true);
             
+            //Create message
             MimeMessage message = new MimeMessage(session);
-            DataHandler handler = new DataHandler(new ByteArrayDataSource(body.getBytes(), "text/plain"));   
-                    message.setSender(new InternetAddress(user));   
-                    message.setSubject(subject);   
-                    message.setDataHandler(handler);   
+            		message.setSender(new InternetAddress(user));
+            		//message.setFrom(new InternetAddress(from));
+            		message.setSubject(subject); 
+            //Message body
+            MimeBodyPart messageBodyPart = new MimeBodyPart();
+            		messageBodyPart.setText(body);
+            //Multipart container to construct message content
+    		Multipart multiPart = new MimeMultipart();
+    				multiPart.addBodyPart(messageBodyPart);
+    		//Message attachment
+    		messageBodyPart = new MimeBodyPart();		
+    				messageBodyPart.attachFile(attatchedFile);
+    				messageBodyPart.setFileName("Tidsrapport.csv");
+    				
+    				multiPart.addBodyPart(messageBodyPart);
+    				message.setContent(multiPart);
+    				
+            //DataHandler handler = new DataHandler(new ByteArrayDataSource(body.getBytes(), "text/plain"));   
+            //        message.setDataHandler(handler);     		    
+        		    
             if (recipients.indexOf(',') > 0)   
                 message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipients));   
             else  
@@ -443,6 +469,8 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
         //Other exceptions
         catch (MessagingException e) {
             Log.d("Export", e.getMessage());
-        }    
+        } catch (IOException e) {
+			e.printStackTrace();
+		}    
     }
 }

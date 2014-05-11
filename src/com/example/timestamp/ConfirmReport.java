@@ -267,7 +267,7 @@ public class ConfirmReport extends Fragment {
 			@Override
 			public void onClick(View arg0){
 	
-				new Exporter("Are you sure you want to send in the report?", getActivity());
+				new Exporter("Are you sure you want to send in the report?", new DB(getActivity()).getTimePosts(),getActivity());
 			}
 		});
 		
