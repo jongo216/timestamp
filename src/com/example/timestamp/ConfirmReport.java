@@ -39,9 +39,12 @@ import javax.mail.internet.AddressException;
 
 import android.app.ActionBar.LayoutParams;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -264,31 +267,8 @@ public class ConfirmReport extends Fragment {
 			@Override
 			public void onClick(View arg0){
 	
-				AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-				
-				builder.setTitle("Are you sure you want to send in the report?");
-				
-				builder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
-			           public void onClick(DialogInterface dialog, int id) {
-			               // Skicka in rapport (tas till redigera vyn?)
-			           }
-			    });
-					builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-			           public void onClick(DialogInterface dialog, int id) {
-			               // Cancel
-			           }
-			    });
-					
-				AlertDialog alertDialog = builder.create();
-				
-				alertDialog.show();
-				Exporter ex = new Exporter();
-				ex.getActivity(getActivity());
-				ex.execute();
-				//Exporter ex = new Exporter();
-				//ex.exportToEmail(getActivity());
+				new Exporter("Are you sure you want to send in the report?", new DB(getActivity()).getTimePosts(),getActivity());
 			}
-		
 		});
 		
 		plotTimeTable(currentProject);

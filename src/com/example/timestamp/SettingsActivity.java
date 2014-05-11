@@ -50,8 +50,7 @@ import android.widget.LinearLayout;
 
 public class SettingsActivity extends Activity {
 	private Button exportButton;
-	Exporter exporter;
-	Context context = this;
+	Activity context = this;
 	
 	
 	@Override
@@ -60,9 +59,7 @@ public class SettingsActivity extends Activity {
 		setContentView(R.layout.activity_settings);
 		
 		//init stuff
-		 exporter = new Exporter();
-		 exportButton = (Button) findViewById(R.id.exportButton);
-		
+		exportButton = (Button) findViewById(R.id.exportButton);
 		
 		initSettingsView();
 	}
@@ -75,12 +72,12 @@ public class SettingsActivity extends Activity {
 			
 			public void onClick(View arg0){
 				
-				DB db = new DB(context);
+				//DB db = new DB(context);
 				
 				//Byt till att exportera endast valda projekt.
-				ArrayList<TimePost> allTimePosts = db.getThisWeekTimePosts();				
+				//ArrayList<TimePost> allTimePosts = db.getThisWeekTimePosts();				
 
-				exporter.createCSV(context, allTimePosts);
+				new Exporter("Do you want to export all unsigned timeposts?", new DB(context).getUnsignedTimes(), context);
 				//exporter.readCSV(context);
 			}	
 		});
