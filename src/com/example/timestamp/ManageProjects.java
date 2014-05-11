@@ -155,11 +155,13 @@ public class ManageProjects extends Activity {
 			 intent = new Intent(this, SettingsActivity.class);
 			startActivity(intent);
 			return true;
-		case R.id.action_edit:
+		/*case R.id.action_edit:
 			intent = new Intent(this, EditReport.class);
 			startActivity(intent);
-			return true;
+			return true;*/
 		case R.id.action_manageprojects: /// För hantera projektvyn
+			intent = new Intent(this, ManageProjects.class);
+			startActivity(intent); 
 			return true; 
 			
 		default:

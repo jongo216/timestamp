@@ -1,26 +1,29 @@
 package com.example.timestamp;
 
-import com.example.timestamp.model.*;
+import java.util.Calendar;
 
 import android.app.Activity;
-import android.app.ActionBar;
-import android.app.Fragment;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.widget.*;
-import android.os.Build;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.example.timestamp.model.DB;
+import com.example.timestamp.model.Project;
 
 public class CreateNewProject extends Activity {
 
 	final Context context = this;
-	Button saveButton;
+	Button saveButton, deleteButton;
 	Project project;
 	EditText name, code, customer, description;
 	TextView label;
@@ -33,6 +36,7 @@ public class CreateNewProject extends Activity {
 		
 		//Link to xml objects
 		saveButton = (Button)findViewById(R.id.save_project_button);
+		deleteButton = (Button)findViewById(R.id.delete_project_button);
 		label = (TextView)findViewById(R.id.createProjectTitleTextView);
 		name = (EditText)findViewById(R.id.projectNameEditText);
 		customer = (EditText)findViewById(R.id.projectCustomerEditText);
@@ -52,21 +56,57 @@ public class CreateNewProject extends Activity {
 			project = new Project();
 		
 		//Set header label depending on situation
-		if (project.getId() > 0)
+		if (project.getId() > 0){
 			label.setText("Edit Project");
-		else
+			deleteButton.setVisibility(0); //visible=0 invisible=1 gone=2
+			initDeleteButton();
+		}
+		else{
 			label.setText("Create New Project");
+		}
 		
 		//Call init methods
 		initTextFields();
 		initSaveButton();
 	}
-	
+
 	private void initTextFields() {
 		name.setText(project.getName());
 		customer.setText(project.getCustomer());
 		description.setText(project.getDescription());
 		isSharedProject.setChecked(!project.getIsPrivate());
+	}
+	
+	private void initDeleteButton() {
+		deleteButton.setOnClickListener(new OnClickListener(){
+			@Override
+		    public void onClick(View v) {
+				AlertDialog.Builder ad = new AlertDialog.Builder(context);
+				
+				ad.setMessage(R.string.editProjectConfirmMessage);
+				ad.setCancelable(false);
+				ad.setPositiveButton(R.string.editProjectConfirmPositive,new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog,int id) {
+						DB db = new DB(context);
+						db.deleteProject(project);
+						finish();
+					}
+				});
+				ad.setNegativeButton(R.string.editProjectConfirmNegative,new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog,int id) {
+						// if this button is clicked, just close
+						// the dialog box and do nothing
+						dialog.cancel();
+					}
+				});
+	 
+				// create alert dialog
+				AlertDialog alertDialog = ad.create();
+ 
+				// show it
+				alertDialog.show();
+		    }
+		});
 	}
 	
 	private void initSaveButton() {

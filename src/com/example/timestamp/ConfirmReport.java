@@ -82,14 +82,14 @@ public class ConfirmReport extends Fragment {
 	public String[] projectsMenuString; // = {"Projekt 1", "Projekt 2", "Nytt projekt"};
 	public int[] projectMenuIds;
 	private ArrayList<Project> projects;
-	private DB db;
+	//private DB db;
 	private Button button;
 	private View rootView;
 	private FragmentActivity parentActivity;
 	private Spinner spinner;
 	
 	//För popup vyn
-	private Button editTimePostButton;
+	private Button editTimePostButton, addNewTimePostButton;
 	boolean click = true;
 	PopupWindow popUp;
 	LinearLayout layout;
@@ -103,13 +103,16 @@ public class ConfirmReport extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
  
         rootView = inflater.inflate(R.layout.activity_confirmreport, container, false);
-        db = new DB(getActivity().getApplicationContext());
+        
+        //db = new DB(getActivity().getApplicationContext());
         activityInitConfirmReport();
         
         editTimePostButton = (Button) rootView.findViewById(R.id.sendReportButton);
+        addNewTimePostButton = (Button) rootView.findViewById(R.id.addNewPost);
         
         //popUp = new PopupWindow();
         addEditTimePostButtonListener();
+        addNewTimePostButtonListener();
 
         
         
@@ -140,6 +143,46 @@ public class ConfirmReport extends Fragment {
 			}
         });
 	}
+	
+	public void addNewTimePostButtonListener(){
+			
+			addNewTimePostButton.setOnClickListener(new OnClickListener() {
+	        	
+			    @Override
+	        	public void onClick(View v) {
+			    	
+			    	Log.d("Confirm report", "Add new time post");
+	//		        
+	//		    	//Intent intent = new Intent(getActivity(), EditReport.class);
+	//		    	//startActivity(intent);
+	//		    	if (click) {
+	//		            popUp.showAtLocation(rootView, Gravity.BOTTOM, 10, 10);
+	//		            popUp.update(50, 50, 300, 80);
+	//		            click = false;
+	//		    	} else {
+	//		    		popUp.dismiss();
+	//		            click = true;
+	//		        }
+			    	
+			    	
+			    	int new_time_post_id = 0;
+			    	
+			    	
+			    	//Call edit post for new post.Check if id is 0 and in that case adjust buttons with Add and Cancel.
+			    	
+			    	Intent editIntent = new Intent(getActivity(), EditReport.class);
+			        editIntent.putExtra(Constants.TIME_POST_ID, new_time_post_id);
+			        startActivity(editIntent);
+			        
+			        
+			       
+			        
+			    	
+				}
+	        });
+		}
+	
+
 
 	
 	@Override
@@ -163,7 +206,7 @@ public class ConfirmReport extends Fragment {
 		int selectedRow = 0;
 		
 		int currentProject = SettingsManager.getCurrentProjectId(parentActivity);
-	
+		DB db = new DB(getActivity().getApplicationContext());
 		projects = db.getAllProjects();
 		projectsMenuString = new String[projects.size() + 1];
 		projectMenuIds = new int[projects.size()+1];
@@ -228,7 +271,7 @@ public class ConfirmReport extends Fragment {
 				
 				builder.setTitle("Are you sure you want to send in the report?");
 				
-				builder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
+				builder.setPositiveButton("Send with token", new DialogInterface.OnClickListener() {
 			           public void onClick(DialogInterface dialog, int id) {
 			               // Skicka in rapport (tas till redigera vyn?)
 			        	   
@@ -251,14 +294,40 @@ public class ConfirmReport extends Fragment {
 							alertDialog.show();
 			        	}
 			        	else
-			        		new Exporter(getActivity()).execute();
+			        		new Exporter(getActivity(), false).execute();
 			           }
 			    });
-					builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+				builder.setNegativeButton("Send with static", new DialogInterface.OnClickListener() {
+			           public void onClick(DialogInterface dialog, int id) {
+			               // Skicka in rapport (tas till redigera vyn?)
+			        	   
+			       		ConnectivityManager cm =
+			    		        (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+			    		 
+			    		NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+			    		boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+			        	if(!isConnected){
+				    		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+							builder.setTitle("Cannot send report, check for internet connection");
+							
+							builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+						           public void onClick(DialogInterface dialog, int id) {
+						        	   
+						           }
+						    });
+								
+							AlertDialog alertDialog = builder.create();
+							alertDialog.show();
+			        	}
+			        	else
+			        		new Exporter(getActivity(), true).execute();
+			           }
+			    });
+				/*builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 			           public void onClick(DialogInterface dialog, int id) {
 			               // Cancel
 			           }
-			    });
+			    });*/
 					
 				AlertDialog alertDialog = builder.create();
 				
@@ -376,8 +445,16 @@ public class ConfirmReport extends Fragment {
 				if(projectMenuIds[pos] != -1){
 					SettingsManager.setCurrentProjectId(projectMenuIds[pos], getActivity());
 					plotTimeTable(projectMenuIds[pos]);
+					
+					addNewTimePostButton.setEnabled(true);
+					editTimePostButton.setEnabled(true);
+					
 				}else{
 					plotTimeTable(-1);
+					
+					// If all projects are chosen it will not be able to add a time post
+					addNewTimePostButton.setEnabled(false);
+					
 				}
 			}
 

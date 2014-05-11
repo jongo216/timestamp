@@ -61,16 +61,19 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp" />
+        android:layout_marginTop="47dp" />
 
     <ScrollView
         android:id="@+id/timePostScrollView"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="220dp"
         android:layout_below="@+id/projects_menu_spinner2"
-        android:layout_above="@+id/sendReportButton"
+        android:layout_above="@+id/checkBoxShowSigned"
         android:layout_centerHorizontal="true"
-        android:layout_margin="20dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="0dp"
         android:gravity="top"
         android:scrollbars="vertical" 
         android:fadeScrollbars="false">
@@ -84,16 +87,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	        >
 			
 		    <TableRow
-		       android:background="#063A70"
-		       
-		       >
+		        android:layout_width="wrap_content"
+		        android:background="#063A70" >
 	
 		        <TextView
+		            android:layout_width="match_parent"
 		            android:gravity="center"
 		            android:padding="5dp"
 		            android:text="Day"
-		            android:textColor="#FFFFFF"
-		            />
+		            android:textColor="#FFFFFF" />
 	
 		        <TextView
 		            android:gravity="center"
@@ -102,10 +104,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		             android:textColor="#FFFFFF"/>
 	
 		        <TextView
+		            android:layout_height="wrap_content"
 		            android:gravity="center"
 		            android:padding="5dp"
-		            android:text="Total hours" 
-		            android:textColor="#FFFFFF"/>
+		            android:text="Total hours"
+		            android:textColor="#FFFFFF" />
 	
 		        <TextView
 		            android:gravity="center"
@@ -117,7 +120,34 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	
 	   </TableLayout>
    </ScrollView>
-
+   
+     
+    <CheckBox
+        android:id="@+id/checkBoxShowSigned"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/projects_menu_spinner2"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="0dp"
+        android:layout_above="@+id/addNewPost"
+        android:text="@string/checkBoxShowSigned"
+        android:textSize="12sp"
+        android:textStyle="italic" />
+        
+    <Button
+        android:id="@+id/addNewPost"
+        style="@style/CustomStyleButtonDark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/projects_menu_spinner2"
+        android:layout_above="@+id/sendReportButton"
+        android:paddingLeft="10dp"
+         android:layout_marginBottom="20dp"
+        android:paddingRight="10dp"
+        android:text="@string/addNewPost"
+        android:textSize="12sp" />
+   
+   
     <Button
         android:id="@+id/sendReportButton"
         style="@style/CustomStyleButtonDark"
@@ -126,7 +156,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_margin="12dp"
+        android:layout_marginTop="30dp"
         android:padding="10dp"
         android:text="@string/textSendTimeReport" />
+    
 
 </RelativeLayout>

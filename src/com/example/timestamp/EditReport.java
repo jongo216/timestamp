@@ -45,11 +45,12 @@ import android.widget.*;
 
 public class EditReport extends Activity {
 
-	private Button button;
+	private Button button_save, button_delete;
 	final Context message = this;
 	private EditText commentField;
 	
 	TimePicker startPicker, endPicker;
+	DatePicker datePicker;
 	
 	TimePost timePost;
 	
@@ -58,78 +59,115 @@ public class EditReport extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_editreport);
 		
+		//Link GUI objects with xml ids
+		button_save = (Button)findViewById(R.id.button_save);
+		button_delete = (Button)findViewById(R.id.button_delete);
+		commentField = (EditText) findViewById(R.id.editTextComment);
+		startPicker = (TimePicker) findViewById(R.id.timePickerStart);
+		endPicker = (TimePicker) findViewById(R.id.timePickerEnd);
+		datePicker = (DatePicker)findViewById(R.id.datePickerEditReport);
+		
+		
 		//Initialize time post object (create new if id = 0)
 		int timePostId = getIntent().getIntExtra(Constants.TIME_POST_ID, 0);
+		
 		if (timePostId != 0) {
 			DB db = new DB(this);
 			timePost = db.getTimePost(timePostId);
 			if (timePost == null) timePost = new TimePost();
 		}
-		else
+		else{
+			//DB db = new DB(this);
+			Log.d("new time post", "inne i else då id=0");
 			timePost = new TimePost();
-		//Link GUI objects with xml ids
-		button = (Button)findViewById(R.id.button_save);
-		commentField = (EditText) findViewById(R.id.editTextComment);
-		startPicker = (TimePicker) findViewById(R.id.timePickerStart);
-		endPicker = (TimePicker) findViewById(R.id.timePickerEnd);
+			timePost.projectId = SettingsManager.getCurrentProjectId(this);
+			
+			// If it is a new time post 
+			this.setTitle(R.string.title_activity_add_new_post);
+			
+			//Rename button strings
+			button_save.setText(R.string.addNewPostButton);
+			//button_delete.setText(R.string.cancelNewPostButton);
+			
+		}
 		
 		//Init GUI functionality
 		initCommentField();
 		initTimePickers();
 		initSaveButton();
+		initDeleteButton();
 	}
+	
 
 	
-	public void initSaveButton() {
+	private void initDeleteButton() {
 		
-		button.setOnClickListener(new View.OnClickListener() {
+		button_delete.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				AlertDialog.Builder ad = new AlertDialog.Builder(message);
 				
-				ad.setTitle("Bekräftelse");
-				 
-				// set dialog message
-				ad
-					.setMessage("Vill du spara?")
-					.setCancelable(false)
-					.setPositiveButton("Ja",new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog,int id) {
-							timePost.startTime.set(Calendar.HOUR_OF_DAY, startPicker.getCurrentHour());
-							timePost.startTime.set(Calendar.MINUTE, startPicker.getCurrentMinute());
-							
-							timePost.endTime.set(Calendar.HOUR_OF_DAY, endPicker.getCurrentHour());
-							timePost.endTime.set(Calendar.MINUTE, endPicker.getCurrentMinute());
-							
-							timePost.comment = commentField.getEditableText().toString();
-							Log.d("Oskar testar", timePost.comment);
-							
-							DB db = new DB(message);
-							db.set(timePost);
-							// if this button is clicked, close
-							// current activity
-							EditReport.this.finish();
-						}
-					  })
-					.setNegativeButton("Nej",new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog,int id) {
-							// if this button is clicked, just close
-							// the dialog box and do nothing
-							dialog.cancel();
-						}
-					});
+				AlertDialog.Builder ad = new AlertDialog.Builder(message);
+				//ad.setTitle("Confirm"); 
+				ad.setMessage(R.string.editReportConfirmMessage);
+				ad.setCancelable(false);
+				ad.setPositiveButton(R.string.editReportConfirmPositive,new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog,int id) {
+						DB db = new DB(message);
+						db.deleteTimePost(timePost);
+						EditReport.this.finish();
+					}
+				});
+				ad.setNegativeButton(R.string.editReportConfirmNegative,new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog,int id) {
+						dialog.cancel();
+					}
+				});
 	 
-					// create alert dialog
-					AlertDialog alertDialog = ad.create();
+				// create alert dialog
+				AlertDialog alertDialog = ad.create();
 	 
-					// show it
-					alertDialog.show();
+				// show it
+				alertDialog.show();
 			}
+		});
+	}
+
+
+	public void initSaveButton() {
+		
+		button_save.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+				timePost.startTime.set(Calendar.YEAR, datePicker.getYear());
+				timePost.endTime.set(Calendar.YEAR, datePicker.getYear());
+				
+				timePost.startTime.set(Calendar.MONTH, datePicker.getMonth());
+				timePost.endTime.set(Calendar.MONTH, datePicker.getMonth());
+				
+				timePost.startTime.set(Calendar.DAY_OF_MONTH, datePicker.getDayOfMonth());
+				timePost.endTime.set(Calendar.DAY_OF_MONTH, datePicker.getDayOfMonth());
+				
+				timePost.startTime.set(Calendar.HOUR_OF_DAY, startPicker.getCurrentHour());
+				timePost.startTime.set(Calendar.MINUTE, startPicker.getCurrentMinute());
+				
+				timePost.endTime.set(Calendar.HOUR_OF_DAY, endPicker.getCurrentHour());
+				timePost.endTime.set(Calendar.MINUTE, endPicker.getCurrentMinute());
+				
+				timePost.comment = commentField.getEditableText().toString();
+				
+				DB db = new DB(message);
+				db.set(timePost);
+				finish();
+			};
 		});
 	}
 	
 	public void initTimePickers() {
+		datePicker.updateDate(timePost.startTime.get(Calendar.YEAR), timePost.startTime.get(Calendar.MONTH), timePost.startTime.get(Calendar.DAY_OF_MONTH));
+		
 		startPicker.setIs24HourView(true);
         startPicker.setCurrentHour(timePost.startTime.get(Calendar.HOUR_OF_DAY));
         startPicker.setCurrentMinute(timePost.startTime.get(Calendar.MINUTE));

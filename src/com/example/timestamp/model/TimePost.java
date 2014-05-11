@@ -77,6 +77,10 @@ public class TimePost {
 		commentShared = false;
 	}
 	
+	public String getComment(){
+		return comment;
+	}
+	
 	//for printing nice output
 	public String printStartTime(){
 		//System.out.println(new SimpleDateFormat("yyyy MMM dd HH:mm:ss").format(startTime.getTime()));
