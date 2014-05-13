@@ -88,9 +88,6 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
 		
 	}
 	
-	
-	
-
 	@Override		//mother of all inits!
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
  
@@ -125,12 +122,12 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
         );
         
      // Create a couple arrays of y-values to plot:
-        Number[] series1Numbers = {20, 16, 15, 12, 6, 4};
+        /*Number[] series1Numbers = {20, 16, 15, 12, 6, 4};
         Number[] series2Numbers = {24, 20, 10, 3, 2, 1};
         
-        Number[] xValues = {0, 1, 2, 3, 4, 5};
+        Number[] xValues = {0, 1, 2, 3, 4, 5};*/
          
-        XYSeries series1 = new SimpleXYSeries(
+     /*   XYSeries series1 = new SimpleXYSeries(
         		 Arrays.asList(xValues) // SimpleXYSeries takes a List so turn our array into a List
                 ,Arrays.asList(series1Numbers), // Y_VALS_ONLY means use the element index as the x value
                 "Combitech");
@@ -138,27 +135,26 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
         XYSeries series2 = new SimpleXYSeries(
         		Arrays.asList(xValues),
         		Arrays.asList(series2Numbers),
-        		"Siemens");
+        		"Siemens");*/
         
-        plot.getGraphWidget().setDomainValueFormat(new GraphXLabelFormat());
         // Create a formatter to use for drawing a series using LineAndPointRenderer
         // and configure it from xml:
-        LineAndPointFormatter series1Format = new LineAndPointFormatter();
+        /*LineAndPointFormatter series1Format = new LineAndPointFormatter();
         series1Format.setPointLabelFormatter(new PointLabelFormatter());
         series1Format.configure(getActivity(),
                 R.xml.line_point_formatter_with_plf1);
-        series1Format.getPointLabelFormatter().setTextPaint(bgPaint);
+        series1Format.getPointLabelFormatter().setTextPaint(bgPaint);*/
 
         // add a new series' to the xyplot:
-        plot.addSeries(series1, series1Format);
+        //plot.addSeries(series1, series1Format);
      // same as above:
-        LineAndPointFormatter series2Format = new LineAndPointFormatter();
+        /*LineAndPointFormatter series2Format = new LineAndPointFormatter();
         series2Format.setPointLabelFormatter(new PointLabelFormatter());
         series2Format.configure(getActivity(),
         		R.xml.line_point_formatter_with_plf2);
         series2Format.getPointLabelFormatter().setTextPaint(bgPaint);
         
-        plot.addSeries(series2, series2Format);
+        plot.addSeries(series2, series2Format);*/
        
         //Titles for axis
         plot.getGraphWidget().getDomainLabelPaint().setColor(Color.BLACK);
@@ -203,7 +199,7 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
         initChart();
         initProjects(); // get all projects
 
-        //update();
+
         
         return rootView;
     }
@@ -215,7 +211,7 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
 	
 
 	
-	/*@Override
+	@Override
 	public void update()
 	{   
 		//Log.d("Fragment info: ", getActivity().toString());
@@ -237,44 +233,55 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
 		Number[] hoursPerMonth = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}; // We take 6 months interval
 		
 		GregorianCalendar startMonth = new GregorianCalendar();
-		startMonth.set(Calendar.MONTH, Calendar.MONTH);
-		
-		startOfWeek.setTimeInMillis(startOfWeek.getTimeInMillis() - 1000 * 3600 * 24 * 2); // Make a return to week before
-		startOfWeek.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-		startOfWeek.set(Calendar.HOUR_OF_DAY, 1);
+		startMonth.set(Calendar.YEAR, Calendar.MAY, 1);
+
+		startMonth.set(Calendar.YEAR, Calendar.MAY, Calendar.DAY_OF_MONTH);
+		startMonth.set(Calendar.HOUR_OF_DAY,1);
+
 		
 		for (int n = 0; n < timePosts.size(); n++) {
-			if (timePosts.get(n).startTime.getTimeInMillis() > startOfWeek.getTimeInMillis())
+			if (timePosts.get(n).startTime.getTimeInMillis() > startMonth.getTimeInMillis())
 			{
-				int day = (timePosts.get(n).startTime.get(Calendar.DAY_OF_WEEK) + 6) % 7;
-				hoursPerDay[day-1] = (Number)(timePosts.get(n).getWorkedHours() + hoursPerDay[day].floatValue());
+				int month = (timePosts.get(n).startTime.get(Calendar.MONTH) + 6) % 6;
+				hoursPerMonth[month-1] = (Number)(timePosts.get(n).getWorkedHours() + hoursPerMonth[month-1].floatValue());
+				System.out.println("HoursPerMonth: " + hoursPerMonth[month-1] + "Current month: " + month);
 			}
 		}
+		
+        Paint plotPaint = new Paint();
+        
+        plotPaint.setColor(Color.TRANSPARENT);
+        plot.getLegendWidget().setBackgroundPaint(plotPaint);
 
-		//BarFormatter formatter = new BarFormatter(Color.argb(200, 100, 150, 100), Color.argb(200, 10, 15, 10));
+		//Format for 6 months ahead
+		Number[] xValues = {0, 1, 2, 3, 4, 5};
+				
+		data = new SimpleXYSeries(Arrays.asList(xValues),Arrays.asList(hoursPerMonth), "Worked Hours");
 		
-		//Format for days of the week
-		Number[] xValues = {0, 1, 2, 3, 4, 5, 6};
+		LineAndPointFormatter seriesFormat = new LineAndPointFormatter();
+        seriesFormat.setPointLabelFormatter(new PointLabelFormatter());
+        seriesFormat.configure(getActivity(),
+                R.xml.line_point_formatter_with_plf1);
+        seriesFormat.getPointLabelFormatter().setTextPaint(plotPaint);
 		
-		data = new SimpleXYSeries(Arrays.asList(hoursPerDay), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Worked Hours");
+        plot.getGraphWidget().setDomainValueFormat(new GraphXLabelFormat());
+        
+        // add a new series' to the xyplot:
+        plot.clear();
+        
+        plot.addSeries(data, seriesFormat);
+		
+		plot.redraw();
+	}
+	
 
-		barChart.clear();
-		MyBarFormatter seriesFormat = new MyBarFormatter(Color.parseColor("#063A70"), Color.WHITE);
-        barChart.addSeries(data, seriesFormat); 
-        ((MyBarRenderer) barChart.getRenderer(MyBarRenderer.class)).setBarWidthStyle(BarRenderer.BarWidthStyle.FIXED_WIDTH);
-        ((MyBarRenderer) barChart.getRenderer(MyBarRenderer.class)).setBarWidth(23);
-		
-		barChart.redraw();
-	}*/
-	
-	
-	// HEJ 
 	private class GraphXLabelFormat extends Format {
 
-	    String LABELS[]  = {"Jan", "Feb", "Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec",};
+	    String LABELS[]  = {"Jan", "Feb", "Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
 
 	    @Override
 	    public StringBuffer format(Object object, StringBuffer buffer, FieldPosition field) {
+	    	System.out.println(object.toString());
 	        int parsedInt = Math.round(Float.parseFloat(object.toString()));
 	        String labelString = LABELS[parsedInt+4];
 	        buffer.append(labelString);
@@ -306,31 +313,12 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
 		
 		
 	}
-     
-	
-		    
+     	    
 	@Override
 	public void onResume()
 	{	
 		super.onResume();
 	}
 
-
-
-
-	@Override
-	public void update() {
-		if (plot == null)
-		{
-			Log.d("Fragment info: ", "barChart = null");
-			return;
-		}
-		
-		if (db == null)
-			db = new DB(getParentFragment().getActivity());
-
-		// TODO Auto-generated method stub
-		
-	}
 	
 }

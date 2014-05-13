@@ -133,7 +133,6 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
         initChart();
         update();
         
-        
         return rootView;
     }
 	
