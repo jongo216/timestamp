@@ -125,8 +125,9 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
         
         //Margins and Padding for whole plot
         barChart.getGraphWidget().setMarginLeft(30);
-        barChart.getGraphWidget().setPaddingLeft(0);
-        barChart.getGraphWidget().setMarginRight(200);
+        barChart.getGraphWidget().setGridPaddingLeft(10);
+        barChart.getGraphWidget().setMarginRight(150);
+        barChart.getGraphWidget().setGridPaddingRight(15);
         //hide legend
         barChart.getLegendWidget().setVisible(false);
         
@@ -172,18 +173,30 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
 		startOfWeek.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 		startOfWeek.set(Calendar.HOUR_OF_DAY, 1);
 		
+		//System.out.println(startOfWeek.getTime());
+		
 		for (int n = 0; n < timePosts.size(); n++) {
+			float tet =  timePosts.get(n).startTime.getTimeInMillis();
+			//System.out.println(timePosts.get(n).startTime.getTime());
+			//System.out.println(tet);System.out.println(" Jemfor med: ");
+			//System.out.println(startOfWeek.getTimeInMillis());
+			
+			
 			if (timePosts.get(n).startTime.getTimeInMillis() > startOfWeek.getTimeInMillis())
 			{
-				int day = (timePosts.get(n).startTime.get(Calendar.DAY_OF_WEEK) + 6) % 7;
-				hoursPerDay[day-1] = (Number)(timePosts.get(n).getWorkedHours() + hoursPerDay[day].floatValue());
+				//System.out.println("KOM IN");
+				
+				
+				int day = (timePosts.get(n).startTime.get(Calendar.DAY_OF_WEEK)+5) % 7;
+				//System.out.println("Choose a day: " + day);
+				hoursPerDay[day] = (Number)(timePosts.get(n).getWorkedHours() + hoursPerDay[day].floatValue());
 			}
 		}
 
 		//BarFormatter formatter = new BarFormatter(Color.argb(200, 100, 150, 100), Color.argb(200, 10, 15, 10));
 		
 		//Format for days of the week
-		Number[] xValues = {0, 1, 2, 3, 4, 5, 6};
+		Number[] xValues = { 1, 2, 3, 4, 5, 6,7};
 		
 		data = new SimpleXYSeries(Arrays.asList(hoursPerDay), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Worked Hours");
 

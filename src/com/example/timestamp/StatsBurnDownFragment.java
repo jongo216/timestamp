@@ -163,10 +163,12 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
         
         
         // Settings for ticks and labels on x and y axis
-        plot.setTicksPerRangeLabel(3);               
+        plot.setTicksPerRangeLabel(2);
+        plot.setRangeBottomMax(0);
         plot.setDomainStep(XYStepMode.SUBDIVIDE, 6);
         plot.getGraphWidget().setDomainLabelOrientation(0); //Changed from -45
-        //plot.setRangeStep(XYStepMode.SUBDIVIDE, 6);
+        plot.setRangeStep(XYStepMode.SUBDIVIDE, 6);
+  
                
 
         plot.getBorderPaint().setColor(Color.TRANSPARENT);
@@ -241,13 +243,12 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
 		for (int n = 0; n < timePosts.size(); n++) {
 			if (timePosts.get(n).startTime.getTimeInMillis() > startMonth.getTimeInMillis())
 			{
-				int month = (timePosts.get(n).startTime.get(Calendar.MONTH) + 6) % 6;
-				hoursPerMonth[month-4] = (Number)(timePosts.get(n).getWorkedHours() + hoursPerMonth[month-4].floatValue());
+				int month = (timePosts.get(n).startTime.get(Calendar.MONTH)) % 4;
+				hoursPerMonth[month] = (Number)(timePosts.get(n).getWorkedHours() + hoursPerMonth[month].floatValue());
 			}
 		}
 		for(int i =1; i<hoursPerMonth.length;i++)
 		{
-			System.out.println("Hourspermonth: " + hoursPerMonth[i-1]);
 			hoursPerMonth[i] = hoursPerMonth[i].floatValue() + hoursPerMonth[i-1].floatValue();
 		}
 		
@@ -259,8 +260,10 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
 
 		//Format for 6 months ahead
 		Number[] xValues = {0, 1, 2, 3, 4, 5};
+		
+		String datalabel = db.getProject(currentProject).getName();
 				
-		data = new SimpleXYSeries(Arrays.asList(xValues),Arrays.asList(hoursPerMonth), "Worked Hours");
+		data = new SimpleXYSeries(Arrays.asList(xValues),Arrays.asList(hoursPerMonth), datalabel);
 		
 		LineAndPointFormatter seriesFormat = new LineAndPointFormatter();
         seriesFormat.setPointLabelFormatter(new PointLabelFormatter());
@@ -269,7 +272,12 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
         seriesFormat.getPointLabelFormatter().setTextPaint(plotPaint);
 		
         plot.getGraphWidget().setDomainValueFormat(new GraphXLabelFormat());
-        plot.setRangeStep(XYStepMode.INCREMENT_BY_VAL, 10);
+        
+        int max = hoursPerMonth[5].intValue();
+        max = max + 5 + (max/10);
+        plot.setRangeTopMin(max);
+        
+       
         
         // add a new series' to the xyplot:
         plot.clear();
@@ -286,7 +294,6 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
 
 	    @Override
 	    public StringBuffer format(Object object, StringBuffer buffer, FieldPosition field) {
-	    	System.out.println(object.toString());
 	        int parsedInt = Math.round(Float.parseFloat(object.toString()));
 	        String labelString = LABELS[parsedInt+4];
 	        buffer.append(labelString);
