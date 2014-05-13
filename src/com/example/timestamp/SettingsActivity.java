@@ -77,7 +77,7 @@ public class SettingsActivity extends Activity {
 				//Byt till att exportera endast valda projekt.
 				//ArrayList<TimePost> allTimePosts = db.getThisWeekTimePosts();				
 
-				new Exporter("Do you want to export all unsigned timeposts?", new DB(context).getUnsignedTimes(), context);
+				//new Exporter("Do you want to export all unsigned timeposts?", new DB(context).getUnsignedTimes(), context);
 				//exporter.readCSV(context);
 			}	
 		});
