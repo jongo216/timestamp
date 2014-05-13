@@ -174,19 +174,18 @@ public class EditReport extends Activity {
 		
 		for(int i = 0; i<projectIds.size(); i++){
 			if(projectIds.get(i) == SettingsManager.getCurrentProjectId(thisAct)){
-				spinnerProjectSelector.setSelection(i); 
+				spinnerProjectSelector.setSelection(i);
+				break;
 			}
-			break;
 		}
-		
-		
-		
 		
 		spinnerProjectSelector.setOnItemSelectedListener(new OnItemSelectedListener(){
 
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-				timePost.setProjectId(projectIds.get(pos));
+				timePost.projectId = projectIds.get(pos);
+				Log.d("EditReport", "Selectedwith: projget="+projectIds.get(pos)+" pos="+pos);
+				//timePost.setProjectId(projectIds.get(pos));
 			}
 
 			@Override
@@ -257,6 +256,7 @@ public class EditReport extends Activity {
 				
 				DB db = new DB(message);
 				db.set(timePost);
+				Log.d("EditReport", "Saved: projID="+timePost.projectId);
 				finish();
 			};
 		});
