@@ -194,6 +194,20 @@ public class TimePost {
 		
 		setStartTime(new GregorianCalendar(year,months,days,hours,minutes,seconds));
 	}
+	
+	public boolean sameDay(TimePost next){
+		if(this.getStartTimeObject().get(Calendar.YEAR) == next.getStartTimeObject().get(Calendar.YEAR) ){
+			
+			if(this.getStartTimeObject().get(Calendar.MONTH) == next.getStartTimeObject().get(Calendar.MONTH)){
+				
+				if(this.getStartTimeObject().get(Calendar.DAY_OF_MONTH) == next.getStartTimeObject().get(Calendar.DAY_OF_MONTH)){
+					
+					return true;
+				}
+			}
+		}	
+		return false;
+	}
 
 	public void setEndTimeByString(String st) {
 		String[] splitDate = st.split("-");
