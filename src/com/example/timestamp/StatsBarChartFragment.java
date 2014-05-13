@@ -153,7 +153,6 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
 	@Override
 	public void update()
 	{   
-		//Log.d("Fragment info: ", getActivity().toString());
 		if (barChart == null)
 		{
 			Log.d("Fragment info: ", "barChart = null");
@@ -162,39 +161,25 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
 		
 		if (db == null)
 			db = new DB(getParentFragment().getActivity());
-		
-		//DB db = new DB(getActivity());
+
 		int currentProject = SettingsManager.getCurrentProjectId(getParentFragment().getActivity());
 		timePosts = db.getTimePosts(currentProject);
 		Number[] hoursPerDay = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
 		
+		// Set start week... 
 		GregorianCalendar startOfWeek = new GregorianCalendar();
-		startOfWeek.setTimeInMillis(startOfWeek.getTimeInMillis() - 1000 * 3600 * 24 * 2);
-		startOfWeek.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+		startOfWeek.setTimeInMillis(startOfWeek.getTimeInMillis() - 1000 * 3600 * 24 * 2); // Rewind to Sunday to be able to compare in loop
+		startOfWeek.set(Calendar.DAY_OF_WEEK_IN_MONTH, Calendar.MONDAY);
 		startOfWeek.set(Calendar.HOUR_OF_DAY, 1);
-		
-		//System.out.println(startOfWeek.getTime());
-		
+
 		for (int n = 0; n < timePosts.size(); n++) {
-			float tet =  timePosts.get(n).startTime.getTimeInMillis();
-			//System.out.println(timePosts.get(n).startTime.getTime());
-			//System.out.println(tet);System.out.println(" Jemfor med: ");
-			//System.out.println(startOfWeek.getTimeInMillis());
-			
-			
+			//Check if timeposts is in the current week for bar chart... otherwise don't show
 			if (timePosts.get(n).startTime.getTimeInMillis() > startOfWeek.getTimeInMillis())
 			{
-				//System.out.println("KOM IN");
-				
-				
 				int day = (timePosts.get(n).startTime.get(Calendar.DAY_OF_WEEK)+5) % 7;
-				//System.out.println("Choose a day: " + day);
 				hoursPerDay[day] = (Number)(timePosts.get(n).getWorkedHours() + hoursPerDay[day].floatValue());
 			}
 		}
-
-		//BarFormatter formatter = new BarFormatter(Color.argb(200, 100, 150, 100), Color.argb(200, 10, 15, 10));
-		
 		//Format for days of the week
 		Number[] xValues = { 1, 2, 3, 4, 5, 6,7};
 		
