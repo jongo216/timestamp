@@ -121,7 +121,9 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 		ccBox = (CheckBox) view.findViewById(R.id.alertExportCC);
 		ccBox.setChecked(SettingsManager.getExportToggleCC(A));
 		emailTo = (EditText) view.findViewById(R.id.alertReceiverEmail);
-		emailTo.setText(SettingsManager.getExportEmailAddress(A));
+		String exportEmailAddress = SettingsManager.getExportEmailAddress(A);
+		if(exportEmailAddress != null)
+			emailTo.setText(exportEmailAddress);
 		
 		builder.setPositiveButton("Send with token", new DialogInterface.OnClickListener() {
 	           public void onClick(DialogInterface dialog, int id) {

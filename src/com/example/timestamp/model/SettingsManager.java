@@ -85,7 +85,7 @@ public class SettingsManager {
 	
 	public static String getExportEmailAddress(Activity activity) {
 		SharedPreferences settings = activity.getSharedPreferences(Constants.SETTINGS_TIMESTAMP, 0);
-		return settings.getString(Constants.SETTING_EXPORT_EMAIL_ADDRESS, "timestampnoreply@gmail.com");
+		return settings.getString(Constants.SETTING_EXPORT_EMAIL_ADDRESS, null);
 	}
 	
 	public static void setExportToggleCC(boolean toggleCC, Activity activity) {

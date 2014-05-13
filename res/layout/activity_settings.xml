@@ -191,19 +191,6 @@
 		        android:checked="false"
 		        android:text="@string/checkBoxExportCsv"
 		        android:textColor="@color/textColorBlack" />
-	
-		    <Button
-		        android:id="@+id/exportButton"
-		        style="@style/CustomStyleButtonDark"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_below="@+id/checkBoxExportCsv"
-		        android:gravity="center"
-		        android:layout_weight="1"
-	            android:padding="3dp"
-		        android:minWidth="100dp"
-		        android:layout_marginBottom="5dp"
-		        android:text="@string/buttonExport" />
 	        
         </RelativeLayout>
 	</ScrollView>
