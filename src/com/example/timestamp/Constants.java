@@ -38,5 +38,6 @@ public class Constants {
 	public static final String[] WEEK_DAY_STRINGS = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 	public static final String TIME_POST_ID = "timePostId";
 	public static final String PROJECT_ID = "projectId";
-	
+	public static final String WIDGET_TIMER_ACTION = "com.example.timestamp.widgetTimerAction";
+	public static final String WIDGET_ID = "com.example.timestamp.widgetId"; 
 }
