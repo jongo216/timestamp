@@ -108,10 +108,18 @@ public class TimePost {
 		return "";
 	}
 	
+	public GregorianCalendar getStartTimeObject(){
+		return startTime;	
+	}
+	
+	public GregorianCalendar getEndTimeObject(){
+		return endTime;	
+	}
 	
 	//for SQL use do not change!
 	public String getStartTime(){
 		if(startTime != null)
+			
 			return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(startTime.getTime());
 		return "";
 	}

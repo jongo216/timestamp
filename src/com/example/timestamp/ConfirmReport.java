@@ -88,7 +88,7 @@ public class ConfirmReport extends Fragment {
 	private FragmentActivity parentActivity;
 	private Spinner spinner;
 	
-	//För popup vyn
+	//F��r popup vyn
 	private Button editTimePostButton, addNewTimePostButton;
 	boolean click = true;
 	PopupWindow popUp;
@@ -97,7 +97,7 @@ public class ConfirmReport extends Fragment {
 	LayoutParams params;
 	LinearLayout mainLayout;
 	Button but;
-	//END För popup vyn 
+	//END F��r popup vyn 
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -225,11 +225,11 @@ public class ConfirmReport extends Fragment {
 		
 		
 		
-		//Hämtar namn från string array med menu item.
+		//H��mtar namn fr��n string array med menu item.
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, projectsMenuString){
 			
 						
-			// Style för Spinnern.. Sätter textstorlek samt centrerar..
+			// Style f��r Spinnern.. S��tter textstorlek samt centrerar..
 			public View getView(int position, View convertView,ViewGroup parent) {
 
 		        View v = super.getView(position, convertView, parent);
@@ -241,7 +241,7 @@ public class ConfirmReport extends Fragment {
 		        return v;
 
 		    }
-			//Style för dropdownmenyn under spinnern..
+			//Style f��r dropdownmenyn under spinnern..
 			public View getDropDownView(int position, View convertView,ViewGroup parent) {
 
 		        View v = super.getDropDownView(position, convertView,parent);
@@ -254,7 +254,7 @@ public class ConfirmReport extends Fragment {
 		        return v;
 		    }	
 		};
-		//Spinnern använder items från en valt adapter.
+		//Spinnern anv��nder items fr��n en valt adapter.
 		spinner.setAdapter(adapter);
 
 		spinnerListener();
