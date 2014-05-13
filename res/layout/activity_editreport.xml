@@ -29,106 +29,145 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_gradient"
+    android:layout_gravity="center_horizontal"
+    android:layout_margin="10dp"
+    android:gravity="center_horizontal"
     android:orientation="vertical" >
 
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+
+            <DatePicker
+                android:id="@+id/datePickerEditReport"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:calendarViewShown="false" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical" >
+
+                    <!-- START-TIME-PICKER-TEXT -->
+
+                    <TextView
+                        android:id="@+id/textEditStartTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/textEditStartTime"
+                        android:textSize="13sp" />
+
+                    <!-- START-TIME-PICKER -->
+
+                    <TimePicker
+                        android:id="@+id/timePickerStart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scaleX="0.7"
+                        android:scaleY="0.7" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical" >
+
+                    <!-- END-TIME-PICKER-TEXT -->
+
+                    <TextView
+                        android:id="@+id/textEditEndTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/textEditEndTime"
+                        android:textSize="13sp" />
+
+                    <!-- END-TIME-PICKER -->
+
+                    <TimePicker
+                        android:id="@+id/timePickerEnd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:measureAllChildren="false"
+                        android:scaleX="0.7"
+                        android:scaleY="0.7" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Header till comment Field -->
+
+
+            <!-- Comment Field -->
+
+
+            <!-- SPARA KNAPPEN -->
+
+
+            <!-- TA BORT KNAPPEN -->
+
+            <TextView
+                android:id="@+id/textEditComment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/textEditComment" />
+
+            <EditText
+                android:id="@+id/editTextComment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:ems="10"
+                android:hint="@string/editTextCommentHint"
+                android:maxLength="40"
+                android:singleLine="true"
+                android:textSize="12sp" >
+
+            </EditText>
+        </LinearLayout>
+
+    </ScrollView>
     
-        <DatePicker
-            android:id="@+id/datePickerEditReport"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:calendarViewShown="false"
-            android:layout_centerHorizontal="true"
-            android:layout_alignLeft="@+id/button_save" />
-        <!-- START-TIME-PICKER-TEXT -->
-        <TextView
-            android:id="@+id/textEditStartTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/timePickerStart"
-            android:text="@string/textEditStartTime"
-            android:textSize="13sp" />
-        
-        <!-- START-TIME-PICKER -->
-        <TimePicker
-            android:id="@+id/timePickerStart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/datePickerEditReport"
-            android:layout_toRightOf="@+id/textEditStartTime"
-            android:scaleX="0.7"
-            android:scaleY="0.7" />
-        
-        <!-- END-TIME-PICKER-TEXT -->
-        <TextView
-            android:id="@+id/textEditEndTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/timePickerStart"
-            android:layout_alignTop="@+id/timePickerStart"
-            android:text="@string/textEditEndTime"
-            android:textSize="13sp" />
-        
-        <!-- END-TIME-PICKER -->
-        <TimePicker
-            android:id="@+id/timePickerEnd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/textEditEndTime"
-            android:layout_alignBottom="@+id/timePickerStart"
-            android:scaleX="0.7"
-            android:scaleY="0.7" />
+    <Button
+        android:id="@+id/button_save"
+        style="@style/CustomStyleButtonDark"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="false"
+        android:text="@string/buttonSaveEdit" />
 
-        <!-- Header till comment Field -->
-        <TextView
-            android:id="@+id/textEditComment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/editTextComment"
-            android:layout_marginLeft="20dp"
-            android:text="@string/textEditComment" />
-        
-        <!-- Comment Field -->
-        <EditText
-            android:id="@+id/editTextComment"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_above="@+id/button_save"
-            android:layout_alignLeft="@+id/button_save"
-            android:layout_alignRight="@+id/button_delete"
-            android:singleLine="true"
-            android:hint="@string/editTextCommentHint"
-            android:maxLength="40"
-            android:textSize="12sp" />
-
-
-        <!-- SPARA KNAPPEN -->
-        <Button
-            android:id="@+id/button_save"
-            style="@style/CustomStyleButtonDark"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="20dp"
-            android:text="@string/buttonSaveEdit" />
-
-        <!-- TA BORT KNAPPEN -->
-        <Button
-            android:id="@+id/button_delete"
-            style="@style/CustomStyleButtonDark"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-			android:layout_alignParentBottom="true"
-			android:layout_alignParentRight="true"
-			android:layout_marginBottom="20dp"
-            android:layout_marginRight="20dp"
-            android:text="@string/buttonDeleteEdit" />
-
-        
+    <Button
+        android:id="@+id/button_delete"
+        style="@style/CustomStyleButtonDark"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:text="@string/buttonDeleteEdit" />
 
 </RelativeLayout>
