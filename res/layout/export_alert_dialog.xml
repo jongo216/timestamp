@@ -53,7 +53,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
         android:layout_marginBottom="4dp"
-	    android:text="@string/alertCheckboxText" />
+	    android:text="@string/alertCheckBoxCCText" />
+	<CheckBox
+	    android:id="@+id/alertExportComments"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_marginTop="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="4dp"
+	    android:text="@string/alertCheckBoxCommentText" />
 
 
 </LinearLayout>
