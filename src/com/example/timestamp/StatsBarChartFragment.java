@@ -89,8 +89,6 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
         barChart.getLegendWidget().setTableModel(new DynamicTableModel(1, 2));
         barChart.getLegendWidget().setSize(new SizeMetrics(150, SizeLayoutType.ABSOLUTE, 200, SizeLayoutType.ABSOLUTE));
 
-        
-        
         // Set domain values for x axis
         barChart.getGraphWidget().setDomainValueFormat(new GraphXLabelFormat());
         
@@ -115,7 +113,6 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
         barChart.setTicksPerRangeLabel(1); 
         barChart.setTicksPerDomainLabel(1);
         barChart.setDomainStep(XYStepMode.SUBDIVIDE, 7);
-        
         
         //Range (Y-labels) settings
         barChart.getGraphWidget().setRangeValueFormat(new DecimalFormat("0"));

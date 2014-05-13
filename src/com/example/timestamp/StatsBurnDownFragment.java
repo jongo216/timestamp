@@ -33,12 +33,16 @@ import java.text.DecimalFormat;
 import java.text.FieldPosition;
 import java.text.Format;
 import java.text.ParsePosition;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,20 +53,37 @@ import com.androidplot.ui.SizeLayoutType;
 import com.androidplot.ui.SizeMetrics;
 import com.androidplot.ui.XLayoutStyle;
 import com.androidplot.ui.YLayoutStyle;
+import com.androidplot.xy.BarRenderer;
 import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.PointLabelFormatter;
 import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYPlot;
 import com.androidplot.xy.XYSeries;
 import com.androidplot.xy.XYStepMode;
+import com.example.timestamp.StatsBarChartFragment.MyBarFormatter;
+import com.example.timestamp.StatsBarChartFragment.MyBarRenderer;
 import com.example.timestamp.model.DB;
+import com.example.timestamp.model.Project;
+import com.example.timestamp.model.SettingsManager;
+import com.example.timestamp.model.TimePost;
 
 public class StatsBurnDownFragment extends Fragment implements UpdateableStatistics {
 
-	private View rootView;
+	public String[] projectsMenuString; // = {"Projekt 1", "Projekt 2", "Nytt projekt"};
+	public int[] projectMenuIds;
+	private ArrayList<Project> projects;
 	
+	private View rootView;
 	private DB db;
 	private XYPlot plot;
+	private ArrayList<TimePost> timePosts;
+	
+	
+	public void setDB(DB database)
+	{
+		db = database;
+		
+	}
 
 	@Override		//mother of all inits!
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -170,8 +191,12 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
         plot.getGraphWidget().setPaddingLeft(0);
         plot.getGraphWidget().setMarginRight(200);
         
-                
-        db = new DB(getActivity());
+        
+        update(); 
+        initChart();
+        initProjects(); // get all projects
+               
+       
         //parentActivity = getActivity();
         
         return rootView;
@@ -195,7 +220,26 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
 	        return java.util.Arrays.asList(LABELS).indexOf(string);
 	    }
 	}
+    
+	private void initProjects(){
+		int selectedRow = 0;
+		
+		projects = db.getAllProjects();
+			
+	   projectsMenuString = new String[projects.size() + 1];
+		//Log.d("HEJ", projectsMenuString[0]);
+   	   projectMenuIds = new int[projects.size()+1];
 
+	
+	}
+	
+	
+	private void initChart()
+	{
+		
+		
+		
+	}
      
 	
 		    
@@ -210,6 +254,15 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
 
 	@Override
 	public void update() {
+		if (plot == null)
+		{
+			Log.d("Fragment info: ", "barChart = null");
+			return;
+		}
+		
+		if (db == null)
+			db = new DB(getParentFragment().getActivity());
+
 		// TODO Auto-generated method stub
 		
 	}
