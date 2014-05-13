@@ -61,7 +61,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <string name="checkBoxExportPdf">PDF</string>
     <string name="checkBoxExportXls">Excel</string>
     <string name="checkBoxExportCsv">Csv</string>
-    <string name="buttonExport">Export</string>
     <string name="buttonSaveSettings">Save</string>
     
     <string name="title_main_activity_settings">Settings</string>
@@ -125,5 +124,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <string name="tabReport">Report</string>
     <string name="title_activity_manage_projects">ManageProjects</string>
     <string name="title_activity_create_new_project">CreateNewProject</string>
-
+    
+    <!--export alert dialog -->
+	<string name="alertEmailHint">example@timestamp.com</string>
+	<string name="alertCheckBoxCCText">Send copy to myself</string>
+	<string name="alertCheckBoxCommentText">Include comments</string>
 </resources>

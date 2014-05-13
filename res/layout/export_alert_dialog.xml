@@ -1,4 +1,4 @@
-/**  Copyright (c) 2014, Group D in course TNM082
+<!-- Copyright (c) 2014, Group D in course TNM082
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -25,46 +25,44 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-**/
+-->
 
-package com.example.timestamp;
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="6dp"
+    android:orientation="vertical" >
+    
+    <EditText
+        android:id="@+id/alertReceiverEmail"
+        android:inputType="textEmailAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="4dp"
+        android:hint="@string/alertEmailHint" />
 
-import android.app.ActionBar;
-import android.app.Activity;
+    
+	<CheckBox
+	    android:id="@+id/alertExportCC"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_marginTop="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="4dp"
+	    android:text="@string/alertCheckBoxCCText" />
+	<CheckBox
+	    android:id="@+id/alertExportComments"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_marginTop="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="4dp"
+	    android:text="@string/alertCheckBoxCommentText" />
 
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
-import android.view.*;
 
-
-public class SettingsActivity extends Activity {
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_settings);
-		
-		//Stylear actionbar
-		ActionBar actionBarTop = getActionBar(); //Action bar med rubrik + settingsknapp
-		actionBarTop.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
-		actionBarTop.setCustomView(R.layout.actionbar);
-		actionBarTop.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#11ffffff")));
-		actionBarTop.setDisplayShowHomeEnabled(true); //Nödvändig(??) för att visa action bars i rätt ordning
-		
-		//Fix som döljer ikonen i övre vänstra hörnet
-		View homeIcon = findViewById(android.R.id.home);
-		((View) homeIcon.getParent()).setVisibility(View.GONE);
-		
-	}
-	
-	
-
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.main_activitybar, menu);
-	    return super.onCreateOptionsMenu(menu);
-	}
-
-}
+</LinearLayout>
