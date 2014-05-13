@@ -76,6 +76,29 @@ public class SettingsManager {
 		SharedPreferences settings = activity.getSharedPreferences(Constants.SETTINGS_TIMESTAMP, 0);
 		return settings.getBoolean(Constants.SETTING_IS_TIMER_RUNNING, false);
 	}
+	
+	public static void setExportEmailAddress(String emailAddress, Activity activity) {
+	    SharedPreferences.Editor editor = activity.getSharedPreferences(Constants.SETTINGS_TIMESTAMP, 0).edit();
+	    editor.putString(Constants.SETTING_EXPORT_EMAIL_ADDRESS, emailAddress);
+	    editor.commit();
+	}
+	
+	public static String getExportEmailAddress(Activity activity) {
+		SharedPreferences settings = activity.getSharedPreferences(Constants.SETTINGS_TIMESTAMP, 0);
+		return settings.getString(Constants.SETTING_EXPORT_EMAIL_ADDRESS, null);
+	}
+	
+	public static void setExportToggleCC(boolean toggleCC, Activity activity) {
+	    SharedPreferences.Editor editor = activity.getSharedPreferences(Constants.SETTINGS_TIMESTAMP, 0).edit();
+	    editor.putBoolean(Constants.SETTING_EXPORT_TOGGLE_CC, toggleCC);
+	    editor.commit();
+	}
+	
+	public static boolean getExportToggleCC(Activity activity) {
+		SharedPreferences settings = activity.getSharedPreferences(Constants.SETTINGS_TIMESTAMP, 0);
+		return settings.getBoolean(Constants.SETTING_EXPORT_TOGGLE_CC, false);
+	}
+	
 	 /* setUser();
 	 * getUser();
 	 * setAutomationConfig();
