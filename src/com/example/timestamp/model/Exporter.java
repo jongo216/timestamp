@@ -130,7 +130,7 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 		ccBox = (CheckBox) view.findViewById(R.id.alertExportCC);
 		ccBox.setChecked(SettingsManager.getExportToggleCC(A));
 		commentBox = (CheckBox) view.findViewById(R.id.alertExportComments);
-		commentBox.setChecked(SettingsManager.getExportToggleCC(A));
+		commentBox.setChecked(SettingsManager.getExportToggleComments(A));
 		
 		emailTo = (EditText) view.findViewById(R.id.alertReceiverEmail);
 		String exportEmailAddress = SettingsManager.getExportEmailAddress(A);
@@ -491,7 +491,7 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 	@Override
 	protected Void doInBackground(Void... params) {
 		try {
-			createCSV(context, exportList, false);
+			createCSV(context, exportList, printComments);
 			if(isStatic)
 				exportJavaMailStatic();
 			else
