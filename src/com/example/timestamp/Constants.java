@@ -37,6 +37,7 @@ public class Constants {
 	public static final String SETTING_IS_TIMER_RUNNING = "isTimerRunning";
 	public static final String SETTING_EXPORT_EMAIL_ADDRESS = "exportEmailAddress";
 	public static final String SETTING_EXPORT_TOGGLE_CC = "exportToggleCC";
+	public static final String SETTING_EXPORT_TOGGLE_COMMENTS = "exportToggleComments";
 	public static final String[] WEEK_DAY_STRINGS = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 	public static final String TIME_POST_ID = "timePostId";
 	public static final String PROJECT_ID = "projectId";

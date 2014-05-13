@@ -91,9 +91,11 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 	private boolean isStatic;
 	private boolean isConnected;
 	private boolean CC;
+	private boolean printComments;
 	
 	private ArrayList<TimePost> exportList;
 	private CheckBox ccBox;
+	private CheckBox commentBox;
 	private EditText emailTo;
 	private String sendTo;
 	
@@ -102,7 +104,7 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 		context = a;
 		exportList = list;
 		
-		//Checks for internet connection
+		//Checks for Internet connection
 		ConnectivityManager cm = (ConnectivityManager)A.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
 		isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
@@ -120,6 +122,9 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 		//get the items we want to extract information from;
 		ccBox = (CheckBox) view.findViewById(R.id.alertExportCC);
 		ccBox.setChecked(SettingsManager.getExportToggleCC(A));
+		commentBox = (CheckBox) view.findViewById(R.id.alertExportComments);
+		commentBox.setChecked(SettingsManager.getExportToggleCC(A));
+		
 		emailTo = (EditText) view.findViewById(R.id.alertReceiverEmail);
 		String exportEmailAddress = SettingsManager.getExportEmailAddress(A);
 		if(exportEmailAddress != null)
@@ -145,11 +150,18 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 	        	else{
 	        		isStatic = false;
 	        		CC = ccBox.isChecked();
+	        		printComments = commentBox.isChecked();
+	        		sendTo = emailTo.getText().toString();
+	        		
+	        		//save settings if something has changed
 	        		if(CC != SettingsManager.getExportToggleCC(A))
 	        			SettingsManager.setExportToggleCC(CC, A);
-	        		sendTo = emailTo.getText().toString();
+	        		if(printComments != SettingsManager.getExportToggleComments(A))
+	        			SettingsManager.setExportToggleComments(printComments, A);
 	        		if(!sendTo.equals(SettingsManager.getExportEmailAddress(A)));
 	        			SettingsManager.setExportEmailAddress(sendTo, A);
+	        		
+	        			
 	        		execute();
 	        	}
 	        }

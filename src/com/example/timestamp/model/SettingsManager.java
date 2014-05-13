@@ -99,6 +99,17 @@ public class SettingsManager {
 		return settings.getBoolean(Constants.SETTING_EXPORT_TOGGLE_CC, false);
 	}
 	
+	public static void setExportToggleComments(boolean toggleComments, Activity activity) {
+	    SharedPreferences.Editor editor = activity.getSharedPreferences(Constants.SETTINGS_TIMESTAMP, 0).edit();
+	    editor.putBoolean(Constants.SETTING_EXPORT_TOGGLE_COMMENTS, toggleComments);
+	    editor.commit();
+	}
+	
+	public static boolean getExportToggleComments(Activity activity) {
+		SharedPreferences settings = activity.getSharedPreferences(Constants.SETTINGS_TIMESTAMP, 0);
+		return settings.getBoolean(Constants.SETTING_EXPORT_TOGGLE_COMMENTS, false);
+	}
+	
 	 /* setUser();
 	 * getUser();
 	 * setAutomationConfig();
