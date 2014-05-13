@@ -242,7 +242,7 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
 			if (timePosts.get(n).startTime.getTimeInMillis() > startMonth.getTimeInMillis())
 			{
 				int month = (timePosts.get(n).startTime.get(Calendar.MONTH) + 6) % 6;
-				hoursPerMonth[month-4] = (Number)(timePosts.get(n).getWorkedHours() + hoursPerMonth[month-4].floatValue());
+				hoursPerMonth[month] = (Number)(timePosts.get(n).getWorkedHours() + hoursPerMonth[month].floatValue());
 			}
 		}
 		for(int i =1; i<hoursPerMonth.length;i++)
@@ -300,8 +300,6 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
 	}
     
 	private void initProjects(){
-		int selectedRow = 0;
-		
 		projects = db.getAllProjects();
 			
 	   projectsMenuString = new String[projects.size() + 1];

@@ -163,6 +163,8 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
 			db = new DB(getParentFragment().getActivity());
 		
 		//DB db = new DB(getActivity());
+		//get all projects into an array;
+	
 		int currentProject = SettingsManager.getCurrentProjectId(getParentFragment().getActivity());
 		timePosts = db.getTimePosts(currentProject);
 		Number[] hoursPerDay = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
@@ -176,7 +178,7 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
 			if (timePosts.get(n).startTime.getTimeInMillis() > startOfWeek.getTimeInMillis())
 			{
 				int day = (timePosts.get(n).startTime.get(Calendar.DAY_OF_WEEK) + 6) % 7;
-				hoursPerDay[day-1] = (Number)(timePosts.get(n).getWorkedHours() + hoursPerDay[day].floatValue());
+				hoursPerDay[day] = (Number)(timePosts.get(n).getWorkedHours() + hoursPerDay[day].floatValue());
 			}
 		}
 
