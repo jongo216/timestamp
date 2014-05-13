@@ -227,8 +227,9 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 			output += "End time";
 			output += ',';
 			output += "Total";
-			output += ',';
+			
 			if(printComments){
+				output += ',';
 				output += "Comment";
 			}
 			output += '\n';
@@ -246,7 +247,7 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 				
 				if(prev != null){
 					//If is the same project and sameday sum work hours
-					if(prev.projectId ==temp.projectId && sameDay( temp.getStartTimeObject() , prev.getEndTimeObject()) ){
+					if(prev.projectId ==temp.projectId && temp.sameDay(prev) ){
 				
 						workedSum += temp.getWorkedHours();
 							
@@ -259,6 +260,8 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 						workedSum = 0;
 						workedSum += temp.getWorkedHours();
 					}
+				}else{
+					workedSum += temp.getWorkedHours();
 				}
 				
 				
@@ -270,6 +273,10 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 				output += new SimpleDateFormat("HH:mm:ss").format(temp.getStartTimeObject().getTime()); //starttime
 				output += ',';
 				output += new SimpleDateFormat("HH:mm:ss").format(temp.getEndTimeObject().getTime()); //endtime
+				
+				output += ',';
+				output += "";
+						
 				
 				if(printComments){
 					output += ',';
@@ -319,20 +326,6 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 		output += '\n';
 		
 		return output;
-	}
-	
-	public boolean sameDay(GregorianCalendar prev, GregorianCalendar next){
-		if(prev.get(Calendar.YEAR) == next.get(Calendar.YEAR) ){
-			
-			if(prev.get(Calendar.MONTH) == next.get(Calendar.MONTH)){
-				
-				if(prev.get(Calendar.DAY_OF_MONTH) == next.get(Calendar.DAY_OF_MONTH)){
-					
-					return true;
-				}
-			}
-		}	
-		return false;
 	}
 
 	
