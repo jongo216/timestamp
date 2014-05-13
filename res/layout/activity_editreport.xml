@@ -41,14 +41,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:calendarViewShown="false"
+            android:layout_alignLeft="@+id/button_save"
+            android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_alignLeft="@+id/button_save" />
+            android:layout_marginTop="-40dp"
+            android:layout_marginLeft="30dp"
+            android:scaleX="0.7"
+            android:scaleY="0.7" />
         <!-- START-TIME-PICKER-TEXT -->
         <TextView
             android:id="@+id/textEditStartTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/timePickerStart"
+            android:layout_marginTop="40dp"
             android:text="@string/textEditStartTime"
             android:textSize="13sp" />
         
@@ -59,6 +65,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             android:layout_height="wrap_content"
             android:layout_below="@+id/datePickerEditReport"
             android:layout_toRightOf="@+id/textEditStartTime"
+            android:layout_marginTop="-40dp"
             android:scaleX="0.7"
             android:scaleY="0.7" />
         
@@ -69,6 +76,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/timePickerStart"
             android:layout_alignTop="@+id/timePickerStart"
+            android:layout_marginTop="40dp"
             android:text="@string/textEditEndTime"
             android:textSize="13sp" />
         
@@ -79,9 +87,19 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/textEditEndTime"
             android:layout_alignBottom="@+id/timePickerStart"
+            android:layout_marginTop="-40dp"
             android:scaleX="0.7"
             android:scaleY="0.7" />
 
+        <Spinner
+        android:id="@+id/editReportProjectSpinner"
+        style="@style/CustomStyleButtonDark"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/textEditComment"
+        />
+        
         <!-- Header till comment Field -->
         <TextView
             android:id="@+id/textEditComment"
