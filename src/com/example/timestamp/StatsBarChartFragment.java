@@ -177,7 +177,7 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
 			if (timePosts.get(n).startTime.getTimeInMillis() > startOfWeek.getTimeInMillis())
 			{
 				int day = (timePosts.get(n).startTime.get(Calendar.DAY_OF_WEEK) + 6) % 7;
-				hoursPerDay[day-1] = (Number)(timePosts.get(n).getWorkedHours() + hoursPerDay[day].floatValue());
+				hoursPerDay[day-1] = (Number)(timePosts.get(n).getWorkedHours() + hoursPerDay[day-1].floatValue());
 			}
 		}
 
