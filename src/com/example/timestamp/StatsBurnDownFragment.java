@@ -164,7 +164,7 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
         
         // Settings for ticks and labels on x and y axis
         plot.setTicksPerRangeLabel(1);               
-        plot.setDomainStep(XYStepMode.INCREMENT_BY_VAL, 1);
+        plot.setDomainStep(XYStepMode.SUBDIVIDE, 6);
         plot.getGraphWidget().setDomainLabelOrientation(0); //Changed from -45
         plot.setRangeStep(XYStepMode.INCREMENT_BY_VAL,10);
         plot.setRangeValueFormat(new DecimalFormat("10"));
@@ -256,7 +256,7 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
 		//Format for 6 months ahead
 		Number[] xValues = {0, 1, 2, 3, 4, 5};
 				
-		data = new SimpleXYSeries(Arrays.asList(hoursPerMonth), Arrays.asList(xValues), "Worked Hours");
+		data = new SimpleXYSeries(Arrays.asList(xValues),Arrays.asList(hoursPerMonth), "Worked Hours");
 		
 		LineAndPointFormatter seriesFormat = new LineAndPointFormatter();
         seriesFormat.setPointLabelFormatter(new PointLabelFormatter());
@@ -283,8 +283,7 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
 	    public StringBuffer format(Object object, StringBuffer buffer, FieldPosition field) {
 	    	System.out.println(object.toString());
 	        int parsedInt = Math.round(Float.parseFloat(object.toString()));
-	        System.out.println("Xformat: " + parsedInt);
-	        String labelString = LABELS[parsedInt];
+	        String labelString = LABELS[parsedInt+4];
 	        buffer.append(labelString);
 	        return buffer;
 	    }
