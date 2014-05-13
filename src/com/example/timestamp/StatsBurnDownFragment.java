@@ -33,12 +33,16 @@ import java.text.DecimalFormat;
 import java.text.FieldPosition;
 import java.text.Format;
 import java.text.ParsePosition;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,13 +53,18 @@ import com.androidplot.ui.SizeLayoutType;
 import com.androidplot.ui.SizeMetrics;
 import com.androidplot.ui.XLayoutStyle;
 import com.androidplot.ui.YLayoutStyle;
+import com.androidplot.xy.BarRenderer;
 import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.PointLabelFormatter;
 import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYPlot;
 import com.androidplot.xy.XYSeries;
 import com.androidplot.xy.XYStepMode;
+import com.example.timestamp.StatsBarChartFragment.MyBarFormatter;
+import com.example.timestamp.StatsBarChartFragment.MyBarRenderer;
 import com.example.timestamp.model.DB;
+import com.example.timestamp.model.SettingsManager;
+import com.example.timestamp.model.TimePost;
 
 public class StatsBurnDownFragment extends Fragment implements UpdateableStatistics {
 
@@ -63,6 +72,13 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
 	
 	private DB db;
 	private XYPlot plot;
+	private ArrayList<TimePost> timePosts;
+	private XYSeries data;
+	
+	public void setDB(DB database)
+	{
+		db = database;	
+	}
 
 	@Override		//mother of all inits!
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -171,11 +187,80 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
         plot.getGraphWidget().setMarginRight(200);
         
                 
-        db = new DB(getActivity());
+        //db = new DB(getActivity());
         //parentActivity = getActivity();
+        
+        initChart();
+        //update();
         
         return rootView;
     }
+	
+	public void onActivityCreated (Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		//updateChart();
+	}
+	
+	private void initChart()
+	{
+		
+		
+		
+	}
+	
+	/*@Override
+	public void update()
+	{   
+		//Log.d("Fragment info: ", getActivity().toString());
+		
+		
+		if (plot == null)
+		{
+			Log.d("Fragment info: ", "plot = null");
+			return;
+		}
+		
+		if (db == null)
+			db = new DB(getParentFragment().getActivity());
+		
+		
+		//DB db = new DB(getActivity());
+		int currentProject = SettingsManager.getCurrentProjectId(getParentFragment().getActivity());
+		timePosts = db.getTimePosts(currentProject);
+		Number[] hoursPerMonth = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}; // We take 6 months interval
+		
+		GregorianCalendar startMonth = new GregorianCalendar();
+		startMonth.set(Calendar.MONTH, Calendar.MONTH);
+		
+		startOfWeek.setTimeInMillis(startOfWeek.getTimeInMillis() - 1000 * 3600 * 24 * 2); // Make a return to week before
+		startOfWeek.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+		startOfWeek.set(Calendar.HOUR_OF_DAY, 1);
+		
+		for (int n = 0; n < timePosts.size(); n++) {
+			if (timePosts.get(n).startTime.getTimeInMillis() > startOfWeek.getTimeInMillis())
+			{
+				int day = (timePosts.get(n).startTime.get(Calendar.DAY_OF_WEEK) + 6) % 7;
+				hoursPerDay[day-1] = (Number)(timePosts.get(n).getWorkedHours() + hoursPerDay[day].floatValue());
+			}
+		}
+
+		//BarFormatter formatter = new BarFormatter(Color.argb(200, 100, 150, 100), Color.argb(200, 10, 15, 10));
+		
+		//Format for days of the week
+		Number[] xValues = {0, 1, 2, 3, 4, 5, 6};
+		
+		data = new SimpleXYSeries(Arrays.asList(hoursPerDay), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Worked Hours");
+
+		barChart.clear();
+		MyBarFormatter seriesFormat = new MyBarFormatter(Color.parseColor("#063A70"), Color.WHITE);
+        barChart.addSeries(data, seriesFormat); 
+        ((MyBarRenderer) barChart.getRenderer(MyBarRenderer.class)).setBarWidthStyle(BarRenderer.BarWidthStyle.FIXED_WIDTH);
+        ((MyBarRenderer) barChart.getRenderer(MyBarRenderer.class)).setBarWidth(23);
+		
+		barChart.redraw();
+	}*/
+	
+	
 	
 	private class GraphXLabelFormat extends Format {
 
@@ -184,8 +269,7 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
 	    @Override
 	    public StringBuffer format(Object object, StringBuffer buffer, FieldPosition field) {
 	        int parsedInt = Math.round(Float.parseFloat(object.toString()));
-	        String labelString = LABELS[parsedInt];
-	        System.out.println(LABELS[parsedInt]);
+	        String labelString = LABELS[parsedInt+4];
 	        buffer.append(labelString);
 	        return buffer;
 	    }

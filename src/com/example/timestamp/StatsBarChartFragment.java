@@ -184,7 +184,7 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
 			if (timePosts.get(n).startTime.getTimeInMillis() > startOfWeek.getTimeInMillis())
 			{
 				int day = (timePosts.get(n).startTime.get(Calendar.DAY_OF_WEEK) + 6) % 7;
-				hoursPerDay[day] = (Number)(timePosts.get(n).getWorkedHours() + hoursPerDay[day].floatValue());
+				hoursPerDay[day-1] = (Number)(timePosts.get(n).getWorkedHours() + hoursPerDay[day].floatValue());
 			}
 		}
 
@@ -212,7 +212,6 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
 	    public StringBuffer format(Object object, StringBuffer buffer, FieldPosition field) {
 	        int parsedInt = Math.round(Float.parseFloat(object.toString()));
 	        String labelString = LABELS[parsedInt];
-	        System.out.println(LABELS[parsedInt]);
 	        buffer.append(labelString);
 	        return buffer;
 	    }
