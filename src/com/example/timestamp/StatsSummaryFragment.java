@@ -49,7 +49,7 @@ import android.widget.TextView;
 public class StatsSummaryFragment extends Fragment implements UpdateableStatistics {
 
 	private View rootView;
-	private TextView weeklyHours, weeklyProjectHours, totalProjectHours;
+	private TextView weeklyHours, weeklyProjectHours, totalProjectHours, weeklyHoursName, totalProjectHoursName;
 	
 	
 	@Override		//mother of all inits!
@@ -61,6 +61,11 @@ public class StatsSummaryFragment extends Fragment implements UpdateableStatisti
         weeklyHours = (TextView)rootView.findViewById(R.id.summary_weekly_hours2);
         weeklyProjectHours = (TextView)rootView.findViewById(R.id.summary_weekly_project_hours);
         totalProjectHours = (TextView)rootView.findViewById(R.id.summary_total_project_hours);
+        
+        // Set name of project
+        weeklyHoursName = (TextView)rootView.findViewById(R.id.summary_weekly_project_hours_label);
+        totalProjectHoursName = (TextView)rootView.findViewById(R.id.summary_total_project_hours_label);
+        
         
         return rootView;
     }
@@ -85,6 +90,8 @@ public class StatsSummaryFragment extends Fragment implements UpdateableStatisti
 		
 		ArrayList<TimePost> timePosts = db.getTimePosts();
 		
+		String projectname = db.getProject(currentProject).getName(); // use to dynamic change name of label
+		
 		double wh = 0, wph = 0, tph = 0; 
 		GregorianCalendar startOfWeek = new GregorianCalendar();
 		startOfWeek.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
@@ -105,6 +112,9 @@ public class StatsSummaryFragment extends Fragment implements UpdateableStatisti
 				wh += t.getWorkedHours();
 		}
 		DecimalFormat df = new DecimalFormat("#.#h");
+		
+		weeklyHoursName.setText("In " + projectname + " this week:"); 
+        totalProjectHoursName.setText("Total in " + projectname + " :");
 		
 		weeklyHours.setText(df.format(wh));
 		weeklyProjectHours.setText(df.format(wph));
