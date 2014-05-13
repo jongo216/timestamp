@@ -82,13 +82,13 @@ public class ConfirmReport extends Fragment {
 	public String[] projectsMenuString; // = {"Projekt 1", "Projekt 2", "Nytt projekt"};
 	public int[] projectMenuIds;
 	private ArrayList<Project> projects;
-	
+	//private DB db;
 	private Button button;
 	private View rootView;
 	private FragmentActivity parentActivity;
 	private Spinner spinner;
 	
-	//F������r popup vyn
+	//F��r popup vyn
 	private Button editTimePostButton, addNewTimePostButton;
 	boolean click = true;
 	PopupWindow popUp;
@@ -97,14 +97,14 @@ public class ConfirmReport extends Fragment {
 	LayoutParams params;
 	LinearLayout mainLayout;
 	Button but;
-	//END F������r popup vyn 
+	//END F��r popup vyn 
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
  
         rootView = inflater.inflate(R.layout.activity_confirmreport, container, false);
         
-        
+        //db = new DB(getActivity().getApplicationContext());
         activityInitConfirmReport();
         
         editTimePostButton = (Button) rootView.findViewById(R.id.sendReportButton);
@@ -225,11 +225,11 @@ public class ConfirmReport extends Fragment {
 		
 		
 		
-		//H������mtar namn fr������n string array med menu item.
+		//H��mtar namn fr��n string array med menu item.
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, projectsMenuString){
 			
 						
-			// Style f������r Spinnern.. S������tter textstorlek samt centrerar..
+			// Style f��r Spinnern.. S��tter textstorlek samt centrerar..
 			public View getView(int position, View convertView,ViewGroup parent) {
 
 		        View v = super.getView(position, convertView, parent);
@@ -241,7 +241,7 @@ public class ConfirmReport extends Fragment {
 		        return v;
 
 		    }
-			//Style f������r dropdownmenyn under spinnern..
+			//Style f��r dropdownmenyn under spinnern..
 			public View getDropDownView(int position, View convertView,ViewGroup parent) {
 
 		        View v = super.getDropDownView(position, convertView,parent);
@@ -254,7 +254,7 @@ public class ConfirmReport extends Fragment {
 		        return v;
 		    }	
 		};
-		//Spinnern anv������nder items fr������n en valt adapter.
+		//Spinnern anv��nder items fr��n en valt adapter.
 		spinner.setAdapter(adapter);
 
 		spinnerListener();
@@ -267,7 +267,6 @@ public class ConfirmReport extends Fragment {
 			@Override
 			public void onClick(View arg0){
 	
-
 				new Exporter("Are you sure you want to send in the report?", new DB(getActivity()).getTimePosts(),getActivity());
 			}
 		});
