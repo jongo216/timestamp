@@ -268,7 +268,7 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
 	}*/
 	
 	
-	
+	// HEJ 
 	private class GraphXLabelFormat extends Format {
 
 	    String LABELS[]  = {"Jan", "Feb", "Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec",};
