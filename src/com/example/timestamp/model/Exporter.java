@@ -38,9 +38,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.ListIterator;
+import java.util.Locale;
 import java.util.Properties;
 
 import javax.activation.DataHandler;
@@ -89,6 +93,8 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 	private boolean isStatic;
 	private boolean isConnected;
 	
+	private DB db;
+	
 	private ArrayList<TimePost> exportList;
 	
 	public Exporter(){
@@ -98,7 +104,8 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 	public Exporter(String message, ArrayList<TimePost> list, Activity a){
 		A = a;
 		context = a;
-		exportList = list;
+		db = new DB(a);
+		exportList = db.getTimePostsByProjectIdThenTime();//list;
 		
 		//Checks for internet connection
 		ConnectivityManager cm = (ConnectivityManager)A.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -161,7 +168,7 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 		alertDialog.show();
 	}
 	
-	public void createCSV(Context c, ArrayList<TimePost> tplist){
+	public void createCSV(Context c, ArrayList<TimePost> tplist, boolean printComments){
 		try{
 
 			DB db = new DB(c);
@@ -173,27 +180,73 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 			//CSV header 
 			output += "Project";
 			output += ',';
+			output += "Date";
+			output += ',';
 			output += "Start time";
 			output += ',';
 			output += "End time";
 			output += ',';
-			output += "Comment";
+			output += "Total";
+			output += ',';
+			if(printComments){
+				output += "Comment";
+			}
 			output += '\n';
 			
 			
 			//Write all timepost to csv output string.
-			for (TimePost temp : tplist){
-				output += db.getProject(temp.projectId).getName();
+//			temp.getWorkedHours();
+			double workedSum=0;
+			
+			ListIterator<TimePost> it = tplist.listIterator();
+			TimePost prev = null; 
+			
+			while(it.hasNext()){
+				TimePost temp = it.next();
+				
+				if(prev != null){
+					//If is the same project and sameday sum work hours
+					if(prev.projectId ==temp.projectId && sameDay( temp.getStartTimeObject() , prev.getEndTimeObject()) ){
+				
+						workedSum += temp.getWorkedHours();
+							
+					}else{
+						//print hours in csv
+						output += printWorkHours(prev, workedSum, printComments);
+						
+						
+						
+						workedSum = 0;
+						workedSum += temp.getWorkedHours();
+					}
+				}
+				
+				
+				
+				output += db.getProject(temp.projectId).getName(); //Projectname
 				output += ',';
-				output += temp.getStartTime();
+				output += new SimpleDateFormat("yyyy-MM-dd").format(temp.getStartTimeObject().getTime());; //date
 				output += ',';
-				output += temp.getEndTime();
+				output += new SimpleDateFormat("HH:mm:ss").format(temp.getStartTimeObject().getTime()); //starttime
 				output += ',';
-				output += temp.getComment();
+				output += new SimpleDateFormat("HH:mm:ss").format(temp.getEndTimeObject().getTime()); //endtime
+				
+				if(printComments){
+					output += ',';
+					output += temp.getComment(); //comment
+				}
+				
 				output += '\n';
 				
+				
+				if(!it.hasNext()){
+					//print last sum of work hours
+					output +=printWorkHours(temp, workedSum, printComments);
+				}
+				
+				prev = temp;
 			}
-			
+		
 			writer.write(output);
 		    writer.close();
 		    
@@ -206,6 +259,43 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 		
 	}
 
+	public String printWorkHours(TimePost p, double workHours, boolean printComments){
+		
+		String output="";
+		output +=db.getProject(p.projectId).getName(); ;
+		output += ',';
+		output += new SimpleDateFormat("yyyy-MM-dd").format(p.getStartTimeObject().getTime());
+		output += ',';
+		output += "";
+		output += ',';
+		output += "";
+		output += ',';
+		output += String.format(Locale.US, "%.2f", workHours);
+		
+		if(printComments){
+			output += ',';
+			output += "";	
+		}
+		output += '\n';
+		
+		return output;
+	}
+	
+	public boolean sameDay(GregorianCalendar prev, GregorianCalendar next){
+		if(prev.get(Calendar.YEAR) == next.get(Calendar.YEAR) ){
+			
+			if(prev.get(Calendar.MONTH) == next.get(Calendar.MONTH)){
+				
+				if(prev.get(Calendar.DAY_OF_MONTH) == next.get(Calendar.DAY_OF_MONTH)){
+					
+					return true;
+				}
+			}
+		}	
+		return false;
+	}
+
+	
 	//Function for debugging CSV file.
 	public void readCSV(Context c){
 		try{
@@ -339,7 +429,7 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 		
 		InternetAddress toAddress = new InternetAddress(to);
 				
-		message.setSubject("Tidsrapport för vecka " + new GregorianCalendar().get(Calendar.WEEK_OF_YEAR)+":");
+		message.setSubject("Time report for week " + new GregorianCalendar().get(Calendar.WEEK_OF_YEAR)+":");
 		message.setContent(multiPart);
 		//message.setText("Demo For Sending Mail in Android Automatically");
 		message.addRecipient(Message.RecipientType.TO, toAddress);
@@ -361,7 +451,7 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 	@Override
 	protected Void doInBackground(Void... params) {
 		try {
-			createCSV(context, exportList);
+			createCSV(context, exportList, false);
 			if(isStatic)
 				exportJavaMailStatic();
 			else
