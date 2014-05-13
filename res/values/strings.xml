@@ -48,12 +48,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     <!-- For settings view -->
 
-    <string name="buttonSaveSettings">Save</string>
     <string name="textOverviewSettings">Overview</string>
-    <string name="textNotifixations">Notifications</string>
-    <string name="viewOptDay">Day view</string>
     <string name="viewOptWeek">Week view</string>
     <string name="viewOptMonth">Month view</string>
+    <string name="textNotifixations">Notifications</string>
     <string name="checkBoxNotification">1 hour before deadline</string>
     <string name="checkBoxReminder">Reminder after 8 work hours</string>
     <string name="textLocation">Location settings</string>
@@ -64,13 +62,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <string name="checkBoxExportXls">Excel</string>
     <string name="checkBoxExportCsv">Csv</string>
     <string name="buttonExport">Export</string>
-    <string name="textSync">Syncronization</string>
-    <string name="sync1">Sync every 15 minutes</string>
-    <string name="sync2">Sync every hour</string>
-    <string name="textLayout">Layout</string>
-    <string name="layoutStandard">Standard</string>
-    <string name="layoutBackground">Change background color</string>
-    <!-- test här -->
+    <string name="buttonSaveSettings">Save</string>
+    
     <string name="title_main_activity_settings">Settings</string>
 
     <!-- Other -->
@@ -83,6 +76,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_project_settings">Project</string>
     <string name="title_activity_edit_report">Edit Report</string>
+    <string name="title_activity_add_new_post">New Time Post</string>
     <string name="title_activity_settingss">MainActivity</string>
 
     <!-- Start.java -->
@@ -97,15 +91,28 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <color name="textColorGray">#333333</color>
 
     <!-- Activity edit report -->
-    <string name="textEditStartTime">Start time</string>
-    <string name="textEditEndTime">End time</string>
+    <string name="textEditStartTime">Start</string>
+    <string name="textEditEndTime">End</string>
     <string name="textEditComment">Comment</string>
     <string name="editTextCommentHint">Meeting</string>
     <string name="addNewPost"> + Add new time post</string>
     <string name="endTime">17:00</string>
     <string name="startTime">08:00</string>
     <string name="buttonSaveEdit">Save</string>
+    <string name="buttonDeleteEdit">Delete</string>
+    <string name="editReportConfirmMessage">Are you sure?</string>
+    <string name="editReportConfirmPositive">Yes</string>
+    <string name="editReportConfirmNegative">Cancel</string>
     <string name="textEditDate">Choose date to edit:</string>
+    <string name="checkBoxShowSigned">Show signed time posts</string>
+    
+    <string name="addNewPostButton">Add</string>
+    <string name="cancelNewPostButton">Cancel</string>
+    
+    <!-- Project edit -->
+    <string name="editProjectConfirmMessage">Delete this project?</string>
+    <string name="editProjectConfirmPositive">Yes</string>
+    <string name="editProjectConfirmNegative">Cancel</string>
 
     <!-- Activity confirm report -->
     <string name="textSendTimeReport">Send time report</string>

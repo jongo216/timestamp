@@ -36,11 +36,17 @@ import java.util.List;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
+
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -50,11 +56,23 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.*;
 import android.view.View.MeasureSpec;
-import android.view.View.OnClickListener;
-import android.widget.*;
-import android.widget.AdapterView.OnItemSelectedListener;
 
-import com.example.timestamp.model.*;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Chronometer;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.timestamp.model.DB;
+import com.example.timestamp.model.Project;
+import com.example.timestamp.model.SettingsManager;
+import com.example.timestamp.model.TimePost;
 
 
 public class Start extends Fragment{
@@ -77,9 +95,6 @@ public class Start extends Fragment{
 	//private FragmentActivity parentActivity;
 	private static DB db;
 	
-
-	
-	
 	@Override		//mother of all inits!
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
  
@@ -92,7 +107,9 @@ public class Start extends Fragment{
 		textView = (TextView)rootView.findViewById(R.id.textStamplaIn);
 		imgButton = (LinearLayout) rootView.findViewById(R.id.btnCheckIn);
 		spinnerProjectView = (Spinner) rootView.findViewById(R.id.projects_menu_spinner2);
+
 		statsViewPager = (ViewPager) rootView.findViewById(R.id.statsViewPager);
+
         
 		Log.d("Activityinfo: ", "Activity of Start: " + getActivity().toString());
 		db = new DB(getActivity());
@@ -116,7 +133,6 @@ public class Start extends Fragment{
 	}*/
 
 
-	// Initierar spinner
 	private void initProjectSpinner(){
 		
 		int selectedRow = 0;
@@ -127,6 +143,18 @@ public class Start extends Fragment{
 		projects = db.getAllProjects();
 		projectsMenuString = new String[projects.size() + 1];
 		projectMenuIds = new int[projects.size()+1];
+		
+		//Check if there are any projects
+		//if there are not, direct the user
+		//to create a new project
+		if(db.projectsEmpty()){		
+			//create new project
+			Intent intent = new Intent(getActivity(), CreateNewProject.class);
+			intent.putExtra(Constants.PROJECT_ID, 0); //Optional parameters
+			startActivity(intent);		
+		}
+
+		
 		
 		for (int n = 0; n < projects.size(); n++)
 		{
@@ -199,12 +227,11 @@ public class Start extends Fragment{
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 				// TODO Auto-generated method stub
-				
 			}
 			
 		});
 		
-		
+
 		//spinnerListener();
 		
 	}

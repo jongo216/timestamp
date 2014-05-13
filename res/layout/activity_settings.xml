@@ -1,272 +1,223 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (c) 2014, Group D in course TNM082
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-
-* Redistributions of source code must retain the above copyright notice, this
-  list of conditions and the following disclaimer.
-
-* Redistributions in binary form must reproduce the above copyright notice,
-  this list of conditions and the following disclaimer in the documentation
-  and/or other materials provided with the distribution.
-
-* Neither the name of the {organization} nor the names of its
-  contributors may be used to endorse or promote products derived from
-  this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
--->
-
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	android:background="@drawable/background_gradient" >
-
-	<LinearLayout
-	    android:id="@+id/LinearLayoutSettings"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:gravity="bottom"
-	    android:orientation="vertical"
-	    android:paddingLeft="20dp"
-	    tools:context=".MainActivity" >
-
-	    <TextView
-	        android:id="@+id/textOverviewSettings"
-	        android:fontFamily="sans-serif-light"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/textOverviewSettings"
-	        android:textColor="@color/textColorGray"
-	        android:layout_marginTop="10dp" />
-
-	    <RadioGroup
-	        android:id="@+id/radio_viewOpt"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:orientation="vertical" >
-
-	        <RadioButton
-	            android:id="@+id/radio_viewOptWeek"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:checked="true"
-	            android:fontFamily="sans-serif-light"
-	            android:onClick="onRadioButtonClicked"
-	            android:text="@string/viewOptWeek"
-	            android:textColor="@color/textColorBlack" />
-
-	        <RadioButton
-	            android:id="@+id/radio_viewOptDay"
-	            android:fontFamily="sans-serif-light"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:onClick="onRadioButtonClicked"
-	            android:text="@string/viewOptDay"
-	        	android:textColor="@color/textColorBlack" />
-
-	        <RadioButton
-	            android:id="@+id/radio_viewOptMonth"
-	            android:fontFamily="sans-serif-light"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:onClick="onRadioButtonClicked"
-	            android:text="@string/viewOptMonth"
-	        android:textColor="@color/textColorBlack" />
-	    </RadioGroup>
-
-	    <TextView
-	        android:id="@+id/textNotifications"
-	        android:fontFamily="sans-serif-light"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:paddingTop="20dp"
-	        android:text="@string/textNotifixations"
-	        android:textColor="@color/textColorGray" />
-
-	    <CheckBox
-	        android:id="@+id/checkBoxNotification"
-	        android:fontFamily="sans-serif-light"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:checked="true"
-	        android:text="@string/checkBoxNotification"
-	        android:textColor="@color/textColorBlack" />
-
-	    <CheckBox
-	        android:id="@+id/checkBoxReminder"
-	        android:fontFamily="sans-serif-light"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/checkBoxReminder" 
-	        android:textColor="@color/textColorBlack"/>
-
-	    <TextView
-	        android:id="@+id/textLocation"
-	        android:fontFamily="sans-serif-light"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:paddingTop="20dp"
-	        android:text="@string/textLocation"
-	        android:textColor="@color/textColorGray" />
-
-	    <CheckBox
-	        android:id="@+id/checkBoxWifi"
-	        android:fontFamily="sans-serif-light"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:checked="true"
-	        android:text="@string/checkBoxWifi"
-	        android:textColor="@color/textColorBlack" />
-
-	    <CheckBox
-	        android:id="@+id/checkBoxGeo"
-	        android:fontFamily="sans-serif-light"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/checkBoxGeo"
-	        android:textColor="@color/textColorBlack" />
-
-	    <TextView
-	        android:id="@+id/TextExport"
-	        android:fontFamily="sans-serif-light"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:paddingTop="20dp"
-	        android:text="@string/textExport"
-	        android:textColor="@color/textColorGray" />
-
-	    <CheckBox
-	        android:id="@+id/checkBoxExportPdf"
-	        android:fontFamily="sans-serif-light"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:checked="true"
-	        android:text="@string/checkBoxExportPdf"
-	        android:textColor="@color/textColorBlack" />
-
-	    <CheckBox
-	        android:id="@+id/checkBoxExportXls"
-	        android:fontFamily="sans-serif-light"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:checked="false"
-	        android:text="@string/checkBoxExportXls"
-	        android:textColor="@color/textColorBlack" />
-	    
-	    <CheckBox
-	        android:id="@+id/checkBoxExportCsv"
-	        android:fontFamily="sans-serif-light"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:checked="false"
-	        android:text="@string/checkBoxExportCsv"
-	        android:textColor="@color/textColorBlack" />
-
-	    <Button
-	        android:id="@+id/exportButton"
-	        style="@style/CustomStyleButtonDark"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-
-	        android:minWidth="100dp"
-	        android:layout_marginBottom="5dp"
-	        android:text="@string/buttonExport" />
-
-	    <TextView
-	        android:id="@+id/TextSync"
-	        android:fontFamily="sans-serif-light"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content" 
-	        android:text="@string/textSync" 
-	        android:paddingTop="20dp"
-	        android:textColor="@color/textColorGray" />
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.timestamp.ManageProjects"
+    tools:ignore="MergeRootFrame" >
+    
+    <ScrollView
+        android:id="@+id/timePostScrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="20dp"
+        android:gravity="top"
+        android:scrollbars="vertical"
+        android:fadeScrollbars="false" >
+        
+        <RelativeLayout
+            android:layout_width="fill_parent"
+	        android:layout_height="wrap_content" >
+        
+	        <TextView
+		        android:id="@+id/textOverviewSettings"
+		        android:fontFamily="sans-serif-light"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/textOverviewSettings"
+		        android:textColor="@color/textColorGray"
+		        android:layout_marginTop="10dp"
+			    android:gravity="center"
+			    android:layout_weight="1"
+	            android:padding="3dp" />
 	        
-	    <RadioGroup
-	        android:id="@+id/radio_sync"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:orientation="vertical" >
+	        <RadioGroup
+		        android:id="@+id/radio_viewOpt"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/textOverviewSettings"
+			    android:gravity="center"
+			    android:layout_weight="1"
+	            android:padding="3dp"
+		        android:orientation="vertical" >
+	
+		        <RadioButton
+		            android:id="@+id/radio_viewOptWeek"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:checked="true"
+		            android:fontFamily="sans-serif-light"
+		            android:onClick="onRadioButtonClicked"
+		            android:text="@string/viewOptWeek"
+		            android:textColor="@color/textColorBlack" />
+	
+		        <RadioButton
+		            android:id="@+id/radio_viewOptMonth"
+		            android:fontFamily="sans-serif-light"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:onClick="onRadioButtonClicked"
+		            android:text="@string/viewOptMonth"
+			        android:textColor="@color/textColorBlack" />
+		    </RadioGroup>
+		    
+	        <TextView
+		        android:id="@+id/textNotifications"
+		        android:fontFamily="sans-serif-light"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/radio_viewOpt"
+		        android:paddingTop="10dp"
+		        android:gravity="center"
+		        android:layout_weight="1"
+	           	android:padding="3dp"
+		        android:text="@string/textNotifixations"
+		        android:textColor="@color/textColorGray" />
+	        
+	        <CheckBox
+		        android:id="@+id/checkBoxNotification"
+		        android:fontFamily="sans-serif-light"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/textNotifications"
+		        android:gravity="center"
+		        android:layout_weight="1"
+	            android:padding="3dp"
+		        android:checked="true"
+		        android:text="@string/checkBoxNotification"
+		        android:textColor="@color/textColorBlack" />
 
-	        <RadioButton
-	            android:id="@+id/radio_sync1"
-	            android:fontFamily="sans-serif-light"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:checked="true"
-	            android:onClick="onRadioButtonClicked"
-	            android:text="@string/sync1"
-	            android:textColor="@color/textColorBlack" />
+		    <CheckBox
+		        android:id="@+id/checkBoxReminder"
+		        android:fontFamily="sans-serif-light"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/checkBoxNotification"
+		        android:gravity="center"
+		        android:layout_weight="1"
+	            android:padding="3dp"
+		        android:text="@string/checkBoxReminder" 
+		        android:textColor="@color/textColorBlack"/>
+	
+		    <TextView
+		        android:id="@+id/textLocation"
+		        android:fontFamily="sans-serif-light"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/checkBoxReminder"
+		        android:paddingTop="20dp"
+		        android:gravity="center"
+		        android:layout_weight="1"
+	            android:padding="3dp"
+		        android:text="@string/textLocation"
+		        android:textColor="@color/textColorGray" />
+	
+		    <CheckBox
+		        android:id="@+id/checkBoxWifi"
+		        android:fontFamily="sans-serif-light"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/textLocation"
+		        android:gravity="center"
+		        android:layout_weight="1"
+	            android:padding="3dp"
+		        android:checked="true"
+		        android:text="@string/checkBoxWifi"
+		        android:textColor="@color/textColorBlack" />
+	
+		    <CheckBox
+		        android:id="@+id/checkBoxGeo"
+		        android:fontFamily="sans-serif-light"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/checkBoxWifi"
+		        android:gravity="center"
+		        android:layout_weight="1"
+	            android:padding="3dp"
+		        android:text="@string/checkBoxGeo"
+		        android:textColor="@color/textColorBlack" />
+	
+		    <TextView
+		        android:id="@+id/TextExport"
+		        android:fontFamily="sans-serif-light"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/checkBoxGeo"
+		        android:paddingTop="20dp"
+		        android:gravity="center"
+		        android:layout_weight="1"
+	            android:padding="3dp"
+		        android:text="@string/textExport"
+		        android:textColor="@color/textColorGray" />
+	
+		    <CheckBox
+		        android:id="@+id/checkBoxExportPdf"
+		        android:fontFamily="sans-serif-light"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/TextExport"
+		        android:gravity="center"
+		        android:layout_weight="1"
+	            android:padding="3dp"
+		        android:checked="true"
+		        android:text="@string/checkBoxExportPdf"
+		        android:textColor="@color/textColorBlack" />
+	
+		    <CheckBox
+		        android:id="@+id/checkBoxExportXls"
+		        android:fontFamily="sans-serif-light"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/checkBoxExportPdf"
+		        android:gravity="center"
+		        android:layout_weight="1"
+	            android:padding="3dp"
+		        android:checked="false"
+		        android:text="@string/checkBoxExportXls"
+		        android:textColor="@color/textColorBlack" />
+		    
+		    <CheckBox
+		        android:id="@+id/checkBoxExportCsv"
+		        android:fontFamily="sans-serif-light"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/checkBoxExportXls"
+		        android:gravity="center"
+		        android:layout_weight="1"
+	            android:padding="3dp"
+		        android:checked="false"
+		        android:text="@string/checkBoxExportCsv"
+		        android:textColor="@color/textColorBlack" />
+	
+		    <Button
+		        android:id="@+id/exportButton"
+		        style="@style/CustomStyleButtonDark"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/checkBoxExportCsv"
+		        android:gravity="center"
+		        android:layout_weight="1"
+	            android:padding="3dp"
+		        android:minWidth="100dp"
+		        android:layout_marginBottom="5dp"
+		        android:text="@string/buttonExport" />
+	        
+        </RelativeLayout>
+	</ScrollView>
+    
+    <Button
+        android:id="@+id/saveButtonSettings"
+        style="@style/CustomStyleButtonDark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/exportButton"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:paddingLeft="120dp"
+        android:paddingRight="120dp"
+        android:text="@string/buttonSaveSettings" />
 
-	        <RadioButton
-	            android:id="@+id/radio_sync2"
-	            android:fontFamily="sans-serif-light"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:onClick="onRadioButtonClicked"
-	            android:text="@string/sync2"
-	            android:textColor="@color/textColorBlack" />
-	    </RadioGroup>
-	    
-	    <TextView
-	        android:id="@+id/TextLayout"
-	        android:fontFamily="sans-serif-light"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:paddingTop="20dp"
-	        android:text="@string/textLayout"
-	        android:textColor="@color/textColorGray" />
-	    
-	    <RadioGroup
-	        android:id="@+id/radio_layout"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:orientation="vertical" >
-
-	        <RadioButton
-	            android:id="@+id/radio_layoutStandard"
-	            android:fontFamily="sans-serif-light"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:checked="true"
-	            android:onClick="onRadioButtonClicked"
-	            android:text="@string/layoutStandard"
-	            android:textColor="@color/textColorBlack" />
-
-	        <RadioButton
-	            android:id="@+id/radio_layoutBackground"
-	            android:fontFamily="sans-serif-light"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:onClick="onRadioButtonClicked"
-	            android:text="@string/layoutBackground" 
-	            android:textColor="@color/textColorBlack"/>
-	    </RadioGroup>
-
-	    <Button
-	        android:id="@+id/saveButtonSettings"
-	        style="@style/CustomStyleButtonDark"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:paddingLeft="120dp"
-	        android:paddingRight="120dp"
-	        android:layout_marginTop="30dp"
-	        android:layout_gravity="center"
-	        android:layout_marginBottom="32dp"
-	        android:text="@string/buttonSaveSettings" />
-	</LinearLayout>
-
-</ScrollView>
+</RelativeLayout>
