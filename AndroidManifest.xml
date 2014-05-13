@@ -102,6 +102,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             android:name="com.example.timestamp.CreateNewProject"
             android:label="@string/title_activity_create_new_project" >
         </activity>
+        
+        <receiver android:name="com.example.timestamp.appwidget.Widget" >
+		    <intent-filter>
+		        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+		    </intent-filter>
+		    <meta-data android:name="android.appwidget.provider"
+	    	           android:resource="@xml/timestamp_appwidget_info" />
+		</receiver>
+        
     </application>
-
+	
 </manifest>
