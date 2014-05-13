@@ -49,6 +49,7 @@ import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.Transport;
+import javax.mail.URLName;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
@@ -56,10 +57,23 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
 
+import com.sun.mail.smtp.SMTPAddressSucceededException;
+import com.sun.mail.smtp.SMTPSendFailedException;
+import com.sun.mail.smtp.SMTPTransport;
+import com.sun.mail.util.BASE64EncoderStream;
+
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.accounts.AccountManagerFuture;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -67,14 +81,90 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 	
 	String csvFile = "mycsv.csv";
 	BufferedReader br;
+	
 	Context context;
+	private Activity A;
+	
+	private Session session;
+	private boolean isStatic;
+	private boolean isConnected;
+	
+	private ArrayList<TimePost> exportList;
+	
+	public Exporter(){
+		
+	}
+	
+	public Exporter(String message, ArrayList<TimePost> list, Activity a){
+		A = a;
+		context = a;
+		exportList = list;
+		
+		//Checks for internet connection
+		ConnectivityManager cm = (ConnectivityManager)A.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+		isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+		
+		//Setup dialog
+		AlertDialog.Builder builder = new AlertDialog.Builder(A);
+		
+		builder.setTitle(message);
+		
+		builder.setPositiveButton("Send with token", new DialogInterface.OnClickListener() {
+	           public void onClick(DialogInterface dialog, int id) {
+	               // Skicka in rapport (tas till redigera vyn?)
+	        	   
+	    		if(!isConnected){
+		    		AlertDialog.Builder builder = new AlertDialog.Builder(A);
+					builder.setTitle("Cannot send report, check for internet connection");
+					
+					builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+				           public void onClick(DialogInterface dialog, int id) {
+				        	   
+				           }
+				    });
+						
+					AlertDialog alertDialog = builder.create();
+					alertDialog.show();
+	        	}
+	        	else{
+	        		isStatic = false;
+	    			execute();
+	        	}
+	        }
+	           
+		});
+		builder.setNegativeButton("Send with static", new DialogInterface.OnClickListener() {
+	           public void onClick(DialogInterface dialog, int id) {
+	        	   
+	        	if(!isConnected){
+		    		AlertDialog.Builder builder = new AlertDialog.Builder(A);
+					builder.setTitle("Cannot send report, check for internet connection");
+					
+					builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+				           public void onClick(DialogInterface dialog, int id) {
+				        	   
+				           }
+				    });
+						
+					AlertDialog alertDialog = builder.create();
+					alertDialog.show();
+	        	}
+	        	else{
+	        		isStatic = true;
+	        		execute();
+	        	}
+	           }
+	    });
+		AlertDialog alertDialog = builder.create();
+		
+		alertDialog.show();
+	}
 	
 	public void createCSV(Context c, ArrayList<TimePost> tplist){
 		try{
-		
-			
+
 			DB db = new DB(c);
-			
 			
 			FileOutputStream fOut = c.openFileOutput(csvFile, Context.MODE_WORLD_WRITEABLE);
 		    OutputStreamWriter writer = new OutputStreamWriter(fOut); 			
@@ -115,9 +205,7 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 		
 		
 	}
-	public void getActivity(Activity a){
-		context  =a;
-	}
+
 	//Function for debugging CSV file.
 	public void readCSV(Context c){
 		try{
@@ -139,24 +227,10 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 			e.printStackTrace();
 		}
 	}
-	/*
-	 * 
-	 * No functions defined yet!
-	 * 
-	 */
+
+//Jonas part
 	
-	/*public void exportToGmail(){
-		try {   
-            GMailSender sender = new GMailSender("username@gmail.com", "password");
-            sender.sendMail("This is Subject",   
-                    "This is Body",   
-                    "user@gmail.com",   
-                    "user@yahoo.com");   
-        } catch (Exception e) {   
-            Log.e("SendMail", e.getMessage(), e);   
-        } 
-	}*/
-	
+	@Deprecated
 	public void exportToEmail(Activity A){
 		Intent i = new Intent(Intent.ACTION_SEND);
 		i.setType("message/rfc822");
@@ -166,12 +240,51 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 		i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		try {
 		    A.startActivity(Intent.createChooser(i, "Send mail..."));
-		} catch (android.content.ActivityNotFoundException ex) {
+		} catch (android.content.ActivityNotFoundException e) {
 		    Toast.makeText(A, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
 		}
 	}
 	
 	private void exportJavaMail() throws AddressException, MessagingException, UnsupportedEncodingException{
+		String emailID=new String();
+		//Pattern emailPattern=Patterns.EMAIL_ADDRESS;
+		Account []accounts=AccountManager.get(A).getAccountsByType("com.google");
+		Account theAccount = null;
+		
+		for(Account account:accounts)
+		{
+			//need to implement multiple accounts handling..
+			emailID=account.name;
+			theAccount = account;
+		}
+		
+		AccountManagerFuture<Bundle> acquiredToken = AccountManager.get(A).getAuthToken(theAccount, "oauth2:https://mail.google.com/", null, A, null, null);
+		
+		try{
+			String token = acquiredToken.getResult().getString(AccountManager.KEY_AUTHTOKEN);
+			Log.d("Export", token);
+			Log.d("Export", emailID);
+			
+			String title = "TimeStamp export week " + new GregorianCalendar().get(Calendar.WEEK_OF_YEAR)+":";
+			String body = "This is an automaticaly generated email from the TimeStamp application \n"
+						+ "Below you will see the attatched .csv file containing your worked time";
+			//adding csv file
+			File dir = context.getFilesDir();
+			File file = new File( dir.getAbsolutePath() + "/mycsv.csv");
+			sendMail(title, body, file, emailID, token, emailID);
+			
+		}catch(IOException e){
+			Log.d("Export", "Send mail: file not found");
+		}catch(Exception e){
+			Log.d("Export", e.getMessage());
+		}
+		//invalidate, if necessary?
+		//AccountManager.get(A).invalidateAuthToken("com.google", token);
+		//AccountManager.get(A).getAuthToken(account, "oauth2:https://mail.google.com/", null, A, new OnTokenAcquired(), null);
+	}
+	
+	
+	private void exportJavaMailStatic() throws AddressException, MessagingException, UnsupportedEncodingException{
 		String host = "smtp.gmail.com";
 		String address = "timestampnoreply@gmail.com";
 		
@@ -179,9 +292,7 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 		String pass = "timestamp123";
 		String to="timestampnoreply@gmail.com";
 		
-	
-		
-	
+
 		String finalString="";
 		
 		// Initiate setup for mail.
@@ -203,7 +314,9 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 		message.setFrom(new InternetAddress(from));
 		
 		MimeBodyPart messageBodyPart = new MimeBodyPart(); 
-		messageBodyPart.setText("Tidsrapporten:");
+		String bodyPart = "This is an automaticaly generated email from the TimeStamp application \n"
+						+ "Below you will see the attatched .csv file containing your worked time";
+		messageBodyPart.setText(bodyPart);
 		
 		Multipart multiPart = new MimeMultipart();
 		multiPart.addBodyPart(messageBodyPart);
@@ -214,37 +327,45 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 		try{
 			File dir = context.getFilesDir();
 			File file = new File( dir.getAbsolutePath() + "/mycsv.csv");
-
+			
 			messageBodyPart.attachFile(file);
 			messageBodyPart.setFileName("Tidsrapport.csv");
 		    multiPart.addBodyPart(messageBodyPart);
 		    
 		}catch(IOException e){
-			Log.d("hej", "Send mail: file not found");
+			Log.d("Export", "Send mail: file not found");
 		}
 		
 		
-		InternetAddress toAddress;
-		toAddress = new InternetAddress(to);
+		InternetAddress toAddress = new InternetAddress(to);
 				
 		message.setSubject("Tidsrapport för vecka " + new GregorianCalendar().get(Calendar.WEEK_OF_YEAR)+":");
 		message.setContent(multiPart);
+		//message.setText("Demo For Sending Mail in Android Automatically");
 		message.addRecipient(Message.RecipientType.TO, toAddress);
 		
-		
+		Log.i("Check", "transport");
 		Transport transport = session.getTransport("smtp");
 		transport.connect(host, address, pass);
+
+		Log.i("Check", "wana send");
 		transport.sendMessage(message, message.getAllRecipients());
 		transport.close();
 		
 		Log.i("Check", "sent");
 	}
-
+	
+	
+	
 
 	@Override
 	protected Void doInBackground(Void... params) {
 		try {
-			exportJavaMail();
+			createCSV(context, exportList);
+			if(isStatic)
+				exportJavaMailStatic();
+			else
+				exportJavaMail();
 		} catch (AddressException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -257,11 +378,99 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 		}
 		return null;
 	}
-	/*
-	protected void onPreExeute(){
-		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-	    .permitAll().build();
 
-		StrictMode.setThreadPolicy(policy);
-	}*/
+
+
+
+
+    //... senast test
+    public SMTPTransport connectToSmtp(String host, int port, String userEmail,
+            String oauthToken, boolean debug) throws MessagingException {
+
+        Properties props = new Properties();
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.starttls.required", "true");
+        props.put("mail.smtp.sasl.enable", "false");
+        props.put("mail.debug", debug);
+        session = Session.getInstance(props);
+        session.setDebug(debug);
+
+
+        final URLName unusedUrlName = null;
+        SMTPTransport transport = new SMTPTransport(session, unusedUrlName);
+        // If the password is non-null, SMTP tries to do AUTH LOGIN.
+        final String emptyPassword = null;
+        transport.connect(host, port, userEmail, emptyPassword);
+
+                byte[] response = String.format("user=%s\1auth=Bearer %s\1\1", userEmail,
+                oauthToken).getBytes();
+        response = BASE64EncoderStream.encode(response);
+
+        transport.issueCommand("AUTH XOAUTH2 " + new String(response), 235);
+
+        return transport;
+    }
+
+    public synchronized void sendMail(String subject, String body, File attatchedFile, 
+    		String user, String oauthToken, String recipients) {
+        try {
+
+            SMTPTransport smtpTransport = connectToSmtp("smtp.gmail.com",
+                    587, user, oauthToken, false);
+            
+            //Allow exception to be thrown upon success
+            smtpTransport.setReportSuccess(true);
+            
+            //Create message
+            MimeMessage message = new MimeMessage(session);
+            		message.setSender(new InternetAddress(user));
+            		//message.setFrom(new InternetAddress(from));
+            		message.setSubject(subject); 
+            //Message body
+            MimeBodyPart messageBodyPart = new MimeBodyPart();
+            		messageBodyPart.setText(body);
+            //Multipart container to construct message content
+    		Multipart multiPart = new MimeMultipart();
+    				multiPart.addBodyPart(messageBodyPart);
+    		//Message attachment
+    		messageBodyPart = new MimeBodyPart();		
+    				messageBodyPart.attachFile(attatchedFile);
+    				messageBodyPart.setFileName("Tidsrapport.csv");
+    				
+    				multiPart.addBodyPart(messageBodyPart);
+    				message.setContent(multiPart);
+    				
+            //DataHandler handler = new DataHandler(new ByteArrayDataSource(body.getBytes(), "text/plain"));   
+            //        message.setDataHandler(handler);     		    
+        		    
+            if (recipients.indexOf(',') > 0)   
+                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipients));   
+            else  
+                message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipients));   
+            smtpTransport.sendMessage(message, message.getAllRecipients());   
+
+
+        } 
+        //Was the mail delivered?
+        catch (SMTPSendFailedException e) {
+            //Log.d("Export", e.getMessage());
+            //Log.d("Export", e.getNextException().getClass().toString());
+            
+        	//is it a succeed exception?
+        	if(e.getNextException().getClass() == SMTPAddressSucceededException.class){
+	            A.runOnUiThread(new Runnable() {
+	                public void run() {
+	                    Toast.makeText(A, "Email sent", Toast.LENGTH_SHORT).show();
+	                    Log.i("Export", "Sent");
+	                }
+	            });
+            }
+        }
+        //Other exceptions
+        catch (MessagingException e) {
+            Log.d("Export", e.getMessage());
+        } catch (IOException e) {
+			e.printStackTrace();
+		}    
+    }
 }

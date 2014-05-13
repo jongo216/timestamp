@@ -39,9 +39,12 @@ import javax.mail.internet.AddressException;
 
 import android.app.ActionBar.LayoutParams;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -85,7 +88,7 @@ public class ConfirmReport extends Fragment {
 	private FragmentActivity parentActivity;
 	private Spinner spinner;
 	
-	//F��r popup vyn
+	//F������r popup vyn
 	private Button editTimePostButton, addNewTimePostButton;
 	boolean click = true;
 	PopupWindow popUp;
@@ -94,7 +97,7 @@ public class ConfirmReport extends Fragment {
 	LayoutParams params;
 	LinearLayout mainLayout;
 	Button but;
-	//END F��r popup vyn 
+	//END F������r popup vyn 
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -222,11 +225,11 @@ public class ConfirmReport extends Fragment {
 		
 		
 		
-		//H��mtar namn fr��n string array med menu item.
+		//H������mtar namn fr������n string array med menu item.
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, projectsMenuString){
 			
 						
-			// Style f��r Spinnern.. S��tter textstorlek samt centrerar..
+			// Style f������r Spinnern.. S������tter textstorlek samt centrerar..
 			public View getView(int position, View convertView,ViewGroup parent) {
 
 		        View v = super.getView(position, convertView, parent);
@@ -238,7 +241,7 @@ public class ConfirmReport extends Fragment {
 		        return v;
 
 		    }
-			//Style f��r dropdownmenyn under spinnern..
+			//Style f������r dropdownmenyn under spinnern..
 			public View getDropDownView(int position, View convertView,ViewGroup parent) {
 
 		        View v = super.getDropDownView(position, convertView,parent);
@@ -251,7 +254,7 @@ public class ConfirmReport extends Fragment {
 		        return v;
 		    }	
 		};
-		//Spinnern anv��nder items fr��n en valt adapter.
+		//Spinnern anv������nder items fr������n en valt adapter.
 		spinner.setAdapter(adapter);
 
 		spinnerListener();
@@ -264,35 +267,9 @@ public class ConfirmReport extends Fragment {
 			@Override
 			public void onClick(View arg0){
 	
-				AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-				
-				builder.setTitle("Are you sure you want to send in the report?");
-				
-				builder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
-			           public void onClick(DialogInterface dialog, int id) {
-							Exporter ex = new Exporter();
-							ex.getActivity(getActivity());
-							DB db = new DB(getActivity().getApplicationContext());
-							ArrayList<TimePost> allTimePosts = db.getThisWeekTimePosts();				
-							ex.createCSV(getActivity(), allTimePosts);
-							ex.execute();
-			               // Skicka in rapport (tas till redigera vyn?)
-			           }
-			    });
-					builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-			           public void onClick(DialogInterface dialog, int id) {
-			               // Cancel
-			           }
-			    });
-					
-				AlertDialog alertDialog = builder.create();
-				
-				alertDialog.show();
 
-				//Exporter ex = new Exporter();
-				//ex.exportToEmail(getActivity());
+				new Exporter("Are you sure you want to send in the report?", new DB(getActivity()).getTimePosts(),getActivity());
 			}
-		
 		});
 		
 		plotTimeTable(currentProject);
