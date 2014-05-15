@@ -30,6 +30,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package com.example.timestamp;
 
 public class Constants {
+	
+	public static final boolean DEMO_MODE = true;
+	
 	//Constants for settings
 	public static final String SETTINGS_TIMESTAMP = "timeStampSettingsFile";
 	public static final String SETTING_START_TIME = "startTime";
@@ -41,6 +44,14 @@ public class Constants {
 	public static final String[] WEEK_DAY_STRINGS = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 	public static final String TIME_POST_ID = "timePostId";
 	public static final String PROJECT_ID = "projectId";
+	
+	//Widget
 	public static final String WIDGET_TIMER_ACTION = "com.example.timestamp.widgetTimerAction";
 	public static final String WIDGET_ID = "com.example.timestamp.widgetId"; 
+	
+	//Alarm/notifications
+	public static final int NOTIFICATION_ID = 7;
+	public static final String NOTIFY_REMIND_TO_SEND_REPORT_ACTION = "com.example.timestamp.notifyRemindToSendReportAction";
+	public static final String NOTIFY_REMIND_TO_STOP_WORKING_ACTION = "com.example.timestamp.notifyRemindToStopWorkingAction";
+	public static final String SEND_TIMES_ACTION = "com.example.timestamp.sendTimesAction";
 }

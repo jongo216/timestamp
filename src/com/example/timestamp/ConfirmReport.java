@@ -89,6 +89,7 @@ public class ConfirmReport extends Fragment {
 	private FragmentActivity parentActivity;
 	private Spinner spinner;
 	private CheckBox checkBoxShowSigned;
+	private boolean handledIntent = false;
 	
 	//F��r popup vyn
 	private Button editTimePostButton, addNewTimePostButton;
@@ -108,7 +109,7 @@ public class ConfirmReport extends Fragment {
         rootView = inflater.inflate(R.layout.activity_confirmreport, container, false);
         
         //db = new DB(getActivity().getApplicationContext());
-        activityInitConfirmReport();
+        //activityInitConfirmReport();
         
         editTimePostButton = (Button) rootView.findViewById(R.id.sendReportButton);
         addNewTimePostButton = (Button) rootView.findViewById(R.id.addNewPost);
@@ -216,7 +217,18 @@ public class ConfirmReport extends Fragment {
 		
 		int selectedRow = 0;
 		
-		int currentProject = SettingsManager.getCurrentProjectId(parentActivity);
+		
+		int currentProject;
+		
+		if (!handledIntent && parentActivity.getIntent().getAction() == Constants.SEND_TIMES_ACTION) {
+			currentProject = parentActivity.getIntent().getIntExtra(Constants.PROJECT_ID, 0);
+			SettingsManager.setCurrentProjectId(currentProject, parentActivity);
+			handledIntent = true;
+		}
+		else
+			currentProject = SettingsManager.getCurrentProjectId(parentActivity);
+		
+		
 		DB db = new DB(getActivity().getApplicationContext());
 		projects = db.getAllProjects();
 		projectsMenuString = new String[projects.size() + 1];
@@ -433,7 +445,7 @@ public class ConfirmReport extends Fragment {
 	@Override
 	public void setUserVisibleHint(boolean isVisibleToUser) {
 	    super.setUserVisibleHint(isVisibleToUser);
-	    if (isVisibleToUser) { activityInitConfirmReport(); }//plotTimeTable(SettingsManager.getCurrentProjectId(parentActivity)); }
+	    if (isVisibleToUser) { if (rootView != null) activityInitConfirmReport(); }//plotTimeTable(SettingsManager.getCurrentProjectId(parentActivity)); }
 	    else {  }
 	}
 

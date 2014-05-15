@@ -39,6 +39,7 @@ import com.example.timestamp.model.*;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -65,6 +66,7 @@ ActionBar.TabListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.activity_main);
 	
 		
@@ -144,8 +146,34 @@ ActionBar.TabListener {
 			startActivity(intent);		
 		}
 		
+		
+		
+		
+		
 	}
 	
+	@Override
+	public void onResume()
+	{
+		Intent intent = getIntent();
+		
+		if (intent.getAction() == Constants.SEND_TIMES_ACTION)
+		{
+			int projectId = intent.getIntExtra(Constants.PROJECT_ID, -1);
+			Log.d("Oskar", "projectId = " + projectId);		
+			
+			if (projectId != -1)
+			{
+				//SettingsManager.setCurrentProjectId(projectId, this);
+				Log.d("Oskar", "viewPager.getChildCount() = " + viewPager.getChildCount());
+				super.onResume();
+				viewPager.setCurrentItem(1);
+				
+			}
+		}
+		else
+			super.onResume();
+	}
 	
 	
 	public boolean onCreateOptionsMenu(Menu menu) {
