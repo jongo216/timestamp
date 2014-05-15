@@ -101,6 +101,7 @@ public class EditReport extends Activity {
 			timePost = db.getTimePost(timePostId);
 			if (timePost == null) timePost = new TimePost();
 			Log.d("EditReport","SIGNED? = "+timePost.isSigned);
+			button_delete.setVisibility(0);
 		}
 		else{
 			//DB db = new DB(this);
