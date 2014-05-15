@@ -71,6 +71,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <string name="spinnerOverView">OverViewSpinner</string>
 
     <color name="myColorG">#C0C0C0</color>
+    <color name="CombitechBlue">#063a70</color>
+    <color name="BGBlack">#000000</color>
 
     <string name="title_activity_test_services">TestServicesActivity</string>
     <string name="title_activity_settings">Settings</string>
@@ -123,7 +125,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <!-- Action bar tabs -->
     <string name="tabOverview">General</string>
     <string name="tabReport">Report</string>
-    <string name="title_activity_manage_projects">ManageProjects</string>
-    <string name="title_activity_create_new_project">CreateNewProject</string>
+    <string name="title_activity_manage_projects">Manage Projects</string>
+    <string name="title_activity_create_new_project">Create New Project</string>
 
 </resources>
