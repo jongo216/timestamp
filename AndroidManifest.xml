@@ -48,9 +48,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        
         <activity
             android:name="com.example.timestamp.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            
+            android:theme="@style/Theme.Timestamptheme"  >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -84,7 +87,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         -->
         <activity
             android:name="com.example.timestamp.SettingsActivity"
-            android:label="@string/title_activity_settings" >
+            android:label="@string/title_activity_settings"
+            android:theme="@style/Theme.Timestamptheme"  >
         </activity>
         <activity
             android:name="com.example.timestamp.MainSettingsActivity"
@@ -96,7 +100,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         </activity>
         <activity
             android:name="com.example.timestamp.ManageProjects"
-            android:label="@string/title_activity_manage_projects" >
+            android:label="@string/title_activity_manage_projects"
+            android:theme="@style/Theme.Timestamptheme"  >
         </activity>
         <activity
             android:name="com.example.timestamp.CreateNewProject"
