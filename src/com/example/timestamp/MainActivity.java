@@ -31,10 +31,6 @@ package com.example.timestamp;
 
 
 
-import java.util.GregorianCalendar;
-
-import com.example.timestamp.model.*;
-
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
@@ -45,7 +41,14 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.*;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TabHost;
+import android.widget.TabWidget;
+import android.widget.TextView;
+
 
 
 
@@ -56,6 +59,8 @@ ActionBar.TabListener {
 	private ViewPager viewPager;
 	private TabsPagerAdapter mAdapter;
 	private ActionBar actionBar;
+	private TabHost host;
+	private TabWidget tabWidget;
 	
     
 	// Tab titles
@@ -65,7 +70,6 @@ ActionBar.TabListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-	
 		
 		// Initilization
 		viewPager = (ViewPager) findViewById(R.id.pager);
@@ -86,7 +90,8 @@ ActionBar.TabListener {
 		//Fix som döljer ikonen i övre vänstra hörnet
 		View homeIcon = findViewById(android.R.id.home);
 		((View) homeIcon.getParent()).setVisibility(View.GONE);
-	
+		
+
 		
 		
 		//Create tabs action bar
@@ -100,13 +105,8 @@ ActionBar.TabListener {
 		for (String tab_name : tabs) {
 			actionBar.addTab(actionBar.newTab().setText(tab_name)
 					.setTabListener(this));
-		}
+			}
 
-		
-		
-		
-		
-		
 		 // on swiping the viewpager make respective tab selected
 		 
 		viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
