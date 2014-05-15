@@ -222,7 +222,7 @@ public class EditReport extends Activity {
 	 
 				// create alert dialog
 				AlertDialog alertDialog = ad.create();
-	 
+				
 				// show it
 				alertDialog.show();
 			}
