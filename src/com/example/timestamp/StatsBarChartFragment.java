@@ -89,8 +89,6 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
         barChart.getLegendWidget().setTableModel(new DynamicTableModel(1, 2));
         barChart.getLegendWidget().setSize(new SizeMetrics(150, SizeLayoutType.ABSOLUTE, 200, SizeLayoutType.ABSOLUTE));
 
-        
-        
         // Set domain values for x axis
         barChart.getGraphWidget().setDomainValueFormat(new GraphXLabelFormat());
         
@@ -116,7 +114,6 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
         barChart.setTicksPerDomainLabel(1);
         barChart.setDomainStep(XYStepMode.SUBDIVIDE, 7);
         
-        
         //Range (Y-labels) settings
         barChart.getGraphWidget().setRangeValueFormat(new DecimalFormat("0"));
         barChart.getGraphWidget().getRangeLabelPaint().setColor(Color.BLACK);
@@ -128,14 +125,14 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
         
         //Margins and Padding for whole plot
         barChart.getGraphWidget().setMarginLeft(30);
-        barChart.getGraphWidget().setPaddingLeft(0);
-        barChart.getGraphWidget().setMarginRight(200);
+        barChart.getGraphWidget().setGridPaddingLeft(10);
+        barChart.getGraphWidget().setMarginRight(150);
+        barChart.getGraphWidget().setGridPaddingRight(15);
         //hide legend
         barChart.getLegendWidget().setVisible(false);
         
         initChart();
         update();
-        
         
         return rootView;
     }
@@ -145,7 +142,6 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
 		super.onActivityCreated(savedInstanceState);
 		//updateChart();
 	}
-
 
 	private void initChart()
 	{
@@ -157,9 +153,6 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
 	@Override
 	public void update()
 	{   
-		//Log.d("Fragment info: ", getActivity().toString());
-		
-		
 		if (barChart == null)
 		{
 			Log.d("Fragment info: ", "barChart = null");
@@ -168,30 +161,36 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
 		
 		if (db == null)
 			db = new DB(getParentFragment().getActivity());
-		
+
 		
 		//DB db = new DB(getActivity());
+		//get all projects into an array;
+	
+
 		int currentProject = SettingsManager.getCurrentProjectId(getParentFragment().getActivity());
 		timePosts = db.getTimePosts(currentProject);
 		Number[] hoursPerDay = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
 		
+		// Set start week... 
 		GregorianCalendar startOfWeek = new GregorianCalendar();
-		startOfWeek.setTimeInMillis(startOfWeek.getTimeInMillis() - 1000 * 3600 * 24 * 2);
-		startOfWeek.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+		startOfWeek.setTimeInMillis(startOfWeek.getTimeInMillis() - 1000 * 3600 * 24 * 2); // Rewind to Sunday to be able to compare in loop
+		startOfWeek.set(Calendar.DAY_OF_WEEK_IN_MONTH, Calendar.MONDAY);
 		startOfWeek.set(Calendar.HOUR_OF_DAY, 1);
-		
+
 		for (int n = 0; n < timePosts.size(); n++) {
+			//Check if timeposts is in the current week for bar chart... otherwise don't show
 			if (timePosts.get(n).startTime.getTimeInMillis() > startOfWeek.getTimeInMillis())
 			{
-				int day = (timePosts.get(n).startTime.get(Calendar.DAY_OF_WEEK) + 6) % 7;
+				int day = (timePosts.get(n).startTime.get(Calendar.DAY_OF_WEEK) + 5) % 7;
+
+
 				hoursPerDay[day] = (Number)(timePosts.get(n).getWorkedHours() + hoursPerDay[day].floatValue());
 			}
 		}
-
-		//BarFormatter formatter = new BarFormatter(Color.argb(200, 100, 150, 100), Color.argb(200, 10, 15, 10));
 		
+	
 		//Format for days of the week
-		Number[] xValues = {0, 1, 2, 3, 4, 5, 6};
+		Number[] xValues = { 1, 2, 3, 4, 5, 6,7};
 		
 		data = new SimpleXYSeries(Arrays.asList(hoursPerDay), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Worked Hours");
 
@@ -205,14 +204,11 @@ public class StatsBarChartFragment extends Fragment implements UpdateableStatist
 	}
 	
 	private class GraphXLabelFormat extends Format {
-
 	    String LABELS[] = {"Mon","Tue","Wed","Thu","Fri","Sat","Sun"};
-
 	    @Override
 	    public StringBuffer format(Object object, StringBuffer buffer, FieldPosition field) {
 	        int parsedInt = Math.round(Float.parseFloat(object.toString()));
 	        String labelString = LABELS[parsedInt];
-	        System.out.println(LABELS[parsedInt]);
 	        buffer.append(labelString);
 	        return buffer;
 	    }
