@@ -49,7 +49,7 @@ import android.widget.TextView;
 public class StatsSummaryFragment extends Fragment implements UpdateableStatistics {
 
 	private View rootView;
-	private TextView weeklyHours, weeklyProjectHours, totalProjectHours, weeklyHoursName, totalProjectHoursName;
+	private TextView weeklyHours, weeklyProjectHours, totalProjectHours, weeklyProjectHoursLabel, totalProjectHoursLabel;
 	
 	
 	@Override		//mother of all inits!
@@ -62,10 +62,8 @@ public class StatsSummaryFragment extends Fragment implements UpdateableStatisti
         weeklyProjectHours = (TextView)rootView.findViewById(R.id.summary_weekly_project_hours);
         totalProjectHours = (TextView)rootView.findViewById(R.id.summary_total_project_hours);
         
-        // Set name of project
-        weeklyHoursName = (TextView)rootView.findViewById(R.id.summary_weekly_project_hours_label);
-        totalProjectHoursName = (TextView)rootView.findViewById(R.id.summary_total_project_hours_label);
-        
+        weeklyProjectHoursLabel = (TextView)rootView.findViewById(R.id.summary_weekly_project_hours_label);
+        totalProjectHoursLabel = (TextView)rootView.findViewById(R.id.summary_total_project_hours_label);
         
         return rootView;
     }
@@ -88,9 +86,10 @@ public class StatsSummaryFragment extends Fragment implements UpdateableStatisti
 		
 		int currentProject = SettingsManager.getCurrentProjectId(getParentFragment().getActivity());
 		
-		ArrayList<TimePost> timePosts = db.getTimePosts();
+		String name = db.getProject(currentProject).getName();
 		
-		String projectname = db.getProject(currentProject).getName(); // use to dynamic change name of label
+		
+		ArrayList<TimePost> timePosts = db.getTimePosts();
 		
 		double wh = 0, wph = 0, tph = 0; 
 		GregorianCalendar startOfWeek = new GregorianCalendar();
@@ -113,11 +112,12 @@ public class StatsSummaryFragment extends Fragment implements UpdateableStatisti
 		}
 		DecimalFormat df = new DecimalFormat("#.#h");
 		
-		weeklyHoursName.setText("In " + projectname + " this week:"); 
-        totalProjectHoursName.setText("Total in " + projectname + " :");
-		
 		weeklyHours.setText(df.format(wh));
 		weeklyProjectHours.setText(df.format(wph));
 		totalProjectHours.setText(df.format(tph));
+		
+		weeklyProjectHoursLabel.setText("In " + name + " this week: ");
+		totalProjectHoursLabel.setText("Total in " + name + " : ");
+		
 	}
 }
