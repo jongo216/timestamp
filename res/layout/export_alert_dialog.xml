@@ -1,4 +1,4 @@
-/**  Copyright (c) 2014, Group D in course TNM082
+<!-- Copyright (c) 2014, Group D in course TNM082
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -25,10 +25,44 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-**/
+-->
 
-package com.example.timestamp.services;
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="6dp"
+    android:orientation="vertical" >
+    
+    <EditText
+        android:id="@+id/alertReceiverEmail"
+        android:inputType="textEmailAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="4dp"
+        android:hint="@string/alertEmailHint" />
 
-public class NotificationManager {
+    
+	<CheckBox
+	    android:id="@+id/alertExportCC"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_marginTop="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="4dp"
+	    android:text="@string/alertCheckBoxCCText" />
+	<CheckBox
+	    android:id="@+id/alertExportComments"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_marginTop="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="4dp"
+	    android:text="@string/alertCheckBoxCommentText" />
 
-}
+
+</LinearLayout>

@@ -33,12 +33,16 @@ import java.text.DecimalFormat;
 import java.text.FieldPosition;
 import java.text.Format;
 import java.text.ParsePosition;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,21 +53,41 @@ import com.androidplot.ui.SizeLayoutType;
 import com.androidplot.ui.SizeMetrics;
 import com.androidplot.ui.XLayoutStyle;
 import com.androidplot.ui.YLayoutStyle;
+import com.androidplot.xy.BarRenderer;
 import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.PointLabelFormatter;
 import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYPlot;
 import com.androidplot.xy.XYSeries;
 import com.androidplot.xy.XYStepMode;
+import com.example.timestamp.StatsBarChartFragment.MyBarFormatter;
+import com.example.timestamp.StatsBarChartFragment.MyBarRenderer;
 import com.example.timestamp.model.DB;
+
+import com.example.timestamp.model.Project;
+
+import com.example.timestamp.model.SettingsManager;
+import com.example.timestamp.model.TimePost;
 
 public class StatsBurnDownFragment extends Fragment implements UpdateableStatistics {
 
-	private View rootView;
+	public String[] projectsMenuString; // = {"Projekt 1", "Projekt 2", "Nytt projekt"};
+	public int[] projectMenuIds;
+	private ArrayList<Project> projects;
 	
+	private View rootView;
 	private DB db;
 	private XYPlot plot;
-
+	private ArrayList<TimePost> timePosts;
+	private XYSeries data;
+	
+	
+	public void setDB(DB database)
+	{
+		db = database;
+		
+	}
+	
 	@Override		//mother of all inits!
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
  
@@ -96,57 +120,19 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
                 YLayoutStyle.RELATIVE_TO_TOP,
                 AnchorPosition.RIGHT_TOP
         );
-        
-     // Create a couple arrays of y-values to plot:
-        Number[] series1Numbers = {20, 16, 15, 12, 6, 4};
-        Number[] series2Numbers = {24, 20, 10, 3, 2, 1};
-        
-        Number[] xValues = {0, 1, 2, 3, 4, 5};
-         
-        XYSeries series1 = new SimpleXYSeries(
-        		 Arrays.asList(xValues) // SimpleXYSeries takes a List so turn our array into a List
-                ,Arrays.asList(series1Numbers), // Y_VALS_ONLY means use the element index as the x value
-                "Combitech");
-     // same as above
-        XYSeries series2 = new SimpleXYSeries(
-        		Arrays.asList(xValues),
-        		Arrays.asList(series2Numbers),
-        		"Siemens");
-        
-        plot.getGraphWidget().setDomainValueFormat(new GraphXLabelFormat());
-        // Create a formatter to use for drawing a series using LineAndPointRenderer
-        // and configure it from xml:
-        LineAndPointFormatter series1Format = new LineAndPointFormatter();
-        series1Format.setPointLabelFormatter(new PointLabelFormatter());
-        series1Format.configure(getActivity(),
-                R.xml.line_point_formatter_with_plf1);
-        series1Format.getPointLabelFormatter().setTextPaint(bgPaint);
-
-        // add a new series' to the xyplot:
-        plot.addSeries(series1, series1Format);
-     // same as above:
-        LineAndPointFormatter series2Format = new LineAndPointFormatter();
-        series2Format.setPointLabelFormatter(new PointLabelFormatter());
-        series2Format.configure(getActivity(),
-        		R.xml.line_point_formatter_with_plf2);
-        series2Format.getPointLabelFormatter().setTextPaint(bgPaint);
-        
-        plot.addSeries(series2, series2Format);
        
         //Titles for axis
         plot.getGraphWidget().getDomainLabelPaint().setColor(Color.BLACK);
         plot.getGraphWidget().getRangeGridLinePaint().setColor(Color.BLACK);
         plot.getGraphWidget().getDomainOriginLinePaint().setColor(Color.BLACK);
         
-        
         // Settings for ticks and labels on x and y axis
-        plot.setTicksPerRangeLabel(1);               
+        plot.setTicksPerRangeLabel(2);
+        plot.setRangeBottomMax(0);
         plot.setDomainStep(XYStepMode.SUBDIVIDE, 6);
         plot.getGraphWidget().setDomainLabelOrientation(0); //Changed from -45
-        plot.setRangeStep(XYStepMode.INCREMENT_BY_VAL,10);
-        plot.setRangeValueFormat(new DecimalFormat("10"));
-               
-
+        plot.setRangeStep(XYStepMode.SUBDIVIDE, 6);
+  
         plot.getBorderPaint().setColor(Color.TRANSPARENT);
         plot.getBackgroundPaint().setColor(Color.TRANSPARENT);
         plot.getGraphWidget().getBackgroundPaint().setColor(Color.TRANSPARENT);
@@ -164,28 +150,113 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
         
         plot.getRangeLabelWidget().getLabelPaint().setColor(Color.BLACK);
 
-
         //Margins and Padding for whole plot
         plot.getGraphWidget().setMarginLeft(30);
         plot.getGraphWidget().setPaddingLeft(0);
         plot.getGraphWidget().setMarginRight(200);
-        
-                
-        db = new DB(getActivity());
-        //parentActivity = getActivity();
-        
+  
+        update(); 
+        initChart();
+        initProjects(); // get all projects
+
         return rootView;
     }
 	
+	public void onActivityCreated (Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		//updateChart();
+	}
+	
+
+	
+	@Override
+	public void update()
+	{   
+		//Log.d("Fragment info: ", getActivity().toString());
+		
+		
+		if (plot == null)
+		{
+			Log.d("Fragment info: ", "plot = null");
+			return;
+		}
+		
+		if (db == null)
+			db = new DB(getParentFragment().getActivity());
+		
+		
+		//DB db = new DB(getActivity());
+		int currentProject = SettingsManager.getCurrentProjectId(getParentFragment().getActivity());
+		timePosts = db.getTimePosts(currentProject);
+		Number[] hoursPerMonth = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}; // We take 6 months interval
+		
+		GregorianCalendar startMonth = new GregorianCalendar();
+		startMonth.set(Calendar.YEAR, Calendar.MAY, 1);
+
+		startMonth.set(Calendar.YEAR, Calendar.MAY, Calendar.DAY_OF_MONTH);
+		startMonth.set(Calendar.HOUR_OF_DAY,1);
+
+		
+		for (int n = 0; n < timePosts.size(); n++) {
+			if (timePosts.get(n).startTime.getTimeInMillis() > startMonth.getTimeInMillis())
+			{
+				int month = (timePosts.get(n).startTime.get(Calendar.MONTH)) % 4;
+
+				hoursPerMonth[month] = (Number)(timePosts.get(n).getWorkedHours() + hoursPerMonth[month].floatValue());
+			}
+		}
+		for(int i =1; i<hoursPerMonth.length;i++)
+		{
+			hoursPerMonth[i] = hoursPerMonth[i].floatValue() + hoursPerMonth[i-1].floatValue();
+		}
+		
+		
+        Paint plotPaint = new Paint(); 
+        
+        plotPaint.setColor(Color.TRANSPARENT);
+        plot.getLegendWidget().setBackgroundPaint(plotPaint);
+
+		//Format for 6 months ahead
+		Number[] xValues = {0, 1, 2, 3, 4, 5};
+		
+		String datalabel = db.getProject(currentProject).getName();
+				
+		data = new SimpleXYSeries(Arrays.asList(xValues),Arrays.asList(hoursPerMonth), datalabel);
+		
+		LineAndPointFormatter seriesFormat = new LineAndPointFormatter();
+        seriesFormat.setPointLabelFormatter(new PointLabelFormatter());
+        seriesFormat.configure(getActivity(),
+                R.xml.line_point_formatter_with_plf1);
+        seriesFormat.getPointLabelFormatter().setTextPaint(plotPaint);
+        
+        //------------
+       
+        
+        plot.getGraphWidget().setDomainValueFormat(new GraphXLabelFormat());
+        
+        int max = hoursPerMonth[5].intValue();
+        max = max + 5 + (max/10);
+        plot.setRangeTopMin(max);
+        
+       
+        
+        // add a new series' to the xyplot:
+        plot.clear();
+        
+        plot.addSeries(data, seriesFormat);
+		
+		plot.redraw();
+	}
+	
+
 	private class GraphXLabelFormat extends Format {
 
-	    String LABELS[]  = {"Jan", "Feb", "Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec",};
+	    String LABELS[]  = {"Jan", "Feb", "Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
 
 	    @Override
 	    public StringBuffer format(Object object, StringBuffer buffer, FieldPosition field) {
 	        int parsedInt = Math.round(Float.parseFloat(object.toString()));
-	        String labelString = LABELS[parsedInt];
-	        System.out.println(LABELS[parsedInt]);
+	        String labelString = LABELS[parsedInt+4];
 	        buffer.append(labelString);
 	        return buffer;
 	    }
@@ -195,23 +266,30 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
 	        return java.util.Arrays.asList(LABELS).indexOf(string);
 	    }
 	}
+    
+	private void initProjects(){
+		projects = db.getAllProjects();
+			
+	   projectsMenuString = new String[projects.size() + 1];
+		//Log.d("HEJ", projectsMenuString[0]);
+   	   projectMenuIds = new int[projects.size()+1];
 
-     
 	
-		    
+	}
+	
+	
+	private void initChart()
+	{
+		
+		
+		
+	}
+     	    
 	@Override
 	public void onResume()
 	{	
 		super.onResume();
 	}
 
-
-
-
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-		
-	}
 	
 }

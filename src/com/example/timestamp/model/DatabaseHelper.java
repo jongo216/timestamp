@@ -47,7 +47,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String LOG = DatabaseHelper.class.getName();
  
     // Database Version
-    private static final int DATABASE_VERSION = 22;
+    private static final int DATABASE_VERSION = 23;
  
     // Database Name
     private static final String DATABASE_NAME = "TimeStamp";
@@ -160,7 +160,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	        values.put(KEY_START_TIME, timePost.getStartTime());
 	        values.put(KEY_END_TIME, timePost.getEndTime());
 	        values.put(KEY_COMMENT, timePost.comment);
-	        values.put(KEY_IS_SIGNED, timePost.isSigned);
+	        values.put(KEY_IS_SIGNED, timePost.getIsSigned());
 	        values.put(KEY_COMMENT_SHARED, timePost.commentShared);
 	 
 	        // insert row
@@ -173,7 +173,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     		KEY_START_TIME+"='"+timePost.getStartTime()+"', "+
     		KEY_END_TIME+"='"+timePost.getEndTime()+"', "+
     		KEY_COMMENT+"='"+timePost.comment+"', "+
-    		KEY_IS_SIGNED+"='"+timePost.isSigned+"', "+
+    		KEY_IS_SIGNED+"='"+timePost.getIsSigned()+"', "+
     		KEY_COMMENT_SHARED+"='"+timePost.commentShared+
     		"' WHERE "+KEY_TID+"="+timePost.id;
     		
@@ -186,6 +186,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				Log.d(LOG,e.toString());
 			}
     	}
+    	Log.d("EditReport","Database.issigned? = "+timePost.isSigned);
     	
     }
     
@@ -269,7 +270,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     	}catch(SQLiteException e){
     		Log.d(LOG, e.toString());
     	}
-    	
+    	Log.d(LOG, "getAllTimePost(int pid) returnsize="+ret.size());
     	return ret;
     }
 
@@ -314,7 +315,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		}catch(SQLiteException e){
 			Log.d(LOG, e.toString());
 		}
-		
+		Log.d(LOG, "getAllTimePost() returnsize="+ret.size());
 		return ret;
     }
     
@@ -359,7 +360,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     	}catch(SQLiteException e){
     		Log.d(LOG, e.toString());
     	}
-    	
+    	Log.d(LOG, "getUnsignedTimes() returnsize="+ret.size());
     	return ret;
 	}
     
@@ -404,7 +405,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     	}catch(SQLiteException e){
     		Log.d(LOG, e.toString());
     	}
-    	
+    	Log.d(LOG, "getUnsignedTimes(int pid) returnsize="+ret.size());
     	return ret;
 	}
     
@@ -450,6 +451,51 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		}
 	}
 
+	public ArrayList<TimePost> getTimePostsByProjectIdThenTime(){
+		ArrayList<TimePost> ret = new ArrayList<TimePost>();
+		String selectQuery = "SELECT * FROM "+TABLE_TIMEPOST + " ORDER BY " + KEY_PID +","+KEY_START_TIME+ " ASC";
+		//ORDER BY column_name,column_name ASC
+		try{
+			SQLiteDatabase db = this.getReadableDatabase();
+			Cursor c = db.rawQuery(selectQuery, null);
+	    	
+	    	if (c.getCount() != 0){
+	    		c.moveToFirst();
+	    		
+	    		do {
+	    			TimePost temp = new TimePost();
+	    			
+	    			String st = c.getString(c.getColumnIndex(KEY_START_TIME));
+	    			temp.setStartTimeByString(st);
+	    			
+	    			st = c.getString(c.getColumnIndex(KEY_END_TIME));
+	    			temp.setEndTimeByString(st);
+	    			
+	    			temp.id = c.getInt(c.getColumnIndex(KEY_TID));
+	    			
+	    			temp.projectId = c.getInt(c.getColumnIndex(KEY_PID));
+	    			
+	    			temp.comment = c.getString(c.getColumnIndex(KEY_COMMENT));
+	    			
+	    			temp.setIsSigned(c.getInt(c.getColumnIndex(KEY_IS_SIGNED)));
+	    			
+	    			temp.setCommentShared(c.getInt(c.getColumnIndex(KEY_COMMENT_SHARED)));
+	    			
+	    			ret.add(temp);
+	                
+	            } while (c.moveToNext());
+	    	}
+	    	else{
+	    		Log.d(LOG, "Error getting timepost info");
+	    	}
+	    	
+		}catch(SQLiteException e){
+			Log.d(LOG, e.toString());
+		}
+		
+		return ret;	
+	}
+	
 	public TimePost getLatestTimePost(int pid) {
 		String selectQuery = "SELECT * FROM "+TABLE_TIMEPOST+" WHERE "+KEY_END_TIME+"=";
 		String selectQuery2 = "(SELECT MAX("+KEY_END_TIME+") FROM "+TABLE_TIMEPOST+" WHERE "+KEY_PID+"="+pid+")";

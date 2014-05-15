@@ -102,8 +102,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_marginLeft="50dp"
-	        android:text="Stämpla In"
+	        android:text="Begin"
 	        android:textSize="25sp"
+	        android:textColor="#000000"
 	   />
 
 

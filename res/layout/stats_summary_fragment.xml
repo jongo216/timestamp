@@ -33,13 +33,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     android:tileMode="repeat"
     tools:context=".Start" 
     android:padding="10dp">
-    <LinearLayout 
+    <RelativeLayout 
         android:id="@+id/summary_upper_div"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
 	    android:layout_centerHorizontal="true"
 	    android:orientation="horizontal"
+	    android:layout_marginTop="30dp"
         >
         <TextView 
 	        android:id="@+id/summary_weekly_hours2"
@@ -49,21 +50,36 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	        android:textColor="#22BB11"
 	        android:textSize="30sp"
 	        />
-	    <TextView 
-	        android:id="@+id/summary_weekly_hours_label3"
-	        android:layout_width="wrap_content"
-	    	android:layout_height="wrap_content"
-	        android:text="this week"
-	        android:textSize="30sp"
-	        android:layout_marginLeft="10dp"
-	        />
-    </LinearLayout>
+
+    </RelativeLayout>
     
-    <LinearLayout 
-        android:id="@+id/summary_lower_div"
+    <RelativeLayout 
+        android:id="@+id/summary_total_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/summary_upper_div"
+        android:layout_marginTop="8dp"
+	    android:layout_centerHorizontal="true"
+	    android:orientation="horizontal"
+        >
+    
+    	    <TextView 
+	        android:id="@+id/summary_weekly_hours_label3"
+	        android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	        android:text="totally reported this week"
+	        android:textSize="25sp"
+	        android:layout_marginLeft="10dp"
+	        />
+    
+   	</RelativeLayout> 	    
+    	        
+    <RelativeLayout 
+        android:id="@+id/summary_lower_div"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/summary_total_text"
+        android:gravity="center"
         android:layout_marginTop="20dp"
 	    android:layout_centerHorizontal="true"
 	    android:orientation="horizontal"
@@ -79,11 +95,24 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	        android:id="@+id/summary_weekly_project_hours"
 	        android:layout_width="wrap_content"
 	    	android:layout_height="wrap_content"
+	    	android:layout_toRightOf="@+id/summary_weekly_project_hours_label"
 	        android:text="23.6h"
 	        android:textColor="#555555"
 	        android:textSize="12sp"
 	        android:layout_marginLeft="6dp"
 	        />
+	</RelativeLayout>
+	<RelativeLayout 
+        android:id="@+id/summary_lower_div2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@+id/summary_lower_div"
+        android:layout_marginTop="5dp"
+	    android:layout_centerHorizontal="true"
+	    android:orientation="horizontal"
+        >
+    
 	    <TextView 
 	        android:id="@+id/summary_total_project_hours_label"
 	        android:layout_width="wrap_content"
@@ -96,11 +125,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	        android:id="@+id/summary_total_project_hours"
 	        android:layout_width="wrap_content"
 	    	android:layout_height="wrap_content"
+	    	android:layout_toRightOf="@+id/summary_total_project_hours_label"
 	        android:text="23.6h"
 	        android:textColor="#555555"
 	        android:textSize="12sp"
 	        android:layout_marginLeft="6dp"
 	        />
-    </LinearLayout>
+    </RelativeLayout>
        
 </RelativeLayout>
