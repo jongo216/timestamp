@@ -1,21 +1,27 @@
 package com.example.timestamp;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
+
+import com.example.timestamp.model.*;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.util.Log;
+
 
 import com.example.timestamp.model.DB;
 import com.example.timestamp.model.Project;
@@ -29,10 +35,23 @@ public class CreateNewProject extends Activity {
 	TextView label;
 	CheckBox isSharedProject;
 	
+	//Menu-bar
+	//Orginal code without menu
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_create_new_project);
+		
+		//Stylear actionbar
+		ActionBar actionBarTop = getActionBar(); //Action bar med rubrik + settingsknapp
+		actionBarTop.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
+		actionBarTop.setCustomView(R.layout.actionbar);
+		actionBarTop.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#11ffffff")));
+		actionBarTop.setDisplayShowHomeEnabled(true); //Nödvändig(??) för att visa action bars i rätt ordning
+		
+		//Fix som döljer ikonen i övre vänstra hörnet
+		View homeIcon = findViewById(android.R.id.home);
+		((View) homeIcon.getParent()).setVisibility(View.GONE);
 		
 		//Link to xml objects
 		saveButton = (Button)findViewById(R.id.save_project_button);
@@ -69,7 +88,7 @@ public class CreateNewProject extends Activity {
 		initTextFields();
 		initSaveButton();
 	}
-
+	
 	private void initTextFields() {
 		name.setText(project.getName());
 		customer.setText(project.getCustomer());
@@ -129,9 +148,9 @@ public class CreateNewProject extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.create_new_project, menu);
-		return true;
+		MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.main_activitybar, menu);
+	    return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
