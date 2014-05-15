@@ -62,6 +62,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
@@ -87,6 +88,7 @@ public class ConfirmReport extends Fragment {
 	private View rootView;
 	private FragmentActivity parentActivity;
 	private Spinner spinner;
+	private CheckBox checkBoxShowSigned;
 	
 	//F��r popup vyn
 	private Button editTimePostButton, addNewTimePostButton;
@@ -98,6 +100,7 @@ public class ConfirmReport extends Fragment {
 	LinearLayout mainLayout;
 	Button but;
 	//END F��r popup vyn 
+	private boolean showSigned= false;
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -109,11 +112,12 @@ public class ConfirmReport extends Fragment {
         
         editTimePostButton = (Button) rootView.findViewById(R.id.sendReportButton);
         addNewTimePostButton = (Button) rootView.findViewById(R.id.addNewPost);
+        checkBoxShowSigned = (CheckBox) rootView.findViewById(R.id.checkBoxShowSigned);
         
         //popUp = new PopupWindow();
         addEditTimePostButtonListener();
         addNewTimePostButtonListener();
-
+        addCheckBoxShowSignedListener();
         
         
         
@@ -151,19 +155,7 @@ public class ConfirmReport extends Fragment {
 			    @Override
 	        	public void onClick(View v) {
 			    	
-			    	Log.d("Confirm report", "Add new time post");
-	//		        
-	//		    	//Intent intent = new Intent(getActivity(), EditReport.class);
-	//		    	//startActivity(intent);
-	//		    	if (click) {
-	//		            popUp.showAtLocation(rootView, Gravity.BOTTOM, 10, 10);
-	//		            popUp.update(50, 50, 300, 80);
-	//		            click = false;
-	//		    	} else {
-	//		    		popUp.dismiss();
-	//		            click = true;
-	//		        }
-			    	
+			    	Log.d("Confirm report", "Add new time post");			    	
 			    	
 			    	int new_time_post_id = 0;
 			    	
@@ -172,18 +164,14 @@ public class ConfirmReport extends Fragment {
 			    	
 			    	Intent editIntent = new Intent(getActivity(), EditReport.class);
 			        editIntent.putExtra(Constants.TIME_POST_ID, new_time_post_id);
-			        startActivity(editIntent);
-			        
-			        
-			       
-			        
+			        startActivity(editIntent);			        
 			    	
 				}
 	        });
 		}
 	
 
-
+	
 	
 	@Override
 	public void onResume()
@@ -193,10 +181,33 @@ public class ConfirmReport extends Fragment {
 		//plotTimeTable(SettingsManager.getCurrentProjectId(parentActivity));
 	}
 	
+	public void addCheckBoxShowSignedListener() {
+			 
+		
+		
+		checkBoxShowSigned.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
+	        @Override
+	        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+	            // TODO Auto-generated method stub
+	        	if(isChecked){
+	        		showSigned = true;
+	        		int currentProject = SettingsManager.getCurrentProjectId(getActivity());
+	        		
+	        		plotTimeTable(currentProject);
+	        	}else{
+	        		showSigned = false;
+	        		int currentProject = SettingsManager.getCurrentProjectId(getActivity());
+	        		
+	        		plotTimeTable(currentProject);
+	        	}
+	        }
+	    });
+	 	
+	  }
 
 	public void activityInitConfirmReport(){
-		
+	
 		parentActivity = getActivity();
 	
 		//Letar efter en spinner i activity_main.xml med ett specifict id
@@ -268,12 +279,17 @@ public class ConfirmReport extends Fragment {
 			public void onClick(View arg0){
 	
 				new Exporter("Are you sure you want to send in the report?", 
-						new DB(getActivity()).getTimePosts(), getActivity());
+						new DB(getActivity()).getUnsignedTimes(), getActivity());
+			
+				
+				//This should be in new Exporter as a callback
+				plotTimeTable(SettingsManager.getCurrentProjectId(getActivity()));
 			}
 		});
 		
 		plotTimeTable(currentProject);
 	}
+
 
 	
 	public void plotTimeTable(int projectID){
@@ -285,12 +301,22 @@ public class ConfirmReport extends Fragment {
 		if (projectID != -1)
 		{
 			//Get list of time posts
-			times = db.getTimePosts(projectID);
+			if(showSigned){
+				times = db.getTimePosts(projectID);
+			}else{
+				times = db.getUnsignedTimes(projectID);
+			}
+			
 		}
 		else
 		{
 			//Get list of time posts
-			times = db.getTimePosts();
+			if(showSigned){
+				times = db.getTimePosts();
+			}else{
+				times = db.getUnsignedTimes(); 
+			}
+			
 		}
 		
 		//Remove old rows from table (except the header row)

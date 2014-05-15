@@ -109,7 +109,7 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 		A = a;
 		context = a;
 		db = new DB(a);
-		exportList = db.getTimePostsByProjectIdThenTime();//list;
+		exportList = list;
 		
 		//Checks for Internet connection
 		ConnectivityManager cm = (ConnectivityManager)A.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -293,7 +293,9 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 				
 				prev = temp;
 			}
-		
+			
+			signTimePosts(tplist);
+			
 			writer.write(output);
 		    writer.close();
 		    
@@ -328,6 +330,13 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 		return output;
 	}
 
+	private void signTimePosts(ArrayList<TimePost> tpList){
+		for(TimePost tp : tpList){
+			tp.setIsSigned(1);
+			db.set(tp);
+		}
+		
+	}
 	
 	//Function for debugging CSV file.
 	public void readCSV(Context c){
@@ -583,6 +592,7 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 	                public void run() {
 	                    Toast.makeText(A, "Email sent", Toast.LENGTH_SHORT).show();
 	                    Log.i("Export", "Sent");
+	                    
 	                }
 	            });
             }
