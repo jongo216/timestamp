@@ -38,7 +38,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -137,7 +136,7 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 		if(exportEmailAddress != null)
 			emailTo.setText(exportEmailAddress);
 		
-		builder.setPositiveButton("Send with token", new DialogInterface.OnClickListener() {
+		builder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
 	           public void onClick(DialogInterface dialog, int id) {
 	               // Skicka in rapport (tas till redigera vyn?)
 	        	   
@@ -155,7 +154,9 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 					alertDialog.show();
 	        	}
 	        	else{
-	        		isStatic = false;
+	        		isStatic = false;			//false for tokenAutorization, 
+	        									//true for static pre-defined emailAccount noreplytimestamp@gmail.com
+	        		
 	        		CC = ccBox.isChecked();
 	        		printComments = commentBox.isChecked();
 	        		sendTo = emailTo.getText().toString();
@@ -174,29 +175,6 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 	        }
 	           
 		})
-		.setNeutralButton("Send with static", new DialogInterface.OnClickListener() {
-	           public void onClick(DialogInterface dialog, int id) {
-	        	   
-	        	if(!isConnected){
-		    		AlertDialog.Builder builder = new AlertDialog.Builder(A);
-					builder.setTitle("Cannot send report, check for internet connection");
-					
-					builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-				           public void onClick(DialogInterface dialog, int id) {
-				        	   
-				           }
-				    });
-						
-					AlertDialog alertDialog = builder.create();
-					alertDialog.show();
-	        	}
-	        	else{
-	        		isStatic = true;
-	        		CC = ccBox.isChecked();
-	        		execute();
-	        	}
-	           }
-	    })
 		.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
