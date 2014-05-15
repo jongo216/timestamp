@@ -47,7 +47,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String LOG = DatabaseHelper.class.getName();
  
     // Database Version
-    private static final int DATABASE_VERSION = 22;
+    private static final int DATABASE_VERSION = 23;
  
     // Database Name
     private static final String DATABASE_NAME = "TimeStamp";
@@ -160,7 +160,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	        values.put(KEY_START_TIME, timePost.getStartTime());
 	        values.put(KEY_END_TIME, timePost.getEndTime());
 	        values.put(KEY_COMMENT, timePost.comment);
-	        values.put(KEY_IS_SIGNED, timePost.isSigned);
+	        values.put(KEY_IS_SIGNED, timePost.getIsSigned());
 	        values.put(KEY_COMMENT_SHARED, timePost.commentShared);
 	 
 	        // insert row
@@ -173,7 +173,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     		KEY_START_TIME+"='"+timePost.getStartTime()+"', "+
     		KEY_END_TIME+"='"+timePost.getEndTime()+"', "+
     		KEY_COMMENT+"='"+timePost.comment+"', "+
-    		KEY_IS_SIGNED+"='"+timePost.isSigned+"', "+
+    		KEY_IS_SIGNED+"='"+timePost.getIsSigned()+"', "+
     		KEY_COMMENT_SHARED+"='"+timePost.commentShared+
     		"' WHERE "+KEY_TID+"="+timePost.id;
     		
@@ -186,6 +186,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				Log.d(LOG,e.toString());
 			}
     	}
+    	Log.d("EditReport","Database.issigned? = "+timePost.isSigned);
     	
     }
     
@@ -269,7 +270,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     	}catch(SQLiteException e){
     		Log.d(LOG, e.toString());
     	}
-    	
+    	Log.d(LOG, "getAllTimePost(int pid) returnsize="+ret.size());
     	return ret;
     }
 
@@ -314,7 +315,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		}catch(SQLiteException e){
 			Log.d(LOG, e.toString());
 		}
-		
+		Log.d(LOG, "getAllTimePost() returnsize="+ret.size());
 		return ret;
     }
     
@@ -359,7 +360,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     	}catch(SQLiteException e){
     		Log.d(LOG, e.toString());
     	}
-    	
+    	Log.d(LOG, "getUnsignedTimes() returnsize="+ret.size());
     	return ret;
 	}
     
@@ -404,7 +405,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     	}catch(SQLiteException e){
     		Log.d(LOG, e.toString());
     	}
-    	
+    	Log.d(LOG, "getUnsignedTimes(int pid) returnsize="+ret.size());
     	return ret;
 	}
     

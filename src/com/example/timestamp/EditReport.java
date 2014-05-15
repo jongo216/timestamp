@@ -93,7 +93,6 @@ public class EditReport extends Activity {
 		datePicker = (DatePicker)findViewById(R.id.datePickerEditReport);
 		spinnerProjectSelector = (Spinner) findViewById(R.id.editReportProjectSpinner);
 		
-		
 		//Initialize time post object (create new if id = 0)
 		int timePostId = getIntent().getIntExtra(Constants.TIME_POST_ID, 0);
 		
@@ -101,6 +100,7 @@ public class EditReport extends Activity {
 			DB db = new DB(this);
 			timePost = db.getTimePost(timePostId);
 			if (timePost == null) timePost = new TimePost();
+			Log.d("EditReport","SIGNED? = "+timePost.isSigned);
 		}
 		else{
 			//DB db = new DB(this);
@@ -116,7 +116,7 @@ public class EditReport extends Activity {
 			//button_delete.setText(R.string.cancelNewPostButton);
 			
 		}
-		
+		timePost.showMeEveryThing();
 		//Init GUI functionality
 		initCommentField();
 		initTimePickers();
@@ -256,7 +256,7 @@ public class EditReport extends Activity {
 				
 				DB db = new DB(message);
 				db.set(timePost);
-				Log.d("EditReport", "Saved: projID="+timePost.projectId);
+				timePost.showMeEveryThing();
 				finish();
 			};
 		});
