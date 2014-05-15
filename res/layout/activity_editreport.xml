@@ -46,41 +46,54 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="50dp" >
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
             android:orientation="vertical" >
 			
             <TextView
-	            android:id="@+id/textEditChooseProject"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:text="@string/textEditChooseProject"
-	            android:textSize="15sp" />
+                android:id="@+id/textEditChooseProject"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="10dp"
+                android:text="@string/textEditChooseProject"
+                android:textSize="15sp" />
 
             <Spinner
-		        android:id="@+id/editReportProjectSpinner"
-		        style="@style/CustomStyleButtonDark"
-		        android:layout_width="300dp"
-		        android:layout_height="wrap_content" />
+                android:id="@+id/editReportProjectSpinner"
+                style="@style/CustomStyleButtonDark"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textEditChooseProject"
+                android:layout_centerHorizontal="true" />
 	        
 	        <TextView
 	            android:id="@+id/textEditTimePostDate"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
+	            android:layout_below="@id/editReportProjectSpinner"
+	            android:layout_centerHorizontal="true"
+	            android:layout_marginTop="20dp"
 	            android:text="@string/textEditTimePostDate"
-	            android:textSize="15sp" />   
+	            android:textSize="15sp" />
 	             
             <DatePicker
                 android:id="@+id/datePickerEditReport"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_below="@id/textEditTimePostDate"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="-20dp"
                 android:calendarViewShown="false" />
 
             <LinearLayout
+                android:id="@+id/editRreportTimePickers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/datePickerEditReport"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal" >
 
@@ -105,8 +118,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         android:id="@+id/timePickerStart"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="-35dp"
                         android:scaleX="0.7"
                         android:scaleY="0.7" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -130,6 +145,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         android:id="@+id/timePickerEnd"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="-35dp"
                         android:measureAllChildren="false"
                         android:scaleX="0.7"
                         android:scaleY="0.7" />
@@ -152,12 +168,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 android:id="@+id/textEditComment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/editRreportTimePickers"
+                android:layout_centerHorizontal="true"
                 android:text="@string/textEditComment" />
 
             <EditText
                 android:id="@+id/editTextComment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/textEditComment"
+                android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp"
                 android:ems="10"
                 android:hint="@string/editTextCommentHint"
@@ -166,7 +186,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 android:textSize="12sp" >
 
             </EditText>
-        </LinearLayout>
+        </RelativeLayout>
 
     </ScrollView>
     
