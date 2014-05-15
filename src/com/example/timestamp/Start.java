@@ -36,17 +36,14 @@ import java.util.List;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
-
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -56,9 +53,7 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.*;
 import android.view.View.MeasureSpec;
-
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -69,6 +64,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.timestamp.appwidget.Widget;
 import com.example.timestamp.model.DB;
 import com.example.timestamp.model.Project;
 import com.example.timestamp.model.SettingsManager;
@@ -115,12 +111,13 @@ public class Start extends Fragment{
 		Log.d("Activityinfo: ", "Activity of Start: " + getActivity().toString());
 		db = new DB(getActivity());
 		
-		initTimer();
 		
+		
+		/*initTimer();
 		initProjectSpinner();
 		initTimerButton();
 		initStats();
-		dbButtonListener(); //Button is just for debug and not visible anyways. But i leave this ftm.
+		dbButtonListener();*/ //Button is just for debug and not visible anyways. But i leave this ftm.
         return rootView;
     }
 	
@@ -145,15 +142,7 @@ public class Start extends Fragment{
 		projectsMenuString = new String[projects.size() + 1];
 		projectMenuIds = new int[projects.size()+1];
 		
-		//Check if there are any projects
-		//if there are not, direct the user
-		//to create a new project
-		if(db.projectsEmpty()){		
-			//create new project
-			Intent intent = new Intent(getActivity(), CreateNewProject.class);
-			intent.putExtra(Constants.PROJECT_ID, 0); //Optional parameters
-			startActivity(intent);		
-		}
+		
 
 		
 		
@@ -305,18 +294,26 @@ public class Start extends Fragment{
 			chronometer.setVisibility(View.VISIBLE);
 			textView.setVisibility(View.GONE);
 		}
-		else imgButton.setBackground(getResources().getDrawable(R.drawable.checkinbutton_white) );
+		else {
+			imgButton.setBackground(getResources().getDrawable(R.drawable.checkinbutton_white) );
+			chronometer.stop();
+			textView.setVisibility(View.VISIBLE);
+			chronometer.setVisibility(View.GONE);
+		}
 		
 	}
 	
 
     public void initTimerButton(){
-		
+    	
+    	
+    	
+    	
 		imgButton.setOnClickListener(new OnClickListener(){
 			
 			public void onClick(View arg0){
 				boolean timerRunning = SettingsManager.getIsTimerRunning(getActivity());
-					
+		    	
 				if(timerRunning){
 					imgButton.setBackground(getResources().getDrawable(R.drawable.checkinbutton_white) );
 					
@@ -340,6 +337,8 @@ public class Start extends Fragment{
 					SettingsManager.setIsTimerRunning(true, getActivity());
 					SettingsManager.setStartTime(new GregorianCalendar(), getActivity());
 				}
+				
+				
 			}	
 		});
 	}
@@ -373,9 +372,20 @@ public class Start extends Fragment{
 	{	
 		super.onResume();
 		//updateStats();
+		
+		/*initTimer();
+		initTimerButton();
+		initProjectSpinner();*/
+		
+		
 		initTimer();
 		initProjectSpinner();
+		initTimerButton();
+		initStats();
+		dbButtonListener();
 	}
+	
+	
 	
 	
 	//OLD METHOD. DEPRECATED?

@@ -151,6 +151,10 @@ public class DB {
 		return getByInterval(first, last);
 	}
 	
+	public ArrayList<TimePost> getTimePostsByProjectIdThenTime(){
+		return dbHelper.getTimePostsByProjectIdThenTime();
+	}
+	
 	public ArrayList<TimePost> getByInterval(GregorianCalendar startTime, GregorianCalendar endTime, int pid){
 		//Get time post within interval by start, end time and project id
 		return dbHelper.getByInterval(startTime, endTime, pid);

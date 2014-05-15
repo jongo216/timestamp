@@ -108,10 +108,18 @@ public class TimePost {
 		return "";
 	}
 	
+	public GregorianCalendar getStartTimeObject(){
+		return startTime;	
+	}
+	
+	public GregorianCalendar getEndTimeObject(){
+		return endTime;	
+	}
 	
 	//for SQL use do not change!
 	public String getStartTime(){
 		if(startTime != null)
+			
 			return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(startTime.getTime());
 		return "";
 	}
@@ -185,6 +193,20 @@ public class TimePost {
 		int seconds = Integer.parseInt(splitDate[2]);
 		
 		setStartTime(new GregorianCalendar(year,months,days,hours,minutes,seconds));
+	}
+	
+	public boolean sameDay(TimePost next){
+		if(this.getStartTimeObject().get(Calendar.YEAR) == next.getStartTimeObject().get(Calendar.YEAR) ){
+			
+			if(this.getStartTimeObject().get(Calendar.MONTH) == next.getStartTimeObject().get(Calendar.MONTH)){
+				
+				if(this.getStartTimeObject().get(Calendar.DAY_OF_MONTH) == next.getStartTimeObject().get(Calendar.DAY_OF_MONTH)){
+					
+					return true;
+				}
+			}
+		}	
+		return false;
 	}
 
 	public void setEndTimeByString(String st) {

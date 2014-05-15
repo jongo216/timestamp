@@ -27,27 +27,42 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<resources>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="6dp"
+    android:orientation="vertical" >
+    
+    <EditText
+        android:id="@+id/alertReceiverEmail"
+        android:inputType="textEmailAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="4dp"
+        android:hint="@string/alertEmailHint" />
 
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="big">24dp</dimen>
-    <dimen name="large">20dp</dimen>
     
-    
-    <!-- Default screen margins, per the Android Design guidelines. -->
-   
-    <dimen name="pie_segment_label_font_size">10dp</dimen>
-    <dimen name="title_font_size">20dp</dimen>
-    <dimen name="domain_label_font_size">13dp</dimen>
-    <dimen name="range_label_font_size">13dp</dimen>
-    <dimen name="range_tick_label_font_size">15dp</dimen>
-    <dimen name="domain_tick_label_font_size">15dp</dimen>
-    <dimen name="legend_text_font_size">15dp</dimen>
+	<CheckBox
+	    android:id="@+id/alertExportCC"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_marginTop="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="4dp"
+	    android:text="@string/alertCheckBoxCCText" />
+	<CheckBox
+	    android:id="@+id/alertExportComments"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_marginTop="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="4dp"
+	    android:text="@string/alertCheckBoxCommentText" />
 
 
-    <dimen name="widget_margin">8dp</dimen>
-    
-    
-</resources>
+</LinearLayout>
