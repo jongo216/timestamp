@@ -90,6 +90,7 @@ public class ConfirmReport extends Fragment {
 	private Spinner spinner;
 	private CheckBox checkBoxShowSigned;
 	private boolean handledIntent = false;
+	private boolean allItemsSelected;
 	
 	//F��r popup vyn
 	private Button editTimePostButton, addNewTimePostButton;
@@ -195,10 +196,18 @@ public class ConfirmReport extends Fragment {
 	        		showSigned = true;
 	        		int currentProject = SettingsManager.getCurrentProjectId(getActivity());
 	        		
+	        		if(allItemsSelected){
+	        			currentProject = -1;
+	        		}
+	        		
 	        		plotTimeTable(currentProject);
 	        	}else{
 	        		showSigned = false;
 	        		int currentProject = SettingsManager.getCurrentProjectId(getActivity());
+	        		
+	        		if(allItemsSelected){
+	        			currentProject = -1;
+	        		}
 	        		
 	        		plotTimeTable(currentProject);
 	        	}
@@ -310,7 +319,7 @@ public class ConfirmReport extends Fragment {
 
 		ArrayList<TimePost> times;
 		//Return if no time posts exist for a given project
-		if (projectID != -1)
+		if (!allItemsSelected)
 		{
 			//Get list of time posts
 			if(showSigned){
@@ -318,17 +327,15 @@ public class ConfirmReport extends Fragment {
 			}else{
 				times = db.getUnsignedTimes(projectID);
 			}
-			
 		}
 		else
 		{
-			//Get list of time posts
+			//Get list of All time posts
 			if(showSigned){
 				times = db.getTimePosts();
 			}else{
 				times = db.getUnsignedTimes(); 
 			}
-			
 		}
 		
 		//Remove old rows from table (except the header row)
@@ -362,9 +369,13 @@ public class ConfirmReport extends Fragment {
 			//Config text views
 			LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT);
 			day.setGravity(Gravity.CENTER);
+			day.setTextColor(Color.BLACK);
 			interval.setGravity(Gravity.CENTER);
+			interval.setTextColor(Color.BLACK);
 			time.setGravity(Gravity.CENTER);
+			time.setTextColor(Color.BLACK);
 			comment.setGravity(Gravity.CENTER);
+			comment.setTextColor(Color.BLACK);
 			
 			//Add text views to object
 			row.addView(day);
@@ -417,6 +428,7 @@ public class ConfirmReport extends Fragment {
 				
 				// TODO Auto-generated method stub
 				if(projectMenuIds[pos] != -1){
+					allItemsSelected = false;
 					SettingsManager.setCurrentProjectId(projectMenuIds[pos], getActivity());
 					plotTimeTable(projectMenuIds[pos]);
 					
@@ -425,6 +437,7 @@ public class ConfirmReport extends Fragment {
 					
 				}else{
 					plotTimeTable(-1);
+					allItemsSelected = true;
 					
 					// If all projects are chosen it will not be able to add a time post
 					addNewTimePostButton.setEnabled(false);

@@ -109,6 +109,7 @@ public class Start extends Fragment{
 		chronometer = (Chronometer)rootView.findViewById(R.id.chronometer);
 		chronometer.setVisibility(View.GONE);
 		textView = (TextView)rootView.findViewById(R.id.textStamplaIn);
+		
 		imgButton = (LinearLayout) rootView.findViewById(R.id.btnCheckIn);
 		spinnerProjectView = (Spinner) rootView.findViewById(R.id.projects_menu_spinner2);
 

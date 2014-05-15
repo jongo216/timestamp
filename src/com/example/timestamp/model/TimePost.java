@@ -34,6 +34,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import android.util.Log;
+
 public class TimePost {
 	
 	public GregorianCalendar startTime;
@@ -41,7 +43,7 @@ public class TimePost {
 	public int id;
 	public Boolean isSigned;
 	public String comment;
-	public int projectId; //GET FROM R.LAYOUT.PROJECT ID ELLER LIKNANDE.......
+	public int projectId; 
 	public Boolean commentShared;
 	
 	public TimePost(){
@@ -236,7 +238,16 @@ public class TimePost {
 		else commentShared = false;
 	}
 	
-	
+	public void showMeEveryThing(){
+		Log.d("TimePost", "ID="+id + " PID="+projectId + " isSigned="+isSigned + "CommShared="+commentShared);
+		Log.d("TimePost", printStartTime() + " <--> " + printEndTime());
+		Log.d("TimePost", "Comment: " +comment);
+	}
+
+	public int getIsSigned() {
+		if(isSigned) return 1; 
+		else return 0;
+	}
 	
 	
 }
