@@ -29,60 +29,48 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.example.timestamp;
 
-import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
-import com.example.timestamp.model.DB;
-import com.example.timestamp.model.Exporter;
-import com.example.timestamp.model.SettingsManager;
-import com.example.timestamp.model.TimePost;
+import com.example.timestamp.model.*;
 
-import android.os.Bundle;
-import android.os.SystemClock;
+import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Context;
+
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.LinearLayout;
+import android.view.*;
+
 
 public class SettingsActivity extends Activity {
-	private Button exportButton;
-	Activity context = this;
-	
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_settings);
 		
-		//init stuff
-		exportButton = (Button) findViewById(R.id.exportButton);
+		//Stylear actionbar
+		ActionBar actionBarTop = getActionBar(); //Action bar med rubrik + settingsknapp
+		actionBarTop.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
+		actionBarTop.setCustomView(R.layout.actionbar);
+		actionBarTop.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#11ffffff")));
+		actionBarTop.setDisplayShowHomeEnabled(true); //Nödvändig(??) för att visa action bars i rätt ordning
 		
-		initSettingsView();
+		//Fix som döljer ikonen i övre vänstra hörnet
+		View homeIcon = findViewById(android.R.id.home);
+		((View) homeIcon.getParent()).setVisibility(View.GONE);
+		
 	}
 	
 	
 	
-	public void initSettingsView(){
-		
-		exportButton.setOnClickListener(new OnClickListener(){
-			
-			public void onClick(View arg0){
-				
-				//DB db = new DB(context);
-				
-				//Byt till att exportera endast valda projekt.
-				//ArrayList<TimePost> allTimePosts = db.getThisWeekTimePosts();				
-
-				new Exporter("Do you want to export all unsigned timeposts?", new DB(context).getUnsignedTimes(), context);
-				//exporter.readCSV(context);
-			}	
-		});
-		
-		
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.main_activitybar, menu);
+	    return super.onCreateOptionsMenu(menu);
 	}
 
 }
