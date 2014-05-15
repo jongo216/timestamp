@@ -84,6 +84,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 android:layout_height="match_parent"
                 android:layout_below="@id/textEditTimePostDate"
                 android:layout_centerHorizontal="true"
+                android:layout_marginTop="-20dp"
                 android:calendarViewShown="false" />
 
             <LinearLayout
@@ -92,6 +93,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 android:layout_height="wrap_content"
                 android:layout_below="@id/datePickerEditReport"
                 android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal" >
 
@@ -116,8 +118,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         android:id="@+id/timePickerStart"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="-35dp"
                         android:scaleX="0.7"
                         android:scaleY="0.7" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -141,6 +145,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         android:id="@+id/timePickerEnd"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="-35dp"
                         android:measureAllChildren="false"
                         android:scaleX="0.7"
                         android:scaleY="0.7" />
