@@ -31,21 +31,20 @@ package com.example.timestamp;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -56,11 +55,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.example.timestamp.model.DB;
-import com.example.timestamp.model.Project;
-import com.example.timestamp.model.SettingsManager;
-import com.example.timestamp.model.TimePost;
-
+import com.example.timestamp.model.*;
 
 public class EditReport extends Activity {
 
@@ -83,6 +78,17 @@ public class EditReport extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_editreport);
+		
+		//Stylear actionbar MENU
+		ActionBar actionBarTop = getActionBar(); //Action bar med rubrik + settingsknapp
+		actionBarTop.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
+		actionBarTop.setCustomView(R.layout.actionbar);
+		actionBarTop.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#11ffffff")));
+		actionBarTop.setDisplayShowHomeEnabled(true); //Nödvändig(??) för att visa action bars i rätt ordning
+		
+		//Fix som döljer ikonen i övre vänstra hörnet
+		View homeIcon = findViewById(android.R.id.home);
+		((View) homeIcon.getParent()).setVisibility(View.GONE);
 		
 		//Link GUI objects with xml ids
 		button_save = (Button)findViewById(R.id.button_save);
@@ -293,11 +299,13 @@ public class EditReport extends Activity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.edit_report, menu);
-		return true;
+		MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.main_activitybar, menu);
+	    return super.onCreateOptionsMenu(menu);
 	}
+	
+	
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
