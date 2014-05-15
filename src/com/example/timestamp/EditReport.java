@@ -29,29 +29,54 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.example.timestamp;
 
+import java.util.ArrayList;
 import java.util.Calendar;
-
-import com.example.timestamp.model.*;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.*;
-import android.widget.*;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.TimePicker;
+
+import com.example.timestamp.model.DB;
+import com.example.timestamp.model.Project;
+import com.example.timestamp.model.SettingsManager;
+import com.example.timestamp.model.TimePost;
 
 
 public class EditReport extends Activity {
 
 	private Button button_save, button_delete;
 	final Context message = this;
+	final Activity thisAct = this;
 	private EditText commentField;
+	
+	//private DB db; 
+	private ArrayList<String> projects;
+	private List<Integer> projectIds;
+	
 	
 	TimePicker startPicker, endPicker;
 	DatePicker datePicker;
-	
+	Spinner spinnerProjectSelector;
 	TimePost timePost;
 	
 	@Override
@@ -66,6 +91,7 @@ public class EditReport extends Activity {
 		startPicker = (TimePicker) findViewById(R.id.timePickerStart);
 		endPicker = (TimePicker) findViewById(R.id.timePickerEnd);
 		datePicker = (DatePicker)findViewById(R.id.datePickerEditReport);
+		spinnerProjectSelector = (Spinner) findViewById(R.id.editReportProjectSpinner);
 		
 		
 		//Initialize time post object (create new if id = 0)
@@ -96,10 +122,80 @@ public class EditReport extends Activity {
 		initTimePickers();
 		initSaveButton();
 		initDeleteButton();
+		initSpinner();
 	}
 	
 
 	
+	private void initSpinner() {
+		
+		spinnerProjectSelector = (Spinner) findViewById(R.id.editReportProjectSpinner);
+		projects = new ArrayList<String>();
+		projectIds = new ArrayList<Integer>();
+		
+		DB db = new DB(this);
+		ArrayList<Project> projectsFromDB = db.getAllProjects();
+		db.terminateDatabaseHelper();
+		for(int i=0; i<projectsFromDB.size(); i++){
+			projects.add(projectsFromDB.get(i).getName());
+			projectIds.add(projectsFromDB.get(i).getId());
+		}
+		
+		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, 
+				android.R.layout.simple_spinner_dropdown_item, projects){
+				
+			// Style för Spinnern.. Sätter textstorlek samt centrerar..
+			public View getView(int position, View convertView,ViewGroup parent) {
+
+		        View v = super.getView(position, convertView, parent);
+
+		        ((TextView) v).setGravity(Gravity.CENTER);
+		        ((TextView) v).setTextColor(Color.WHITE);
+		        ((TextView) v).setTextSize(20);
+
+		        return v;
+		    }
+			//Style för dropdownmenyn under spinnern..
+			public View getDropDownView(int position, View convertView,ViewGroup parent) {
+
+		        View v = super.getDropDownView(position, convertView,parent);
+
+		        ((TextView) v).setGravity(Gravity.CENTER);
+		        ((TextView) v).setTextColor(Color.WHITE);
+		        ((TextView) v).setBackgroundColor(Color.BLACK);
+		        ((TextView) v).setTextSize(18);
+
+		        return v;
+		    }	
+		};
+
+		spinnerProjectSelector.setAdapter(dataAdapter);
+		//spinnerProjectSelector.setSelection(position);
+		
+		for(int i = 0; i<projectIds.size(); i++){
+			if(projectIds.get(i) == SettingsManager.getCurrentProjectId(thisAct)){
+				spinnerProjectSelector.setSelection(i);
+				break;
+			}
+		}
+		
+		spinnerProjectSelector.setOnItemSelectedListener(new OnItemSelectedListener(){
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+				timePost.projectId = projectIds.get(pos);
+				Log.d("EditReport", "Selectedwith: projget="+projectIds.get(pos)+" pos="+pos);
+				//timePost.setProjectId(projectIds.get(pos));
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+			}
+			
+		});
+	}
+
 	private void initDeleteButton() {
 		
 		button_delete.setOnClickListener(new View.OnClickListener() {
@@ -160,6 +256,7 @@ public class EditReport extends Activity {
 				
 				DB db = new DB(message);
 				db.set(timePost);
+				Log.d("EditReport", "Saved: projID="+timePost.projectId);
 				finish();
 			};
 		});

@@ -90,8 +90,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <color name="textColorGray">#333333</color>
 
     <!-- Activity edit report -->
-    <string name="textEditStartTime">Start</string>
-    <string name="textEditEndTime">End</string>
+    <string name="textEditChooseProject">Belong to project</string>
+    <string name="textEditTimePostDate">Date</string>
+    <string name="textEditStartTime">Start time</string>
+    <string name="textEditEndTime">End time</string>
     <string name="textEditComment">Comment</string>
     <string name="editTextCommentHint">Meeting</string>
     <string name="addNewPost"> + Add new time post</string>
