@@ -323,9 +323,13 @@ public class ConfirmReport extends Fragment {
 			//Config text views
 			LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT);
 			day.setGravity(Gravity.CENTER);
+			day.setTextColor(Color.BLACK);
 			interval.setGravity(Gravity.CENTER);
+			interval.setTextColor(Color.BLACK);
 			time.setGravity(Gravity.CENTER);
+			time.setTextColor(Color.BLACK);
 			comment.setGravity(Gravity.CENTER);
+			comment.setTextColor(Color.BLACK);
 			
 			//Add text views to object
 			row.addView(day);
