@@ -208,6 +208,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
+        android:visibility="gone"
         android:text="@string/buttonDeleteEdit" />
 
 </RelativeLayout>
