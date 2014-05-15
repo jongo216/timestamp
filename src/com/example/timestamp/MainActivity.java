@@ -33,6 +33,7 @@ package com.example.timestamp;
 
 import java.util.GregorianCalendar;
 
+import com.example.timestamp.appwidget.Widget;
 import com.example.timestamp.model.*;
 
 import android.app.ActionBar;
@@ -74,7 +75,7 @@ ActionBar.TabListener {
 
 		viewPager.setAdapter(mAdapter);
 		
-
+		
 		
 		//Stylear actionbar
 		ActionBar actionBarTop = getActionBar(); //Action bar med rubrik + settingsknapp
@@ -132,6 +133,17 @@ ActionBar.TabListener {
 			}
 		});
 		
+		
+		//Check if there are any projects
+		//if there are not, direct the user
+		//to create a new project
+		if(new DB(this).projectsEmpty()){		
+			//create new project
+			Intent intent = new Intent(this, CreateNewProject.class);
+			intent.putExtra(Constants.PROJECT_ID, 0); //Optional parameters
+			startActivity(intent);		
+		}
+		
 	}
 	
 	
@@ -186,6 +198,14 @@ ActionBar.TabListener {
 	@Override
 	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
 	}
+	
+	@Override
+	public void onStop()
+	{
+		Widget.updateWidget(this);
+		super.onStop();
+	}
+	
 	
 	
 	
