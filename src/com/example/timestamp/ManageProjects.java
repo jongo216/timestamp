@@ -92,8 +92,11 @@ public class ManageProjects extends Activity {
 			//Configure text views
 			LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT);
 			name.setGravity(Gravity.CENTER);
+			name.setTextColor(Color.BLACK);
 			customer.setGravity(Gravity.CENTER);
+			customer.setTextColor(Color.BLACK);
 			description.setGravity(Gravity.CENTER);
+			description.setTextColor(Color.BLACK);
 			
 			//Add text views to object
 			row.addView(name);

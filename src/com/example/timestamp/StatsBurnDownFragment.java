@@ -120,47 +120,11 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
                 YLayoutStyle.RELATIVE_TO_TOP,
                 AnchorPosition.RIGHT_TOP
         );
-        
-     // Create a couple arrays of y-values to plot:
-        /*Number[] series1Numbers = {20, 16, 15, 12, 6, 4};
-        Number[] series2Numbers = {24, 20, 10, 3, 2, 1};
-        
-        Number[] xValues = {0, 1, 2, 3, 4, 5};*/
-         
-     /*   XYSeries series1 = new SimpleXYSeries(
-        		 Arrays.asList(xValues) // SimpleXYSeries takes a List so turn our array into a List
-                ,Arrays.asList(series1Numbers), // Y_VALS_ONLY means use the element index as the x value
-                "Combitech");
-     // same as above
-        XYSeries series2 = new SimpleXYSeries(
-        		Arrays.asList(xValues),
-        		Arrays.asList(series2Numbers),
-        		"Siemens");*/
-        
-        // Create a formatter to use for drawing a series using LineAndPointRenderer
-        // and configure it from xml:
-        /*LineAndPointFormatter series1Format = new LineAndPointFormatter();
-        series1Format.setPointLabelFormatter(new PointLabelFormatter());
-        series1Format.configure(getActivity(),
-                R.xml.line_point_formatter_with_plf1);
-        series1Format.getPointLabelFormatter().setTextPaint(bgPaint);*/
-
-        // add a new series' to the xyplot:
-        //plot.addSeries(series1, series1Format);
-     // same as above:
-        /*LineAndPointFormatter series2Format = new LineAndPointFormatter();
-        series2Format.setPointLabelFormatter(new PointLabelFormatter());
-        series2Format.configure(getActivity(),
-        		R.xml.line_point_formatter_with_plf2);
-        series2Format.getPointLabelFormatter().setTextPaint(bgPaint);
-        
-        plot.addSeries(series2, series2Format);*/
        
         //Titles for axis
         plot.getGraphWidget().getDomainLabelPaint().setColor(Color.BLACK);
         plot.getGraphWidget().getRangeGridLinePaint().setColor(Color.BLACK);
         plot.getGraphWidget().getDomainOriginLinePaint().setColor(Color.BLACK);
-        
         
         // Settings for ticks and labels on x and y axis
         plot.setTicksPerRangeLabel(2);
@@ -169,8 +133,6 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
         plot.getGraphWidget().setDomainLabelOrientation(0); //Changed from -45
         plot.setRangeStep(XYStepMode.SUBDIVIDE, 6);
   
-               
-
         plot.getBorderPaint().setColor(Color.TRANSPARENT);
         plot.getBackgroundPaint().setColor(Color.TRANSPARENT);
         plot.getGraphWidget().getBackgroundPaint().setColor(Color.TRANSPARENT);
@@ -188,20 +150,15 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
         
         plot.getRangeLabelWidget().getLabelPaint().setColor(Color.BLACK);
 
-
         //Margins and Padding for whole plot
         plot.getGraphWidget().setMarginLeft(30);
         plot.getGraphWidget().setPaddingLeft(0);
         plot.getGraphWidget().setMarginRight(200);
-        
-
-        
+  
         update(); 
         initChart();
         initProjects(); // get all projects
 
-
-        
         return rootView;
     }
 	
@@ -244,6 +201,7 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
 			if (timePosts.get(n).startTime.getTimeInMillis() > startMonth.getTimeInMillis())
 			{
 				int month = (timePosts.get(n).startTime.get(Calendar.MONTH)) % 4;
+
 				hoursPerMonth[month] = (Number)(timePosts.get(n).getWorkedHours() + hoursPerMonth[month].floatValue());
 			}
 		}
@@ -253,7 +211,7 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
 		}
 		
 		
-        Paint plotPaint = new Paint();
+        Paint plotPaint = new Paint(); 
         
         plotPaint.setColor(Color.TRANSPARENT);
         plot.getLegendWidget().setBackgroundPaint(plotPaint);
@@ -270,7 +228,10 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
         seriesFormat.configure(getActivity(),
                 R.xml.line_point_formatter_with_plf1);
         seriesFormat.getPointLabelFormatter().setTextPaint(plotPaint);
-		
+        
+        //------------
+       
+        
         plot.getGraphWidget().setDomainValueFormat(new GraphXLabelFormat());
         
         int max = hoursPerMonth[5].intValue();
@@ -307,8 +268,6 @@ public class StatsBurnDownFragment extends Fragment implements UpdateableStatist
 	}
     
 	private void initProjects(){
-		int selectedRow = 0;
-		
 		projects = db.getAllProjects();
 			
 	   projectsMenuString = new String[projects.size() + 1];

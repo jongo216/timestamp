@@ -30,35 +30,36 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package com.example.timestamp;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
-
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.*;
 import android.view.View.MeasureSpec;
-
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -69,10 +70,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.timestamp.appwidget.Widget;
 import com.example.timestamp.model.DB;
 import com.example.timestamp.model.Project;
 import com.example.timestamp.model.SettingsManager;
 import com.example.timestamp.model.TimePost;
+import com.example.timestamp.services.ReminderNotification;
+import com.example.timestamp.services.TimedReminder;
 
 
 public class Start extends Fragment{
@@ -105,6 +109,7 @@ public class Start extends Fragment{
 		chronometer = (Chronometer)rootView.findViewById(R.id.chronometer);
 		chronometer.setVisibility(View.GONE);
 		textView = (TextView)rootView.findViewById(R.id.textStamplaIn);
+		
 		imgButton = (LinearLayout) rootView.findViewById(R.id.btnCheckIn);
 		spinnerProjectView = (Spinner) rootView.findViewById(R.id.projects_menu_spinner2);
 
@@ -114,12 +119,13 @@ public class Start extends Fragment{
 		Log.d("Activityinfo: ", "Activity of Start: " + getActivity().toString());
 		db = new DB(getActivity());
 		
-		initTimer();
 		
+		
+		/*initTimer();
 		initProjectSpinner();
 		initTimerButton();
 		initStats();
-		dbButtonListener(); //Button is just for debug and not visible anyways. But i leave this ftm.
+		dbButtonListener();*/ //Button is just for debug and not visible anyways. But i leave this ftm.
         return rootView;
     }
 	
@@ -144,15 +150,7 @@ public class Start extends Fragment{
 		projectsMenuString = new String[projects.size() + 1];
 		projectMenuIds = new int[projects.size()+1];
 		
-		//Check if there are any projects
-		//if there are not, direct the user
-		//to create a new project
-		if(db.projectsEmpty()){		
-			//create new project
-			Intent intent = new Intent(getActivity(), CreateNewProject.class);
-			intent.putExtra(Constants.PROJECT_ID, 0); //Optional parameters
-			startActivity(intent);		
-		}
+		
 
 		
 		
@@ -215,6 +213,11 @@ public class Start extends Fragment{
 				if(projectMenuIds[pos] != -1){
 					SettingsManager.setCurrentProjectId(projectMenuIds[pos], getActivity());
 					updateStats();
+					
+					//Testing notifications
+					//AlarmService a = new AlarmService(getActivity());
+					//a.startAlarm();
+					
 					
 				}else{
 					//Skapa nytt projekt
@@ -304,19 +307,29 @@ public class Start extends Fragment{
 			chronometer.setVisibility(View.VISIBLE);
 			textView.setVisibility(View.GONE);
 		}
-		else imgButton.setBackground(getResources().getDrawable(R.drawable.checkinbutton_white) );
+		else {
+			imgButton.setBackground(getResources().getDrawable(R.drawable.checkinbutton_white) );
+			chronometer.stop();
+			textView.setVisibility(View.VISIBLE);
+			chronometer.setVisibility(View.GONE);
+		}
 		
 	}
 	
 
     public void initTimerButton(){
-		
+    	
+    	
+    	
+    	
 		imgButton.setOnClickListener(new OnClickListener(){
 			
 			public void onClick(View arg0){
 				boolean timerRunning = SettingsManager.getIsTimerRunning(getActivity());
-					
+		    	
 				if(timerRunning){
+					//Context context = getActivity();
+					
 					imgButton.setBackground(getResources().getDrawable(R.drawable.checkinbutton_white) );
 					
 					SettingsManager.setIsTimerRunning(false, getActivity());
@@ -329,6 +342,9 @@ public class Start extends Fragment{
 					p.setEndTimeNow();
 					//DB db = new DB(getActivity());
 					db.set(p);
+					
+					
+					TimedReminder.RemindToReportTimes(getActivity(), p.projectId);
 				}
 				else{
 					imgButton.setBackground(getResources().getDrawable(R.drawable.checkinbutton_green) );
@@ -339,6 +355,8 @@ public class Start extends Fragment{
 					SettingsManager.setIsTimerRunning(true, getActivity());
 					SettingsManager.setStartTime(new GregorianCalendar(), getActivity());
 				}
+				
+				
 			}	
 		});
 	}
@@ -372,9 +390,38 @@ public class Start extends Fragment{
 	{	
 		super.onResume();
 		//updateStats();
+		
+		/*initTimer();
+		initTimerButton();
+		initProjectSpinner();*/
+		
+		
 		initTimer();
 		initProjectSpinner();
+		initTimerButton();
+		initStats();
+		dbButtonListener();
 	}
+	
+	
+	/*public class AlarmService {
+	    private Context context;
+	    private PendingIntent mAlarmSender;
+	    public AlarmService(Context context) {
+	        this.context = context;
+	        mAlarmSender = PendingIntent.getBroadcast(context, 0, new Intent(context, ReminderNotification.class), 0);
+	    }
+
+	    public void startAlarm(){
+	        //Set the alarm to 10 seconds from now
+	        GregorianCalendar c = new GregorianCalendar();
+	        c.add(Calendar.SECOND, 4);
+	        long firstTime = c.getTimeInMillis();
+	        // Schedule the alarm!
+	        AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+	        am.set(AlarmManager.RTC, firstTime, mAlarmSender);
+	    }
+	}*/
 	
 	
 	//OLD METHOD. DEPRECATED?

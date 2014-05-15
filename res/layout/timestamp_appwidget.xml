@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="#777777"
+    android:orientation="horizontal" >
+<!-- android:padding="@dimen/widget_margin" -->
+
+	<LinearLayout 
+	    android:id="@+id/widget_current_project_button"
+	    android:layout_width="0px"
+        android:layout_height="fill_parent"
+        android:layout_marginRight="1dp"
+        android:layout_weight="2"
+        android:gravity="center_vertical"
+        android:clickable="true"
+        android:paddingLeft="20dp"
+        android:background="#444444"
+        android:orientation="vertical"
+        >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:textColor="#AAAAAA"
+        android:text="Current project"
+        android:textSize="15sp" />
+    <TextView
+        android:id="@+id/widget_current_project_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:textColor="#FFFFFF"
+        android:text="Combitech"
+        android:textSize="17sp" />
+    
+	</LinearLayout>
+	
+    <Chronometer
+        android:id="@+id/widget_timer"
+        android:layout_width="0px"
+        android:layout_height="fill_parent"
+        android:layout_marginRight="1dp"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:background="#444444"
+        />
+
+    <ImageButton
+        android:id="@+id/widget_button"
+        android:layout_width="0px"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:src="@drawable/clock_white"
+        android:background="#444444" />
+
+</LinearLayout>

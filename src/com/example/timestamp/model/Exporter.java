@@ -38,12 +38,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.ListIterator;
+import java.util.Locale;
 import java.util.Properties;
 
-import javax.activation.DataHandler;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
@@ -55,12 +58,12 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import javax.mail.util.ByteArrayDataSource;
 
 import com.sun.mail.smtp.SMTPAddressSucceededException;
 import com.sun.mail.smtp.SMTPSendFailedException;
 import com.sun.mail.smtp.SMTPTransport;
 import com.sun.mail.util.BASE64EncoderStream;
+import com.example.timestamp.R;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -75,6 +78,9 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.Toast;
 
 public class Exporter extends AsyncTask <Void, Void, Void>{
@@ -88,27 +94,48 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 	private Session session;
 	private boolean isStatic;
 	private boolean isConnected;
+	private boolean CC;
+	private boolean printComments;
+	
+	private DB db;
 	
 	private ArrayList<TimePost> exportList;
-	
-	public Exporter(){
-		
-	}
+	private CheckBox ccBox;
+	private CheckBox commentBox;
+	private EditText emailTo;
+	private String sendTo;
 	
 	public Exporter(String message, ArrayList<TimePost> list, Activity a){
 		A = a;
 		context = a;
+		db = new DB(a);
 		exportList = list;
 		
-		//Checks for internet connection
+		//Checks for Internet connection
 		ConnectivityManager cm = (ConnectivityManager)A.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
 		isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+		
 		
 		//Setup dialog
 		AlertDialog.Builder builder = new AlertDialog.Builder(A);
 		
 		builder.setTitle(message);
+		
+		//create custom view to alert dialog
+		View view = (View) A.getLayoutInflater().inflate(R.layout.export_alert_dialog, null);
+		builder.setView(view);
+		
+		//get the items we want to extract information from;
+		ccBox = (CheckBox) view.findViewById(R.id.alertExportCC);
+		ccBox.setChecked(SettingsManager.getExportToggleCC(A));
+		commentBox = (CheckBox) view.findViewById(R.id.alertExportComments);
+		commentBox.setChecked(SettingsManager.getExportToggleComments(A));
+		
+		emailTo = (EditText) view.findViewById(R.id.alertReceiverEmail);
+		String exportEmailAddress = SettingsManager.getExportEmailAddress(A);
+		if(exportEmailAddress != null)
+			emailTo.setText(exportEmailAddress);
 		
 		builder.setPositiveButton("Send with token", new DialogInterface.OnClickListener() {
 	           public void onClick(DialogInterface dialog, int id) {
@@ -129,12 +156,25 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 	        	}
 	        	else{
 	        		isStatic = false;
-	    			execute();
+	        		CC = ccBox.isChecked();
+	        		printComments = commentBox.isChecked();
+	        		sendTo = emailTo.getText().toString();
+	        		
+	        		//save settings if something has changed
+	        		if(CC != SettingsManager.getExportToggleCC(A))
+	        			SettingsManager.setExportToggleCC(CC, A);
+	        		if(printComments != SettingsManager.getExportToggleComments(A))
+	        			SettingsManager.setExportToggleComments(printComments, A);
+	        		if(!sendTo.equals(SettingsManager.getExportEmailAddress(A)));
+	        			SettingsManager.setExportEmailAddress(sendTo, A);
+	        		
+	        			
+	        		execute();
 	        	}
 	        }
 	           
-		});
-		builder.setNegativeButton("Send with static", new DialogInterface.OnClickListener() {
+		})
+		.setNeutralButton("Send with static", new DialogInterface.OnClickListener() {
 	           public void onClick(DialogInterface dialog, int id) {
 	        	   
 	        	if(!isConnected){
@@ -152,16 +192,23 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 	        	}
 	        	else{
 	        		isStatic = true;
+	        		CC = ccBox.isChecked();
 	        		execute();
 	        	}
 	           }
-	    });
+	    })
+		.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub	
+			}
+		});
 		AlertDialog alertDialog = builder.create();
 		
 		alertDialog.show();
 	}
 	
-	public void createCSV(Context c, ArrayList<TimePost> tplist){
+	public void createCSV(Context c, ArrayList<TimePost> tplist, boolean printComments){
 		try{
 
 			DB db = new DB(c);
@@ -173,26 +220,81 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 			//CSV header 
 			output += "Project";
 			output += ',';
+			output += "Date";
+			output += ',';
 			output += "Start time";
 			output += ',';
 			output += "End time";
 			output += ',';
-			output += "Comment";
+			output += "Total";
+			
+			if(printComments){
+				output += ',';
+				output += "Comment";
+			}
 			output += '\n';
 			
 			
 			//Write all timepost to csv output string.
-			for (TimePost temp : tplist){
-				output += db.getProject(temp.projectId).getName();
+//			temp.getWorkedHours();
+			double workedSum=0;
+			
+			ListIterator<TimePost> it = tplist.listIterator();
+			TimePost prev = null; 
+			
+			while(it.hasNext()){
+				TimePost temp = it.next();
+				
+				if(prev != null){
+					//If is the same project and sameday sum work hours
+					if(prev.projectId ==temp.projectId && temp.sameDay(prev) ){
+				
+						workedSum += temp.getWorkedHours();
+							
+					}else{
+						//print hours in csv
+						output += printWorkHours(prev, workedSum, printComments);
+						
+						
+						
+						workedSum = 0;
+						workedSum += temp.getWorkedHours();
+					}
+				}else{
+					workedSum += temp.getWorkedHours();
+				}
+				
+				
+				
+				output += db.getProject(temp.projectId).getName(); //Projectname
 				output += ',';
-				output += temp.getStartTime();
+				output += new SimpleDateFormat("yyyy-MM-dd").format(temp.getStartTimeObject().getTime());; //date
 				output += ',';
-				output += temp.getEndTime();
+				output += new SimpleDateFormat("HH:mm:ss").format(temp.getStartTimeObject().getTime()); //starttime
 				output += ',';
-				output += temp.getComment();
+				output += new SimpleDateFormat("HH:mm:ss").format(temp.getEndTimeObject().getTime()); //endtime
+				
+				output += ',';
+				output += "";
+						
+				
+				if(printComments){
+					output += ',';
+					output += temp.getComment(); //comment
+				}
+				
 				output += '\n';
 				
+				
+				if(!it.hasNext()){
+					//print last sum of work hours
+					output +=printWorkHours(temp, workedSum, printComments);
+				}
+				
+				prev = temp;
 			}
+			
+			signTimePosts(tplist);
 			
 			writer.write(output);
 		    writer.close();
@@ -206,6 +308,36 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 		
 	}
 
+	public String printWorkHours(TimePost p, double workHours, boolean printComments){
+		
+		String output="";
+		output +=db.getProject(p.projectId).getName(); ;
+		output += ',';
+		output += new SimpleDateFormat("yyyy-MM-dd").format(p.getStartTimeObject().getTime());
+		output += ',';
+		output += "";
+		output += ',';
+		output += "";
+		output += ',';
+		output += String.format(Locale.US, "%.2f", workHours);
+		
+		if(printComments){
+			output += ',';
+			output += "";	
+		}
+		output += '\n';
+		
+		return output;
+	}
+
+	private void signTimePosts(ArrayList<TimePost> tpList){
+		for(TimePost tp : tpList){
+			tp.setIsSigned(1);
+			db.set(tp);
+		}
+		
+	}
+	
 	//Function for debugging CSV file.
 	public void readCSV(Context c){
 		try{
@@ -271,7 +403,7 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 			//adding csv file
 			File dir = context.getFilesDir();
 			File file = new File( dir.getAbsolutePath() + "/mycsv.csv");
-			sendMail(title, body, file, emailID, token, emailID);
+			sendMail(title, body, file, emailID, token, sendTo, CC);
 			
 		}catch(IOException e){
 			Log.d("Export", "Send mail: file not found");
@@ -339,7 +471,7 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 		
 		InternetAddress toAddress = new InternetAddress(to);
 				
-		message.setSubject("Tidsrapport för vecka " + new GregorianCalendar().get(Calendar.WEEK_OF_YEAR)+":");
+		message.setSubject("Time report for week " + new GregorianCalendar().get(Calendar.WEEK_OF_YEAR)+":");
 		message.setContent(multiPart);
 		//message.setText("Demo For Sending Mail in Android Automatically");
 		message.addRecipient(Message.RecipientType.TO, toAddress);
@@ -361,7 +493,7 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 	@Override
 	protected Void doInBackground(Void... params) {
 		try {
-			createCSV(context, exportList);
+			createCSV(context, exportList, printComments);
 			if(isStatic)
 				exportJavaMailStatic();
 			else
@@ -412,7 +544,7 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
     }
 
     public synchronized void sendMail(String subject, String body, File attatchedFile, 
-    		String user, String oauthToken, String recipients) {
+    		String user, String oauthToken, String recipients, boolean ccToUser) {
         try {
 
             SMTPTransport smtpTransport = connectToSmtp("smtp.gmail.com",
@@ -424,7 +556,6 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
             //Create message
             MimeMessage message = new MimeMessage(session);
             		message.setSender(new InternetAddress(user));
-            		//message.setFrom(new InternetAddress(from));
             		message.setSubject(subject); 
             //Message body
             MimeBodyPart messageBodyPart = new MimeBodyPart();
@@ -439,9 +570,8 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
     				
     				multiPart.addBodyPart(messageBodyPart);
     				message.setContent(multiPart);
-    				
-            //DataHandler handler = new DataHandler(new ByteArrayDataSource(body.getBytes(), "text/plain"));   
-            //        message.setDataHandler(handler);     		    
+    		if(ccToUser)
+    			message.setRecipient(Message.RecipientType.BCC, new InternetAddress(user));		    
         		    
             if (recipients.indexOf(',') > 0)   
                 message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipients));   
@@ -462,6 +592,7 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 	                public void run() {
 	                    Toast.makeText(A, "Email sent", Toast.LENGTH_SHORT).show();
 	                    Log.i("Export", "Sent");
+	                    
 	                }
 	            });
             }
