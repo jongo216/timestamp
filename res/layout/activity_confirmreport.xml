@@ -121,16 +121,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	   </TableLayout>
    </ScrollView>
    
-     
     <CheckBox
         android:id="@+id/checkBoxShowSigned"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/addNewPost"
         android:layout_alignRight="@+id/projects_menu_spinner2"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="0dp"
-        android:layout_above="@+id/addNewPost"
         android:text="@string/checkBoxShowSigned"
+        android:textColor="#000000"
+        android:textColorHint="@color/textColorBlack"
+        android:textColorLink="@color/CombitechBlue"
         android:textSize="12sp"
         android:textStyle="italic" />
         

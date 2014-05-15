@@ -1,10 +1,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
+    android:id="@+id/AbsoluteLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.timestamp.ManageProjects"
-    tools:ignore="MergeRootFrame" >
+    android:background="@drawable/background_gradient"
+    android:tileMode="repeat"
+    tools:context=".Start" >
     
     <ScrollView
         android:id="@+id/timePostScrollView"
@@ -190,19 +191,6 @@
 		        android:checked="false"
 		        android:text="@string/checkBoxExportCsv"
 		        android:textColor="@color/textColorBlack" />
-	
-		    <Button
-		        android:id="@+id/exportButton"
-		        style="@style/CustomStyleButtonDark"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_below="@+id/checkBoxExportCsv"
-		        android:gravity="center"
-		        android:layout_weight="1"
-	            android:padding="3dp"
-		        android:minWidth="100dp"
-		        android:layout_marginBottom="5dp"
-		        android:text="@string/buttonExport" />
 	        
         </RelativeLayout>
 	</ScrollView>
@@ -212,7 +200,6 @@
         style="@style/CustomStyleButtonDark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/exportButton"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
