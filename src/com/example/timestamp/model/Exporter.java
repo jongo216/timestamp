@@ -82,13 +82,13 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class Exporter extends AsyncTask <Void, Void, Void>{
+public class Exporter extends AsyncTask <Void, Void, Boolean>{
 	
 	String csvFile = "mycsv.csv";
 	BufferedReader br;
 	
-	Context context;
 	private Activity A;
+	private Callbacker callBack;
 	
 	private Session session;
 	private boolean isStatic;
@@ -104,9 +104,9 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 	private EditText emailTo;
 	private String sendTo;
 	
-	public Exporter(String message, ArrayList<TimePost> list, Activity a){
+	public Exporter(String message, ArrayList<TimePost> list, Activity a, Callbacker c){
 		A = a;
-		context = a;
+		callBack = c;
 		db = new DB(a);
 		exportList = list;
 		
@@ -185,6 +185,36 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 		
 		alertDialog.show();
 	}
+	
+	//AsyncTask methods
+	@Override
+	protected Boolean doInBackground(Void... params) {
+		try {
+			createCSV(A, exportList, printComments);
+			if(isStatic)
+				exportJavaMailStatic();
+			else
+				return exportJavaMail();
+		} catch (AddressException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	protected void onPostExecute(Boolean b) {
+        Log.d("Export", b.toString());
+		if(b.booleanValue())
+        	callBack.callback();
+    }
+	
+	
 	
 	public void createCSV(Context c, ArrayList<TimePost> tplist, boolean printComments){
 		try{
@@ -355,7 +385,8 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 		}
 	}
 	
-	private void exportJavaMail() throws AddressException, MessagingException, UnsupportedEncodingException{
+	private boolean exportJavaMail() throws AddressException, MessagingException, UnsupportedEncodingException{
+		boolean ret = false;
 		String emailID=new String();
 		//Pattern emailPattern=Patterns.EMAIL_ADDRESS;
 		Account []accounts=AccountManager.get(A).getAccountsByType("com.google");
@@ -379,15 +410,16 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 			String body = "This is an automaticaly generated email from the TimeStamp application \n"
 						+ "Below you will see the attatched .csv file containing your worked time";
 			//adding csv file
-			File dir = context.getFilesDir();
+			File dir = A.getFilesDir();
 			File file = new File( dir.getAbsolutePath() + "/mycsv.csv");
-			sendMail(title, body, file, emailID, token, sendTo, CC);
+			ret = sendMail(title, body, file, emailID, token, sendTo, CC);
 			
 		}catch(IOException e){
 			Log.d("Export", "Send mail: file not found");
 		}catch(Exception e){
 			Log.d("Export", e.getMessage());
 		}
+		return ret;
 		//invalidate, if necessary?
 		//AccountManager.get(A).invalidateAuthToken("com.google", token);
 		//AccountManager.get(A).getAuthToken(account, "oauth2:https://mail.google.com/", null, A, new OnTokenAcquired(), null);
@@ -402,8 +434,6 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 		String pass = "timestamp123";
 		String to="timestampnoreply@gmail.com";
 		
-
-		String finalString="";
 		
 		// Initiate setup for mail.
 		Properties props = System.getProperties();
@@ -435,7 +465,7 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
                
 		//adding csv file
 		try{
-			File dir = context.getFilesDir();
+			File dir = A.getFilesDir();
 			File file = new File( dir.getAbsolutePath() + "/mycsv.csv");
 			
 			messageBodyPart.attachFile(file);
@@ -468,30 +498,6 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
 	
 	
 
-	@Override
-	protected Void doInBackground(Void... params) {
-		try {
-			createCSV(context, exportList, printComments);
-			if(isStatic)
-				exportJavaMailStatic();
-			else
-				exportJavaMail();
-		} catch (AddressException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-
-
-
 
     //... senast test
     public SMTPTransport connectToSmtp(String host, int port, String userEmail,
@@ -521,9 +527,10 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
         return transport;
     }
 
-    public synchronized void sendMail(String subject, String body, File attatchedFile, 
+    public synchronized boolean sendMail(String subject, String body, File attatchedFile, 
     		String user, String oauthToken, String recipients, boolean ccToUser) {
-        try {
+        boolean ret = false;
+    	try {
 
             SMTPTransport smtpTransport = connectToSmtp("smtp.gmail.com",
                     587, user, oauthToken, false);
@@ -566,13 +573,14 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
             
         	//is it a succeed exception?
         	if(e.getNextException().getClass() == SMTPAddressSucceededException.class){
-	            A.runOnUiThread(new Runnable() {
+	            ret = true;
+        		/*A.runOnUiThread(new Runnable() {
 	                public void run() {
 	                    Toast.makeText(A, "Email sent", Toast.LENGTH_SHORT).show();
 	                    Log.i("Export", "Sent");
 	                    
 	                }
-	            });
+	            });*/
             }
         }
         //Other exceptions
@@ -580,6 +588,8 @@ public class Exporter extends AsyncTask <Void, Void, Void>{
             Log.d("Export", e.getMessage());
         } catch (IOException e) {
 			e.printStackTrace();
-		}    
+		} 
+        //something went wrong
+        return ret;
     }
 }

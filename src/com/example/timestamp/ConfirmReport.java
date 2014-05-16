@@ -76,9 +76,10 @@ import com.example.timestamp.model.Exporter;
 import com.example.timestamp.model.Project;
 import com.example.timestamp.model.SettingsManager;
 import com.example.timestamp.model.TimePost;
+import com.example.timestamp.model.Callbacker;
 
 
-public class ConfirmReport extends Fragment {
+public class ConfirmReport extends Fragment implements Callbacker{
 	
 	public String[] projectsMenuString; // = {"Projekt 1", "Projekt 2", "Nytt projekt"};
 	public int[] projectMenuIds;
@@ -87,6 +88,7 @@ public class ConfirmReport extends Fragment {
 	private Button button;
 	private View rootView;
 	private FragmentActivity parentActivity;
+	private Callbacker callBack = this;
 	private Spinner spinner;
 	private CheckBox checkBoxShowSigned;
 	private boolean handledIntent = false;
@@ -300,11 +302,7 @@ public class ConfirmReport extends Fragment {
 			public void onClick(View arg0){
 	
 				new Exporter("Are you sure you want to send in the report?", 
-						new DB(getActivity()).getUnsignedTimes(), getActivity());
-			
-				
-				//This should be in new Exporter as a callback
-				plotTimeTable(SettingsManager.getCurrentProjectId(getActivity()));
+						new DB(getActivity()).getUnsignedTimes(), getActivity(), callBack);
 			}
 		});
 		
@@ -460,6 +458,14 @@ public class ConfirmReport extends Fragment {
 	    super.setUserVisibleHint(isVisibleToUser);
 	    if (isVisibleToUser) { if (rootView != null) activityInitConfirmReport(); }//plotTimeTable(SettingsManager.getCurrentProjectId(parentActivity)); }
 	    else {  }
+	}
+
+
+	//this method get called from Exporter as a callback when the thread finishes
+	@Override
+	public void callback() {
+		
+		plotTimeTable(SettingsManager.getCurrentProjectId(getActivity()));
 	}
 
 }
