@@ -450,8 +450,11 @@ public class ConfirmReport extends Fragment implements Callbacker{
 	//this method get called from Exporter as a callback when the thread finishes
 	@Override
 	public void callback() {
-		
-		plotTimeTable(SettingsManager.getCurrentProjectId(getActivity()));
+		int currentProject = SettingsManager.getCurrentProjectId(getActivity());
+    	if(allItemsSelected)
+			currentProject = -1;
+
+    	plotTimeTable(currentProject);
 	}
 
 }
