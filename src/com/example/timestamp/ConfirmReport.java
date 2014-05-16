@@ -186,33 +186,19 @@ public class ConfirmReport extends Fragment implements Callbacker{
 	}
 	
 	public void addCheckBoxShowSignedListener() {
-			 
-		
 		
 		checkBoxShowSigned.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 	        @Override
 	        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-	            // TODO Auto-generated method stub
-	        	if(isChecked){
-	        		showSigned = true;
-	        		int currentProject = SettingsManager.getCurrentProjectId(getActivity());
-	        		
-	        		if(allItemsSelected){
-	        			currentProject = -1;
-	        		}
-	        		
-	        		plotTimeTable(currentProject);
-	        	}else{
-	        		showSigned = false;
-	        		int currentProject = SettingsManager.getCurrentProjectId(getActivity());
-	        		
-	        		if(allItemsSelected){
-	        			currentProject = -1;
-	        		}
-	        		
-	        		plotTimeTable(currentProject);
-	        	}
+	            
+	        	int currentProject = SettingsManager.getCurrentProjectId(getActivity());
+	        	showSigned = isChecked;
+	        	if(allItemsSelected){
+        			currentProject = -1;
+        		}
+	        	
+	        	plotTimeTable(currentProject);
 	        }
 	    });
 	 	
@@ -259,7 +245,7 @@ public class ConfirmReport extends Fragment implements Callbacker{
 		
 		
 		
-		//H��mtar namn fr��n string array med menu item.
+		//Get names from a string array with menu items.
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, projectsMenuString){
 			
 						
@@ -275,7 +261,7 @@ public class ConfirmReport extends Fragment implements Callbacker{
 		        return v;
 
 		    }
-			//Style f��r dropdownmenyn under spinnern..
+			//Style for drop down menu under spinner..
 			public View getDropDownView(int position, View convertView,ViewGroup parent) {
 
 		        View v = super.getDropDownView(position, convertView,parent);
@@ -288,7 +274,7 @@ public class ConfirmReport extends Fragment implements Callbacker{
 		        return v;
 		    }	
 		};
-		//Spinnern anv��nder items fr��n en valt adapter.
+		//Spinner uses items from an adapter.
 		spinner.setAdapter(adapter);
 
 		spinnerListener();
@@ -434,8 +420,8 @@ public class ConfirmReport extends Fragment implements Callbacker{
 					editTimePostButton.setEnabled(true);
 					
 				}else{
-					plotTimeTable(-1);
 					allItemsSelected = true;
+					plotTimeTable(-1);
 					
 					// If all projects are chosen it will not be able to add a time post
 					addNewTimePostButton.setEnabled(false);

@@ -574,13 +574,6 @@ public class Exporter extends AsyncTask <Void, Void, Boolean>{
         	//is it a succeed exception?
         	if(e.getNextException().getClass() == SMTPAddressSucceededException.class){
 	            ret = true;
-        		/*A.runOnUiThread(new Runnable() {
-	                public void run() {
-	                    Toast.makeText(A, "Email sent", Toast.LENGTH_SHORT).show();
-	                    Log.i("Export", "Sent");
-	                    
-	                }
-	            });*/
             }
         }
         //Other exceptions
