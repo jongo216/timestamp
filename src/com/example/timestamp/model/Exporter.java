@@ -77,6 +77,8 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -117,12 +119,17 @@ public class Exporter extends AsyncTask <Void, Void, Boolean>{
 		
 		
 		//Setup dialog
-		AlertDialog.Builder builder = new AlertDialog.Builder(A);
+		ContextThemeWrapper wrapper = new ContextThemeWrapper(A, android.R.style.Theme_Holo);
+		final LayoutInflater inflater = (LayoutInflater) wrapper.getSystemService(A.LAYOUT_INFLATER_SERVICE);
+		AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
+		
+		
+		//AlertDialog.Builder builder = new AlertDialog.Builder(A);
 		
 		builder.setTitle(message);
 		
 		//create custom view to alert dialog
-		View view = (View) A.getLayoutInflater().inflate(R.layout.export_alert_dialog, null);
+		View view = (View) inflater.inflate(R.layout.export_alert_dialog, null);
 		builder.setView(view);
 		
 		//get the items we want to extract information from;

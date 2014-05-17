@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.util.Log;
 
 
+
 import com.example.timestamp.model.DB;
 import com.example.timestamp.model.Project;
 
@@ -95,7 +96,12 @@ public class CreateNewProject extends Activity {
 		deleteButton.setOnClickListener(new OnClickListener(){
 			@Override
 		    public void onClick(View v) {
-				AlertDialog.Builder ad = new AlertDialog.Builder(context);
+				ContextThemeWrapper wrapper = new ContextThemeWrapper(context, android.R.style.Theme_Holo);
+				final LayoutInflater inflater = (LayoutInflater) wrapper.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+				AlertDialog.Builder ad = new AlertDialog.Builder(wrapper);
+				
+				
+				//AlertDialog.Builder ad = new AlertDialog.Builder(context);
 				
 				ad.setMessage(R.string.editProjectConfirmMessage);
 				ad.setCancelable(false);
