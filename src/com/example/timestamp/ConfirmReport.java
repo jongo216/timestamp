@@ -76,9 +76,10 @@ import com.example.timestamp.model.Exporter;
 import com.example.timestamp.model.Project;
 import com.example.timestamp.model.SettingsManager;
 import com.example.timestamp.model.TimePost;
+import com.example.timestamp.model.Callbacker;
 
 
-public class ConfirmReport extends Fragment {
+public class ConfirmReport extends Fragment implements Callbacker{
 	
 	public String[] projectsMenuString; // = {"Projekt 1", "Projekt 2", "Nytt projekt"};
 	public int[] projectMenuIds;
@@ -87,6 +88,7 @@ public class ConfirmReport extends Fragment {
 	private Button button;
 	private View rootView;
 	private FragmentActivity parentActivity;
+	private Callbacker callBack = this;
 	private Spinner spinner;
 	private CheckBox checkBoxShowSigned;
 	private boolean handledIntent = false;
@@ -184,34 +186,21 @@ public class ConfirmReport extends Fragment {
 		//plotTimeTable(SettingsManager.getCurrentProjectId(parentActivity));
 	}
 	
+	
 	public void addCheckBoxShowSignedListener() {
-			 
-		
 		
 		checkBoxShowSigned.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 	        @Override
 	        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-	            // TODO Auto-generated method stub
-	        	if(isChecked){
-	        		showSigned = true;
-	        		int currentProject = SettingsManager.getCurrentProjectId(getActivity());
-	        		
-	        		if(allItemsSelected){
-	        			currentProject = -1;
-	        		}
-	        		
-	        		plotTimeTable(currentProject);
-	        	}else{
-	        		showSigned = false;
-	        		int currentProject = SettingsManager.getCurrentProjectId(getActivity());
-	        		
-	        		if(allItemsSelected){
-	        			currentProject = -1;
-	        		}
-	        		
-	        		plotTimeTable(currentProject);
-	        	}
+	            
+	        	int currentProject = SettingsManager.getCurrentProjectId(getActivity());
+	        	showSigned = isChecked;
+	        	if(allItemsSelected){
+        			currentProject = -1;
+        		}
+	        	
+	        	plotTimeTable(currentProject);
 	        }
 	    });
 	 	
@@ -258,7 +247,7 @@ public class ConfirmReport extends Fragment {
 		
 		
 		
-		//H��mtar namn fr��n string array med menu item.
+		//Get names from a string array with menu items.
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, projectsMenuString){
 			
 						
@@ -274,7 +263,7 @@ public class ConfirmReport extends Fragment {
 		        return v;
 
 		    }
-			//Style f��r dropdownmenyn under spinnern..
+			//Style for drop down menu under spinner..
 			public View getDropDownView(int position, View convertView,ViewGroup parent) {
 
 		        View v = super.getDropDownView(position, convertView,parent);
@@ -287,7 +276,7 @@ public class ConfirmReport extends Fragment {
 		        return v;
 		    }	
 		};
-		//Spinnern anv��nder items fr��n en valt adapter.
+		//Spinner uses items from an adapter.
 		spinner.setAdapter(adapter);
 
 		spinnerListener();
@@ -301,11 +290,7 @@ public class ConfirmReport extends Fragment {
 			public void onClick(View arg0){
 	
 				new Exporter("Are you sure you want to send in the report?", 
-						new DB(getActivity()).getUnsignedTimes(), getActivity());
-			
-				
-				//This should be in new Exporter as a callback
-				plotTimeTable(SettingsManager.getCurrentProjectId(getActivity()));
+						new DB(getActivity()).getUnsignedTimes(), getActivity(), callBack);
 			}
 		});
 		
@@ -386,7 +371,9 @@ public class ConfirmReport extends Fragment {
 			
 			//Config row
 			if(i%2 == 1)
-				row.setBackgroundColor(Color.parseColor("#CCCCCC"));
+				row.setBackgroundColor(Color.parseColor("#EEEEEE"));
+			else
+				row.setBackgroundColor(Color.parseColor("#DDDDDD"));
 			row.setPadding(3, 8, 3, 8);
 			row.setClickable(true);
 			row.setId(times.get(i).id);
@@ -437,8 +424,8 @@ public class ConfirmReport extends Fragment {
 					editTimePostButton.setEnabled(true);
 					
 				}else{
-					plotTimeTable(-1);
 					allItemsSelected = true;
+					plotTimeTable(-1);
 					
 					// If all projects are chosen it will not be able to add a time post
 					addNewTimePostButton.setEnabled(false);
@@ -461,6 +448,17 @@ public class ConfirmReport extends Fragment {
 	    super.setUserVisibleHint(isVisibleToUser);
 	    if (isVisibleToUser) { if (rootView != null) activityInitConfirmReport(); }//plotTimeTable(SettingsManager.getCurrentProjectId(parentActivity)); }
 	    else {  }
+	}
+
+
+	//this method get called from Exporter as a callback when the thread finishes
+	@Override
+	public void callback() {
+		int currentProject = SettingsManager.getCurrentProjectId(getActivity());
+    	if(allItemsSelected)
+			currentProject = -1;
+
+    	plotTimeTable(currentProject);
 	}
 
 }

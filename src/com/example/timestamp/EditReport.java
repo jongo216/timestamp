@@ -31,23 +31,21 @@ package com.example.timestamp;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -58,11 +56,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.example.timestamp.model.DB;
-import com.example.timestamp.model.Project;
-import com.example.timestamp.model.SettingsManager;
-import com.example.timestamp.model.TimePost;
-
+import com.example.timestamp.model.*;
 
 public class EditReport extends Activity {
 
@@ -108,6 +102,7 @@ public class EditReport extends Activity {
 			timePost = db.getTimePost(timePostId);
 			if (timePost == null) timePost = new TimePost();
 			Log.d("EditReport","SIGNED? = "+timePost.isSigned);
+			button_delete.setVisibility(0);
 		}
 		else{
 			//DB db = new DB(this);
@@ -229,7 +224,7 @@ public class EditReport extends Activity {
 	 
 				// create alert dialog
 				AlertDialog alertDialog = ad.create();
-	 
+				
 				// show it
 				alertDialog.show();
 			}
@@ -300,11 +295,12 @@ public class EditReport extends Activity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.menu, menu);
 		return true;
 	}
+	
+	
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {

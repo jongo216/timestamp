@@ -41,10 +41,16 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+
 
 
 public class SettingsActivity extends Activity {
 
+	Button saveButton;
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -55,7 +61,17 @@ public class SettingsActivity extends Activity {
 		actionBarTop.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
 		actionBarTop.setCustomView(R.layout.actionbar);
 		
-		
+		//Link to xml layout
+		saveButton = (Button)findViewById(R.id.saveSettingsButton);
+		saveButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				//At the moment the button is just a back button
+				finish();
+				
+			}
+		});
 	}
 	
 	@Override

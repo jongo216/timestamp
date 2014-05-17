@@ -1,26 +1,28 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/AbsoluteLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#DDDDDD"
     android:tileMode="repeat"
+    android:orientation="vertical"
     tools:context=".Start" >
     
     <ScrollView
         android:id="@+id/timePostScrollView"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="20dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_margin="0dp"
         android:gravity="top"
         android:scrollbars="vertical"
         android:fadeScrollbars="false" >
         
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="fill_parent"
-	        android:layout_height="wrap_content" >
+	        android:layout_height="wrap_content"
+	        android:orientation="vertical"
+	        android:padding="14dp" >
         
 	        <TextView
 		        android:id="@+id/textOverviewSettings"
@@ -31,18 +33,15 @@
 		        android:textColor="@color/textColorGray"
 		        android:layout_marginTop="10dp"
 			    android:gravity="center"
-			    android:layout_weight="1"
-	            android:padding="3dp" />
+			    />
 	        
 	        <RadioGroup
 		        android:id="@+id/radio_viewOpt"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:layout_below="@+id/textOverviewSettings"
-			    android:gravity="center"
-			    android:layout_weight="1"
-	            android:padding="3dp"
-		        android:orientation="vertical" >
+			    android:gravity="left"
+			    android:orientation="vertical" >
 	
 		        <RadioButton
 		            android:id="@+id/radio_viewOptWeek"
@@ -72,8 +71,6 @@
 		        android:layout_below="@+id/radio_viewOpt"
 		        android:paddingTop="10dp"
 		        android:gravity="center"
-		        android:layout_weight="1"
-	           	android:padding="3dp"
 		        android:text="@string/textNotifixations"
 		        android:textColor="@color/textColorGray" />
 	        
@@ -82,10 +79,7 @@
 		        android:fontFamily="sans-serif-light"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:layout_below="@+id/textNotifications"
 		        android:gravity="center"
-		        android:layout_weight="1"
-	            android:padding="3dp"
 		        android:checked="true"
 		        android:text="@string/checkBoxNotification"
 		        android:textColor="@color/textColorBlack" />
@@ -95,10 +89,7 @@
 		        android:fontFamily="sans-serif-light"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:layout_below="@+id/checkBoxNotification"
 		        android:gravity="center"
-		        android:layout_weight="1"
-	            android:padding="3dp"
 		        android:text="@string/checkBoxReminder" 
 		        android:textColor="@color/textColorBlack"/>
 	
@@ -107,11 +98,8 @@
 		        android:fontFamily="sans-serif-light"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:layout_below="@+id/checkBoxReminder"
 		        android:paddingTop="20dp"
 		        android:gravity="center"
-		        android:layout_weight="1"
-	            android:padding="3dp"
 		        android:text="@string/textLocation"
 		        android:textColor="@color/textColorGray" />
 	
@@ -120,10 +108,7 @@
 		        android:fontFamily="sans-serif-light"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:layout_below="@+id/textLocation"
 		        android:gravity="center"
-		        android:layout_weight="1"
-	            android:padding="3dp"
 		        android:checked="true"
 		        android:text="@string/checkBoxWifi"
 		        android:textColor="@color/textColorBlack" />
@@ -133,10 +118,7 @@
 		        android:fontFamily="sans-serif-light"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:layout_below="@+id/checkBoxWifi"
 		        android:gravity="center"
-		        android:layout_weight="1"
-	            android:padding="3dp"
 		        android:text="@string/checkBoxGeo"
 		        android:textColor="@color/textColorBlack" />
 	
@@ -145,11 +127,8 @@
 		        android:fontFamily="sans-serif-light"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:layout_below="@+id/checkBoxGeo"
 		        android:paddingTop="20dp"
 		        android:gravity="center"
-		        android:layout_weight="1"
-	            android:padding="3dp"
 		        android:text="@string/textExport"
 		        android:textColor="@color/textColorGray" />
 	
@@ -158,10 +137,7 @@
 		        android:fontFamily="sans-serif-light"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:layout_below="@+id/TextExport"
 		        android:gravity="center"
-		        android:layout_weight="1"
-	            android:padding="3dp"
 		        android:checked="true"
 		        android:text="@string/checkBoxExportPdf"
 		        android:textColor="@color/textColorBlack" />
@@ -171,10 +147,7 @@
 		        android:fontFamily="sans-serif-light"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:layout_below="@+id/checkBoxExportPdf"
 		        android:gravity="center"
-		        android:layout_weight="1"
-	            android:padding="3dp"
 		        android:checked="false"
 		        android:text="@string/checkBoxExportXls"
 		        android:textColor="@color/textColorBlack" />
@@ -184,27 +157,23 @@
 		        android:fontFamily="sans-serif-light"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:layout_below="@+id/checkBoxExportXls"
 		        android:gravity="center"
-		        android:layout_weight="1"
-	            android:padding="3dp"
 		        android:checked="false"
 		        android:text="@string/checkBoxExportCsv"
 		        android:textColor="@color/textColorBlack" />
 	        
-        </RelativeLayout>
+        </LinearLayout>
 	</ScrollView>
     
     <Button
-        android:id="@+id/saveButtonSettings"
+        android:id="@+id/saveSettingsButton"
         style="@style/CustomStyleButtonDark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="20dp"
         android:paddingLeft="120dp"
         android:paddingRight="120dp"
         android:text="@string/buttonSaveSettings" />
 
-</RelativeLayout>
+</LinearLayout>

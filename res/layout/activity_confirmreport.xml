@@ -67,6 +67,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         android:id="@+id/timePostScrollView"
         android:layout_width="fill_parent"
         android:layout_height="220dp"
+        android:background="#CCCCCC"
         android:layout_below="@+id/projects_menu_spinner2"
         android:layout_above="@+id/checkBoxShowSigned"
         android:layout_centerHorizontal="true"
@@ -75,7 +76,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         android:layout_marginRight="25dp"
         android:layout_marginBottom="0dp"
         android:gravity="top"
-        android:scrollbars="vertical" 
+        android:scrollbars="vertical"
+        android:scrollbarAlwaysDrawVerticalTrack="true" 
         android:fadeScrollbars="false">
 
 	    <TableLayout
@@ -126,42 +128,47 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         android:id="@+id/checkBoxShowSigned"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/addNewPost"
-        android:layout_alignRight="@+id/projects_menu_spinner2"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="0dp"
+        android:layout_above="@+id/bottomRow"
+        android:layout_alignRight="@+id/timePostScrollView"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="2dp"
         android:text="@string/checkBoxShowSigned"
         android:textColor="#000000"
         android:textColorHint="@color/textColorBlack"
         android:textColorLink="@color/CombitechBlue"
         android:textSize="12sp"
         android:textStyle="italic" />
-        
-    <Button
-        android:id="@+id/addNewPost"
-        style="@style/CustomStyleButtonDark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/projects_menu_spinner2"
-        android:layout_above="@+id/sendReportButton"
-        android:paddingLeft="10dp"
-         android:layout_marginBottom="20dp"
-        android:paddingRight="10dp"
-        android:text="@string/addNewPost"
-        android:textSize="12sp" />
-   
-   
-    <Button
-        android:id="@+id/sendReportButton"
-        style="@style/CustomStyleButtonDark"
-        android:layout_width="280dp"
+    <LinearLayout 
+        android:id="@+id/bottomRow"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="12dp"
-        android:layout_marginTop="30dp"
-        android:padding="10dp"
-        android:text="@string/textSendTimeReport" />
+        android:padding="4dp" 
+        android:orientation="horizontal">    
+	    <Button
+	        android:id="@+id/addNewPost"
+	        style="@style/CustomStyleButtonDark"
+	        android:layout_weight="1"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	        android:padding="2dp"
+	        android:layout_margin="8dp"
+	        android:textSize="13sp"
+	        android:text="@string/addNewPost"
+	        />
+	   
+	    <Button
+	        android:id="@+id/sendReportButton"
+	        style="@style/CustomStyleButtonDark"
+	        android:layout_weight="1"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	        android:padding="2dp"
+	        android:layout_margin="8dp"
+	        android:textSize="13sp"
+	        android:text="@string/textSendTimeReport"
+	        />
+    </LinearLayout>
     
 
 </RelativeLayout>

@@ -107,7 +107,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <string name="editReportConfirmPositive">Yes</string>
     <string name="editReportConfirmNegative">Cancel</string>
     <string name="textEditDate">Choose date to edit:</string>
-    <string name="checkBoxShowSigned">Show signed time posts</string>
+    <string name="checkBoxShowSigned">Include signed time posts</string>
     
     <string name="addNewPostButton">Add</string>
     <string name="cancelNewPostButton">Cancel</string>
@@ -132,6 +132,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     
     <!--export alert dialog -->
 	<string name="alertEmailHint">example@timestamp.com</string>
-	<string name="alertCheckBoxCCText">Send copy to myself</string>
+	<string name="alertCheckBoxCCText">Copy to myself</string>
 	<string name="alertCheckBoxCommentText">Include comments</string>
 </resources>
