@@ -12,14 +12,25 @@ import android.content.Intent;
 
 public class TimedReminder {
 	
-	public static void RemindAfterFullWorkDay(Context context, GregorianCalendar startTime)
+	public static void RemindAfterFullWorkDay(Context context, long timeLeft)
 	{
+		Intent intent = new Intent(context, ReminderNotification.class);
+		intent.setAction(Constants.NOTIFY_REMIND_TO_STOP_WORKING_ACTION);
 		
+		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+		AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+		
+        am.set(AlarmManager.RTC, new GregorianCalendar().getTimeInMillis() + timeLeft, pendingIntent);
 	}
 	
-	public static void CancelFullWorkDayReminder(Context context, GregorianCalendar startTime)
+	public static void CancelFullWorkDayReminder(Context context)
 	{
+		Intent intent = new Intent(context, ReminderNotification.class);
+		intent.setAction(Constants.NOTIFY_REMIND_TO_STOP_WORKING_ACTION);
 		
+		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+		AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+		am.cancel(pendingIntent);
 	}
 	
 	

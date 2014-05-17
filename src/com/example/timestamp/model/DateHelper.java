@@ -1,4 +1,4 @@
-package com.example.timestamp;
+package com.example.timestamp.model;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;

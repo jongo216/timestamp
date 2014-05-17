@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.timestamp.CreateNewProject"
-    android:background="@drawable/background_gradient"
+    android:background="#DDDDDD"
+    style="@style/ActionBar.Solid.Timestamp"
     android:tileMode="repeat"
     tools:ignore="MergeRootFrame" >
 
@@ -21,6 +22,7 @@
     
     <TextView
         android:id="@+id/projectNameLabel"
+        
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/createProjectTitleTextView"

@@ -24,6 +24,7 @@
         <item name="android:popupMenuStyle">@style/PopupMenu.Timestamp</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Timestamp</item>
         <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Timestamp</item>
+        
         <item name="android:actionDropDownStyle">@style/DropDownNav.Timestamp</item>
         <item name="android:actionBarStyle">@style/ActionBar.Transparent.Timestamp</item>
         <item name="android:actionModeBackground">@drawable/cab_background_top_timestamp</item>

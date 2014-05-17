@@ -33,10 +33,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -84,6 +86,11 @@ public class EditReport extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_editreport);
 		
+		ActionBar actionBarTop = getActionBar(); //Action bar med rubrik + settingsknapp
+		actionBarTop.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
+		actionBarTop.setCustomView(R.layout.actionbar);
+		
+		
 		//Link GUI objects with xml ids
 		button_save = (Button)findViewById(R.id.button_save);
 		button_delete = (Button)findViewById(R.id.button_delete);
@@ -129,7 +136,7 @@ public class EditReport extends Activity {
 	
 	private void initSpinner() {
 		
-		spinnerProjectSelector = (Spinner) findViewById(R.id.editReportProjectSpinner);
+		//spinnerProjectSelector = (Spinner) findViewById(R.id.editReportProjectSpinner);
 		projects = new ArrayList<String>();
 		projectIds = new ArrayList<Integer>();
 		
@@ -295,7 +302,7 @@ public class EditReport extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.edit_report, menu);
+		getMenuInflater().inflate(R.menu.menu, menu);
 		return true;
 	}
 
@@ -304,11 +311,24 @@ public class EditReport extends Activity {
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
+		// toggle nav drawer on selecting action bar app icon/title
+		// Handle action bar actions click
+		Intent intent;
+		Log.d("felLog", "onOptionItemsSelected");
+		switch (item.getItemId()) {
+		
+		case R.id.action_yoursettings:
+			intent = new Intent(this, SettingsActivity.class);
+			startActivity(intent);
 			return true;
+		case R.id.action_manageprojects: /// För hantera projektvyn
+			intent = new Intent(this, ManageProjects.class);
+			startActivity(intent); 
+			return true;
+			
+		default: 
+			return super.onOptionsItemSelected(item);
 		}
-		return super.onOptionsItemSelected(item);
 	}
 
 }

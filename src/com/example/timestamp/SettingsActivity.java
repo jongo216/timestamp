@@ -30,7 +30,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package com.example.timestamp;
 
 import java.util.GregorianCalendar;
+
 import com.example.timestamp.model.*;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -52,20 +54,17 @@ public class SettingsActivity extends Activity {
 		ActionBar actionBarTop = getActionBar(); //Action bar med rubrik + settingsknapp
 		actionBarTop.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
 		actionBarTop.setCustomView(R.layout.actionbar);
-		actionBarTop.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#11ffffff")));
-		actionBarTop.setDisplayShowHomeEnabled(true); //Nödvändig(??) för att visa action bars i rätt ordning
 		
-		//Fix som döljer ikonen i övre vänstra hörnet
-		View homeIcon = findViewById(android.R.id.home);
-		((View) homeIcon.getParent()).setVisibility(View.GONE);
 		
 	}
 	
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+
 		// Inflate the menu; this adds items to the action bar if it is present.
-		MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.main_activitybar, menu);
-	    return super.onCreateOptionsMenu(menu);
+		//getMenuInflater().inflate(R.menu.menu, menu);
+		return true;
 	}
+
 
 }

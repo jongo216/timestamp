@@ -32,7 +32,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     android:id="@+id/confirmReportFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_gradient"
+    android:background="#DDDDDD"
     android:tileMode="repeat"
     tools:context=".MainActivity" >
 
@@ -122,6 +122,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
    </ScrollView>
    
     <CheckBox
+        style="@style/TimestampCheckBox"
         android:id="@+id/checkBoxShowSigned"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

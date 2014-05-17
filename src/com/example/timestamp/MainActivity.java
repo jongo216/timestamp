@@ -91,7 +91,7 @@ ActionBar.TabListener {
 		ActionBar actionBarTop = getActionBar(); //Action bar med rubrik + settingsknapp
 		actionBarTop.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
 		actionBarTop.setCustomView(R.layout.actionbar);
-		actionBarTop.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#11ffffff")));
+		//actionBarTop.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#11ffffff")));
 		actionBarTop.setDisplayShowHomeEnabled(true); //Nödvändig(??) för att visa action bars i rätt ordning
 		
 		//Fix som döljer ikonen i övre vänstra hörnet
@@ -183,7 +183,7 @@ ActionBar.TabListener {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.main_activitybar, menu);
+	    inflater.inflate(R.menu.menu, menu);
 	    return super.onCreateOptionsMenu(menu);
 	}
 	
@@ -195,17 +195,10 @@ ActionBar.TabListener {
 		Log.d("felLog", "onOptionItemsSelected");
 		switch (item.getItemId()) {
 		
-		case R.id.action_settings:
-			return true;
-
 		case R.id.action_yoursettings:
 			 intent = new Intent(this, SettingsActivity.class);
 			startActivity(intent);
 			return true;
-		/*case R.id.action_edit:
-			intent = new Intent(this, EditReport.class);
-			startActivity(intent);
-			return true;*/
 		case R.id.action_manageprojects: /// För hantera projektvyn
 			intent = new Intent(this, ManageProjects.class);
 			startActivity(intent); 

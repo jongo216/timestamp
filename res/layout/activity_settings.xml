@@ -3,7 +3,7 @@
     android:id="@+id/AbsoluteLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_gradient"
+    android:background="#DDDDDD"
     android:tileMode="repeat"
     tools:context=".Start" >
     

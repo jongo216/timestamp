@@ -51,7 +51,19 @@ public class ReminderNotification extends BroadcastReceiver{
     public void onReceive(Context context, Intent intent) {
 		if (intent.getAction() == Constants.NOTIFY_REMIND_TO_STOP_WORKING_ACTION)
 		{
-			
+			Intent newIntent = new Intent(context, MainActivity.class);
+	        newIntent.setAction(Constants.NOTIFY_REMIND_TO_STOP_WORKING_ACTION);
+	        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, newIntent, 0);
+	        
+	        NotificationManager mNM = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+	        Notification notification = new NotificationCompat.Builder(context)
+	        		.setContentTitle("You have worked 8 hours")
+	        		.setContentText("Time to stop?")
+	        		.setSmallIcon(R.drawable.clock_white)
+	        		.setContentIntent(contentIntent)
+	        		.setAutoCancel(true)
+	        		.build();
+	        mNM.notify(0, notification);
 		}
 		else
 		{
@@ -59,25 +71,13 @@ public class ReminderNotification extends BroadcastReceiver{
 			DB db = new DB(context);
 			Project project = db.getProject(projectId);
 			
-			//Gör detta i MainActivity.onReceive()
-			/*SharedPreferences settings = context.getSharedPreferences(Constants.SETTINGS_TIMESTAMP, 0);
-			SharedPreferences.Editor editor = settings.edit();
-		    editor.putInt(Constants.SETTING_CURRENT_PROJECT, projectId);
-		    editor.commit();
-			*/
-			
-	        NotificationManager mNM;
-	        mNM = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
-	        // Set the icon, scrolling text and timestamp
-	        
-	        
-	        Intent newIntent = new Intent(context, MainActivity.class);
+			Intent newIntent = new Intent(context, MainActivity.class);
 	        newIntent.setAction(Constants.SEND_TIMES_ACTION);
 	        newIntent.putExtra(Constants.PROJECT_ID, projectId);
 	        
 	        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, newIntent, 0);
 	        
-	        
+	        NotificationManager mNM = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
 	        Notification notification = new NotificationCompat.Builder(context)
 	        		.setContentTitle(project.getName())
 	        		.setContentText("Time to send your report")
@@ -86,6 +86,7 @@ public class ReminderNotification extends BroadcastReceiver{
 	        		.setAutoCancel(true)
 	        		.build();
 	        mNM.notify(projectId, notification);
+	        
 	        Log.d("Oskar", "Notification created. projectId = " + projectId);
 	        Log.d("Oskar", "pendingIntent = " + contentIntent);
 		}

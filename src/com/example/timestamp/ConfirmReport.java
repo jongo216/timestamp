@@ -116,6 +116,7 @@ public class ConfirmReport extends Fragment {
         addNewTimePostButton = (Button) rootView.findViewById(R.id.addNewPost);
         checkBoxShowSigned = (CheckBox) rootView.findViewById(R.id.checkBoxShowSigned);
         
+        
         //popUp = new PopupWindow();
         addEditTimePostButtonListener();
         addNewTimePostButtonListener();

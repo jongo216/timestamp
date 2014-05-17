@@ -1,11 +1,14 @@
 package com.example.timestamp.appwidget;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import com.example.timestamp.*;
 import com.example.timestamp.model.DB;
 import com.example.timestamp.model.SettingsManager;
 import com.example.timestamp.model.TimePost;
+import com.example.timestamp.services.TimedReminder;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -94,6 +97,7 @@ public class Widget extends AppWidgetProvider {
 	{
 		if (intent.getAction() == Constants.WIDGET_TIMER_ACTION)
 		{
+			DB db = new DB(context);
 			SharedPreferences settings = context.getSharedPreferences(Constants.SETTINGS_TIMESTAMP, 0);
 			boolean timerRunning = settings.getBoolean(Constants.SETTING_IS_TIMER_RUNNING, false);
 			
@@ -106,14 +110,29 @@ public class Widget extends AppWidgetProvider {
 				p.setProjectId(settings.getInt(Constants.SETTING_CURRENT_PROJECT, -1));
 				p.startTime.setTimeInMillis(settings.getLong(Constants.SETTING_START_TIME, 0));
 				p.setEndTimeNow();
-				DB db = new DB(context);
 				db.set(p);
+				
+				TimedReminder.CancelFullWorkDayReminder(context);
+				TimedReminder.RemindToReportTimes(context, p.projectId);
 			}
 			else{
 				SharedPreferences.Editor editor = settings.edit();
 			    editor.putBoolean(Constants.SETTING_IS_TIMER_RUNNING, true);
 			    editor.putLong(Constants.SETTING_START_TIME, new GregorianCalendar().getTimeInMillis());
 			    editor.commit();
+			    
+			    //Set reminder after 8 hours worked
+				GregorianCalendar startOfDay = new GregorianCalendar();
+				startOfDay.set(Calendar.HOUR_OF_DAY,  0);
+				startOfDay.set(Calendar.MINUTE, 0);
+				startOfDay.set(Calendar.SECOND, 0);
+				startOfDay.set(Calendar.MILLISECOND, 0);
+				ArrayList<TimePost> times = db.getByInterval(startOfDay, new GregorianCalendar());
+				long timeWorked = 0;
+				for (TimePost t : times)
+					timeWorked += t.getWorkedHours() * 3600 * 1000;
+				long timeLeft = Constants.DEMO_MODE ? 20 * 1000 : 3600 * 8 * 1000 - timeWorked;
+				TimedReminder.RemindAfterFullWorkDay(context, timeLeft);
 			}
 			
 			updateWidget(context);

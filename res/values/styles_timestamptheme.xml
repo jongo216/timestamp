@@ -17,31 +17,38 @@
      limitations under the License.
 -->
 
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="Theme.Timestamptheme" parent="@android:style/Theme.Holo">
+    <style name="Theme.Timestamptheme" parent="@android:style/Theme.Holo.Light">
         <!-- <item name="android:actionBarItemBackground">@drawable/selectable_background_timestamptheme</item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Timestamptheme</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Timestamptheme</item>-->
+        
         <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Timestamptheme</item>
+        <item name="android:actionBarTabTextStyle">@style/ActionBarTabTextStyle.Timestamptheme</item>
+        <!-- <item name="android:actionBarTabBarStyle">@style/ActionBarTabDividerStyle.Timestamptheme</item> -->
         <item name="android:actionDropDownStyle">@style/DropDownNav.Timestamptheme</item>
         <item name="android:actionBarStyle">@style/ActionBar.Solid.Timestamptheme</item>
         <item name="android:actionModeBackground">@drawable/cab_background_top_timestamptheme</item>
         <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_timestamptheme</item>
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Timestamptheme</item>
-        
+        <!-- <item name="android:checkboxStyle">@android:style/Widget.CompoundButton.CheckBox</item> -->
         
     </style>
+    
 
-    <style name="ActionBar.Solid.Timestamptheme" parent="@android:style/Widget.Holo.ActionBar.Solid">
-        <item name="android:background">@drawable/ab_solid_timestamptheme</item>
+    
+    
+    
+    <style name="ActionBar.Solid.Timestamptheme" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
+        <item name="android:background">#111111</item>
         <item name="android:backgroundStacked">@drawable/ab_stacked_solid_timestamptheme</item>
         <item name="android:backgroundSplit">@drawable/ab_bottom_solid_timestamptheme</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Timestamptheme</item>
     </style>
 
     <style name="ActionBar.Transparent.Timestamptheme" parent="@android:style/Widget.Holo.ActionBar">
-        <item name="android:background">@drawable/ab_transparent_timestamptheme</item>
+        <item name="android:background">#111111</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Timestamptheme</item>
     </style>
 
@@ -55,7 +62,22 @@
 
     <style name="ActionBarTabStyle.Timestamptheme" parent="@android:style/Widget.Holo.ActionBar.TabView">
         <item name="android:background">@drawable/tab_indicator_ab_timestamptheme</item>
+        <item name="android:showDividers">none</item>
+    	<item name="android:measureWithLargestChild">true</item>
+    	<item name="android:gravity">center</item>
     </style>
+    
+    <style name="ActionBarTabTextStyle.Timestamptheme" parent="@android:style/Widget.Holo.ActionBar.TabText">       
+	    <item name="android:textColor">#FFFFFF</item>
+	</style>
+	
+	<style name="ActionBarTabDividerStyle.Timestamptheme" parent="@android:style/Widget.Holo.ActionBar.TabBar">
+	    <item name="android:divider">@drawable/combitechblue</item>
+	    <item name="android:showDividers">middle</item>
+	    <item name="android:dividerPadding">0dp</item>
+	    <item name="android:width">1dp</item>
+	    <item name="android:background">@drawable/tab_unselected_timestamptheme</item>
+	</style>
 
     <style name="DropDownNav.Timestamptheme" parent="@android:style/Widget.Holo.Spinner">
         <item name="android:background">@drawable/spinner_background_ab_timestamptheme</item>

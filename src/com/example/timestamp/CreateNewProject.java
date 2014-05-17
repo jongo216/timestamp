@@ -2,6 +2,7 @@ package com.example.timestamp;
 
 import java.util.Calendar;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -33,6 +34,12 @@ public class CreateNewProject extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_create_new_project);
+		
+		ActionBar actionBarTop = getActionBar(); //Action bar med rubrik + settingsknapp
+		actionBarTop.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
+		actionBarTop.setCustomView(R.layout.actionbar);
+		
+		
 		
 		//Link to xml objects
 		saveButton = (Button)findViewById(R.id.save_project_button);
@@ -130,21 +137,10 @@ public class CreateNewProject extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.create_new_project, menu);
+		//getMenuInflater().inflate(R.menu.menu_no_settings, menu);
 		return true;
 	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
 
 
 

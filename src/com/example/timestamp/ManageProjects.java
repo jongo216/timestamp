@@ -34,14 +34,7 @@ public class ManageProjects extends Activity {
 		ActionBar actionBarTop = getActionBar(); //Action bar med rubrik + settingsknapp
 		actionBarTop.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
 		actionBarTop.setCustomView(R.layout.actionbar);
-		actionBarTop.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#11ffffff")));
-		//actionBarTop.setDisplayShowHomeEnabled(true); //Nödvändig(??) för att visa action bars i rätt ordning
-		actionBarTop.setDisplayShowTitleEnabled(true);
-		actionBarTop.setHomeButtonEnabled(true);
-		actionBarTop.setDisplayHomeAsUpEnabled(true);
-		//Fix som döljer ikonen i övre vänstra hörnet
-		//View homeIcon = findViewById(android.R.id.home);
-		//((View) homeIcon.getParent()).setVisibility(View.GONE);
+		
 		
 		createNewProjectbtn = (Button)findViewById(R.id.createnewprojectbtn);
 
@@ -136,7 +129,7 @@ public class ManageProjects extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main_activitybar, menu);
+		getMenuInflater().inflate(R.menu.menu_no_manage_projects, menu);
 		return true;
 	}
 
@@ -147,27 +140,17 @@ public class ManageProjects extends Activity {
 		// as you specify a parent activity in AndroidManifest.xml.
 		// toggle nav drawer on selecting action bar app icon/title
 		// Handle action bar actions click
+		
+		
 		Intent intent;
 		Log.d("felLog", "onOptionItemsSelected");
 		switch (item.getItemId()) {
 		
-		case R.id.action_settings:
-			return true;
-
 		case R.id.action_yoursettings:
 			 intent = new Intent(this, SettingsActivity.class);
 			startActivity(intent);
 			return true;
-		/*case R.id.action_edit:
-			intent = new Intent(this, EditReport.class);
-			startActivity(intent);
-			return true;*/
-		case R.id.action_manageprojects: /// För hantera projektvyn
-			intent = new Intent(this, ManageProjects.class);
-			startActivity(intent); 
-			return true; 
-			
-		default:
+		default: 
 			return super.onOptionsItemSelected(item);
 		}
 	}

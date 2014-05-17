@@ -34,6 +34,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Notification;
@@ -318,33 +319,26 @@ public class Start extends Fragment{
 	
 
     public void initTimerButton(){
-    	
-    	
-    	
-    	
-		imgButton.setOnClickListener(new OnClickListener(){
-			
+    
+    	imgButton.setOnClickListener(new OnClickListener(){
 			public void onClick(View arg0){
 				boolean timerRunning = SettingsManager.getIsTimerRunning(getActivity());
-		    	
+		    	FragmentActivity context = getActivity();
+				
 				if(timerRunning){
-					//Context context = getActivity();
-					
 					imgButton.setBackground(getResources().getDrawable(R.drawable.checkinbutton_white) );
-					
-					SettingsManager.setIsTimerRunning(false, getActivity());
 					chronometer.stop();
 					textView.setVisibility(View.VISIBLE);
 					chronometer.setVisibility(View.GONE);
 					TimePost p = new TimePost();
-					p.setProjectId(SettingsManager.getCurrentProjectId(getActivity()));
-					p.setStartTime(SettingsManager.getStartTime(getActivity()));
+					p.setProjectId(SettingsManager.getCurrentProjectId(context));
+					p.setStartTime(SettingsManager.getStartTime(context));
 					p.setEndTimeNow();
-					//DB db = new DB(getActivity());
 					db.set(p);
 					
-					
-					TimedReminder.RemindToReportTimes(getActivity(), p.projectId);
+					SettingsManager.setIsTimerRunning(false, context);
+					TimedReminder.CancelFullWorkDayReminder(context);
+					TimedReminder.RemindToReportTimes(context, p.projectId);
 				}
 				else{
 					imgButton.setBackground(getResources().getDrawable(R.drawable.checkinbutton_green) );
@@ -352,8 +346,21 @@ public class Start extends Fragment{
 					chronometer.start();
 					chronometer.setVisibility(View.VISIBLE);
 					textView.setVisibility(View.GONE);
-					SettingsManager.setIsTimerRunning(true, getActivity());
-					SettingsManager.setStartTime(new GregorianCalendar(), getActivity());
+					SettingsManager.setIsTimerRunning(true, context);
+					SettingsManager.setStartTime(new GregorianCalendar(), context);
+					
+					//Set reminder after 8 hours worked
+					GregorianCalendar startOfDay = new GregorianCalendar();
+					startOfDay.set(Calendar.HOUR_OF_DAY,  0);
+					startOfDay.set(Calendar.MINUTE, 0);
+					startOfDay.set(Calendar.SECOND, 0);
+					startOfDay.set(Calendar.MILLISECOND, 0);
+					ArrayList<TimePost> times = db.getByInterval(startOfDay, new GregorianCalendar());
+					long timeWorked = 0;
+					for (TimePost t : times)
+						timeWorked += t.getWorkedHours() * 3600 * 1000;
+					long timeLeft = Constants.DEMO_MODE ? 20 * 1000 : 3600 * 8 * 1000 - timeWorked;
+					TimedReminder.RemindAfterFullWorkDay(context, timeLeft);
 				}
 				
 				
